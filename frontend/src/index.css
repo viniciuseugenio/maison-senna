@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-light: #f8f7f5;
+  --color-oyster: #9a8778;
+  --color-mine-shaft: #2c2c2c;
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Montserrat", sans-serif;
+}
