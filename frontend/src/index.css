@@ -7,3 +7,9 @@
   --font-serif: "Playfair Display", serif;
   --font-sans: "Montserrat", sans-serif;
 }
+
+@layer base {
+  body {
+    background-color: var(--color-light);
+  }
+}
