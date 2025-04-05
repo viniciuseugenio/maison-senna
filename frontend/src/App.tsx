@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import AuthPageLayout from "./components/AuthPageLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
 
           <Route element={<AuthPageLayout />}>
             <Route path="/login" element={<Login />} />
