@@ -3,9 +3,11 @@ import { useState } from "react";
 import { Link } from "react-router";
 import NavbarButton from "./NavbarButton.tsx";
 import NavbarLink from "./NavbarLink.tsx";
+import SearchOverlay from "./SearchOverlay.tsx";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   function closeMobileMenu() {
     setMobileMenuOpen(false);
@@ -45,7 +47,7 @@ export default function Navbar() {
 
             {/* Icons  */}
             <div className="flex items-center space-x-4">
-              <NavbarButton icon>
+              <NavbarButton icon onClick={() => setIsSearchOpen(true)}>
                 <Search className="h-4 w-4" />
               </NavbarButton>
 
@@ -145,6 +147,11 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      <SearchOverlay
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </>
   );
 }
