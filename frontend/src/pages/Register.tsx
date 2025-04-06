@@ -20,11 +20,20 @@ export default function Register() {
       </div>
 
       <form className="space-y-8">
-        <FloatingInput
-          icon={<User className="h-4 w-4" />}
-          name="first_name"
-          label="First Name"
-        />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <FloatingInput
+            icon={<User className="h-4 w-4" />}
+            name="first_name"
+            id="first_name"
+            label="First Name"
+          />
+          <FloatingInput
+            icon={<User className="h-4 w-4" />}
+            name="last_name"
+            id="last_name"
+            label="Last Name"
+          />
+        </div>
 
         <FloatingInput
           icon={<Mail className="h-4 w-4" />}
