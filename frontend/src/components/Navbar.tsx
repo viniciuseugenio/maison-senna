@@ -4,6 +4,8 @@ import { Link } from "react-router";
 import NavbarButton from "./NavbarButton.tsx";
 import NavbarLink from "./NavbarLink.tsx";
 import SearchOverlay from "./SearchOverlay.tsx";
+import { AnimatePresence } from "motion/react";
+import MobileNavigation from "./MobileNavigation.tsx";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -75,78 +77,9 @@ export default function Navbar() {
       </header>
 
       {/* Mobile navigation */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          {/* Overlay */}
-          <div
-            className="fixed inset-0 bg-black/25"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-
-          {/* Drawer panel */}
-          <div className="fixed inset-y-0 left-0 w-full max-w-xs bg-white shadow-lg">
-            <div className="flex h-full flex-col overflow-y-auto">
-              {/* Header with close buttons */}
-              <div className="border-oyster/30 flex h-20 items-center justify-between border-b px-4">
-                <h2 className="text-mine-shaft text-lg font-medium">Menu</h2>
-                <button
-                  className="text-mine-shaft/70 hover:text-mine-shaft/85 active:text-mine-shaft cursor-pointer transition-colors"
-                  aria-label="Close mobile menu"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <X />
-                </button>
-              </div>
-
-              {/* Navigation links */}
-              <div className="px-4 py-6">
-                <ul className="flex flex-col space-y-6">
-                  <NavbarLink
-                    label="COLLECTIONS"
-                    className="text-lg"
-                    to="/collections"
-                    onClick={closeMobileMenu}
-                  />
-                  <NavbarLink
-                    label="JEWELRY"
-                    className="text-lg"
-                    to="/jewelry"
-                    onClick={closeMobileMenu}
-                  />
-                  <NavbarLink
-                    label="ACCESSORIES"
-                    className="text-lg"
-                    to="/accessories"
-                    onClick={closeMobileMenu}
-                  />
-                  <NavbarLink label="ABOUT" className="text-lg" to="/about" />
-                  <NavbarLink
-                    label="CONTACT"
-                    className="text-lg"
-                    to="/contact"
-                    onClick={closeMobileMenu}
-                  />
-                </ul>
-
-                <div className="border-oyster/30 mt-10 flex flex-col gap-6 border-t pt-6">
-                  <NavbarLink
-                    label="SIGN IN"
-                    className="text-lg"
-                    to="/login"
-                    onClick={closeMobileMenu}
-                  />
-                  <NavbarLink
-                    label="REGISTER"
-                    className="text-lg"
-                    to="/register"
-                    onClick={closeMobileMenu}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {mobileMenuOpen && <MobileNavigation closeMenu={closeMobileMenu} />}
+      </AnimatePresence>
 
       <SearchOverlay
         isOpen={isSearchOpen}
