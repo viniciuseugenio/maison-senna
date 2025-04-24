@@ -1,14 +1,28 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LogIn, Mail } from "lucide-react";
+import { FormProvider, useForm } from "react-hook-form";
 import { Link } from "react-router";
+import { z } from "zod";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
-import FloatingInputPassword from "../components/FloatingInputPassword";
 import HorizontalDivider from "../components/HorizontalDivider";
+import LoginPasswordInput from "../components/LoginPasswordInput";
 import SocialLogin from "../components/SocialLogin";
 
+const loginScheme = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
 export default function Login() {
+  const methods = useForm({
+    resolver: zodResolver(loginScheme),
+  });
+
+  const { register, handleSubmit } = methods;
+
   return (
-    <>
+    <FormProvider {...methods}>
       <div className="mb-12 text-center">
         <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
           Sign In
@@ -17,20 +31,15 @@ export default function Login() {
         <p className="text-mine-shaft/80 mt-4">Welcome back to Maison Senna</p>
       </div>
 
-      {/* Error handling part */}
-      {/* <div className="mb-6 rounded-sm border border-red-200 bg-red-50 p-4 text-sm text-red-600"> */}
-      {/*   Invalid e-mail or password. */}
-      {/* </div> */}
-
       <form className="space-y-8">
         <FloatingInput
           icon={<Mail className="h-4 w-4" />}
           label="E-mail"
           name="email"
-          id="email"
           type="email"
         />
-        <FloatingInputPassword />
+
+        <LoginPasswordInput />
 
         <div className="flex items-center justify-between">
           <div className="flex items-center">
@@ -70,6 +79,6 @@ export default function Login() {
           Sign up
         </Link>
       </div>
-    </>
+    </FormProvider>
   );
 }

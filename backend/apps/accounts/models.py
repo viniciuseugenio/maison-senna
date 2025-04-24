@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = "email"
 
     # Remove email from the required fields because it is now the USERNAME_FIELD
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     objects = CustomUserManager()
 

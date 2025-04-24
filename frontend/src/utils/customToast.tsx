@@ -68,7 +68,7 @@ function Toast(props: ToastProps) {
       </button>
       <div className="shrink-0">{icon ?? selectedVariation.icon}</div>
       <div className="flex-1">
-        <h3 className="text-mine-shaft font-medium">{title}</h3>
+        <h3 className="text-mine-shaft font-serif tracking-wider">{title}</h3>
         <p className="text-mine-shaft/60 mt-1 text-sm">{description}</p>
         {buttons && <div className="mt-3">{buttons}</div>}
       </div>

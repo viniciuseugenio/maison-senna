@@ -1,3 +1,4 @@
 from .installed_apps import *
 from .environment import *
 from .middlewares import *
+from .rest_framework import *

@@ -1,70 +1,73 @@
-import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
+import ConnectForm from "./ConnectForm";
 
 interface FloatingInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
+  name: string;
   label?: string;
   icon?: React.ReactNode;
   error?: string;
+  customBorder?: string;
 }
 
 export default function FloatingInput({
+  name,
   label,
   icon,
   error,
-  value,
   type,
-  onChange,
+  customBorder,
   ...props
 }: FloatingInputProps) {
-  const [isFocused, setIsFocused] = useState(false);
-  const [hasValue, setHasValue] = useState(!!value);
+  const isError = !!error;
 
-  useEffect(() => {
-    setHasValue(!!value);
-  }, [value]);
+  const { watch } = useFormContext();
+  const fieldValue = watch(name) as string;
 
-  function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
-    setIsFocused(true);
-    props.onFocus?.(e);
-  }
+  const borderColor = isError
+    ? "border-red-500 ring-red-200"
+    : "group-focus-within:border-mine-shaft/90 group-focus-within:ring-oyster/30 border-oyster/20 focus-within:border-mine-shaft/90";
 
-  function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
-    setIsFocused(false);
-    props.onBlur?.(e);
-  }
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("handleChange floatingInput");
-    setHasValue(!!e.target.value);
-    onChange?.(e);
-  }
-
-  const labelPosition =
-    isFocused || hasValue ? "-top-2.5  text-sm" : "top-1/2 -translate-y-1/2";
+  const hasValueStyle = fieldValue ? "top-0 text-sm" : "top-1/2";
 
   return (
-    <div className="group relative">
-      <label
-        htmlFor=""
-        className={`text-mine-shaft/50 group-focus-within:text-mine-shaft/90 pointer-events-none absolute left-8 z-10 bg-white px-1 transition-all ${labelPosition}`}
-      >
-        {label}
-      </label>
-      <div className="group-focus-within:border-mine-shaft/90 border-oyster/20 focus-within:border-mine-shaft/90 relative flex h-10 w-full items-center rounded-sm border bg-white transition-colors">
-        {icon && (
-          <div className="text-oyster/80 absolute top-1/2 left-3 -translate-y-1/2">
-            {icon}
+    <ConnectForm>
+      {({ register }) => (
+        <div>
+          <div className="group relative">
+            <label
+              htmlFor=""
+              className={`text-mine-shaft/50 group-focus-within:text-mine-shaft/90 pointer-events-none absolute left-8 z-10 -translate-y-1/2 bg-white px-1 text-sm transition-all duration-300 group-focus-within:top-0 ${hasValueStyle}`}
+            >
+              {label}
+            </label>
+            <div
+              className={twMerge(
+                `relative flex h-10 w-full items-center rounded-sm border bg-white transition-colors duration-300 group-focus-within:ring-2 ${borderColor} ${customBorder}`,
+              )}
+            >
+              {icon && (
+                <div className="text-oyster/80 absolute top-1/2 left-3 -translate-y-1/2">
+                  {icon}
+                </div>
+              )}
+              <input
+                {...props}
+                {...register(name)}
+                name={name}
+                type={type}
+                className="text-mine-shaft/90 h-full w-full pl-10 text-sm outline-none"
+              />
+            </div>
           </div>
-        )}
-        <input
-          type={type}
-          className="text-mine-shaft/90 h-full w-full pl-10 text-sm outline-none"
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          {...props}
-        />
-      </div>
-    </div>
+          {error && (
+            <ul className="mt-1 text-xs font-medium text-red-500">
+              <li key={error}>{error}</li>
+            </ul>
+          )}
+        </div>
+      )}
+    </ConnectForm>
   );
 }

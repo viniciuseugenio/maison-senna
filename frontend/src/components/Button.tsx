@@ -1,8 +1,11 @@
 import { twMerge } from "tailwind-merge";
+import { LoaderCircle } from "lucide-react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "outline";
   size?: "default" | "sm" | "lg" | "icon";
+  isLoading?: boolean;
+  loadingLabel?: string;
 }
 
 export default function Button({
@@ -11,6 +14,8 @@ export default function Button({
   variant = "default",
   size = "default",
   onClick,
+  isLoading,
+  loadingLabel = "Loading...",
   ...props
 }: ButtonProps) {
   const variantStyles = {
@@ -32,12 +37,20 @@ export default function Button({
   return (
     <button
       onClick={onClick}
+      disabled={isLoading}
       className={twMerge(
         `flex cursor-pointer items-center justify-center rounded-sm px-4 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 ${variantStyle} ${sizeStyle} ${className}`,
       )}
       {...props}
     >
-      {children}
+      {isLoading ? (
+        <>
+          <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+          {loadingLabel}
+        </>
+      ) : (
+        <>{children}</>
+      )}
     </button>
   );
 }
