@@ -1,8 +1,13 @@
-import { checkEmailAvailability } from "../api/endpoints/users.ts";
+import { checkEmailAvailability } from "../api/endpoints/auth";
 import { z } from "zod";
 import { REGISTER_FORM_ERRORS } from "../constants/forms";
 
-export const userSchema = z
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+export const registerSchema = z
   .object({
     firstName: z.string().min(3, REGISTER_FORM_ERRORS.SHORT_FIRST_NAME),
     lastName: z.string().min(3, REGISTER_FORM_ERRORS.SHORT_LAST_NAME),

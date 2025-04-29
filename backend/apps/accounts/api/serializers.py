@@ -1,6 +1,13 @@
 from rest_framework import serializers
+
 from ..models import CustomUser
 from .constants import SERIALIZER_ERRORS
+
+
+class UserShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("id", "first_name", "last_name")
 
 
 class UserSerializer(serializers.ModelSerializer):

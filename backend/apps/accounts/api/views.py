@@ -1,12 +1,61 @@
-from django.contrib.auth import get_user_model
+from datetime import timedelta
+
+from django.conf import settings
+from django.contrib.auth import authenticate, get_user_model
 from rest_framework import status
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView, Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserShortSerializer
 
 User = get_user_model()
+
+
+class CustomTokenObtainPairView(APIView):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        user = authenticate(request, email=email, password=password)
+        if not user:
+            raise AuthenticationFailed("Invalid email or password.")
+
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+
+        access_max_age = self._get_max_age("ACCESS_TOKEN_LIFETIME")
+        refresh_max_age = self._get_max_age("REFRESH_TOKEN_LIFETIME")
+
+        response_data = {
+            "detail": "Welcome back!",
+            "user": UserShortSerializer(user).data,
+        }
+
+        response = Response(response_data, status=status.HTTP_200_OK)
+        response.set_cookie(
+            key="access_token",
+            value=access_token,
+            max_age=access_max_age,
+            secure=False,  # TODO: Set to True in
+            httponly=True,
+        )
+        response.set_cookie(
+            key="refresh_token",
+            value=refresh_token,
+            max_age=refresh_max_age,
+            httponly=True,
+        )
+
+        return response
+
+    def _get_max_age(self, key):
+        lifetime: timedelta = settings.SIMPLE_JWT[key]
+        max_age = int(lifetime.total_seconds())
+
+        return max_age
 
 
 class SignupView(CreateAPIView):

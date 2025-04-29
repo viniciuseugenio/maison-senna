@@ -17,4 +17,5 @@ export const REGISTER_FORM_ERRORS = {
 export const SUCCESS_MESSAGES = {
   REGISTER_SUCCESS:
     "Your account has been created successfully. Please sign in to continue.",
+  LOGIN_SUCCESS: "You are now successfully logged in.",
 };

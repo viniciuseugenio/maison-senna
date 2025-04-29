@@ -1,25 +1,69 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { camelCase } from "change-case";
 import { LogIn, Mail } from "lucide-react";
-import { FormProvider, useForm } from "react-hook-form";
-import { Link } from "react-router";
-import { z } from "zod";
+import { useEffect } from "react";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
+import { loginUser } from "../api/endpoints/auth";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
 import LoginPasswordInput from "../components/LoginPasswordInput";
 import SocialLogin from "../components/SocialLogin";
-
-const loginScheme = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
+import { SUCCESS_MESSAGES } from "../constants/forms";
+import { useUserContext } from "../hooks/auth";
+import { loginSchema } from "../schemas/auth";
+import { LoginForm } from "../types/auth";
+import { toast } from "../utils/customToast";
+import { transformKeys } from "../utils/transformKeys";
 
 export default function Login() {
+  const { isAuthenticated, setUser } = useUserContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      toast({
+        variation: "error",
+        title: "Ooops!",
+        description: "You are already logged in.",
+      });
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
   const methods = useForm({
-    resolver: zodResolver(loginScheme),
+    resolver: zodResolver(loginSchema),
   });
 
-  const { register, handleSubmit } = methods;
+  const { handleSubmit } = methods;
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      toast({
+        title: data.detail,
+        variation: "success",
+        description: SUCCESS_MESSAGES.LOGIN_SUCCESS,
+      });
+
+      const userObj = transformKeys(data.user, camelCase);
+      setUser(userObj);
+      navigate("/");
+    },
+    onError: (error) => {
+      toast({
+        title: error.message,
+        variation: "error",
+        description: "Something went wrong",
+      });
+    },
+  });
+
+  const onSubmit: SubmitHandler<LoginForm> = async (data) => {
+    mutate(data);
+  };
 
   return (
     <FormProvider {...methods}>
@@ -31,7 +75,7 @@ export default function Login() {
         <p className="text-mine-shaft/80 mt-4">Welcome back to Maison Senna</p>
       </div>
 
-      <form className="space-y-8">
+      <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
         <FloatingInput
           icon={<Mail className="h-4 w-4" />}
           label="E-mail"
@@ -63,7 +107,7 @@ export default function Login() {
           </div>
         </div>
 
-        <Button className="w-full py-6" type="submit">
+        <Button isLoading={isPending} className="w-full py-6" type="submit">
           <LogIn className="mr-2 h-4 w-4" /> Sign in
         </Button>
       </form>

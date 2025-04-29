@@ -1,7 +1,34 @@
-import { FormDataTypes } from "../../pages/Register.tsx";
+import { LoginForm, RegisterForm } from "../../types/auth";
 import { API_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
+import { customFetch } from "./customFetch";
 
-export async function registerUser(formData: FormDataTypes) {
+export async function loginUser(formData: LoginForm) {
+  try {
+    const response = await fetch(API_ENDPOINTS.LOGIN, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+      credentials: "include",
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail);
+    }
+
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message || UNEXPECTED_ERROR);
+    }
+
+    throw new Error(UNEXPECTED_ERROR);
+  }
+}
+
+export async function registerUser(formData: RegisterForm) {
   try {
     const response = await fetch(API_ENDPOINTS.REGISTER, {
       method: "POST",
@@ -54,4 +81,8 @@ export async function checkEmailAvailability(email: string) {
 
     throw new Error(UNEXPECTED_ERROR);
   }
+}
+
+export async function checkUserAuthenticity() {
+  return await customFetch(API_ENDPOINTS.CHECK_USER_AUTHENTICITY);
 }

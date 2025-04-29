@@ -4,6 +4,8 @@ export const UNEXPECTED_ERROR =
   "An unexpected error occurred. Please try again later.";
 
 export const API_ENDPOINTS = {
+  LOGIN: `${VITE_BACKEND_URL}/token/`,
   REGISTER: `${VITE_BACKEND_URL}/accounts/register/`,
   CHECK_EMAIL_AVAILABITY: `${VITE_BACKEND_URL}/accounts/check-email/`,
+  CHECK_USER_AUTHENTICITY: `${VITE_BACKEND_URL}/accounts/me/`,
 };

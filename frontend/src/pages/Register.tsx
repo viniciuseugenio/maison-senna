@@ -5,22 +5,22 @@ import { Mail, User, UserPlus } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { REGISTER_FORM_ERRORS, SUCCESS_MESSAGES } from "../constants/forms";
-import { registerUser } from "../api/endpoints/users";
+import { registerUser } from "../api/endpoints/auth";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
 import RegisterPasswordInputs from "../components/RegisterPasswordInputs";
 import SocialLogin from "../components/SocialLogin";
-import { userSchema } from "../schemas/userSchema";
-import { FormDataTypes } from "../types/form";
+import { registerSchema } from "../schemas/auth";
+import { RegisterForm } from "../types/auth";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
 
 export default function Register() {
   const navigate = useNavigate();
 
-  const methods = useForm<FormDataTypes>({
-    resolver: zodResolver(userSchema),
+  const methods = useForm<RegisterForm>({
+    resolver: zodResolver(registerSchema),
     mode: "onBlur",
   });
 
@@ -38,7 +38,7 @@ export default function Register() {
         const objectErrors = transformKeys(result.errors, camelCase);
 
         Object.entries(objectErrors).forEach(([field, messages]) => {
-          setError(field as keyof FormDataTypes, {
+          setError(field as keyof RegisterForm, {
             type: "server",
             message: messages[0],
           });
@@ -68,7 +68,7 @@ export default function Register() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormDataTypes> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterForm> = async (data) => {
     const object = transformKeys(data, snakeCase);
     mutate(object);
   };
