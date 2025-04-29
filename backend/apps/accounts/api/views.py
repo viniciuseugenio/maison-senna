@@ -82,3 +82,21 @@ class CheckEmailAvailability(APIView):
             return Response({"available": False}, status=status.HTTP_200_OK)
 
         return Response({"available": True}, status=status.HTTP_200_OK)
+
+
+class MeView(APIView):
+    def get(self, request):
+        if not request.user or not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        user = request.user
+        return Response(
+            {
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+            }
+        )
