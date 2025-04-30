@@ -1,10 +1,18 @@
-import { camelCase } from "change-case";
 import { useCallback, useEffect, useState } from "react";
 import { refreshAccessToken } from "../api/endpoints/auth";
 import { useCheckUser } from "../hooks/auth";
 import { UserContext } from "../store/UserContext";
 import { User } from "../types/auth";
-import { transformKeys } from "../utils/transformKeys";
+
+function areUsersEqual(a?: User, b?: User): boolean {
+  if (!a || !b) return false;
+  return (
+    a.id === b.id &&
+    a.firstName === b.firstName &&
+    a.lastName === b.lastName &&
+    a.email === b.email
+  );
+}
 
 export default function UserContextProvider({
   children,
@@ -21,10 +29,10 @@ export default function UserContextProvider({
   } = useCheckUser();
 
   useEffect(() => {
-    if (updatedUser) {
+    if (updatedUser && !areUsersEqual(updatedUser, user)) {
       setUser(updatedUser);
     }
-  }, [updatedUser]);
+  }, [updatedUser, user]);
 
   const clearUser = () => setUser(undefined);
 
@@ -33,14 +41,7 @@ export default function UserContextProvider({
       try {
         const refreshedUserData = await refreshAccessToken();
         if (refreshedUserData) {
-          const refetchData = await refetchCheckUser();
-          const updatedUserData = transformKeys(refetchData.data, camelCase);
-
-          if (updatedUserData) {
-            setUser(updatedUserData);
-          } else {
-            clearUser();
-          }
+          refetchCheckUser();
         } else {
           clearUser();
         }
@@ -61,6 +62,7 @@ export default function UserContextProvider({
     id: user?.id,
     firstName: user?.firstName,
     lastName: user?.lastName,
+    email: user?.email,
     isAuthenticated,
     setUser,
   };

@@ -7,7 +7,7 @@ from .constants import SERIALIZER_ERRORS
 class UserShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ("id", "first_name", "last_name")
+        fields = ("id", "email", "first_name", "last_name")
 
 
 class UserSerializer(serializers.ModelSerializer):

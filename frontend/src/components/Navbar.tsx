@@ -1,15 +1,18 @@
-import { Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Menu, Search, ShoppingBag } from "lucide-react";
+import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { Link } from "react-router";
-import NavbarButton from "./NavbarButton.tsx";
+import { useUserContext } from "../hooks/auth";
+import MobileNavigation from "./MobileNavigation";
+import NavbarButton from "./NavbarButton";
 import NavbarLink from "./NavbarLink.tsx";
-import SearchOverlay from "./SearchOverlay.tsx";
-import { AnimatePresence } from "motion/react";
-import MobileNavigation from "./MobileNavigation.tsx";
+import SearchOverlay from "./SearchOverlay";
+import UserDropdown from "./UserDropdown.tsx";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { isAuthenticated } = useUserContext();
 
   function closeMobileMenu() {
     setMobileMenuOpen(false);
@@ -40,11 +43,11 @@ export default function Navbar() {
 
             {/* Desktop navigation */}
             <nav className="hidden lg:flex lg:items-center lg:space-x-8">
-              <NavbarLink label="COLLECTIONS" />
-              <NavbarLink label="JEWELRY" />
-              <NavbarLink label="ACCESSORIES" />
-              <NavbarLink label="ABOUT" />
-              <NavbarLink label="CONTACT" />
+              <NavbarLink to="/" label="COLLECTIONS" />
+              <NavbarLink to="/" label="JEWELRY" />
+              <NavbarLink to="/" label="ACCESSORIES" />
+              <NavbarLink to="/" label="ABOUT" />
+              <NavbarLink to="/" label="CONTACT" />
             </nav>
 
             {/* Icons  */}
@@ -53,20 +56,24 @@ export default function Navbar() {
                 <Search className="h-4 w-4" />
               </NavbarButton>
 
-              <div className="hidden space-x-3 lg:flex">
-                <Link to="/login">
-                  <NavbarButton className="px-4 font-medium">
-                    Sign In
-                    {/* <User className="h-4 w-4" /> */}
-                  </NavbarButton>
-                </Link>
+              {!isAuthenticated ? (
+                <div className="hidden space-x-3 lg:flex">
+                  <Link to="/login">
+                    <NavbarButton className="px-4 font-medium">
+                      Sign In
+                      {/* <User className="h-4 w-4" /> */}
+                    </NavbarButton>
+                  </Link>
 
-                <Link to="/register">
-                  <NavbarButton className="px-4 font-medium">
-                    Register
-                  </NavbarButton>
-                </Link>
-              </div>
+                  <Link to="/register">
+                    <NavbarButton className="px-4 font-medium">
+                      Register
+                    </NavbarButton>
+                  </Link>
+                </div>
+              ) : (
+                <UserDropdown />
+              )}
 
               <NavbarButton icon>
                 <ShoppingBag className="h-4 w-4" />

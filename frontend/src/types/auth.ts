@@ -6,6 +6,7 @@ export type User = {
   id?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
 };
 
 export interface UserContext extends User {
