@@ -8,4 +8,5 @@ export const API_ENDPOINTS = {
   REGISTER: `${VITE_BACKEND_URL}/accounts/register/`,
   CHECK_EMAIL_AVAILABITY: `${VITE_BACKEND_URL}/accounts/check-email/`,
   CHECK_USER_AUTHENTICITY: `${VITE_BACKEND_URL}/accounts/me/`,
+  REFRESH_ACCESS_TOKEN: `${VITE_BACKEND_URL}/token/refresh/`,
 };

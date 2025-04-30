@@ -86,3 +86,9 @@ export async function checkEmailAvailability(email: string) {
 export async function checkUserAuthenticity() {
   return await customFetch(API_ENDPOINTS.CHECK_USER_AUTHENTICITY);
 }
+
+export async function refreshAccessToken() {
+  return await customFetch(API_ENDPOINTS.REFRESH_ACCESS_TOKEN, false, {
+    method: "POST",
+  });
+}

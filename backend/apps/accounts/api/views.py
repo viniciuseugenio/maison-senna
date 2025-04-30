@@ -1,9 +1,15 @@
 from datetime import timedelta
 
+import jwt
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
+from environ import Env
 from rest_framework import status
-from rest_framework.exceptions import AuthenticationFailed, ValidationError
+from rest_framework.exceptions import (
+    AuthenticationFailed,
+    NotAuthenticated,
+    ValidationError,
+)
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView, Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -11,6 +17,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer, UserShortSerializer
 
 User = get_user_model()
+env = Env()
 
 
 class CustomTokenObtainPairView(APIView):
@@ -46,6 +53,36 @@ class CustomTokenObtainPairView(APIView):
             key="refresh_token",
             value=refresh_token,
             max_age=refresh_max_age,
+            httponly=True,
+        )
+
+        return response
+
+    def _get_max_age(self, key):
+        lifetime: timedelta = settings.SIMPLE_JWT[key]
+        max_age = int(lifetime.total_seconds())
+
+        return max_age
+
+
+class CustomTokenRefreshView(APIView):
+    def post(self, request):
+        refresh_token = request.COOKIES.get("refresh_token")
+
+        if not refresh_token:
+            raise NotAuthenticated()
+
+        refresh = RefreshToken(refresh_token)
+        user_id = refresh["user_id"]
+        user = User.objects.get(id=user_id)
+
+        access_token = str(refresh.access_token)
+
+        response = Response(UserShortSerializer(user).data, status=status.HTTP_200_OK)
+        response.set_cookie(
+            "access_token",
+            access_token,
+            self._get_max_age("ACCESS_TOKEN_LIFETIME"),
             httponly=True,
         )
 

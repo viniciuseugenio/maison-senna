@@ -6,6 +6,7 @@ import { UserContext } from "../store/UserContext";
 export const useCheckUser = () => {
   const {
     data: user,
+    refetch,
     isError,
     error,
   } = useQuery({
@@ -15,7 +16,7 @@ export const useCheckUser = () => {
     refetchOnWindowFocus: false,
   });
 
-  return { user, isError, error };
+  return { user, refetch, isError, error };
 };
 
 export function useUserContext() {
