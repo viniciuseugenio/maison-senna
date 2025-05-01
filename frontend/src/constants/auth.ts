@@ -14,8 +14,27 @@ export const REGISTER_FORM_ERRORS = {
   SHORT_LAST_NAME: "The last name must contain at least 3 characters.",
 };
 
-export const SUCCESS_MESSAGES = {
-  REGISTER_SUCCESS:
-    "Your account has been created successfully. Please sign in to continue.",
-  LOGIN_SUCCESS: "You are now successfully logged in.",
+export const SUCCESS_NOTIFICATIONS = {
+  REGISTER_SUCCESS: {
+    title: "Welcome To Maison Senna",
+    description:
+      "Your account has been created successfully. Please sign in to continue.",
+  },
+  LOGIN_SUCCESS: {
+    title: "Welcome Back",
+    description: "You're now signed in. Glad to have you with us again.",
+  },
+  LOGOUT_SUCCESS: {
+    title: "You've Signed Out",
+    description:
+      "You’ve been securely signed out. We look forward to welcoming you back.",
+  },
+};
+
+export const ERROR_NOTIFICATIONS = {
+  LOGOUT_ERROR: {
+    title: "Sign-Out Incomplete",
+    description:
+      "We encountered a momentary issue. Please try again, or rest assured—we’re resolving it discreetly.",
+  },
 };

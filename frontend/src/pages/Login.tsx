@@ -11,7 +11,7 @@ import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
 import LoginPasswordInput from "../components/LoginPasswordInput";
 import SocialLogin from "../components/SocialLogin";
-import { SUCCESS_MESSAGES } from "../constants/forms";
+import { SUCCESS_NOTIFICATIONS } from "../constants/auth";
 import { useUserContext } from "../hooks/auth";
 import { loginSchema } from "../schemas/auth";
 import { LoginForm } from "../types/auth";
@@ -19,19 +19,8 @@ import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
 
 export default function Login() {
-  const { isAuthenticated, setUser } = useUserContext();
+  const { setUser } = useUserContext();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      toast({
-        variation: "error",
-        title: "Ooops!",
-        description: "You are already logged in.",
-      });
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
 
   const methods = useForm({
     resolver: zodResolver(loginSchema),
@@ -42,13 +31,13 @@ export default function Login() {
   const { mutate, isPending } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
+      const userObj = transformKeys(data.user, camelCase);
       toast({
-        title: data.detail,
+        title: `${SUCCESS_NOTIFICATIONS.LOGIN_SUCCESS.title}, ${userObj.firstName}!`,
+        description: SUCCESS_NOTIFICATIONS.LOGIN_SUCCESS.description,
         variation: "success",
-        description: SUCCESS_MESSAGES.LOGIN_SUCCESS,
       });
 
-      const userObj = transformKeys(data.user, camelCase);
       setUser(userObj);
       navigate("/");
     },

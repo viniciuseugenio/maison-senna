@@ -4,7 +4,7 @@ import { camelCase, snakeCase } from "change-case";
 import { Mail, User, UserPlus } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { REGISTER_FORM_ERRORS, SUCCESS_MESSAGES } from "../constants/forms";
+import { REGISTER_FORM_ERRORS, SUCCESS_NOTIFICATIONS } from "../constants/auth";
 import { registerUser } from "../api/endpoints/auth";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
@@ -53,8 +53,8 @@ export default function Register() {
       }
 
       toast({
-        title: "Welcome to Maison Senna",
-        description: SUCCESS_MESSAGES.REGISTER_SUCCESS,
+        title: SUCCESS_NOTIFICATIONS.REGISTER_SUCCESS.title,
+        description: SUCCESS_NOTIFICATIONS.REGISTER_SUCCESS.description,
         variation: "success",
       });
       navigate("/login", { replace: true });
