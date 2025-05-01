@@ -3,16 +3,18 @@ import { registerSchema, loginSchema } from "../schemas/auth";
 import { SetStateAction } from "react";
 
 export type User = {
-  id?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 };
 
-export interface UserContext extends User {
+export type UserContext = {
+  user?: User;
   isAuthenticated?: boolean;
   setUser: React.Dispatch<SetStateAction<User | undefined>>;
-}
+  logout: () => void;
+};
 
 export type LoginForm = z.infer<typeof loginSchema>;
 

@@ -92,3 +92,9 @@ export async function refreshAccessToken() {
     method: "POST",
   });
 }
+
+export async function logoutUser() {
+  return await customFetch(API_ENDPOINTS.LOGOUT, false, {
+    method: "POST",
+  });
+}

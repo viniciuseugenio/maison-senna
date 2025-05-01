@@ -1,8 +1,8 @@
 from datetime import timedelta
 
-import jwt
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.models import AnonymousUser
 from environ import Env
 from rest_framework import status
 from rest_framework.exceptions import (
@@ -11,6 +11,7 @@ from rest_framework.exceptions import (
     ValidationError,
 )
 from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView, Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -93,6 +94,16 @@ class CustomTokenRefreshView(APIView):
         max_age = int(lifetime.total_seconds())
 
         return max_age
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        response = Response({"detail": "You've Signed Out"}, status=status.HTTP_200_OK)
+        response.delete_cookie("access_token")
+        response.delete_cookie("refresh_token")
+        return response
 
 
 class SignupView(CreateAPIView):

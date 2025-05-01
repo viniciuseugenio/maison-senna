@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { refreshAccessToken } from "../api/endpoints/auth";
+import { logoutUser, refreshAccessToken } from "../api/endpoints/auth";
 import { useCheckUser } from "../hooks/auth";
 import { UserContext } from "../store/UserContext";
 import { User } from "../types/auth";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "../utils/customToast";
+import { ERROR_NOTIFICATIONS, SUCCESS_NOTIFICATIONS } from "../constants/auth";
 
 function areUsersEqual(a?: User, b?: User): boolean {
   if (!a || !b) return false;
@@ -19,8 +22,30 @@ export default function UserContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<User>();
   const isAuthenticated = !!user;
+
+  const clearUser = () => setUser(undefined);
+
+  const { mutate: logout } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      clearUser();
+      toast({
+        title: SUCCESS_NOTIFICATIONS.LOGOUT_SUCCESS.title,
+        description: SUCCESS_NOTIFICATIONS.LOGOUT_SUCCESS.description,
+        variation: "info",
+      });
+    },
+    onError: () => {
+      toast({
+        title: ERROR_NOTIFICATIONS.LOGOUT_ERROR.title,
+        description: ERROR_NOTIFICATIONS.LOGOUT_ERROR.description,
+        variation: "error",
+      });
+    },
+  });
 
   const {
     user: updatedUser,
@@ -33,8 +58,6 @@ export default function UserContextProvider({
       setUser(updatedUser);
     }
   }, [updatedUser, user]);
-
-  const clearUser = () => setUser(undefined);
 
   const handleAuthRecovery = useCallback(
     async function () {
@@ -59,12 +82,10 @@ export default function UserContextProvider({
   }, [isCheckError, updatedUser, handleAuthRecovery]);
 
   const contextValue = {
-    id: user?.id,
-    firstName: user?.firstName,
-    lastName: user?.lastName,
-    email: user?.email,
+    user,
     isAuthenticated,
     setUser,
+    logout,
   };
 
   return (

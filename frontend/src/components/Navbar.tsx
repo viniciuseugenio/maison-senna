@@ -1,22 +1,29 @@
-import { Menu, Search, ShoppingBag } from "lucide-react";
+import { LogOut, Menu, Search, ShoppingBag } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { Link } from "react-router";
 import { useUserContext } from "../hooks/auth";
 import MobileNavigation from "./MobileNavigation";
+import Modal from "./Modal.tsx";
 import NavbarButton from "./NavbarButton";
 import NavbarLink from "./NavbarLink.tsx";
 import SearchOverlay from "./SearchOverlay";
 import UserDropdown from "./UserDropdown.tsx";
 
 export default function Navbar() {
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const { isAuthenticated } = useUserContext();
+  const { logout, isAuthenticated } = useUserContext();
 
   function closeMobileMenu() {
     setMobileMenuOpen(false);
   }
+
+  const confirmLogout = () => {
+    logout();
+    setLogoutModalOpen(false);
+  };
 
   return (
     <>
@@ -72,7 +79,7 @@ export default function Navbar() {
                   </Link>
                 </div>
               ) : (
-                <UserDropdown />
+                <UserDropdown setLogoutModalOpen={setLogoutModalOpen} />
               )}
 
               <NavbarButton icon>
@@ -82,6 +89,18 @@ export default function Navbar() {
           </div>
         </div>
       </header>
+
+      {/* Confirmation modal for logout */}
+      <Modal
+        title="Sign Out"
+        confirmLabel="Sign Out"
+        variant="warning"
+        isOpen={logoutModalOpen}
+        onClose={() => setLogoutModalOpen(false)}
+        Icon={LogOut}
+        onConfirm={confirmLogout}
+        description="Are you sure you want to sign out of your account? You will need to sign in again to access your account information."
+      />
 
       {/* Mobile navigation */}
       <AnimatePresence>

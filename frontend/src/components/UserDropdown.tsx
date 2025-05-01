@@ -1,10 +1,19 @@
-import { ButtonHTMLAttributes, useEffect, useRef, useState } from "react";
-import NavbarButton from "./NavbarButton";
-import { User } from "lucide-react";
-import { useUserContext } from "../hooks/auth";
-import { twMerge } from "tailwind-merge";
+import { LogOut, User } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import LogoutButton from "./LogoutButton";
+import {
+  ButtonHTMLAttributes,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { twMerge } from "tailwind-merge";
+import { useUserContext } from "../hooks/auth";
+import NavbarButton from "./NavbarButton";
+
+type UserDropdown = {
+  setLogoutModalOpen: React.Dispatch<SetStateAction<boolean>>;
+};
 
 export function UserDropdownItem({
   children,
@@ -23,16 +32,24 @@ export function UserDropdownItem({
   );
 }
 
-export default function UserDropdown() {
+export default function UserDropdown({ setLogoutModalOpen }: UserDropdown) {
   const [isOpen, setIsOpen] = useState(false);
-  const { firstName, lastName, email } = useUserContext();
-  const fullName = `${firstName} ${lastName}`;
+  const { user } = useUserContext();
+  const fullName = `${user?.firstName} ${user?.lastName}`;
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const menuItems = [
     { label: "My Account", icon: null, onClick: () => {} },
     { label: "My Order", icon: null, onClick: () => {} },
     { label: "Wishlist", icon: null, onClick: () => {} },
+    {
+      label: "Sign Out",
+      icon: LogOut,
+      onClick: () => {
+        setIsOpen(false);
+        setLogoutModalOpen(true);
+      },
+    },
   ];
 
   useEffect(() => {
@@ -71,7 +88,7 @@ export default function UserDropdown() {
           >
             <div className="border-b border-b-gray-200 p-3">
               <p className="flex text-sm font-medium">{fullName}</p>
-              <p className="text-xs text-gray-500">{email}</p>
+              <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
             <div className="m-1 flex flex-col text-sm text-neutral-600">
               {menuItems.map(({ label, icon: Icon, onClick }) => (
@@ -80,7 +97,6 @@ export default function UserDropdown() {
                   {label}
                 </UserDropdownItem>
               ))}
-              <LogoutButton />
             </div>
           </motion.div>
         )}
