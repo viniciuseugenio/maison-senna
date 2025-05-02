@@ -1,11 +1,11 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { logoutUser, refreshAccessToken } from "../api/endpoints/auth";
+import { ERROR_NOTIFICATIONS, SUCCESS_NOTIFICATIONS } from "../constants/auth";
 import { useCheckUser } from "../hooks/auth";
 import { UserContext } from "../store/UserContext";
 import { User } from "../types/auth";
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "../utils/customToast";
-import { ERROR_NOTIFICATIONS, SUCCESS_NOTIFICATIONS } from "../constants/auth";
 
 function areUsersEqual(a?: User, b?: User): boolean {
   if (!a || !b) return false;
@@ -24,6 +24,7 @@ export default function UserContextProvider({
 }) {
   const [user, setUser] = useState<User>();
   const isAuthenticated = !!user;
+  const queryClient = useQueryClient();
 
   const clearUser = () => setUser(undefined);
 
@@ -31,7 +32,9 @@ export default function UserContextProvider({
     mutationKey: ["logout"],
     mutationFn: logoutUser,
     onSuccess: () => {
+      queryClient.removeQueries({ queryKey: ["user"] });
       clearUser();
+
       toast({
         title: SUCCESS_NOTIFICATIONS.LOGOUT_SUCCESS.title,
         description: SUCCESS_NOTIFICATIONS.LOGOUT_SUCCESS.description,
