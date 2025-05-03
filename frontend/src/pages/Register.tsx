@@ -44,26 +44,23 @@ export default function Register() {
           });
         });
 
-        toast({
+        toast.error({
           title: "An error occurred",
           description: REGISTER_FORM_ERRORS.FORM_ERROR,
-          variation: "error",
         });
         return;
       }
 
-      toast({
+      toast.success({
         title: SUCCESS_NOTIFICATIONS.REGISTER_SUCCESS.title,
         description: SUCCESS_NOTIFICATIONS.REGISTER_SUCCESS.description,
-        variation: "success",
       });
       navigate("/login", { replace: true });
     },
     onError: (error) => {
-      toast({
+      toast.error({
         title: "An error occurred",
         description: error.message,
-        variation: "error",
       });
     },
   });

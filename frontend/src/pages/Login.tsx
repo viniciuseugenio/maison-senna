@@ -32,19 +32,17 @@ export default function Login() {
     mutationFn: loginUser,
     onSuccess: (data) => {
       const userObj = transformKeys(data.user, camelCase);
-      toast({
+      toast.success({
         title: `${SUCCESS_NOTIFICATIONS.LOGIN_SUCCESS.title}, ${userObj.firstName}!`,
         description: SUCCESS_NOTIFICATIONS.LOGIN_SUCCESS.description,
-        variation: "success",
       });
 
       setUser(userObj);
       navigate("/");
     },
     onError: (error) => {
-      toast({
+      toast.error({
         title: error.message,
-        variation: "error",
         description: "Something went wrong",
       });
     },

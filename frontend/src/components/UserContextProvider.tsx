@@ -35,17 +35,15 @@ export default function UserContextProvider({
       queryClient.removeQueries({ queryKey: ["user"] });
       clearUser();
 
-      toast({
+      toast.info({
         title: SUCCESS_NOTIFICATIONS.LOGOUT_SUCCESS.title,
         description: SUCCESS_NOTIFICATIONS.LOGOUT_SUCCESS.description,
-        variation: "info",
       });
     },
     onError: () => {
-      toast({
+      toast.error({
         title: ERROR_NOTIFICATIONS.LOGOUT_ERROR.title,
         description: ERROR_NOTIFICATIONS.LOGOUT_ERROR.description,
-        variation: "error",
       });
     },
   });

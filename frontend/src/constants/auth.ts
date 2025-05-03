@@ -34,7 +34,6 @@ export const SUCCESS_NOTIFICATIONS = {
 export const ERROR_NOTIFICATIONS = {
   LOGOUT_ERROR: {
     title: "Sign-Out Incomplete",
-    description:
-      "We encountered a momentary issue. Please try again, or rest assured—we’re resolving it discreetly.",
+    description: "We encountered a momentary issue. Please try again.",
   },
 };
