@@ -2,8 +2,8 @@ import { UNEXPECTED_ERROR } from "./constants";
 
 export async function customFetch(
   url: string,
-  ignore400?: boolean,
   options?: Record<string, unknown>,
+  ignore400?: boolean,
 ) {
   try {
     const response = await fetch(url, {

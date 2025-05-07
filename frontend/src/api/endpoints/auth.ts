@@ -88,13 +88,13 @@ export async function checkUserAuthenticity() {
 }
 
 export async function refreshAccessToken() {
-  return await customFetch(API_ENDPOINTS.REFRESH_ACCESS_TOKEN, false, {
+  return await customFetch(API_ENDPOINTS.REFRESH_ACCESS_TOKEN, {
     method: "POST",
-  });
+  }, false);
 }
 
 export async function logoutUser() {
-  return await customFetch(API_ENDPOINTS.LOGOUT, false, {
+  return await customFetch(API_ENDPOINTS.LOGOUT, {
     method: "POST",
-  });
+  }, false);
 }
