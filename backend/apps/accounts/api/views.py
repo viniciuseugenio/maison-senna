@@ -1,9 +1,12 @@
 from datetime import timedelta
 
+import requests
+from apps.accounts.utils import generate_token_response
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
-from django.contrib.auth.models import AnonymousUser
 from environ import Env
+from google.auth.transport import requests as google_requests
+from google.oauth2 import id_token
 from rest_framework import status
 from rest_framework.exceptions import (
     AuthenticationFailed,
@@ -11,7 +14,6 @@ from rest_framework.exceptions import (
     ValidationError,
 )
 from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView, Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -30,40 +32,7 @@ class CustomTokenObtainPairView(APIView):
         if not user:
             raise AuthenticationFailed("Invalid email or password.")
 
-        refresh = RefreshToken.for_user(user)
-        access_token = str(refresh.access_token)
-        refresh_token = str(refresh)
-
-        access_max_age = self._get_max_age("ACCESS_TOKEN_LIFETIME")
-        refresh_max_age = self._get_max_age("REFRESH_TOKEN_LIFETIME")
-
-        response_data = {
-            "detail": "Welcome back!",
-            "user": UserShortSerializer(user).data,
-        }
-
-        response = Response(response_data, status=status.HTTP_200_OK)
-        response.set_cookie(
-            key="access_token",
-            value=access_token,
-            max_age=access_max_age,
-            secure=False,  # TODO: Set to True in
-            httponly=True,
-        )
-        response.set_cookie(
-            key="refresh_token",
-            value=refresh_token,
-            max_age=refresh_max_age,
-            httponly=True,
-        )
-
-        return response
-
-    def _get_max_age(self, key):
-        lifetime: timedelta = settings.SIMPLE_JWT[key]
-        max_age = int(lifetime.total_seconds())
-
-        return max_age
+        return generate_token_response(user)
 
 
 class CustomTokenRefreshView(APIView):
@@ -96,9 +65,54 @@ class CustomTokenRefreshView(APIView):
         return max_age
 
 
-class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
+class GoogleAuthManualView(APIView):
+    def post(self, request):
+        code = request.data.get("code")
+        if not code:
+            return Response(
+                {"detail": "Missing code"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
+        try:
+            token_data = self._exchange_code_for_tokens(code)
+            id_info = self._verify_id_token(token_data["id_token"])
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        email = id_info.get("email")
+        first_name = id_info.get("given_name")
+        last_name = id_info.get("family_name")
+
+        user = User.objects.filter(email=email)
+        if user.exists():
+            return generate_token_response(user.first(), extra_data={"type": "login"})
+
+        else:
+            user = User.objects.create_user(
+                email=email, first_name=first_name, last_name=last_name
+            )
+            return generate_token_response(user, extra_data={"type": "register"})
+
+    def _exchange_code_for_tokens(self, auth_code):
+        data = {
+            "code": auth_code,
+            "client_id": env("CLIENT_ID"),
+            "client_secret": env("CLIENT_SECRET"),
+            "redirect_uri": env("FRONTEND_URL"),
+            "grant_type": "authorization_code",
+        }
+
+        response = requests.post("https://oauth2.googleapis.com/token", data=data)
+        return response.json()
+
+    def _verify_id_token(self, id_token_str):
+        id_info = id_token.verify_oauth2_token(
+            id_token_str, google_requests.Request(), env("CLIENT_ID")
+        )
+        return id_info
+
+
+class LogoutView(APIView):
     def post(self, request):
         response = Response({"detail": "You've Signed Out"}, status=status.HTTP_200_OK)
         response.delete_cookie("access_token")
