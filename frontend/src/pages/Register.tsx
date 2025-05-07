@@ -1,20 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useMutation } from "@tanstack/react-query";
 import { camelCase, snakeCase } from "change-case";
 import { Mail, User, UserPlus } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { REGISTER_FORM_ERRORS, SUCCESS_NOTIFICATIONS } from "../constants/auth";
 import { registerUser } from "../api/endpoints/auth";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
 import RegisterPasswordInputs from "../components/RegisterPasswordInputs";
 import SocialLogin from "../components/SocialLogin";
+import { REGISTER_FORM_ERRORS, SUCCESS_NOTIFICATIONS } from "../constants/auth";
 import { registerSchema } from "../schemas/auth";
 import { RegisterForm } from "../types/auth";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
+
+const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
 export default function Register() {
   const navigate = useNavigate();
@@ -144,7 +147,9 @@ export default function Register() {
         </Button>
       </form>
 
-      <SocialLogin />
+      <GoogleOAuthProvider clientId={VITE_GOOGLE_CLIENTID}>
+        <SocialLogin />
+      </GoogleOAuthProvider>
 
       <div className="text text-mine-shaft/90 mt-8 text-center text-sm">
         Already have an account?{" "}

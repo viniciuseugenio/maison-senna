@@ -10,4 +10,5 @@ export const API_ENDPOINTS = {
   CHECK_USER_AUTHENTICITY: `${VITE_BACKEND_URL}/accounts/me/`,
   REFRESH_ACCESS_TOKEN: `${VITE_BACKEND_URL}/token/refresh/`,
   LOGOUT: `${VITE_BACKEND_URL}/accounts/logout/`,
+  GOOGLE_LOGIN: `${VITE_BACKEND_URL}/accounts/auth/google/`,
 };

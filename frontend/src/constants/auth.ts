@@ -19,6 +19,8 @@ export const SUCCESS_NOTIFICATIONS = {
     title: "Welcome To Maison Senna",
     description:
       "Your account has been created successfully. Please sign in to continue.",
+    social_register:
+      "Your account has been created successfully. Enjoy our curated collections!",
   },
   LOGIN_SUCCESS: {
     title: "Welcome Back",
@@ -34,6 +36,13 @@ export const SUCCESS_NOTIFICATIONS = {
 export const ERROR_NOTIFICATIONS = {
   LOGOUT_ERROR: {
     title: "Sign-Out Incomplete",
-    description: "We encountered a momentary issue. Please try again.",
+    description: "We encountered a momentary issue. Please, try again later.",
+  },
+  SOCIAL_LOGIN_ERROR: {
+    title: "Something Went Wrong",
+    description:
+      "We encountered a momentary issue with the social login. Please, try again later.",
+    access_denied:
+      "It appears you've declined the Google login. Should you wish to proceed, you're invited to try again.",
   },
 };
