@@ -4,10 +4,14 @@ import requests
 from apps.accounts.utils import generate_token_response
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from environ import Env
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.exceptions import (
     AuthenticationFailed,
     NotAuthenticated,
@@ -156,3 +160,98 @@ class MeView(APIView):
 
         user = request.user
         return Response(UserShortSerializer(user).data)
+
+
+class PasswordRequestResetView(APIView):
+    def post(self, request):
+        success_response_data = {
+            "detail": "Password Reset Email Sent",
+            "description": "If an account with this email exists, a password reset link  has been sent to the provided address.",
+        }
+
+        email = request.data.get("email")
+        if not email:
+            return Response(
+                {
+                    "detail": "Invalid Request",
+                    "description": "Please provide a valid email address.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(success_response_data, status=status.HTTP_200_OK)
+
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = default_token_generator.make_token(user)
+
+        front_url = env("FRONTEND_URL")
+        reset_link = f"{front_url}/reset-password?uid={uid}&token={token}"
+
+        send_mail(
+            "Reset your password",
+            f"Click the link to reset your password: {reset_link}",
+            settings.EMAIL_HOST_USER,
+            [user.email],
+        )
+
+        return Response(success_response_data)
+
+
+class PasswordResetConfirmView(APIView):
+    class InputSerializer(serializers.Serializer):
+        uid = serializers.CharField()
+        token = serializers.CharField()
+        new_password = serializers.CharField(min_length=8)
+
+    def get_serializer(self, *args, **kwargs):
+        return self.InputSerializer(*args, **kwargs)
+
+    def post(self, request):
+        serializer = self.InputSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(
+                {
+                    "detail": "Invalid Request",
+                    "description": "Please ensure all required fields are correctly filled out.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        uid = serializer.validated_data["uid"]
+        token = serializer.validated_data["token"]
+        new_password = serializer.validated_data["new_password"]
+
+        try:
+            uid = force_str(urlsafe_base64_decode(uid))
+            user = User.objects.get(id=uid)
+        except (User.DoesNotExist, ValueError, TypeError):
+            return Response(
+                {
+                    "detail": "Invalid User Identification",
+                    "description": "We could not identify your account. The reset link may be incorrect or outdated.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not default_token_generator.check_token(user, token):
+            return Response(
+                {
+                    "detail": "Invalid or Expired token",
+                    "description": "The password reset link is invalid or has expired. Please request a new one.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        user.set_password(new_password)
+        user.save()
+
+        return Response(
+            {
+                "detail": "Password Reset Successful",
+                "description": "Your password has been reset successfully. You can now log in with your new password.",
+            },
+            status=status.HTTP_200_OK,
+        )
