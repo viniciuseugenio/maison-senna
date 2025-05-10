@@ -16,15 +16,27 @@ export async function customFetch(
       if (response.status === 400 && ignore400) {
         return { errors: data, status: response.status };
       }
-      throw new Error(data.detail);
+      throw {
+        title: data.detail || UNEXPECTED_ERROR,
+        description: data.description,
+        status: response.status,
+      };
     }
 
     return data;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || UNEXPECTED_ERROR);
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "title" in error &&
+      typeof error.title === "string"
+    ) {
+      throw error;
     }
 
-    throw new Error(UNEXPECTED_ERROR);
+    throw {
+      title: UNEXPECTED_ERROR,
+      status: 500,
+    };
   }
 }
