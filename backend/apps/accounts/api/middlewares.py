@@ -20,7 +20,7 @@ class CustomJWTAuthentication(BaseAuthentication):
                 user = User.objects.get(id=user_id)
                 return (user, None)
 
-            except jwt.exceptions.InvalidTokenError:
+            except (jwt.exceptions.InvalidTokenError, User.DoesNotExist):
                 return None
 
         return None

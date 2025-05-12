@@ -41,26 +41,31 @@ class CustomTokenObtainPairView(APIView):
 
 class CustomTokenRefreshView(APIView):
     def post(self, request):
-        refresh_token = request.COOKIES.get("refresh_token")
+        try:
+            refresh_token = request.COOKIES.get("refresh_token")
 
-        if not refresh_token:
+            if not refresh_token:
+                raise NotAuthenticated()
+
+            refresh = RefreshToken(refresh_token)
+            user_id = refresh["user_id"]
+            user = User.objects.get(id=user_id)
+
+            access_token = str(refresh.access_token)
+
+            response = Response(
+                UserShortSerializer(user).data, status=status.HTTP_200_OK
+            )
+            response.set_cookie(
+                "access_token",
+                access_token,
+                self._get_max_age("ACCESS_TOKEN_LIFETIME"),
+                httponly=True,
+            )
+
+            return response
+        except User.DoesNotExist:
             raise NotAuthenticated()
-
-        refresh = RefreshToken(refresh_token)
-        user_id = refresh["user_id"]
-        user = User.objects.get(id=user_id)
-
-        access_token = str(refresh.access_token)
-
-        response = Response(UserShortSerializer(user).data, status=status.HTTP_200_OK)
-        response.set_cookie(
-            "access_token",
-            access_token,
-            self._get_max_age("ACCESS_TOKEN_LIFETIME"),
-            httponly=True,
-        )
-
-        return response
 
     def _get_max_age(self, key):
         lifetime: timedelta = settings.SIMPLE_JWT[key]
