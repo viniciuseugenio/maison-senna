@@ -50,16 +50,18 @@ export default function CustomToast(props: ToastProps) {
       >
         <X className="h-4 w-4" />
       </button>
-      <div className="shrink-0">
+      <div className="mt-0.5 shrink-0">
         <RendableIcon className={`h-5 w-5 ${selectedVariation.iconColor} `} />
       </div>
       <div className="flex-1">
         <h3 className="text-mine-shaft font-serif text-base tracking-wider">
           {title}
         </h3>
-        <p className="text-mine-shaft/60 mt-1 text-sm leading-relaxed">
-          {description}
-        </p>
+        {description && (
+          <p className="text-mine-shaft/60 mt-1 text-sm leading-relaxed">
+            {description}
+          </p>
+        )}
         {/* {buttons && <div className="mt-3">{buttons}</div>} */}
       </div>
     </div>
