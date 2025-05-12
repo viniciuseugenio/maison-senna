@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from apps.accounts.api.responses import get_success_message
 from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
@@ -15,7 +16,11 @@ def get_max_age(key):
     return max_age
 
 
-def generate_token_response(user, extra_data=None):
+def generate_token_response(
+    user,
+    messages,
+    extra_data=None,
+):
     refresh = RefreshToken.for_user(user)
     access_token = str(refresh.access_token)
     refresh_token = str(refresh)
@@ -24,7 +29,7 @@ def generate_token_response(user, extra_data=None):
     refresh_max_age = get_max_age("REFRESH_TOKEN_LIFETIME")
 
     response_data = {
-        "detail": "Welcome back!",
+        **messages,
         "user": UserShortSerializer(user).data,
     }
 

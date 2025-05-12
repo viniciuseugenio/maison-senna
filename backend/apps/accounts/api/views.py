@@ -12,15 +12,12 @@ from environ import Env
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 from rest_framework import serializers, status
-from rest_framework.exceptions import (
-    AuthenticationFailed,
-    NotAuthenticated,
-    ValidationError,
-)
+from rest_framework.exceptions import NotAuthenticated, ValidationError
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView, Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from .responses import get_error_message, get_success_message
 from .serializers import UserSerializer, UserShortSerializer
 
 User = get_user_model()
@@ -28,15 +25,20 @@ env = Env()
 
 
 class CustomTokenObtainPairView(APIView):
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
 
         user = authenticate(request, email=email, password=password)
         if not user:
-            raise AuthenticationFailed("Invalid email or password.")
+            return Response(
+                get_error_message("INCORRECT_CREDENTIALS"),
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
-        return generate_token_response(user)
+        return generate_token_response(
+            user, get_success_message("LOGIN", user.first_name)
+        )
 
 
 class CustomTokenRefreshView(APIView):
@@ -94,13 +96,15 @@ class GoogleAuthManualView(APIView):
 
         user = User.objects.filter(email=email)
         if user.exists():
-            return generate_token_response(user.first(), extra_data={"type": "login"})
+            return generate_token_response(
+                user.first(), get_success_message("LOGIN", first_name)
+            )
 
         else:
             user = User.objects.create_user(
                 email=email, first_name=first_name, last_name=last_name
             )
-            return generate_token_response(user, extra_data={"type": "register"})
+            return generate_token_response(user, get_success_message("SIGNUP_SOCIAL"))
 
     def _exchange_code_for_tokens(self, auth_code):
         data = {
@@ -123,7 +127,7 @@ class GoogleAuthManualView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
-        response = Response({"detail": "You've Signed Out"}, status=status.HTTP_200_OK)
+        response = Response(get_success_message("LOGOUT"), status=status.HTTP_200_OK)
         response.delete_cookie("access_token")
         response.delete_cookie("refresh_token")
         return response
@@ -141,7 +145,8 @@ class SignupView(CreateAPIView):
         serializer.save()
 
         return Response(
-            {"detail": "User created successfully"}, status=status.HTTP_201_CREATED
+            get_success_message("SIGNUP"),
+            status=status.HTTP_201_CREATED,
         )
 
 
@@ -169,18 +174,12 @@ class MeView(APIView):
 
 class PasswordRequestResetView(APIView):
     def post(self, request):
-        success_response_data = {
-            "detail": "Password Reset Email Sent",
-            "description": "If an account with this email exists, a password reset link  has been sent to the provided address.",
-        }
+        success_response_data = get_success_message("PASSWORD_REQUEST_RESET")
 
         email = request.data.get("email")
         if not email:
             return Response(
-                {
-                    "detail": "Invalid Request",
-                    "description": "Please provide a valid email address.",
-                },
+                get_error_message("PASSWORD_RESET_INVALID"),
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -218,10 +217,7 @@ class PasswordResetConfirmView(APIView):
         serializer = self.InputSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(
-                {
-                    "detail": "Invalid Request",
-                    "description": "Please ensure all required fields are correctly filled out.",
-                },
+                get_error_message("PASSWORD_RESET_CONFIRM"),
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -234,19 +230,13 @@ class PasswordResetConfirmView(APIView):
             user = User.objects.get(id=uid)
         except (User.DoesNotExist, ValueError, TypeError):
             return Response(
-                {
-                    "detail": "Invalid User Identification",
-                    "description": "We could not identify your account. The reset link may be incorrect or outdated.",
-                },
+                get_error_message("PASSWORD_RESET_USER_ID"),
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         if not default_token_generator.check_token(user, token):
             return Response(
-                {
-                    "detail": "Invalid or Expired token",
-                    "description": "The password reset link is invalid or has expired. Please request a new one.",
-                },
+                get_error_message("PASSWORD_RESET_TOKEN"),
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -254,9 +244,6 @@ class PasswordResetConfirmView(APIView):
         user.save()
 
         return Response(
-            {
-                "detail": "Password Reset Successful",
-                "description": "Your password has been reset successfully. You can now log in with your new password.",
-            },
+            get_success_message("PASSWORD_RESET"),
             status=status.HTTP_200_OK,
         )
