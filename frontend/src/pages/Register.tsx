@@ -16,6 +16,7 @@ import { registerSchema } from "../schemas/auth";
 import { RegisterForm } from "../types/auth";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
+import { ApiError } from "../types/api";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
@@ -55,15 +56,15 @@ export default function Register() {
       }
 
       toast.success({
-        title: SUCCESS_NOTIFICATIONS.REGISTER_SUCCESS.title,
-        description: SUCCESS_NOTIFICATIONS.REGISTER_SUCCESS.description,
+        title: result.detail,
+        description: result.description,
       });
       navigate("/login", { replace: true });
     },
-    onError: (error) => {
+    onError: (error: ApiError) => {
       toast.error({
-        title: "An error occurred",
-        description: error.message,
+        title: error.title,
+        description: error.description,
       });
     },
   });

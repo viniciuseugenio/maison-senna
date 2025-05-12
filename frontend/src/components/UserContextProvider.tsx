@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { logoutUser, refreshAccessToken } from "../api/endpoints/auth";
-import { ERROR_NOTIFICATIONS, SUCCESS_NOTIFICATIONS } from "../constants/auth";
+import { ERROR_NOTIFICATIONS } from "../constants/auth";
 import { useCheckUser } from "../hooks/auth";
 import { UserContext } from "../store/UserContext";
+import { ApiResponse } from "../types/api";
 import { User } from "../types/auth";
 import { toast } from "../utils/customToast";
 
@@ -31,13 +32,13 @@ export default function UserContextProvider({
   const { mutate: logout } = useMutation({
     mutationKey: ["logout"],
     mutationFn: logoutUser,
-    onSuccess: () => {
+    onSuccess: (data: ApiResponse) => {
       queryClient.removeQueries({ queryKey: ["user"] });
       clearUser();
 
       toast.info({
-        title: SUCCESS_NOTIFICATIONS.LOGOUT_SUCCESS.title,
-        description: SUCCESS_NOTIFICATIONS.LOGOUT_SUCCESS.description,
+        title: data.detail,
+        description: data.description,
       });
     },
     onError: () => {

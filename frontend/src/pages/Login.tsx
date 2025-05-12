@@ -11,12 +11,12 @@ import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
 import LoginPasswordInput from "../components/LoginPasswordInput";
 import SocialLogin from "../components/SocialLogin";
-import { SUCCESS_NOTIFICATIONS } from "../constants/auth";
 import { useUserContext } from "../hooks/auth";
 import { loginSchema } from "../schemas/auth";
 import { LoginForm } from "../types/auth";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
+import { ApiError, ApiResponse } from "../types/api";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
@@ -32,20 +32,20 @@ export default function Login() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: loginUser,
-    onSuccess: (data) => {
+    onSuccess: (data: ApiResponse) => {
       const userObj = transformKeys(data.user, camelCase);
       toast.success({
-        title: `${SUCCESS_NOTIFICATIONS.LOGIN_SUCCESS.title}, ${userObj.firstName}!`,
-        description: SUCCESS_NOTIFICATIONS.LOGIN_SUCCESS.description,
+        title: data.detail,
+        description: data.description,
       });
 
       setUser(userObj);
       navigate("/");
     },
-    onError: (error) => {
+    onError: (error: ApiError) => {
       toast.error({
-        title: error.message,
-        description: "Something went wrong",
+        title: error.title,
+        description: error.description,
       });
     },
   });
