@@ -1,12 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
-import { logoutUser, refreshAccessToken } from "../api/endpoints/auth";
-import { ERROR_NOTIFICATIONS } from "../constants/auth";
-import { useCheckUser } from "../hooks/auth";
+import { refreshAccessToken } from "../api/endpoints/auth";
+import { useCheckUser, useLogout } from "../hooks/auth";
 import { UserContext } from "../store/UserContext";
-import { ApiResponse } from "../types/api";
 import { User } from "../types/auth";
-import { toast } from "../utils/customToast";
 
 function areUsersEqual(a?: User, b?: User): boolean {
   if (!a || !b) return false;
@@ -25,29 +21,9 @@ export default function UserContextProvider({
 }) {
   const [user, setUser] = useState<User>();
   const isAuthenticated = !!user;
-  const queryClient = useQueryClient();
 
   const clearUser = () => setUser(undefined);
-
-  const { mutate: logout } = useMutation({
-    mutationKey: ["logout"],
-    mutationFn: logoutUser,
-    onSuccess: (data: ApiResponse) => {
-      queryClient.removeQueries({ queryKey: ["user"] });
-      clearUser();
-
-      toast.info({
-        title: data.detail,
-        description: data.description,
-      });
-    },
-    onError: () => {
-      toast.error({
-        title: ERROR_NOTIFICATIONS.LOGOUT_ERROR.title,
-        description: ERROR_NOTIFICATIONS.LOGOUT_ERROR.description,
-      });
-    },
-  });
+  const { mutate: logout } = useLogout(clearUser);
 
   const {
     user: updatedUser,

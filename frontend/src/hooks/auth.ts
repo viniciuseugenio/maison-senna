@@ -1,9 +1,9 @@
 import { useGoogleLogin } from "@react-oauth/google";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { camelCase } from "change-case";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
-import { checkUserAuthenticity } from "../api/endpoints/auth";
+import { checkUserAuthenticity, logoutUser } from "../api/endpoints/auth";
 import { API_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
 import { ERROR_NOTIFICATIONS } from "../constants/auth";
@@ -32,6 +32,30 @@ export function useUserContext() {
   }
 
   return user;
+}
+
+export function useLogout(clearUser: () => void) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["logout"],
+    mutationFn: logoutUser,
+    onSuccess: (data: ApiResponse) => {
+      queryClient.removeQueries({ queryKey: ["user"] });
+      clearUser();
+
+      toast.info({
+        title: data.detail,
+        description: data.description,
+      });
+    },
+    onError: () => {
+      toast.error({
+        title: ERROR_NOTIFICATIONS.LOGOUT_ERROR.title,
+        description: ERROR_NOTIFICATIONS.LOGOUT_ERROR.description,
+      });
+    },
+  });
 }
 
 export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
