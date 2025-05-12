@@ -14,25 +14,6 @@ export const REGISTER_FORM_ERRORS = {
   SHORT_LAST_NAME: "The last name must contain at least 3 characters.",
 };
 
-export const SUCCESS_NOTIFICATIONS = {
-  REGISTER_SUCCESS: {
-    title: "Welcome To Maison Senna",
-    description:
-      "Your account has been created successfully. Please sign in to continue.",
-    social_register:
-      "Your account has been created successfully. Enjoy our curated collections!",
-  },
-  LOGIN_SUCCESS: {
-    title: "Welcome Back",
-    description: "You're now signed in. Glad to have you with us again.",
-  },
-  LOGOUT_SUCCESS: {
-    title: "You've Signed Out",
-    description:
-      "You’ve been securely signed out. We look forward to welcoming you back.",
-  },
-};
-
 export const ERROR_NOTIFICATIONS = {
   LOGOUT_ERROR: {
     title: "Sign-Out Incomplete",
@@ -44,5 +25,14 @@ export const ERROR_NOTIFICATIONS = {
       "We encountered a momentary issue with the social login. Please, try again later.",
     access_denied:
       "It appears you've declined the Google login. Should you wish to proceed, you're invited to try again.",
+  },
+  RESET_PASSWORD_TOKENS: {
+    title: "Something Went Wrong",
+    description:
+      "The token or the UID is missing from the URL. Please, request another password reset link.",
+  },
+  RESET_PASSWORD_VALIDATION: {
+    title: "Something is Wrong",
+    description: "Please, check all requirements and submit again.",
   },
 };

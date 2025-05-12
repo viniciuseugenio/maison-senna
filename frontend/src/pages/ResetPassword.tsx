@@ -12,6 +12,7 @@ import PasswordRequirement from "../components/PasswordRequirement";
 import { ApiError } from "../types/api";
 import { toast } from "../utils/customToast";
 import { validatePassword } from "../utils/validatePassword";
+import { ERROR_NOTIFICATIONS } from "../constants/auth";
 
 const resetPasswordSchema = z.object({
   password: z.string(),
@@ -31,9 +32,8 @@ const ResetPassword: React.FC = () => {
   useEffect(() => {
     if (!uid || !token) {
       toast.error({
-        title: "Something went wrong",
-        description:
-          "The token or the UID is missing from the URL. Please, request another password reset link.",
+        title: ERROR_NOTIFICATIONS.RESET_PASSWORD_TOKENS.title,
+        description: ERROR_NOTIFICATIONS.RESET_PASSWORD_TOKENS.description,
         customId: "missing-tokens",
       });
       navigate("/forgot-password");
@@ -74,8 +74,8 @@ const ResetPassword: React.FC = () => {
   const onSubmit: SubmitHandler<ResetPasswordForm> = async (data) => {
     if (hasError) {
       toast.error({
-        title: "Something is Wrong",
-        description: "Please, check all requirements and submit again.",
+        title: ERROR_NOTIFICATIONS.RESET_PASSWORD_VALIDATION.title,
+        description: ERROR_NOTIFICATIONS.RESET_PASSWORD_VALIDATION.description,
       });
       return;
     }
