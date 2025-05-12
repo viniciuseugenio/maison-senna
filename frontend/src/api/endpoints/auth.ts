@@ -88,13 +88,45 @@ export async function checkUserAuthenticity() {
 }
 
 export async function refreshAccessToken() {
-  return await customFetch(API_ENDPOINTS.REFRESH_ACCESS_TOKEN, {
-    method: "POST",
-  }, false);
+  return await customFetch(
+    API_ENDPOINTS.REFRESH_ACCESS_TOKEN,
+    {
+      method: "POST",
+    },
+    false,
+  );
 }
 
 export async function logoutUser() {
-  return await customFetch(API_ENDPOINTS.LOGOUT, {
+  return await customFetch(
+    API_ENDPOINTS.LOGOUT,
+    {
+      method: "POST",
+    },
+    false,
+  );
+}
+
+export async function requestPasswordReset(email: string) {
+  return await customFetch(API_ENDPOINTS.REQUEST_PASSWORD_RESET, {
     method: "POST",
-  }, false);
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+}
+
+export async function resetPassword({
+  uid,
+  token,
+  new_password,
+}: {
+  uid: string;
+  token: string;
+  new_password: string;
+}) {
+  return await customFetch(API_ENDPOINTS.RESET_PASSWORD, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ uid, token, new_password }),
+  });
 }
