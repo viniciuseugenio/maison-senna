@@ -1,5 +1,5 @@
 import { Eye, EyeOff, Lock } from "lucide-react";
-import FloatingInput from "./FloatingInput";
+import FloatingInput from "../FloatingInput";
 
 type FloatingInputPasswordProps = {
   label?: string;

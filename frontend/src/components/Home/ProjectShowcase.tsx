@@ -1,7 +1,7 @@
-import sennaImg from "../assets/senna-music.jpg";
+import sennaImg from "../../assets/senna-music.jpg";
 import ProjectTool from "./ProjectTool";
-import VerticalDivider from "./VerticalDivider";
-import Button from "./Button";
+import VerticalDivider from "../VerticalDivider";
+import Button from "../Button";
 import { Github, Linkedin } from "lucide-react";
 
 export default function ProjectShowcase() {

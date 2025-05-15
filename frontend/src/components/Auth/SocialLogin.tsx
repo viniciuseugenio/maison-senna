@@ -1,8 +1,8 @@
 import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import googleIcon from "../assets/google-logo.svg";
-import Button from "./Button";
-import { useGoogleOAuth } from "../hooks/auth";
+import googleIcon from "../../assets/google-logo.svg";
+import { useGoogleOAuth } from "../../hooks/auth";
+import Button from "../Button";
 
 export default function SocialLogin() {
   const [isLoading, setIsLoading] = useState(false);

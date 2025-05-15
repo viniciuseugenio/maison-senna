@@ -1,5 +1,5 @@
-import sennaImg from "../assets/senna.jpg";
-import Button from "./Button";
+import sennaImg from "../../assets/senna.jpg";
+import Button from "../Button";
 
 export default function Hero() {
   return (

@@ -6,17 +6,17 @@ import { Mail, User, UserPlus } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { registerUser } from "../api/endpoints/auth";
+import RegisterPasswordInputs from "../components/Auth/RegisterPasswordInputs";
+import SocialLogin from "../components/Auth/SocialLogin";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
-import RegisterPasswordInputs from "../components/RegisterPasswordInputs";
-import SocialLogin from "../components/SocialLogin";
-import { REGISTER_FORM_ERRORS, SUCCESS_NOTIFICATIONS } from "../constants/auth";
+import { REGISTER_FORM_ERRORS } from "../constants/auth";
 import { registerSchema } from "../schemas/auth";
+import { ApiError } from "../types/api";
 import { RegisterForm } from "../types/auth";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
-import { ApiError } from "../types/api";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
