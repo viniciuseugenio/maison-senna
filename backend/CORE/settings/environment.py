@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
-import environ
 import os
+from pathlib import Path
+
+import environ
 
 env = environ.Env()
 
@@ -31,6 +32,7 @@ DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = []
 CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
+CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
 CSRF_COOKIE_HTTPONLY = True
@@ -99,6 +101,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
