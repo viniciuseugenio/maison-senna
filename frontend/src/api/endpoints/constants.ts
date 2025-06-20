@@ -13,3 +13,7 @@ export const API_ENDPOINTS = {
   REQUEST_PASSWORD_RESET: `${VITE_BACKEND_URL}/accounts/request-password-reset/`,
   RESET_PASSWORD: `${VITE_BACKEND_URL}/accounts/reset-password/`,
 };
+
+export const CATALOG_ENDPOINTS = {
+  PRODUCTS: `${VITE_BACKEND_URL}/catalog/products/`,
+};
