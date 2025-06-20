@@ -1,10 +1,12 @@
-import { Link } from "react-router";
-import Button from "../Button";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
 import { listProducts } from "../../api/endpoints/products";
+import { ProductList } from "../../types/catalog";
+import Button from "../Button";
+import HorizontalDivider from "../HorizontalDivider";
 
 export default function FeaturedProducts() {
-  const { data: products } = useQuery({
+  const { data: products } = useQuery<ProductList[]>({
     queryFn: listProducts,
     queryKey: ["products"],
   });
@@ -16,7 +18,7 @@ export default function FeaturedProducts() {
           <h2 className="text-mine-shaft font-serif text-3xl font-light tracking-wider sm:text-4xl">
             Featured Collection
           </h2>
-          <div className="bg-oyster mx-auto mt-4 h-[1px] w-20" />
+          <HorizontalDivider className="mx-auto" />
           <p className="text-mine-shaft/90 mt-6">
             Exquisite pieces crafted with the finest materials and unparalleled
             attention to detail.
@@ -27,10 +29,10 @@ export default function FeaturedProducts() {
           {products &&
             products.map((product) => (
               <div key={product.slug} className="group">
-                <Link to={`/products/${product.slug}/`}>
+                <Link to={`/products/${product.slug}`}>
                   <div className="relative aspect-square overflow-hidden">
                     <img
-                      src={product.reference_image}
+                      src={product.referenceImage}
                       alt={product.name}
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -43,7 +45,7 @@ export default function FeaturedProducts() {
                       {product.name}
                     </h3>
                     <p className="text-mine-shaft/90 mt-2 text-sm">
-                      ${product.reference_price}
+                      ${product.basePrice}
                     </p>
                   </div>
                 </Link>
