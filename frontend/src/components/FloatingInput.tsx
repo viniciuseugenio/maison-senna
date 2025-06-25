@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import ConnectForm from "./ConnectForm";
-import InputError from "./ProductForm/InputError";
+import InputError from "./InputError";
 
 interface FloatingInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
