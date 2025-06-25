@@ -21,7 +21,7 @@ export default function SocialLogin() {
     <>
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs">
-          <LoaderCircle className="mr-2 h-14 w-14 animate-spin text-white" />
+          <LoaderCircle className="mr-2 h-10 w-10 animate-spin text-white" />
         </div>
       )}
       <div className="mt-8">
