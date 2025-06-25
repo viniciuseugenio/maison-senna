@@ -80,7 +80,7 @@ export default function Register() {
         <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
           Create Account
         </h1>
-        <HorizontalDivider />
+        <HorizontalDivider className="mx-auto" />
         <p className="text-mine-shaft/80 mt-4">
           Join Maison Senna for a personalized experience
         </p>

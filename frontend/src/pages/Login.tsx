@@ -60,7 +60,7 @@ export default function Login() {
         <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
           Sign In
         </h1>
-        <HorizontalDivider />
+        <HorizontalDivider className="mx-auto" />
         <p className="text-mine-shaft/80 mt-4">Welcome back to Maison Senna</p>
       </div>
 
