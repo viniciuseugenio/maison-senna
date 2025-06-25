@@ -16,4 +16,5 @@ export const API_ENDPOINTS = {
 
 export const CATALOG_ENDPOINTS = {
   PRODUCTS: `${VITE_BACKEND_URL}/catalog/products/`,
+  RETRIEVE_PRODUCT: `${VITE_BACKEND_URL}/catalog/products/:slug/`,
 };

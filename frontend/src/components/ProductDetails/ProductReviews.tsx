@@ -27,7 +27,7 @@ const ProductReviews: FunctionComponent = () => {
         <h2 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
           Customer Reviews
         </h2>
-        <HorizontalDivider />
+        <HorizontalDivider className="mx-auto" />
         <div className="mt-6 flex items-center justify-center">
           <div className="flex">
             {[...Array(5)].map((_, i) => (
