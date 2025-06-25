@@ -3,6 +3,7 @@ import ProjectTool from "./ProjectTool";
 import VerticalDivider from "../VerticalDivider";
 import Button from "../Button";
 import { Github, Linkedin } from "lucide-react";
+import HorizontalDivider from "../HorizontalDivider";
 
 export default function ProjectShowcase() {
   return (
@@ -17,7 +18,8 @@ export default function ProjectShowcase() {
             <h2 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
               Portfolio Project
             </h2>
-            <div className="bg-oyster mt-4 h-[1px] w-20" />
+
+            <HorizontalDivider />
 
             <p className="text-mine-shaft/90 mt-6 leading-relaxed">
               Maison Senna is a concept luxury e-commerce project designed to
