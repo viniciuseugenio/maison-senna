@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import ConnectForm from "./ConnectForm";
+import InputError from "./ProductForm/InputError";
 
 interface FloatingInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -27,7 +28,7 @@ export default function FloatingInput({
 
   const borderColor = isError
     ? "border-red-500 ring-red-200"
-    : "group-focus-within:border-mine-shaft/90 group-focus-within:ring-oyster/30 border-oyster/20 focus-within:border-mine-shaft/90";
+    : "group-focus-within:border-oyster group-focus-within:ring-oyster/30 border-oyster/20 focus-within:border-oyster";
 
   const hasValueStyle = fieldValue ? "top-0 text-sm" : "top-1/2";
 
@@ -61,11 +62,7 @@ export default function FloatingInput({
               />
             </div>
           </div>
-          {error && (
-            <ul className="mt-1 text-xs font-medium text-red-500">
-              <li key={error}>{error}</li>
-            </ul>
-          )}
+          <InputError>{error}</InputError>
         </div>
       )}
     </ConnectForm>
