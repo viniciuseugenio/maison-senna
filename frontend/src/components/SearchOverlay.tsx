@@ -1,7 +1,6 @@
 import { ArrowRight, Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { products } from "../utils/mockProducts";
 import { AnimatePresence, motion } from "motion/react";
 
 interface SearchOverlayProps {
