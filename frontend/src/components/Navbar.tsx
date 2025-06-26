@@ -1,29 +1,44 @@
-import { LogOut, Menu, Search, ShoppingBag } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import { AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router";
-import { useUserContext } from "../hooks/auth";
+import { UiStateType } from "../types/ui.ts";
+import { useUserContext } from "./../hooks/auth.ts";
 import MobileNavigation from "./MobileNavigation";
 import Modal from "./Modal.tsx";
 import NavbarButton from "./NavbarButton";
+import NavbarIcons from "./NavbarIcons.tsx";
 import NavbarLink from "./NavbarLink.tsx";
 import SearchOverlay from "./SearchOverlay";
-import UserDropdown from "./UserDropdown.tsx";
+import ShoppingCart from "./ShoppingCart.tsx";
 
 export default function Navbar() {
-  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const { logout, isAuthenticated } = useUserContext();
+  const [uiState, setUiState] = useState<UiStateType>({
+    logoutModalOpen: false,
+    mobileMenuOpen: false,
+    isSearchOpen: false,
+    isCartOpen: false,
+  });
 
-  function closeMobileMenu() {
-    setMobileMenuOpen(false);
-  }
+  const toggleUI = useCallback((key: keyof UiStateType, value: boolean) => {
+    setUiState((prev) => ({ ...prev, [key]: value }));
+  }, []);
+
+  const { logout } = useUserContext();
+
+  const closeMobileMenu = () => {
+    toggleUI("mobileMenuOpen", false);
+  };
 
   const confirmLogout = () => {
     logout();
-    setLogoutModalOpen(false);
+    toggleUI("logoutModalOpen", false);
   };
+
+  const setCartOpen = useCallback(
+    (value: boolean) => toggleUI("isCartOpen", value),
+    [toggleUI],
+  );
 
   return (
     <>
@@ -33,8 +48,11 @@ export default function Navbar() {
             {/* Mobile button variation */}
             <NavbarButton
               icon
+              aria-label="Open menu"
               className="lg:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() =>
+                toggleUI("mobileMenuOpen", !uiState.mobileMenuOpen)
+              }
             >
               <Menu className="h-4 w-4" />
             </NavbarButton>
@@ -58,34 +76,7 @@ export default function Navbar() {
             </nav>
 
             {/* Icons  */}
-            <div className="flex items-center space-x-4">
-              <NavbarButton icon onClick={() => setIsSearchOpen(true)}>
-                <Search className="h-4 w-4" />
-              </NavbarButton>
-
-              {!isAuthenticated ? (
-                <div className="hidden space-x-3 lg:flex">
-                  <Link to="/login">
-                    <NavbarButton className="px-4 font-medium">
-                      Sign In
-                      {/* <User className="h-4 w-4" /> */}
-                    </NavbarButton>
-                  </Link>
-
-                  <Link to="/register">
-                    <NavbarButton className="px-4 font-medium">
-                      Register
-                    </NavbarButton>
-                  </Link>
-                </div>
-              ) : (
-                <UserDropdown setLogoutModalOpen={setLogoutModalOpen} />
-              )}
-
-              <NavbarButton icon>
-                <ShoppingBag className="h-4 w-4" />
-              </NavbarButton>
-            </div>
+            <NavbarIcons toggleUI={toggleUI} />
           </div>
         </div>
       </header>
@@ -95,8 +86,8 @@ export default function Navbar() {
         title="Sign Out"
         confirmLabel="Sign Out"
         variant="warning"
-        isOpen={logoutModalOpen}
-        onClose={() => setLogoutModalOpen(false)}
+        isOpen={uiState.logoutModalOpen}
+        onClose={() => toggleUI("logoutModalOpen", false)}
         Icon={LogOut}
         onConfirm={confirmLogout}
         description="Are you sure you want to sign out of your account? You will need to sign in again to access your account information."
@@ -104,12 +95,19 @@ export default function Navbar() {
 
       {/* Mobile navigation */}
       <AnimatePresence>
-        {mobileMenuOpen && <MobileNavigation closeMenu={closeMobileMenu} />}
+        {uiState.mobileMenuOpen && (
+          <MobileNavigation closeMenu={closeMobileMenu} />
+        )}
       </AnimatePresence>
 
+      <ShoppingCart
+        isOpen={uiState.isCartOpen}
+        onClose={() => setCartOpen(false)}
+      />
+
       <SearchOverlay
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
+        isOpen={uiState.isSearchOpen}
+        onClose={() => toggleUI("isSearchOpen", false)}
       />
     </>
   );
