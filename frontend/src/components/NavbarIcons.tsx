@@ -1,9 +1,9 @@
 import { Search, ShoppingBag } from "lucide-react";
+import { useUserContext } from "../hooks/auth";
+import { UiStateType } from "../types/navbar";
 import AuthButtons from "./AuthButtons";
 import NavbarButton from "./NavbarButton";
 import UserDropdown from "./UserDropdown";
-import { UiStateType } from "../types/ui";
-import { useUserContext } from "../hooks/auth";
 
 const NavbarIcons: React.FC<{
   toggleUI: (key: keyof UiStateType, value: boolean) => void;

@@ -2,7 +2,7 @@ import { LogOut, Menu } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useCallback, useState } from "react";
 import { Link } from "react-router";
-import { UiStateType } from "../types/ui.ts";
+import { UiStateType } from "../types/navbar";
 import { useUserContext } from "./../hooks/auth.ts";
 import MobileNavigation from "./MobileNavigation";
 import Modal from "./Modal.tsx";

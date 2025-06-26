@@ -1,18 +1,13 @@
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
+import { NavbarLinkProps } from "../types/navbar";
 
-interface NavbarLinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  label: string;
-  className?: string;
-  to: string;
-}
-export default function NavbarLink({
+const NavbarLink: React.FC<NavbarLinkProps> = ({
   label,
   to,
   className,
   ...props
-}: NavbarLinkProps) {
+}) => {
   return (
     <Link
       to={to}
@@ -24,4 +19,6 @@ export default function NavbarLink({
       {label}
     </Link>
   );
-}
+};
+
+export default NavbarLink;
