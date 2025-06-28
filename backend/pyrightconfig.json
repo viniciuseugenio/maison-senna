@@ -1,0 +1,21 @@
+{
+  "include": ["."],
+  "exclude": ["migrations"],
+  "typeCheckingMode": "strict",
+  "reportMissingTypeStubs": false,
+  "reportUnknownMemberType": false,
+  "reportUnknownVariableType": false,
+  "reportIncompatibleMethodOverride": false,
+  "reportUnknownParameterType": false,
+  "reportMissingParameterType": false,
+  "reportUnknownArgumentType": false,
+  "reportUnreachable": false,
+  "pythonVersion": "3.11",
+  "executionEnvironments": [
+    {
+      "root": "./",
+      "extraPaths": ["."]
+    }
+  ]
+}
+
