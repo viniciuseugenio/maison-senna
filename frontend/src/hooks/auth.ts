@@ -4,7 +4,7 @@ import { camelCase } from "change-case";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { checkUserAuthenticity, logoutUser } from "../api/endpoints/auth";
-import { API_ENDPOINTS } from "../api/endpoints/constants";
+import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
 import { ERROR_NOTIFICATIONS } from "../constants/auth";
 import { UserContext } from "../store/UserContext";
@@ -70,7 +70,7 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
 
       try {
         const data: ApiResponse = await customFetch(
-          API_ENDPOINTS.GOOGLE_LOGIN,
+          AUTH_ENDPOINTS.GOOGLE_LOGIN,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

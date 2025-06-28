@@ -1,10 +1,10 @@
 import { LoginForm, RegisterForm } from "../../types/auth";
-import { API_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
+import { AUTH_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
 import { customFetch } from "./customFetch";
 
 export async function loginUser(formData: LoginForm) {
   try {
-    const response = await fetch(API_ENDPOINTS.LOGIN, {
+    const response = await fetch(AUTH_ENDPOINTS.LOGIN, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export async function loginUser(formData: LoginForm) {
 
 export async function registerUser(formData: RegisterForm) {
   try {
-    const response = await fetch(API_ENDPOINTS.REGISTER, {
+    const response = await fetch(AUTH_ENDPOINTS.REGISTER, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export async function registerUser(formData: RegisterForm) {
 
 export async function checkEmailAvailability(email: string) {
   try {
-    const response = await fetch(API_ENDPOINTS.CHECK_EMAIL_AVAILABITY, {
+    const response = await fetch(AUTH_ENDPOINTS.CHECK_EMAIL_AVAILABITY, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,12 +84,12 @@ export async function checkEmailAvailability(email: string) {
 }
 
 export async function checkUserAuthenticity() {
-  return await customFetch(API_ENDPOINTS.CHECK_USER_AUTHENTICITY);
+  return await customFetch(AUTH_ENDPOINTS.CHECK_USER_AUTHENTICITY);
 }
 
 export async function refreshAccessToken() {
   return await customFetch(
-    API_ENDPOINTS.REFRESH_ACCESS_TOKEN,
+    AUTH_ENDPOINTS.REFRESH_ACCESS_TOKEN,
     {
       method: "POST",
     },
@@ -99,7 +99,7 @@ export async function refreshAccessToken() {
 
 export async function logoutUser() {
   return await customFetch(
-    API_ENDPOINTS.LOGOUT,
+    AUTH_ENDPOINTS.LOGOUT,
     {
       method: "POST",
     },
@@ -108,7 +108,7 @@ export async function logoutUser() {
 }
 
 export async function requestPasswordReset(email: string) {
-  return await customFetch(API_ENDPOINTS.REQUEST_PASSWORD_RESET, {
+  return await customFetch(AUTH_ENDPOINTS.REQUEST_PASSWORD_RESET, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -124,7 +124,7 @@ export async function resetPassword({
   token: string;
   new_password: string;
 }) {
-  return await customFetch(API_ENDPOINTS.RESET_PASSWORD, {
+  return await customFetch(AUTH_ENDPOINTS.RESET_PASSWORD, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ uid, token, new_password }),
