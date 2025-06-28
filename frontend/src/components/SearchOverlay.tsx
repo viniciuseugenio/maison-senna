@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Search, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import { listProducts } from "../api/endpoints/products";
 import { ProductList } from "../types/catalog";
 
@@ -12,7 +12,9 @@ interface SearchOverlayProps {
 }
 
 export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
 
   const { data: products } = useQuery<ProductList[]>({
     queryFn: listProducts,
@@ -25,6 +27,17 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
       setSearchResults(products.slice(0, 3));
     }
   }, [products]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setHasSearched(false);
+      setSearchQuery("");
+    }
+
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -54,9 +67,25 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!products) return;
+
+    const filtered = searchQuery
+      ? products.filter((p) =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+      : products.slice(0, 3);
+
+    setSearchResults(filtered.slice(0, 3));
+  }, [searchQuery, products]);
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
+
+    if (query && !hasSearched) {
+      setHasSearched(true);
+    }
   };
 
   return (
@@ -103,6 +132,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                   <Search className="text-oyster/60 h-5 w-5" />
                 </div>
                 <input
+                  ref={inputRef}
                   className="border-b-oyster/30 focus:border-b-oyster placeholder:text-mine-shaft/60 w-full border-b bg-transparent py-4 pr-4 pl-12 text-lg transition-colors outline-none"
                   placeholder="Search for products.."
                   type="text"
@@ -169,16 +199,12 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                   {searchResults &&
                     searchResults.map((product, index) => (
                       <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={hasSearched ? false : { opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+                        key={product.id}
                       >
-                        <Link
-                          key={product.id}
-                          to="/"
-                          onClick={onClose}
-                          className="group"
-                        >
+                        <Link to="/" onClick={onClose} className="group">
                           <div className="bg-oyster/20 relative aspect-square overflow-hidden rounded-sm">
                             <img
                               src={product.referenceImage}
@@ -188,13 +214,13 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                           </div>
                           <div className="mt-4">
                             <p className="text-oyster text-xs font-medium tracking-wider uppercase">
-                              {product.category.id}
+                              {product.category.name}
                             </p>
                             <h4 className="text-mine-shaft mt-1 font-serif text-lg font-light">
                               {product.name}
                             </h4>
                             <p className="text-mine-shaft/80 mt-1 text-sm">
-                              {product.basePrice}
+                              ${product.basePrice}
                             </p>
                           </div>
                         </Link>
