@@ -9,6 +9,11 @@
 }
 
 @layer base {
+  :focus-visible:not(.outline-none) {
+    outline: 2px solid theme("colors.oyster");
+    outline-offset: 2px;
+  }
+
   body {
     background-color: var(--color-light);
   }
