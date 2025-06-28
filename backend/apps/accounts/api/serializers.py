@@ -5,9 +5,18 @@ from .constants import SERIALIZER_ERRORS
 
 
 class UserShortSerializer(serializers.ModelSerializer):
+    is_admin = serializers.SerializerMethodField()
+    groups = serializers.SerializerMethodField()
+
     class Meta:
         model = CustomUser
-        fields = ("id", "email", "first_name", "last_name")
+        fields = ("id", "email", "first_name", "last_name", "is_admin", "groups")
+
+    def get_is_admin(self, obj):
+        return obj.is_staff or obj.is_superuser
+
+    def get_groups(self, obj):
+        return list(obj.groups.values_list("name", flat=True))
 
 
 class UserSerializer(serializers.ModelSerializer):
