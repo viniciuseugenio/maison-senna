@@ -4,7 +4,13 @@ import AdminLayout from "./components/Admin/Layout";
 import AuthPageLayout from "./components/AuthPageLayout";
 import BaseLayout from "./components/Layout";
 import UserContextProvider from "./components/UserContextProvider";
+import AdminCategories from "./pages/Admin/Categories";
 import AdminDashboard from "./pages/Admin/Dashboard";
+import AdminProducts from "./pages/Admin/Products";
+import ProductVariations from "./pages/Admin/ProductVariations";
+import VariationKinds from "./pages/Admin/VariationKinds";
+import VariationOptions from "./pages/Admin/VariationOptions";
+import VariationTypes from "./pages/Admin/VariationTypes";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -23,6 +29,24 @@ function App() {
           <Routes>
             <Route element={<AdminLayout />}>
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/products" element={<AdminProducts />} />
+              <Route path="/admin/categories" element={<AdminCategories />} />
+              <Route
+                path="/admin/variation-kinds"
+                element={<VariationKinds />}
+              />
+              <Route
+                path="/admin/variation-types"
+                element={<VariationTypes />}
+              />
+              <Route
+                path="/admin/variation-options"
+                element={<VariationOptions />}
+              />
+              <Route
+                path="/admin/product-variations"
+                element={<ProductVariations />}
+              />
             </Route>
 
             <Route element={<BaseLayout />}>

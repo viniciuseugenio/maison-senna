@@ -21,6 +21,19 @@ export type VariationType = {
   options: VariationOption[];
 };
 
+export type VariationTypeList = {
+  id: number;
+  kind: string;
+  product: string;
+};
+
+export type VariationOptionList = {
+  id: number;
+  type: VariationTypeList;
+  name: string;
+  priceModifier?: number;
+};
+
 export type ProductList = {
   category: Category;
   id: number;
@@ -42,4 +55,13 @@ export type ProductDetails = {
   care: string[];
   materials: string[];
   details: string[];
+};
+
+export type ProductVariation = {
+  id: number;
+  product: string;
+  sku: string;
+  stock: number;
+  image: string;
+  options: VariationOption[];
 };

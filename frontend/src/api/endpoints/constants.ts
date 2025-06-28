@@ -17,5 +17,10 @@ export const API_ENDPOINTS = {
 export const CATALOG_ENDPOINTS = {
   PRODUCTS: `${VITE_BACKEND_URL}/catalog/products/`,
   RETRIEVE_PRODUCT: `${VITE_BACKEND_URL}/catalog/products/:slug/`,
+  LIST_CATEGORIES: `${VITE_BACKEND_URL}/catalog/categories/`,
   ADMIN_METRICS: `${VITE_BACKEND_URL}/catalog/admin/dashboard/metrics/`,
+  LIST_VARIATION_KINDS: `${VITE_BACKEND_URL}/catalog/variation/kinds/`,
+  LIST_VARIATION_TYPES: `${VITE_BACKEND_URL}/catalog/variation/types/`,
+  LIST_VARIATION_OPTIONS: `${VITE_BACKEND_URL}/catalog/variation/options/`,
+  LIST_PRODUCT_VARIATIONS: `${VITE_BACKEND_URL}/catalog/products_variations/`,
 };
