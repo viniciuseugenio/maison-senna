@@ -1,8 +1,7 @@
+import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
-import { useEffect } from "react";
-import { Toaster } from "sonner";
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -12,13 +11,10 @@ export default function Layout() {
   }, [pathname]);
 
   return (
-    <>
-      <Toaster position="top-right" />
-      <main className="min-h-screen">
-        <Navbar />
-        <Outlet />
-        <Footer />
-      </main>
-    </>
+    <main className="min-h-screen">
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </main>
   );
 }

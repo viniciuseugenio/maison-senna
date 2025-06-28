@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import Product from "./pages/Product";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
+import ToasterWrapper from "./components/ToasterWrapper";
 
 const queryClient = new QueryClient();
 
@@ -28,39 +29,41 @@ function App() {
       <UserContextProvider>
         <BrowserRouter>
           <Routes>
-            <Route element={<AdminLayout />}>
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/products" element={<AdminProducts />} />
-              <Route path="/admin/categories" element={<AdminCategories />} />
-              <Route
-                path="/admin/variation-kinds"
-                element={<VariationKinds />}
-              />
-              <Route
-                path="/admin/variation-types"
-                element={<VariationTypes />}
-              />
-              <Route
-                path="/admin/variation-options"
-                element={<VariationOptions />}
-              />
-              <Route
-                path="/admin/product-variations"
-                element={<ProductVariations />}
-              />
-              <Route path="/products/new" element={<NewProduct />} />
-            </Route>
+            <Route element={<ToasterWrapper />}>
+              <Route element={<AdminLayout />}>
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/products" element={<AdminProducts />} />
+                <Route path="/admin/categories" element={<AdminCategories />} />
+                <Route
+                  path="/admin/variation-kinds"
+                  element={<VariationKinds />}
+                />
+                <Route
+                  path="/admin/variation-types"
+                  element={<VariationTypes />}
+                />
+                <Route
+                  path="/admin/variation-options"
+                  element={<VariationOptions />}
+                />
+                <Route
+                  path="/admin/product-variations"
+                  element={<ProductVariations />}
+                />
+                <Route path="/products/new" element={<NewProduct />} />
+              </Route>
 
-            <Route element={<BaseLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="*" element={<NotFound />} />
-              <Route path="/products/:slug" element={<Product />} />
+              <Route element={<BaseLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/products/:slug" element={<Product />} />
 
-              <Route element={<AuthPageLayout />}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route element={<AuthPageLayout />}>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
+                </Route>
               </Route>
             </Route>
           </Routes>
