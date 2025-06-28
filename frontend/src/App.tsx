@@ -14,6 +14,7 @@ import VariationTypes from "./pages/Admin/VariationTypes";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import NewProduct from "./pages/NewProduct";
 import NotFound from "./pages/NotFound";
 import Product from "./pages/Product";
 import Register from "./pages/Register";
@@ -47,6 +48,7 @@ function App() {
                 path="/admin/product-variations"
                 element={<ProductVariations />}
               />
+              <Route path="/products/new" element={<NewProduct />} />
             </Route>
 
             <Route element={<BaseLayout />}>

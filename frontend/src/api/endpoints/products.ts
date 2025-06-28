@@ -7,6 +7,17 @@ export async function listProducts() {
   return await customFetch(CATALOG_ENDPOINTS.PRODUCTS);
 }
 
+export async function createProduct(data: FormData) {
+  return await customFetch(
+    CATALOG_ENDPOINTS.PRODUCTS,
+    {
+      body: data,
+      method: "POST",
+    },
+    true,
+  );
+}
+
 export async function retrieveProduct(slug: string): Promise<ProductDetails> {
   const url = buildApiUrl(CATALOG_ENDPOINTS.RETRIEVE_PRODUCT, { slug });
   return await customFetch(url);
