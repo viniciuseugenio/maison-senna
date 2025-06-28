@@ -11,17 +11,18 @@ import { ProductDetails } from "../types/catalog";
 import ProductLoading from "./ProductLoading";
 
 const Product: React.FC = () => {
-  const [quantity, setQuantity] = useState(1);
-  const { slug } = useParams();
-  const navigate = useNavigate();
   const MIN_QTY = 1;
   const MAX_QTY = 10;
+
+  const [quantity, setQuantity] = useState(MIN_QTY);
+  const { slug } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!slug) {
       navigate("/", { replace: true });
     }
-  }, [slug, navigate]);
+  }, [navigate, slug]);
 
   const handleQuantityChange = (value: number) => {
     if (value >= MIN_QTY && value <= MAX_QTY) {
@@ -30,7 +31,7 @@ const Product: React.FC = () => {
   };
 
   const { data: product, isPending } = useQuery<ProductDetails>({
-    queryFn: () => retrieveProduct(slug!),
+    queryFn: () => retrieveProduct(slug as string),
     queryKey: ["products", slug],
     enabled: !!slug,
   });
@@ -46,7 +47,7 @@ const Product: React.FC = () => {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
             <div className="space-y-4">
               <div className="relative aspect-square overflow-hidden">
-                <img src={product.referenceImage} />
+                <img src={product.referenceImage} alt={product.name} />
               </div>
             </div>
             <div className="flex flex-col">
@@ -83,17 +84,17 @@ const Product: React.FC = () => {
                   <button
                     className="border-oyster/30 text-mine-shaft hover:bg-oyster/10 flex h-full w-12 cursor-pointer items-center justify-center border border-r-0 bg-white transition-colors duration-300"
                     onClick={() => handleQuantityChange(quantity - 1)}
-                    disabled={quantity <= 1}
+                    disabled={quantity <= MIN_QTY}
                   >
                     -
                   </button>
-                  <button className="border-oyster/30 text-mine-shaft flex h-full w-12 items-center justify-center border bg-white">
+                  <span className="border-oyster/30 text-mine-shaft flex h-full w-12 items-center justify-center border bg-white">
                     {quantity}
-                  </button>
+                  </span>
                   <button
                     className="border-l-none border-oyster/30 hover:bg-oyster/10 h-full w-12 cursor-pointer items-center justify-center border bg-white transition-colors duration-300"
                     onClick={() => handleQuantityChange(quantity + 1)}
-                    disabled={quantity >= 10}
+                    disabled={quantity >= MAX_QTY}
                   >
                     +
                   </button>
