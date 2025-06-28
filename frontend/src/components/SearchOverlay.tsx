@@ -1,7 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
+import { listProducts } from "../api/endpoints/products";
+import { ProductList } from "../types/catalog";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -10,7 +13,18 @@ interface SearchOverlayProps {
 
 export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState(products.slice(0, 3));
+
+  const { data: products } = useQuery<ProductList[]>({
+    queryFn: listProducts,
+    queryKey: ["products"],
+  });
+  const [searchResults, setSearchResults] = useState(products?.slice(0, 3));
+
+  useEffect(() => {
+    if (products) {
+      setSearchResults(products.slice(0, 3));
+    }
+  }, [products]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -152,39 +166,40 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                  {searchResults.map((product, index) => (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-                    >
-                      <Link
-                        key={product.id}
-                        to="/"
-                        onClick={onClose}
-                        className="group"
+                  {searchResults &&
+                    searchResults.map((product, index) => (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                       >
-                        <div className="bg-oyster/20 relative aspect-square overflow-hidden rounded-sm">
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                        <div className="mt-4">
-                          <p className="text-oyster text-xs font-medium tracking-wider uppercase">
-                            {product.category}
-                          </p>
-                          <h4 className="text-mine-shaft mt-1 font-serif text-lg font-light">
-                            {product.name}
-                          </h4>
-                          <p className="text-mine-shaft/80 mt-1 text-sm">
-                            {product.price}
-                          </p>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  ))}
+                        <Link
+                          key={product.id}
+                          to="/"
+                          onClick={onClose}
+                          className="group"
+                        >
+                          <div className="bg-oyster/20 relative aspect-square overflow-hidden rounded-sm">
+                            <img
+                              src={product.referenceImage}
+                              alt={product.name}
+                              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                          </div>
+                          <div className="mt-4">
+                            <p className="text-oyster text-xs font-medium tracking-wider uppercase">
+                              {product.category.id}
+                            </p>
+                            <h4 className="text-mine-shaft mt-1 font-serif text-lg font-light">
+                              {product.name}
+                            </h4>
+                            <p className="text-mine-shaft/80 mt-1 text-sm">
+                              {product.basePrice}
+                            </p>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    ))}
                 </div>
               </motion.div>
             </motion.div>
