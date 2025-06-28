@@ -1,15 +1,17 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router";
+import AdminLayout from "./components/Admin/Layout";
 import AuthPageLayout from "./components/AuthPageLayout";
 import BaseLayout from "./components/Layout";
+import UserContextProvider from "./components/UserContextProvider";
+import AdminDashboard from "./pages/Admin/Dashboard";
+import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import Register from "./pages/Register";
-import UserContextProvider from "./components/UserContextProvider";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 import Product from "./pages/Product";
+import Register from "./pages/Register";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +21,10 @@ function App() {
       <UserContextProvider>
         <BrowserRouter>
           <Routes>
+            <Route element={<AdminLayout />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+            </Route>
+
             <Route element={<BaseLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="*" element={<NotFound />} />

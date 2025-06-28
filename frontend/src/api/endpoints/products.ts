@@ -11,3 +11,7 @@ export async function retrieveProduct(slug: string): Promise<ProductDetails> {
   const url = buildApiUrl(CATALOG_ENDPOINTS.RETRIEVE_PRODUCT, { slug });
   return await customFetch(url);
 }
+
+export async function dashboardStatistics() {
+  return await customFetch(CATALOG_ENDPOINTS.ADMIN_METRICS);
+}
