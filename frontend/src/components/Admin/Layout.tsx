@@ -1,10 +1,24 @@
 import { Grid, Home, Layers, Settings, ShoppingBag, Tag } from "lucide-react";
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useNavigate } from "react-router";
 import { Toaster } from "sonner";
 import SectionHeader from "./SectionHeader";
 import SidebarLink from "./SidebarLink";
+import { useUserContext } from "../../hooks/auth";
+import { useEffect } from "react";
+import { toast } from "../../utils/customToast";
 
 const Layout: React.FC = () => {
+  const { user } = useUserContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user && !user.isAdmin) {
+      toast.error({ title: "You cannot access this page!" });
+      navigate("/");
+      return;
+    }
+  }, [user, navigate]);
+
   return (
     <>
       <Toaster position="top-right" />
