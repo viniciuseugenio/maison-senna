@@ -20,6 +20,7 @@ import Product from "./pages/Product";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
 import ToasterWrapper from "./components/ToasterWrapper";
+import UnauthenticatedRoutes from "./components/UnauthenticatedRoutes";
 
 const queryClient = new QueryClient();
 
@@ -58,11 +59,16 @@ function App() {
                 <Route path="*" element={<NotFound />} />
                 <Route path="/products/:slug" element={<Product />} />
 
-                <Route element={<AuthPageLayout />}>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/reset-password" element={<ResetPassword />} />
+                <Route element={<UnauthenticatedRoutes />}>
+                  <Route element={<AuthPageLayout />}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route
+                      path="/forgot-password"
+                      element={<ForgotPassword />}
+                    />
+                    <Route path="/reset-password" element={<ResetPassword />} />
+                  </Route>
                 </Route>
               </Route>
             </Route>
