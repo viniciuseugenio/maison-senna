@@ -1,56 +1,49 @@
 import { LogOut, User } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import {
-  ButtonHTMLAttributes,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
 import { useUserContext } from "../hooks/auth";
 import NavbarButton from "./NavbarButton";
 
-type UserDropdown = {
-  setLogoutModalOpen: React.Dispatch<SetStateAction<boolean>>;
+type UserDropdownProps = {
+  setLogoutModalOpen: (value: boolean) => void;
 };
 
-export function UserDropdownItem({
+type UserDropdownItemProps<T extends React.ElementType> = {
+  as?: T;
+  className?: string;
+  children: React.ReactNode;
+} & React.ComponentPropsWithoutRef<T>;
+
+function UserDropdownItem<T extends React.ElementType = "button">({
+  as,
   children,
   className,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement>) {
+}: UserDropdownItemProps<T>) {
+  const Component = as || "button";
+  const styling = twMerge(
+    `hover:text-mine-shaft hover:bg-oyster/10 flex cursor-pointer items-center rounded-md p-2 text-left font-medium transition-colors duration-300 ${className}`,
+  );
+
   return (
-    <button
-      {...props}
-      className={twMerge(
-        `hover:text-mine-shaft hover:bg-oyster/10 flex cursor-pointer items-center rounded-md p-2 text-left font-medium transition-colors duration-300 ${className}`,
-      )}
-    >
+    <Component className={styling} {...props}>
       {children}
-    </button>
+    </Component>
   );
 }
 
-export default function UserDropdown({ setLogoutModalOpen }: UserDropdown) {
-  const [isOpen, setIsOpen] = useState(false);
+const UserDropdown: React.FC<UserDropdownProps> = ({ setLogoutModalOpen }) => {
   const { user } = useUserContext();
-  const fullName = `${user?.firstName} ${user?.lastName}`;
+  const [isOpen, setIsOpen] = useState(false);
+  const fullName = user ? `${user.firstName} ${user.lastName}` : "Unnamed User";
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const menuItems = [
-    { label: "My Account", icon: null, onClick: () => {} },
-    { label: "My Order", icon: null, onClick: () => {} },
-    { label: "Wishlist", icon: null, onClick: () => {} },
-    {
-      label: "Sign Out",
-      icon: LogOut,
-      onClick: () => {
-        setIsOpen(false);
-        setLogoutModalOpen(true);
-      },
-    },
-  ];
+  const onSignOut = () => {
+    setIsOpen(false);
+    setLogoutModalOpen(true);
+  };
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
@@ -91,16 +84,24 @@ export default function UserDropdown({ setLogoutModalOpen }: UserDropdown) {
               <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
             <div className="m-1 flex flex-col text-sm text-neutral-600">
-              {menuItems.map(({ label, icon: Icon, onClick }) => (
-                <UserDropdownItem key={label} onClick={onClick}>
-                  {Icon && <Icon className="mr-2 h-4 w-4" />}
-                  {label}
+              <UserDropdownItem>My Account</UserDropdownItem>
+              <UserDropdownItem>My Orders</UserDropdownItem>
+              <UserDropdownItem>Wishlist</UserDropdownItem>
+              {user?.isAdmin && (
+                <UserDropdownItem as={Link} to="/admin">
+                  Admin Page
                 </UserDropdownItem>
-              ))}
+              )}
+              <UserDropdownItem onClick={onSignOut}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Sign Out
+              </UserDropdownItem>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-}
+};
+
+export default UserDropdown;
