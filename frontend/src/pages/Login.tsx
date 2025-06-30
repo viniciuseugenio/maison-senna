@@ -1,22 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useMutation } from "@tanstack/react-query";
-import { camelCase } from "change-case";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { loginUser } from "../api/endpoints/auth";
+import LoginPasswordInput from "../components/Auth/LoginPasswordInput";
+import SocialLogin from "../components/Auth/SocialLogin";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
-import LoginPasswordInput from "../components/Auth/LoginPasswordInput";
-import SocialLogin from "../components/Auth/SocialLogin";
 import { useUserContext } from "../hooks/auth";
 import { loginSchema } from "../schemas/auth";
-import { LoginForm } from "../types/auth";
-import { toast } from "../utils/customToast";
-import { transformKeys } from "../utils/transformKeys";
 import { ApiError, ApiResponse } from "../types/api";
+import { LoginForm, User } from "../types/auth";
+import { toast } from "../utils/customToast";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
@@ -32,14 +30,13 @@ export default function Login() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: loginUser,
-    onSuccess: (data: ApiResponse) => {
-      const userObj = transformKeys(data.user, camelCase);
+    onSuccess: (data: ApiResponse & { user: User }) => {
       toast.success({
         title: data.detail,
         description: data.description,
       });
 
-      setUser(userObj);
+      setUser(data.user);
       navigate("/");
     },
     onError: (error: ApiError) => {

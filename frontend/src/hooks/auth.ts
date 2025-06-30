@@ -13,14 +13,18 @@ import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
 
 export const useCheckUser = () => {
-  const { data, refetch, isError, error } = useQuery({
+  const {
+    data: user,
+    refetch,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["user"],
     queryFn: checkUserAuthenticity,
     retry: false,
     refetchOnWindowFocus: false,
   });
 
-  const user = transformKeys(data, camelCase);
   return { user, refetch, isError, error };
 };
 
