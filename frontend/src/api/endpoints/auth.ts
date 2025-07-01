@@ -3,84 +3,37 @@ import { AUTH_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
 import { customFetch } from "./customFetch";
 
 export async function loginUser(formData: LoginForm) {
-  try {
-    const response = await fetch(AUTH_ENDPOINTS.LOGIN, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-      credentials: "include",
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.detail);
-    }
-
-    return data;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || UNEXPECTED_ERROR);
-    }
-
-    throw new Error(UNEXPECTED_ERROR);
-  }
+  return await customFetch(AUTH_ENDPOINTS.LOGIN, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
 }
 
 export async function registerUser(formData: RegisterForm) {
-  try {
-    const response = await fetch(AUTH_ENDPOINTS.REGISTER, {
+  return await customFetch(
+    AUTH_ENDPOINTS.REGISTER,
+    {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
-      credentials: "include",
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      if (response.status === 400) {
-        return { errors: data, status: response.status };
-      }
-      throw new Error(data.detail);
-    }
-
-    return data;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || UNEXPECTED_ERROR);
-    }
-
-    throw new Error(UNEXPECTED_ERROR);
-  }
+    },
+    true,
+  );
 }
 
 export async function checkEmailAvailability(email: string) {
-  try {
-    const response = await fetch(AUTH_ENDPOINTS.CHECK_EMAIL_AVAILABITY, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-      credentials: "include",
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.detail);
-    }
-
-    return data;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || UNEXPECTED_ERROR);
-    }
-
-    throw new Error(UNEXPECTED_ERROR);
-  }
+  return await customFetch(AUTH_ENDPOINTS.CHECK_EMAIL_AVAILABITY, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
 }
 
 export async function checkUserAuthenticity() {
