@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
@@ -10,7 +10,6 @@ import SocialLogin from "../components/Auth/SocialLogin";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
-import { useUserContext } from "../hooks/auth";
 import { loginSchema } from "../schemas/auth";
 import { ApiError, ApiResponse } from "../types/api";
 import { LoginForm, User } from "../types/auth";
@@ -19,7 +18,7 @@ import { toast } from "../utils/customToast";
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
 export default function Login() {
-  const { setUser } = useUserContext();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const methods = useForm({
@@ -30,14 +29,17 @@ export default function Login() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: loginUser,
-    onSuccess: (data: ApiResponse & { user: User }) => {
+    onSuccess: async (data: ApiResponse & { user: User }) => {
       toast.success({
         title: data.detail,
         description: data.description,
       });
 
-      setUser(data.user);
       navigate("/");
+
+      setTimeout(() => {
+        queryClient.setQueryData(["user"], data.user);
+      }, 200);
     },
     onError: (error: ApiError) => {
       toast.error({

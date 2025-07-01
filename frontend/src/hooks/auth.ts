@@ -12,22 +12,6 @@ import { ApiResponse } from "../types/api";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
 
-export const useCheckUser = () => {
-  const {
-    data: user,
-    refetch,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["user"],
-    queryFn: checkUserAuthenticity,
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
-
-  return { user, refetch, isError, error };
-};
-
 export function useUserContext() {
   const user = useContext(UserContext);
 
@@ -38,16 +22,14 @@ export function useUserContext() {
   return user;
 }
 
-export function useLogout(clearUser: () => void) {
+export function useLogout() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["logout"],
     mutationFn: logoutUser,
     onSuccess: (data: ApiResponse) => {
-      queryClient.removeQueries({ queryKey: ["user"] });
-      clearUser();
-
+      queryClient.setQueryData(["user"], null);
       toast.info({
         title: data.detail,
         description: data.description,
@@ -63,7 +45,7 @@ export function useLogout(clearUser: () => void) {
 }
 
 export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
-  const { setUser } = useUserContext();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   return useGoogleLogin({
@@ -89,8 +71,10 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
           description: data.description,
         });
 
-        setUser(userObj);
         navigate("/");
+        setTimeout(() => {
+          queryClient.setQueryData(["user"], userObj);
+        }, 200)
       } catch {
         toast.error({
           title: ERROR_NOTIFICATIONS.SOCIAL_LOGIN_ERROR.title,

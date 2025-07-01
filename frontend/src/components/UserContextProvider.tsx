@@ -1,68 +1,59 @@
-import { useCallback, useEffect, useState } from "react";
-import { refreshAccessToken } from "../api/endpoints/auth";
-import { useCheckUser, useLogout } from "../hooks/auth";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import {
+  checkUserAuthenticity,
+  refreshAccessToken,
+} from "../api/endpoints/auth";
+import { ACCESS_TOKEN_LIFETIME } from "../constants/auth";
+import { useLogout } from "../hooks/auth";
 import { UserContext } from "../store/UserContext";
-import { User } from "../types/auth";
-
-function areUsersEqual(a?: User, b?: User): boolean {
-  if (!a || !b) return false;
-  return (
-    a.id === b.id &&
-    a.firstName === b.firstName &&
-    a.lastName === b.lastName &&
-    a.email === b.email
-  );
-}
 
 export default function UserContextProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<User>();
-  const isAuthenticated = !!user;
-
-  const clearUser = () => setUser(undefined);
-  const { mutate: logout } = useLogout(clearUser);
+  const queryClient = useQueryClient();
 
   const {
-    user: updatedUser,
-    isError: isCheckError,
-    refetch: refetchCheckUser,
-  } = useCheckUser();
+    data: user,
+    isLoading,
+    error,
+    isError,
+  } = useQuery({
+    queryKey: ["user"],
+    staleTime: ACCESS_TOKEN_LIFETIME,
+    queryFn: checkUserAuthenticity,
+    retry: false,
+  });
+
+  const isAuthenticated = !!user;
+  const { mutate: logout } = useLogout();
 
   useEffect(() => {
-    if (updatedUser && !areUsersEqual(updatedUser, user)) {
-      setUser(updatedUser);
-    }
-  }, [updatedUser, user]);
+    (async () => {
+      if (error && error.status === 401) {
+        try {
+          const refreshedData = await refreshAccessToken();
 
-  const handleAuthRecovery = useCallback(
-    async function () {
-      try {
-        const refreshedUserData = await refreshAccessToken();
-        if (refreshedUserData) {
-          refetchCheckUser();
-        } else {
-          clearUser();
+          if (refreshedData) {
+            queryClient.setQueryData(["user"], refreshedData);
+          } else if (user) {
+            logout();
+          }
+        } catch {
+          if (user) {
+            logout();
+          }
         }
-      } catch {
-        clearUser();
       }
-    },
-    [refetchCheckUser],
-  );
-
-  useEffect(() => {
-    if (isCheckError && !updatedUser) {
-      handleAuthRecovery();
-    }
-  }, [isCheckError, updatedUser, handleAuthRecovery]);
+    })();
+  }, [user, logout, error, isError, queryClient]);
 
   const contextValue = {
     user,
     isAuthenticated,
-    setUser,
+    isLoading,
     logout,
   };
 

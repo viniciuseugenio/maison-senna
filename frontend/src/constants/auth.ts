@@ -36,3 +36,5 @@ export const ERROR_NOTIFICATIONS = {
     description: "Please, check all requirements and submit again.",
   },
 };
+
+export const ACCESS_TOKEN_LIFETIME = 15 * 60 * 1000;

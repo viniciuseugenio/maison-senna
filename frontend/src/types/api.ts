@@ -11,7 +11,6 @@ export type ApiFormError = {
 };
 
 export type ApiError = {
-  name: "ApiError";
   title: string;
   description?: string;
   status: number;

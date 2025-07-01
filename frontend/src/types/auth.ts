@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { registerSchema, loginSchema } from "../schemas/auth";
-import { SetStateAction } from "react";
+import { loginSchema, registerSchema } from "../schemas/auth";
 
 export type User = {
   id: string;
@@ -13,8 +12,8 @@ export type User = {
 
 export type UserContext = {
   user?: User;
-  isAuthenticated?: boolean;
-  setUser: React.Dispatch<SetStateAction<User | undefined>>;
+  isAuthenticated: boolean;
+  isLoading: boolean;
   logout: () => void;
 };
 
