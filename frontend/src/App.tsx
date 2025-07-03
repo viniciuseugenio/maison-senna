@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router";
+import CategoryModal from "./components/Admin/CategoryModal";
 import AdminLayout from "./components/Admin/Layout";
 import AuthPageLayout from "./components/AuthPageLayout";
 import BaseLayout from "./components/Layout";
@@ -34,7 +35,9 @@ function App() {
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProducts />} />
-                <Route path="categories" element={<AdminCategories />} />
+                <Route path="categories" element={<AdminCategories />}>
+                  <Route path="new" element={<CategoryModal />} />
+                </Route>
                 <Route path="variation-kinds" element={<VariationKinds />} />
                 <Route path="variation-types" element={<VariationTypes />} />
                 <Route

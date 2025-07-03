@@ -18,13 +18,27 @@ export async function createProduct(data: FormData) {
   );
 }
 
+export async function createCategory(data: { name: string }) {
+  return await customFetch(
+    CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
+    {
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    },
+    true,
+  );
+}
+
 export async function retrieveProduct(slug: string): Promise<ProductDetails> {
   const url = buildApiUrl(CATALOG_ENDPOINTS.RETRIEVE_PRODUCT, { slug });
   return await customFetch(url);
 }
 
 export async function listCategories() {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_CATEGORIES);
+  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES);
 }
 
 export async function dashboardStatistics() {
