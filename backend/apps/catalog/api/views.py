@@ -19,6 +19,11 @@ class OrderedListView(ListAPIView):
     ordering = ["-id"]
 
 
+class OrderedListCreateView(ListCreateAPIView):
+    filter_backends = [filters.OrderingFilter]
+    ordering = ["-id"]
+
+
 class ProductView(ListCreateAPIView):
     queryset = models.Product.objects.all()
     parser_classes = [MultiPartParser, FormParser]
@@ -40,8 +45,8 @@ class ProductDetailsView(RetrieveAPIView):
     lookup_field = "slug"
 
 
-class CategoryListView(OrderedListView):
-    queryset = models.Category.objects.all().order_by("-id")
+class CategoryListCreateView(OrderedListCreateView):
+    queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
 
 

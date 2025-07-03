@@ -15,7 +15,7 @@ urlpatterns = [
     ),
     path(
         "categories/",
-        views.CategoryListView.as_view(),
+        views.CategoryListCreateView.as_view(),
         name="categories_list",
     ),
     path(
