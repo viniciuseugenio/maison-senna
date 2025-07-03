@@ -26,7 +26,7 @@ const AdminProducts: React.FC = () => {
     <AdminPageLayout
       title="Products"
       actionLabel="New Product"
-      actionLink="/products/new"
+      actionLink="new"
       onSearch={(value) => console.log(value)}
       headers={headers}
     >

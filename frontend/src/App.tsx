@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import AdminLayout from "./components/Admin/Layout";
 import AuthPageLayout from "./components/AuthPageLayout";
 import BaseLayout from "./components/Layout";
+import ToasterWrapper from "./components/ToasterWrapper";
+import UnauthenticatedRoutes from "./components/UnauthenticatedRoutes";
 import UserContextProvider from "./components/UserContextProvider";
 import AdminCategories from "./pages/Admin/Categories";
 import AdminDashboard from "./pages/Admin/Dashboard";
@@ -19,8 +21,6 @@ import NotFound from "./pages/NotFound";
 import Product from "./pages/Product";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
-import ToasterWrapper from "./components/ToasterWrapper";
-import UnauthenticatedRoutes from "./components/UnauthenticatedRoutes";
 
 const queryClient = new QueryClient();
 
@@ -31,27 +31,21 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<ToasterWrapper />}>
-              <Route element={<AdminLayout />}>
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/admin/products" element={<AdminProducts />} />
-                <Route path="/admin/categories" element={<AdminCategories />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="categories" element={<AdminCategories />} />
+                <Route path="variation-kinds" element={<VariationKinds />} />
+                <Route path="variation-types" element={<VariationTypes />} />
                 <Route
-                  path="/admin/variation-kinds"
-                  element={<VariationKinds />}
-                />
-                <Route
-                  path="/admin/variation-types"
-                  element={<VariationTypes />}
-                />
-                <Route
-                  path="/admin/variation-options"
+                  path="variation-options"
                   element={<VariationOptions />}
                 />
                 <Route
-                  path="/admin/product-variations"
+                  path="product-variations"
                   element={<ProductVariations />}
                 />
-                <Route path="/products/new" element={<NewProduct />} />
+                <Route path="products/new" element={<NewProduct />} />
               </Route>
 
               <Route element={<BaseLayout />}>
