@@ -1,18 +1,13 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
 from . import views
 
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r"admin/dashboard", views.DashboardViewSet, basename="dashboard")
+router.register("products", views.ProductViewSet, basename="products")
 
 urlpatterns = [
-    path("products/", views.ProductView.as_view(), name="products_list"),
-    path(
-        "products/<slug:slug>/",
-        views.ProductDetailsView.as_view(),
-        name="product_details",
-    ),
     path(
         "categories/",
         views.CategoryListCreateView.as_view(),

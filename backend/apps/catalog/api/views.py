@@ -1,12 +1,10 @@
 from django.contrib.auth import get_user_model
 from rest_framework import filters
 from rest_framework.decorators import action
-from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
-from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.permissions import IsAdminUser
+from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from .. import models
 from . import serializers
@@ -24,25 +22,27 @@ class OrderedListCreateView(ListCreateAPIView):
     ordering = ["-id"]
 
 
-class ProductView(ListCreateAPIView):
+class ProductViewSet(ModelViewSet):
     queryset = models.Product.objects.all()
-    parser_classes = [MultiPartParser, FormParser]
+    lookup_field = "slug"
     filter_backends = [filters.OrderingFilter]
     ordering = ["-id"]
 
-    serializer_class = serializers.ProductListSerializer
-
     def get_serializer_class(self):
-        if self.request.method == "POST":
+        if self.action == "retrieve":
+            return serializers.ProductSerializer
+
+        if self.action in ["partial_update", "create"]:
             return serializers.ProductCreateSerializer
 
         return serializers.ProductListSerializer
 
+    def get_permissions(self):
+        admin_only_actions = {"create", "partial_update", "destroy", "update"}
+        if self.action in admin_only_actions:
+            return [IsAdminUser()]
 
-class ProductDetailsView(RetrieveAPIView):
-    queryset = models.Product.objects.all().order_by("-id")
-    serializer_class = serializers.ProductSerializer
-    lookup_field = "slug"
+        return [AllowAny()]
 
 
 class CategoryListCreateView(OrderedListCreateView):
