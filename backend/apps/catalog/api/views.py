@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import filters
 from rest_framework.decorators import action
-from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.generics import (ListAPIView, ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
@@ -18,7 +19,7 @@ class OrderedListView(ListAPIView):
     ordering = ["-id"]
 
 
-class OrderedListCreateView(ListCreateAPIView):
+class OrderedListMixin:
     filter_backends = [filters.OrderingFilter]
     ordering = ["-id"]
 
@@ -50,8 +51,17 @@ class ProductViewSet(ModelViewSet):
         return [AllowAny()]
 
 
-class CategoryListCreateView(OrderedListCreateView):
+class CategoryListCreateView(
+    OrderedListMixin,
+    ListCreateAPIView,
+):
     queryset = models.Category.objects.all()
+    serializer_class = serializers.CategorySerializer
+
+
+class CategoryDetailsView(RetrieveUpdateDestroyAPIView):
+    queryset = models.Category.objects.all()
+    permission_classes = [IsAdminUser]
     serializer_class = serializers.CategorySerializer
 
 
