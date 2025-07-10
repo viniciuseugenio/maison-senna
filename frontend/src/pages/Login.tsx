@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { camelCase } from "change-case";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
@@ -14,6 +15,7 @@ import { loginSchema } from "../schemas/auth";
 import { ApiError, ApiResponse } from "../types/api";
 import { LoginForm, User } from "../types/auth";
 import { toast } from "../utils/customToast";
+import { transformKeys } from "../utils/transformKeys";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
@@ -37,8 +39,9 @@ export default function Login() {
 
       navigate("/");
 
+      const camelUser = transformKeys(data.user, camelCase);
       setTimeout(() => {
-        queryClient.setQueryData(["user"], data.user);
+        queryClient.setQueryData(["user"], camelUser);
       }, 200);
     },
     onError: (error: ApiError) => {
