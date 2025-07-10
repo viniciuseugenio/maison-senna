@@ -14,7 +14,9 @@ export async function createProduct(data: FormData) {
       body: data,
       method: "POST",
     },
-    true,
+    {
+      ignore400Response: true,
+    },
   );
 }
 
@@ -32,7 +34,11 @@ export async function editProduct({
       body: data,
       method: "PATCH",
     },
-    true,
+    {
+      ignore400Response: true,
+    },
+  );
+}
   );
 }
 
@@ -46,7 +52,9 @@ export async function createCategory(data: { name: string }) {
       },
       method: "POST",
     },
-    true,
+    {
+      ignore400Response: true,
+    },
   );
 }
 

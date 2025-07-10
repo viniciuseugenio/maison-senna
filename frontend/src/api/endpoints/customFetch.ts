@@ -5,18 +5,21 @@ import { UNEXPECTED_ERROR } from "./constants";
 export async function customFetch(
   url: string,
   options?: RequestInit,
-  ignore400?: boolean,
+  additionalOptions?: {
+    ignore400Response?: boolean;
+  },
 ) {
   try {
     const response = await fetch(url, {
       ...options,
       credentials: "include",
     });
+
     const data = await response.json();
     const camelData = transformKeys(data, camelCase);
 
     if (!response.ok) {
-      if (response.status === 400 && ignore400) {
+      if (response.status === 400 && additionalOptions?.ignore400Response) {
         return { errors: camelData, status: response.status };
       }
       throw {

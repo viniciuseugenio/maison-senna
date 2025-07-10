@@ -22,7 +22,9 @@ export async function registerUser(formData: RegisterForm) {
       },
       body: JSON.stringify(formData),
     },
-    true,
+    {
+      ignore400Response: true,
+    }
   );
 }
 
@@ -46,7 +48,6 @@ export async function refreshAccessToken() {
     {
       method: "POST",
     },
-    false,
   );
 }
 
@@ -56,7 +57,6 @@ export async function logoutUser() {
     {
       method: "POST",
     },
-    false,
   );
 }
 
