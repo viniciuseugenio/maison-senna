@@ -1,10 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   checkUserAuthenticity,
   refreshAccessToken,
 } from "../api/endpoints/auth";
-import { ACCESS_TOKEN_LIFETIME } from "../constants/auth";
 import { useLogout } from "../hooks/auth";
 import { UserContext } from "../store/UserContext";
 
@@ -14,6 +13,7 @@ export default function UserContextProvider({
   children: React.ReactNode;
 }) {
   const queryClient = useQueryClient();
+  const [isInitializing, setIsInitializing] = useState(true);
 
   const {
     data: user,
@@ -22,8 +22,16 @@ export default function UserContextProvider({
     isError,
   } = useQuery({
     queryKey: ["user"],
-    staleTime: ACCESS_TOKEN_LIFETIME,
     queryFn: checkUserAuthenticity,
+    retry: false,
+    staleTime: 1 * 60 * 1000,
+    refetchOnWindowFocus: "always",
+  });
+
+  const { isLoading: refreshIsLoading, refetch: fetchRefreshUser } = useQuery({
+    queryKey: ["refreshUser"],
+    queryFn: refreshAccessToken,
+    enabled: false,
     retry: false,
   });
 
@@ -32,28 +40,41 @@ export default function UserContextProvider({
 
   useEffect(() => {
     (async () => {
+      if (user && !error) {
+        setIsInitializing(false);
+        return;
+      }
+
       if (error && error.status === 401) {
         try {
-          const refreshedData = await refreshAccessToken();
+          const { data } = await fetchRefreshUser();
 
-          if (refreshedData) {
-            queryClient.setQueryData(["user"], refreshedData);
-          } else if (user) {
+          if (data) {
+            queryClient.setQueryData(["user"], data);
+          } else {
             logout();
           }
         } catch {
-          if (user) {
-            logout();
-          }
+          logout();
+        } finally {
+          setIsInitializing(false);
         }
       }
     })();
-  }, [user, logout, error, isError, queryClient]);
+  }, [
+    user,
+    logout,
+    error,
+    isError,
+    queryClient,
+    isInitializing,
+    fetchRefreshUser,
+  ]);
 
   const contextValue = {
     user,
     isAuthenticated,
-    isLoading,
+    isLoading: isInitializing || isLoading || refreshIsLoading,
     logout,
   };
 

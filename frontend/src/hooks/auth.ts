@@ -29,11 +29,15 @@ export function useLogout() {
     mutationKey: ["logout"],
     mutationFn: logoutUser,
     onSuccess: (data: ApiResponse) => {
+      const previousUser = queryClient.getQueryData(["user"]);
       queryClient.setQueryData(["user"], null);
-      toast.info({
-        title: data.detail,
-        description: data.description,
-      });
+
+      if (previousUser) {
+        toast.info({
+          title: data.detail,
+          description: data.description,
+        });
+      }
     },
     onError: () => {
       toast.error({
@@ -74,7 +78,7 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
         navigate("/");
         setTimeout(() => {
           queryClient.setQueryData(["user"], userObj);
-        }, 200)
+        }, 200);
       } catch {
         toast.error({
           title: ERROR_NOTIFICATIONS.SOCIAL_LOGIN_ERROR.title,
