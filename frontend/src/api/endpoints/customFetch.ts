@@ -7,6 +7,7 @@ export async function customFetch(
   options?: RequestInit,
   additionalOptions?: {
     ignore400Response?: boolean;
+    noContent?: boolean;
   },
 ) {
   try {
@@ -14,10 +15,13 @@ export async function customFetch(
       ...options,
       credentials: "include",
     });
+    let data = response;
 
-    const data = await response.json();
+    if (!additionalOptions?.noContent) {
+      data = await response.json();
+    }
+
     const camelData = transformKeys(data, camelCase);
-
     if (!response.ok) {
       if (response.status === 400 && additionalOptions?.ignore400Response) {
         return { errors: camelData, status: response.status };
