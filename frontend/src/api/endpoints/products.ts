@@ -39,8 +39,7 @@ export async function editProduct({
     },
   );
 }
-  );
-}
+
 
 export async function createCategory(data: { name: string }) {
   return await customFetch(
