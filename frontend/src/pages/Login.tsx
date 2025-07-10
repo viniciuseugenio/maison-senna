@@ -39,9 +39,8 @@ export default function Login() {
 
       navigate("/");
 
-      const camelUser = transformKeys(data.user, camelCase);
       setTimeout(() => {
-        queryClient.setQueryData(["user"], camelUser);
+        queryClient.setQueryData(["user"], data.user);
       }, 200);
     },
     onError: (error: ApiError) => {

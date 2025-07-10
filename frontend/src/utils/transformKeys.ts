@@ -19,7 +19,12 @@ export function transformKeys<T>(
 
   if (obj !== null && typeof obj === "object") {
     return Object.entries(obj).reduce((acc, [key, value]) => {
-      acc[transformer(key)] = value;
+      const newKey = transformer(key);
+      const newValue =
+        typeof value === "object" && value !== null
+          ? transformKeys(value, transformer)
+          : value;
+      acc[newKey] = newValue;
       return acc;
     }, {} as any);
   }
