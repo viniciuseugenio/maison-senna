@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import Product from "./pages/Product";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
+import EditProduct from "./pages/EditProduct";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ function App() {
                   element={<ProductVariations />}
                 />
                 <Route path="products/new" element={<NewProduct />} />
+                <Route path="products/edit/:slug" element={<EditProduct />} />
               </Route>
 
               <Route element={<BaseLayout />}>

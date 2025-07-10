@@ -18,6 +18,24 @@ export async function createProduct(data: FormData) {
   );
 }
 
+export async function editProduct({
+  data,
+  slug,
+}: {
+  data: FormData;
+  slug: string;
+}) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
+  return await customFetch(
+    url,
+    {
+      body: data,
+      method: "PATCH",
+    },
+    true,
+  );
+}
+
 export async function createCategory(data: { name: string }) {
   return await customFetch(
     CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
@@ -33,7 +51,7 @@ export async function createCategory(data: { name: string }) {
 }
 
 export async function retrieveProduct(slug: string): Promise<ProductDetails> {
-  const url = buildApiUrl(CATALOG_ENDPOINTS.RETRIEVE_PRODUCT, { slug });
+  const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
   return await customFetch(url);
 }
 

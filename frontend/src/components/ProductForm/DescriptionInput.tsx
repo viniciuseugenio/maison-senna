@@ -2,7 +2,10 @@ import ConnectForm from "../ConnectForm";
 import { twMerge } from "tailwind-merge";
 import InputError from "../InputError";
 
-const DescriptionInput: React.FC<{ error?: string }> = ({ error }) => {
+const DescriptionInput: React.FC<{ value?: string; error?: string }> = ({
+  error,
+  value,
+}) => {
   return (
     <ConnectForm>
       {({ register }) => (
@@ -16,6 +19,7 @@ const DescriptionInput: React.FC<{ error?: string }> = ({ error }) => {
               `${error ? "border-red-500 ring-red-200" : "border-oyster/20 focus:border-oyster ring-oyster/30"}`,
             )}
             rows={4}
+            defaultValue={value}
             {...register("description")}
             placeholder="Enter product description"
           />

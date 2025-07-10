@@ -16,7 +16,7 @@ export const AUTH_ENDPOINTS = {
 
 export const CATALOG_ENDPOINTS = {
   PRODUCTS: `${VITE_BACKEND_URL}/catalog/products/`,
-  RETRIEVE_PRODUCT: `${VITE_BACKEND_URL}/catalog/products/:slug/`,
+  PRODUCT_DETAILS: `${VITE_BACKEND_URL}/catalog/products/:slug/`,
   LIST_CREATE_CATEGORIES: `${VITE_BACKEND_URL}/catalog/categories/`,
   ADMIN_METRICS: `${VITE_BACKEND_URL}/catalog/admin/dashboard/metrics/`,
   LIST_VARIATION_KINDS: `${VITE_BACKEND_URL}/catalog/variation/kinds/`,

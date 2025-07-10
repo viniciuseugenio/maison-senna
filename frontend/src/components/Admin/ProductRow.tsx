@@ -19,7 +19,7 @@ const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
       <TableData>{product.category.name}</TableData>
       <TableData>{product.basePrice}</TableData>
       <TableData>{product.slug}</TableData>
-      <TableActions editLink="/" deleteLink="/" />
+      <TableActions editLink={`edit/${product.slug}`} deleteLink="/" />
     </TableRow>
   );
 };

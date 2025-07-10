@@ -6,9 +6,10 @@ import InputError from "./InputError";
 interface FloatingInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  label?: string;
+  label: string;
   icon?: React.ReactNode;
   error?: string;
+  value?: string;
   customBorder?: string;
 }
 
@@ -18,6 +19,7 @@ export default function FloatingInput({
   icon,
   error,
   type,
+  value = "",
   customBorder,
   ...props
 }: FloatingInputProps) {
@@ -30,7 +32,7 @@ export default function FloatingInput({
     ? "border-red-500 ring-red-200"
     : "group-focus-within:border-oyster group-focus-within:ring-oyster/30 border-oyster/20 focus-within:border-oyster";
 
-  const hasValueStyle = fieldValue ? "top-0 text-sm" : "top-1/2";
+  const hasValueStyle = fieldValue || value ? "top-0 text-sm" : "top-1/2";
 
   return (
     <ConnectForm>

@@ -8,22 +8,30 @@ type ProductSpecsProps = {
   name: string;
   label: string;
   placeholder: string;
+  value?: string[];
   error?: string;
 };
 
 const ProductSpecs: React.FC<ProductSpecsProps> = ({
   name,
+  value = [],
   label,
   error,
   placeholder,
 }) => {
-  const [specs, setSpecs] = useState<string[]>([]);
+  const [specs, setSpecs] = useState<string[]>(value);
   const inputRef = useRef<HTMLInputElement>(null);
   const { setValue } = useFormContext();
 
   useEffect(() => {
+    if (value && !specs) {
+      setSpecs(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
     setValue(name, specs, { shouldValidate: true });
-  }, [specs, name]);
+  }, [specs, name, setValue]);
 
   const onAdd = () => {
     if (!inputRef.current) return;

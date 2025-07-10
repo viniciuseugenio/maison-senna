@@ -6,15 +6,17 @@ import ConnectForm from "../ConnectForm";
 
 type ImageInputProps = {
   name?: string;
+  value?: string;
   error?: string;
 };
 
 const ImageInput: React.FC<ImageInputProps> = ({
   name = "referenceImage",
+  value,
   error,
 }) => {
   const [image, setImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(value);
   const { setValue } = useFormContext();
 
   useEffect(() => {

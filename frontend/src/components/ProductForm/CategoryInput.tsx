@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, Tag } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { listCategories } from "../../api/endpoints/products";
 import { Category } from "../../types/catalog";
@@ -15,7 +15,7 @@ type CategoryInputProps = {
 
 const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [category, setCategory] = useState<Category | null>(null);
+  const [category, setCategory] = useState<Category | null>(value || null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { setValue } = useFormContext();
 
@@ -24,13 +24,22 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
     queryKey: ["categories"],
   });
 
+  const handleCategorySelect = useCallback(
+    (value: Category) => {
+      setCategory(value);
+      setValue("category", value.id, { shouldValidate: true });
+    },
+    [setValue],
+  );
+
   useEffect(() => {
-    if (value) setCategory(value);
-  }, [value]);
+    if (value && !category) {
+      handleCategorySelect(value);
+    }
+  }, [value, setValue, handleCategorySelect, category]);
 
   const selectCategory = (category: Category) => {
-    setCategory(category);
-    setValue("category", category.id, { shouldValidate: true });
+    handleCategorySelect(category);
     setIsOpen(false);
   };
 
