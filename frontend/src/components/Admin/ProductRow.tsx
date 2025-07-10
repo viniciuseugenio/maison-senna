@@ -1,9 +1,15 @@
+import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
+import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
 import { ProductList } from "../../types/catalog";
 import TableActions from "./RowActions";
 import TableData from "./TableData";
 import TableRow from "./TableRow";
 
 const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
+  const deleteLink = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, {
+    slug: product.slug,
+  });
+
   return (
     <TableRow>
       <TableData>{product.id}</TableData>
@@ -19,7 +25,12 @@ const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
       <TableData>{product.category.name}</TableData>
       <TableData>{product.basePrice}</TableData>
       <TableData>{product.slug}</TableData>
-      <TableActions editLink={`edit/${product.slug}`} deleteLink="/" />
+      <TableActions
+        editLink={`edit/${product.slug}`}
+        deleteLink={deleteLink}
+        resourceType="Product"
+        queryKey={["products"]}
+      />
     </TableRow>
   );
 };
