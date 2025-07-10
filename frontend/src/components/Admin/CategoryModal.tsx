@@ -62,18 +62,18 @@ const CategoryModal: React.FC = () => {
       className="fixed inset-0 z-50 flex items-center justify-center"
     >
       <motion.div
-        className="absolute inset-0 bg-black/40 backdrop-blur-xs"
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.2 }}
         onClick={onClose}
       />
       <motion.div
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -15 }}
-        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        transition={{ type: "spring", damping: 20, stiffness: 300 }}
         className="border-oyster/30 relative z-20 min-w-md rounded-md border bg-white p-4 shadow-lg"
       >
         <button
