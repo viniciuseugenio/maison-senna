@@ -15,7 +15,6 @@
     "@tailwindcss/vite": "^4.1.1",
     "@tanstack/react-query": "^5.71.3",
     "change-case": "^5.4.4",
-    "humps": "^2.0.1",
     "lucide-react": "^0.487.0",
     "motion": "^12.6.3",
     "react": "^19.0.0",

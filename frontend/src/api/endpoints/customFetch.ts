@@ -1,5 +1,6 @@
+import { camelCase } from "change-case";
+import { transformKeys } from "../../utils/transformKeys";
 import { UNEXPECTED_ERROR } from "./constants";
-import humps from "humps";
 
 export async function customFetch(
   url: string,
@@ -12,7 +13,7 @@ export async function customFetch(
       credentials: "include",
     });
     const data = await response.json();
-    const camelData = humps.camelizeKeys(data);
+    const camelData = transformKeys(data, camelCase);
 
     if (!response.ok) {
       if (response.status === 400 && ignore400) {
