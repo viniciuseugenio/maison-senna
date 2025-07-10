@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export default z.object({
   name: z.string().min(6, "The product name must have at least 6 characters."),
-  base_price: z
+  basePrice: z
     .string()
     .trim()
     .transform((val, ctx) => {
@@ -15,7 +15,11 @@ export default z.object({
         return z.NEVER;
       }
       return parsed;
-    }),
+    })
+    .refine((val) => val >= 1, {
+      message: "Price must be at least 1.",
+    })
+    .transform((val) => val.toFixed(2)),
   description: z
     .string()
     .min(24, "The product description must have at least 24 characters."),
@@ -29,7 +33,7 @@ export default z.object({
   care: z
     .array(z.string())
     .min(1, "The product must have at least one care instruction."),
-  reference_image: z
+  referenceImage: z
     .instanceof(File, { message: "An image is required." })
     .refine((file) => file.size > 0, { message: "An image is required." })
     .refine((file) => file.type.startsWith("image/"), {

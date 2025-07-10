@@ -2,6 +2,7 @@ import { Upload, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
+import ConnectForm from "../ConnectForm";
 
 type ImageInputProps = {
   name?: string;
@@ -9,7 +10,7 @@ type ImageInputProps = {
 };
 
 const ImageInput: React.FC<ImageInputProps> = ({
-  name = "reference_image",
+  name = "referenceImage",
   error,
 }) => {
   const [image, setImage] = useState<File | null>(null);
@@ -50,24 +51,29 @@ const ImageInput: React.FC<ImageInputProps> = ({
       </div>
       {!previewUrl ? (
         <>
-          <label
-            htmlFor="image"
-            className={twMerge(
-              `border-oyster/30 bg-oyster/10 hover:bg-oyster/20 outline-oyster flex h-64 w-full max-w-md cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed transition-colors duration-300 focus-visible:outline-2`,
-              `${error && "border-red-400"}`,
+          <ConnectForm>
+            {({ register }) => (
+              <label
+                {...register("referenceImage")}
+                htmlFor="image"
+                className={twMerge(
+                  `border-oyster/30 bg-oyster/10 hover:bg-oyster/20 outline-oyster flex h-64 w-full max-w-md cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed transition-colors duration-300 focus-visible:outline-2`,
+                  `${error && "border-red-400"}`,
+                )}
+                tabIndex={0}
+                role="button"
+                onKeyDown={openImagePrompt}
+              >
+                <Upload className="text-oyster mx-auto mb-2 h-10 w-10" />
+                <p className="text-mine-shaft/90 mb-2 text-sm">
+                  Click to upload main product image
+                </p>
+                <span className="text-mine-shaft/50 text-xs">
+                  PNG, JPG or WEBP (max. 5MB)
+                </span>
+              </label>
             )}
-            tabIndex={0}
-            role="button"
-            onKeyDown={openImagePrompt}
-          >
-            <Upload className="text-oyster mx-auto mb-2 h-10 w-10" />
-            <p className="text-mine-shaft/90 mb-2 text-sm">
-              Click to upload main product image
-            </p>
-            <span className="text-mine-shaft/50 text-xs">
-              PNG, JPG or WEBP (max. 5MB)
-            </span>
-          </label>
+          </ConnectForm>
           <p className="mt-1 text-xs font-medium text-red-600">{error}</p>
           <input
             onChange={handleImageChange}
