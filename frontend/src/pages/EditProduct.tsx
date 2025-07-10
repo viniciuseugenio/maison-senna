@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { snakeCase } from "change-case";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { editProduct, retrieveProduct } from "../api/endpoints/products";
@@ -8,71 +7,12 @@ import BackButton from "../components/Admin/BackButton";
 import HorizontalDivider from "../components/HorizontalDivider";
 import ProductForm from "../components/ProductForm";
 import newProduct from "../schemas/newProduct";
+import { ApiFormError, ApiResponse } from "../types/api";
 import { ProductDetails } from "../types/catalog";
 import { NewProductForm } from "../types/forms";
-import { ApiFormError, ApiResponse } from "../types/api";
-
-import { isApiFormError } from "../utils/typeGuards";
 import { toast } from "../utils/customToast";
-
-function getUpdatedFields(original: ProductDetails, current: NewProductForm) {
-  const updated: Record<string, any> = {};
-  const entries = Object.entries(current) as [
-    keyof NewProductForm,
-    NewProductForm[keyof NewProductForm],
-  ][];
-
-  entries.forEach(([key, value]) => {
-    if (key === "category") {
-      if (original[key].id !== value) {
-        updated[key] = value;
-      }
-      return;
-    }
-
-    if (["care", "details", "materials"].includes(key)) {
-      if (original[key].length !== value.length) {
-        updated[key] = value;
-      }
-
-      const updatedItems = value.filter(
-        (value, i) => value !== original[key][i],
-      );
-
-      if (updatedItems.length >= 1) updated[key] = value;
-      return;
-    }
-
-    if (original[key] !== value) {
-      updated[key] = value;
-    }
-  });
-
-  return updated;
-}
-
-function partialFormData(data: Partial<NewProductForm>) {
-  const formData = new FormData();
-  const entries = Object.entries(data) as [
-    keyof NewProductForm,
-    NewProductForm[keyof NewProductForm],
-  ][];
-
-  entries.forEach(([key, value]) => {
-    let parsedValue;
-
-    if (value instanceof Array) {
-      parsedValue = JSON.stringify(value);
-    }
-
-    const transformedKey = snakeCase(key);
-    const newValue = parsedValue || value;
-
-    formData.append(transformedKey, newValue);
-  });
-
-  return formData;
-}
+import { getUpdatedFields, partialFormData } from "../utils/products/helpers";
+import { isApiFormError } from "../utils/typeGuards";
 
 const EditProduct: React.FC = () => {
   const { slug } = useParams();
