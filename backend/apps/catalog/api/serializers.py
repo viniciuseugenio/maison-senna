@@ -104,24 +104,66 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
 
+class ProductSerializerFieldsMixin:
+    model = models.Product
+    fields = [
+        "id",
+        "category",
+        "name",
+        "base_price",
+        "reference_image",
+        "description",
+        "details",
+        "materials",
+        "care",
+    ]
+
+
+class ProductUpdateSerializer(serializers.ModelSerializer):
+    class Meta(ProductSerializerFieldsMixin):
+        pass
+
+    def validate(self, attrs):
+        errors = {}
+
+        name = attrs.get("name")
+        base_price = attrs.get("base_price")
+        details = attrs.get("details")
+        care = attrs.get("care")
+        materials = attrs.get("materials")
+
+        print("details", details)
+
+        if name is not None and len(name) < 6:
+            errors["name"] = "Name must have at least 6 characters"
+
+        if base_price is not None and base_price < 1:
+            errors["base_price"] = "Price must be at least 1."
+
+        if details is not None and not details:
+            errors["details"] = "The product must have at least one detail."
+
+        if care is not None and not care:
+            errors["care"] = "The product must have at least one care instruction."
+
+        if materials is not None and not materials:
+            errors["materials"] = (
+                "The product must have at least one material in the list."
+            )
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return super().validate(attrs)
+
+
 class ProductCreateSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=models.Category.objects.all()
     )
 
-    class Meta:
-        model = models.Product
-        fields = [
-            "id",
-            "category",
-            "name",
-            "base_price",
-            "reference_image",
-            "description",
-            "details",
-            "materials",
-            "care",
-        ]
+    class Meta(ProductSerializerFieldsMixin):
+        pass
 
     def validate(self, attrs):
         errors = {}

@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import filters
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
@@ -27,13 +28,17 @@ class ProductViewSet(ModelViewSet):
     lookup_field = "slug"
     filter_backends = [filters.OrderingFilter]
     ordering = ["-id"]
+    parser_classes = [MultiPartParser, FormParser]
 
     def get_serializer_class(self):
         if self.action == "retrieve":
             return serializers.ProductSerializer
 
-        if self.action in ["partial_update", "create"]:
+        if self.action == "create":
             return serializers.ProductCreateSerializer
+
+        if self.action == "partial_update":
+            return serializers.ProductUpdateSerializer
 
         return serializers.ProductListSerializer
 
