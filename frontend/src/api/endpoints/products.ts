@@ -40,6 +40,17 @@ export async function editProduct({
   );
 }
 
+export async function genericDeleteModel(endpoint: string) {
+  return await customFetch(
+    endpoint,
+    {
+      method: "DELETE",
+    },
+    {
+      noContent: true,
+    },
+  );
+}
 
 export async function createCategory(data: { name: string }) {
   return await customFetch(
