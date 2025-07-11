@@ -55,7 +55,12 @@ const VariationTypes: React.FC = () => {
               <TableData>{variationType.id}</TableData>
               <TableData>{variationType.kind}</TableData>
               <TableData>{variationType.product}</TableData>
-              <TableActions editLink="/" deleteLink="/" />
+              <TableActions
+                editLink="/"
+                deleteLink="/"
+                resourceType="Variation Type"
+                queryKey={["variationTypes"]}
+              />
             </TableRow>
           ))}
         </>

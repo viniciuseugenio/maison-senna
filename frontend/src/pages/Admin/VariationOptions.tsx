@@ -64,7 +64,12 @@ const VariationOptions: React.FC = () => {
                 {variationOption.type.kind} ({variationOption.type.product})
               </TableData>
               <TableData>${variationOption.priceModifier ?? "0.00"}</TableData>
-              <TableActions editLink="/" deleteLink="/" />
+              <TableActions
+                editLink="/"
+                deleteLink="/"
+                resourceType="Variation Option"
+                queryKey={["variationOptions"]}
+              />
             </TableRow>
           ))}
         </>

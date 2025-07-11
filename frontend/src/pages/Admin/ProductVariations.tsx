@@ -53,7 +53,12 @@ const ProductVariations: React.FC = () => {
             </TableData>
 
             <TableData>{productVariation.stock}</TableData>
-            <TableActions editLink="/" deleteLink="/" />
+            <TableActions
+              editLink="/"
+              deleteLink="/"
+              resourceType="Product Variation"
+              queryKey={["productVariations"]}
+            />
           </TableRow>
         ))
       )}
