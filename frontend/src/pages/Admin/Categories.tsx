@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
 import { useLocation } from "react-router";
+import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
+import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
 import { listCategories } from "../../api/endpoints/products";
 import CategoryModal from "../../components/Admin/CategoryModal";
 import LoadingRow from "../../components/Admin/LoadingRow";
@@ -21,6 +23,10 @@ const AdminCategories: React.FC = () => {
     queryFn: listCategories,
     queryKey: ["categories"],
   });
+
+  const createDeleteLink = (id: number) => {
+    return buildApiUrl(CATALOG_ENDPOINTS.CATEGORY_DETAILS, { id });
+  };
 
   const headers: HeaderConfig[] = [
     { title: "ID" },
@@ -50,7 +56,12 @@ const AdminCategories: React.FC = () => {
                 <TableData>{category.name}</TableData>
                 <TableData>{category.slug}</TableData>
                 <TableData>12</TableData>
-                <TableActions editLink="/" deleteLink="/" />
+                <TableActions
+                  editLink="/"
+                  deleteLink={createDeleteLink(category.id)}
+                  resourceType="Category"
+                  queryKey={["categories"]}
+                />
               </TableRow>
             ))}
           </>
