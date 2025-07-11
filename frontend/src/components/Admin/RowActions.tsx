@@ -35,7 +35,7 @@ const TableActions: React.FC<TableActionsProps> = ({
     resourceType.charAt(0).toUpperCase() + resourceType.slice(1).toLowerCase();
   const resourceTypeLow = resourceType.toLowerCase();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: genericDeleteModel,
     onSuccess: () => {
       toast.success({
@@ -74,6 +74,7 @@ const TableActions: React.FC<TableActionsProps> = ({
         description={`Are you sure you want to delete this ${resourceTypeLow}? This action cannot be undone.`}
         variant="danger"
         isOpen={isOpen}
+        isPending={isPending}
         onClose={() => setIsOpen(false)}
         onConfirm={() => mutate(deleteLink)}
       />

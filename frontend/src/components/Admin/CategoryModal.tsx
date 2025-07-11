@@ -23,7 +23,7 @@ const CategoryModal: React.FC = () => {
     navigate(closeModalUrl);
   };
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: createCategory,
     mutationKey: ["createCategory"],
     onSuccess: (data: CategoryFormError | ApiResponse) => {
@@ -79,6 +79,7 @@ const CategoryModal: React.FC = () => {
         <button
           className="text-mine-shaft/60 absolute top-3 right-3 cursor-pointer duration-300 hover:text-red-600"
           onClick={onClose}
+          disabled={isPending}
           aria-label="Close Modal"
           type="button"
         >
@@ -97,7 +98,11 @@ const CategoryModal: React.FC = () => {
               name="name"
               label="Name"
             />
-            <Button className="mt-4 w-full gap-2">
+            <Button
+              isLoading={isPending}
+              loadingLabel="Creating..."
+              className="mt-4 w-full gap-2"
+            >
               <Plus className="h-4 w-4" />
               Create Category
             </Button>

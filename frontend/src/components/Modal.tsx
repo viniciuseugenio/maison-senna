@@ -14,6 +14,7 @@ type ModalProps = {
   variant?: "danger" | "warning" | "info";
   onClose: () => void;
   onConfirm: () => void;
+  isPending?: boolean;
   Icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>;
 };
 
@@ -26,6 +27,7 @@ export default function Modal({
   variant = "info",
   onClose,
   onConfirm,
+  isPending = false,
   Icon,
 }: ModalProps) {
   const variantStyles = {
@@ -95,6 +97,7 @@ export default function Modal({
                 {/* Close Button */}
                 <button
                   onClick={onClose}
+                  disabled={isPending}
                   className="absolute top-4 right-4 cursor-pointer text-neutral-500 transition-colors duration-300 hover:text-neutral-800 active:text-neutral-950"
                 >
                   <X className="h-5 w-5" />
@@ -123,12 +126,15 @@ export default function Modal({
                   <div className="mt-6 flex justify-end gap-3 text-sm font-medium">
                     <Button
                       variant="outline"
+                      disabled={isPending}
                       className="border-mine-shaft/10 hover:bg-mine-shaft/10 hover:text-mine-shaft active:bg-mine-shaft/20"
                       onClick={onClose}
                     >
                       {cancelLabel}
                     </Button>
                     <Button
+                      isLoading={isPending}
+                      loadingLabel="Confirming..."
                       onClick={onConfirm}
                       className={variantStyles[variant].confirmButton}
                     >
