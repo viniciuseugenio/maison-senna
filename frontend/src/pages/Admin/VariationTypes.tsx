@@ -4,7 +4,7 @@ import PageLayout from "../../components/Admin/PageLayout";
 import TableActions from "../../components/Admin/RowActions";
 import TableData from "../../components/Admin/TableData";
 import TableRow from "../../components/Admin/TableRow";
-import { listVariationTypes } from "../../api/endpoints/products";
+import { getVariationTypes } from "../../api/endpoints/products";
 import { VariationTypeList } from "../../types/catalog";
 import { HeaderConfig } from "../../types/admin";
 import { useState } from "react";
@@ -12,7 +12,7 @@ import { useState } from "react";
 const VariationTypes: React.FC = () => {
   const { data: variationTypes, isLoading } = useQuery<VariationTypeList[]>({
     queryKey: ["variationTypes"],
-    queryFn: listVariationTypes,
+    queryFn: getVariationTypes,
   });
 
   const [filteredOptions, setFilteredOptions] = useState<

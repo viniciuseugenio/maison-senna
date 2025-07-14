@@ -3,7 +3,7 @@ import { ChevronDown, Tag } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { listCategories } from "../../api/endpoints/products";
+import { getCategories } from "../../api/endpoints/products";
 import { Category } from "../../types/catalog";
 import { useFormContext } from "react-hook-form";
 import InputError from "../InputError";
@@ -20,7 +20,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
   const { setValue } = useFormContext();
 
   const { data: categories = [] } = useQuery<Category[]>({
-    queryFn: listCategories,
+    queryFn: getCategories,
     queryKey: ["categories"],
   });
 

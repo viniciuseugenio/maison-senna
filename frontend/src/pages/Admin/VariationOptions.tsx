@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { listVariationOptions } from "../../api/endpoints/products";
+import { getVariationOptions } from "../../api/endpoints/products";
 import LoadingRow from "../../components/Admin/LoadingRow";
 import PageLayout from "../../components/Admin/PageLayout";
 import TableActions from "../../components/Admin/RowActions";
@@ -13,7 +13,7 @@ const VariationOptions: React.FC = () => {
   const { data: variationOptions, isLoading } = useQuery<VariationOptionList[]>(
     {
       queryKey: ["variationOptions"],
-      queryFn: listVariationOptions,
+      queryFn: getVariationOptions,
     },
   );
   const [filteredOptions, setFilteredOptions] = useState<

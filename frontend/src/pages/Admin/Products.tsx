@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { listProducts } from "../../api/endpoints/products";
+import { getProducts } from "../../api/endpoints/products";
 import AdminPageLayout from "../../components/Admin/PageLayout";
 import ProductRow from "../../components/Admin/ProductRow";
 import { ProductList } from "../../types/catalog";
@@ -9,7 +9,7 @@ import LoadingRow from "../../components/Admin/LoadingRow";
 const AdminProducts: React.FC = () => {
   const { data: products, isLoading } = useQuery<ProductList[]>({
     queryKey: ["products"],
-    queryFn: listProducts,
+    queryFn: getProducts,
   });
 
   const headers: HeaderConfig[] = [

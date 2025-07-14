@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { createPortal } from "react-dom";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { createCategory } from "../../api/endpoints/products";
+import { addCategory } from "../../api/endpoints/products";
 import { categorySchema } from "../../schemas/category";
 import { ApiResponse } from "../../types/api";
 import { CategoryForm, CategoryFormError } from "../../types/forms";
@@ -24,7 +24,7 @@ const CategoryModal: React.FC = () => {
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createCategory,
+    mutationFn: addCategory,
     mutationKey: ["createCategory"],
     onSuccess: (data: CategoryFormError | ApiResponse) => {
       if ("errors" in data) {

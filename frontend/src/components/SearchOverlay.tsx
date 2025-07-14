@@ -3,7 +3,7 @@ import { ArrowRight, Search, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { listProducts } from "../api/endpoints/products";
+import { getProducts } from "../api/endpoints/products";
 import { ProductList } from "../types/catalog";
 
 interface SearchOverlayProps {
@@ -17,7 +17,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [hasSearched, setHasSearched] = useState(false);
 
   const { data: products } = useQuery<ProductList[]>({
-    queryFn: listProducts,
+    queryFn: getProducts,
     queryKey: ["products"],
   });
   const [searchResults, setSearchResults] = useState(products?.slice(0, 3));
@@ -72,8 +72,8 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
     const filtered = searchQuery
       ? products.filter((p) =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
+          p.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
       : products.slice(0, 3);
 
     setSearchResults(filtered.slice(0, 3));

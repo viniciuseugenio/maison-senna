@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Heart, Share2, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { retrieveProduct } from "../api/endpoints/products";
+import { getProduct } from "../api/endpoints/products";
 import Button from "../components/Button";
 import DetailsTabs from "../components/ProductDetails/DetailsTabs";
 import ProductReviews from "../components/ProductDetails/ProductReviews";
@@ -31,7 +31,7 @@ const Product: React.FC = () => {
   };
 
   const { data: product, isPending } = useQuery<ProductDetails>({
-    queryFn: () => retrieveProduct(slug as string),
+    queryFn: () => getProduct(slug as string),
     queryKey: ["products", slug],
     enabled: !!slug,
   });

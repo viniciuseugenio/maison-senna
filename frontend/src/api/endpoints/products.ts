@@ -3,7 +3,7 @@ import { CATALOG_ENDPOINTS } from "./constants";
 import { buildApiUrl } from "./buildApiUrl";
 import { ProductDetails } from "../../types/catalog";
 
-export async function listProducts() {
+export async function getProducts() {
   return await customFetch(CATALOG_ENDPOINTS.PRODUCTS);
 }
 
@@ -20,7 +20,7 @@ export async function createProduct(data: FormData) {
   );
 }
 
-export async function editProduct({
+export async function updateProduct({
   data,
   slug,
 }: {
@@ -52,7 +52,7 @@ export async function genericDeleteModel(endpoint: string) {
   );
 }
 
-export async function createCategory(data: { name: string }) {
+export async function addCategory(data: { name: string }) {
   return await customFetch(
     CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
     {
@@ -68,31 +68,31 @@ export async function createCategory(data: { name: string }) {
   );
 }
 
-export async function retrieveProduct(slug: string): Promise<ProductDetails> {
+export async function getProduct(slug: string): Promise<ProductDetails> {
   const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
   return await customFetch(url);
 }
 
-export async function listCategories() {
+export async function getCategories() {
   return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES);
 }
 
-export async function dashboardStatistics() {
+export async function getDashboardStatistics() {
   return await customFetch(CATALOG_ENDPOINTS.ADMIN_METRICS);
 }
 
-export async function listVariationKinds() {
+export async function getVariationKinds() {
   return await customFetch(CATALOG_ENDPOINTS.LIST_VARIATION_KINDS);
 }
 
-export async function listVariationTypes() {
+export async function getVariationTypes() {
   return await customFetch(CATALOG_ENDPOINTS.LIST_VARIATION_TYPES);
 }
 
-export async function listVariationOptions() {
+export async function getVariationOptions() {
   return await customFetch(CATALOG_ENDPOINTS.LIST_VARIATION_OPTIONS);
 }
 
-export async function listProductVariations() {
+export async function getProductVariations() {
   return await customFetch(CATALOG_ENDPOINTS.LIST_PRODUCT_VARIATIONS);
 }

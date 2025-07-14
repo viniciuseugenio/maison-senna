@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import PageLayout from "../../components/Admin/PageLayout";
-import { listVariationKinds } from "../../api/endpoints/products";
+import { getVariationKinds } from "../../api/endpoints/products";
 import LoadingRow from "../../components/Admin/LoadingRow";
 import { HeaderConfig } from "../../types/admin";
 import TableRow from "../../components/Admin/TableRow";
@@ -11,7 +11,7 @@ import TableActions from "../../components/Admin/RowActions";
 const VariationKinds: React.FC = () => {
   const { data: variationKinds, isLoading } = useQuery<VariationKind[]>({
     queryKey: ["variationKinds"],
-    queryFn: listVariationKinds,
+    queryFn: getVariationKinds,
   });
 
   const headers: HeaderConfig[] = [

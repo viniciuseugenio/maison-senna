@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
-import { editProduct, retrieveProduct } from "../api/endpoints/products";
+import { updateProduct, getProduct } from "../api/endpoints/products";
 import BackButton from "../components/Admin/BackButton";
 import HorizontalDivider from "../components/HorizontalDivider";
 import ProductForm from "../components/ProductForm";
@@ -20,7 +20,7 @@ const EditProduct: React.FC = () => {
   const queryClient = useQueryClient();
 
   const { data: product, isLoading } = useQuery<ProductDetails>({
-    queryFn: () => retrieveProduct(slug as string),
+    queryFn: () => getProduct(slug as string),
     queryKey: ["products", slug],
   });
 
@@ -30,7 +30,8 @@ const EditProduct: React.FC = () => {
   const { setError } = methods;
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: FormData) => editProduct({ data, slug: slug as string }),
+    mutationFn: (data: FormData) =>
+      updateProduct({ data, slug: slug as string }),
     mutationKey: ["products", slug],
     onSuccess: (data: ApiFormError | ApiResponse) => {
       if (isApiFormError(data)) {

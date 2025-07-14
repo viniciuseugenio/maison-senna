@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import PageLayout from "../../components/Admin/PageLayout";
 import PageTitle from "../../components/Admin/PageTitle";
 import HorizontalDivider from "../../components/HorizontalDivider";
-import { listProductVariations } from "../../api/endpoints/products";
+import { getProductVariations } from "../../api/endpoints/products";
 import { HeaderConfig } from "../../types/admin";
 import LoadingRow from "../../components/Admin/LoadingRow";
 import TableRow from "../../components/Admin/TableRow";
@@ -13,7 +13,7 @@ import TableActions from "../../components/Admin/RowActions";
 const ProductVariations: React.FC = () => {
   const { data: productVariations, isLoading } = useQuery<ProductVariation[]>({
     queryKey: ["productVariations"],
-    queryFn: listProductVariations,
+    queryFn: getProductVariations,
   });
 
   const headers: HeaderConfig[] = [

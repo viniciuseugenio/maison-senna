@@ -3,7 +3,7 @@ import { AnimatePresence } from "motion/react";
 import { useLocation } from "react-router";
 import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
-import { listCategories } from "../../api/endpoints/products";
+import { getCategories } from "../../api/endpoints/products";
 import CategoryModal from "../../components/Admin/CategoryModal";
 import LoadingRow from "../../components/Admin/LoadingRow";
 import AdminPageLayout from "../../components/Admin/PageLayout";
@@ -20,7 +20,7 @@ const AdminCategories: React.FC = () => {
   const isModalOpen = lastSegment === "new";
 
   const { data: categories, isLoading } = useQuery<Category[]>({
-    queryFn: listCategories,
+    queryFn: getCategories,
     queryKey: ["categories"],
   });
 

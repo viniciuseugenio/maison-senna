@@ -8,7 +8,7 @@ import {
   Tag,
   Users,
 } from "lucide-react";
-import { dashboardStatistics } from "../../api/endpoints/products";
+import { getDashboardStatistics } from "../../api/endpoints/products";
 import BigBox from "../../components/Admin/BigBox";
 import PageTitle from "../../components/Admin/PageTitle";
 import SmallBox from "../../components/Admin/SmallBox";
@@ -16,7 +16,7 @@ import { Statistics } from "../../types/admin";
 
 const AdminDashboard: React.FC = () => {
   const { data: statistics } = useQuery<Statistics>({
-    queryFn: dashboardStatistics,
+    queryFn: getDashboardStatistics,
     queryKey: ["adminStatistics"],
   });
 
