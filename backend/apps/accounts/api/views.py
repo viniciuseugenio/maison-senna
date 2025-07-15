@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 import requests
-from apps.accounts.utils import generate_token_response
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.tokens import default_token_generator
@@ -15,7 +14,10 @@ from rest_framework import serializers, status
 from rest_framework.exceptions import NotAuthenticated, ValidationError
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView, Response
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from apps.accounts.utils import generate_token_response
 
 from .responses import get_error_message, get_success_message
 from .serializers import UserSerializer, UserShortSerializer
@@ -43,15 +45,26 @@ class CustomTokenObtainPairView(APIView):
 
 class CustomTokenRefreshView(APIView):
     def post(self, request):
+        refresh_token = request.COOKIES.get("refresh_token")
+
+        if not refresh_token:
+            return Response(
+                {"detail": "Refresh token is required."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
         try:
-            refresh_token = request.COOKIES.get("refresh_token")
-
-            if not refresh_token:
-                raise NotAuthenticated()
-
             refresh = RefreshToken(refresh_token)
             user_id = refresh["user_id"]
-            user = User.objects.get(id=user_id)
+
+            try:
+                user = User.objects.get(id=user_id)
+            except User.DoesNotExist:
+                return Response(
+                    {"detail": "User not found for the provided token"},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+                raise NotAuthenticated()
 
             access_token = str(refresh.access_token)
 
@@ -66,8 +79,11 @@ class CustomTokenRefreshView(APIView):
             )
 
             return response
-        except User.DoesNotExist:
-            raise NotAuthenticated()
+        except (TokenError, InvalidToken):
+            return Response(
+                {"detail": "Invalid or expired refresh token"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
     def _get_max_age(self, key):
         lifetime: timedelta = settings.SIMPLE_JWT[key]
