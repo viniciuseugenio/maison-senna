@@ -13,6 +13,7 @@ from google.oauth2 import id_token
 from rest_framework import serializers, status
 from rest_framework.exceptions import NotAuthenticated, ValidationError
 from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView, Response
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -142,6 +143,8 @@ class GoogleAuthManualView(APIView):
 
 
 class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         response = Response(get_success_message("LOGOUT"), status=status.HTTP_200_OK)
         response.delete_cookie("access_token")
