@@ -37,7 +37,7 @@ ERROR_MESSAGES = {
     "INCORRECT_CREDENTIALS": Message(
         detail="Login Failed", description="Invalid email or password."
     ),
-    "PASSWORD_RESET_REQUEST": Message(
+    "PASSWORD_RESET_INVALID": Message(
         detail="Invalid Request",
         description="Please provide a valid email address.",
     ),
