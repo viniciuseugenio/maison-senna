@@ -30,7 +30,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["testserver", "localhost"]
 CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
 CORS_ALLOW_CREDENTIALS = True
 
