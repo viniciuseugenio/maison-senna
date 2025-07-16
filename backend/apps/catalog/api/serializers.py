@@ -132,8 +132,6 @@ class ProductUpdateSerializer(serializers.ModelSerializer):
         care = attrs.get("care")
         materials = attrs.get("materials")
 
-        print("details", details)
-
         if name is not None and len(name) < 6:
             errors["name"] = "Name must have at least 6 characters"
 
