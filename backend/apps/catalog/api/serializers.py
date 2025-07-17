@@ -1,5 +1,8 @@
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+
+from apps.catalog.api.constants import PRODUCT_ERROR_MESSAGES
 
 from .. import models
 
@@ -119,11 +122,13 @@ class ProductSerializerFieldsMixin:
     ]
 
 
-class ProductUpdateSerializer(serializers.ModelSerializer):
+class BaseProductSerializer(serializers.ModelSerializer):
+    ERROR_MESSAGES = PRODUCT_ERROR_MESSAGES
+
     class Meta(ProductSerializerFieldsMixin):
         pass
 
-    def validate(self, attrs):
+    def _validate_common_fields(self, attrs, require_all=False):
         errors = {}
 
         name = attrs.get("name")
@@ -132,22 +137,27 @@ class ProductUpdateSerializer(serializers.ModelSerializer):
         care = attrs.get("care")
         materials = attrs.get("materials")
 
-        if name is not None and len(name) < 6:
-            errors["name"] = "Name must have at least 6 characters"
+        if (require_all or name is not None) and len(name or "") < 6:
+            errors["name"] = self.ERROR_MESSAGES["name_length"]
 
-        if base_price is not None and base_price < 1:
-            errors["base_price"] = "Price must be at least 1."
+        if (require_all or base_price is not None) and base_price < 1:
+            errors["base_price"] = self.ERROR_MESSAGES["price_min"]
 
-        if details is not None and not details:
-            errors["details"] = "The product must have at least one detail."
+        if (require_all or details is not None) and not details:
+            errors["details"] = self.ERROR_MESSAGES["empty_details"]
 
-        if care is not None and not care:
-            errors["care"] = "The product must have at least one care instruction."
+        if (require_all or care is not None) and not care:
+            errors["care"] = self.ERROR_MESSAGES["empty_care"]
 
-        if materials is not None and not materials:
-            errors["materials"] = (
-                "The product must have at least one material in the list."
-            )
+        if (require_all or materials is not None) and not materials:
+            errors["materials"] = self.ERROR_MESSAGES["empty_materials"]
+
+        return errors
+
+
+class ProductUpdateSerializer(BaseProductSerializer):
+    def validate(self, attrs):
+        errors = self._validate_common_fields(attrs, require_all=False)
 
         if errors:
             raise serializers.ValidationError(errors)
@@ -155,19 +165,13 @@ class ProductUpdateSerializer(serializers.ModelSerializer):
         return super().validate(attrs)
 
 
-class ProductCreateSerializer(serializers.ModelSerializer):
+class ProductCreateSerializer(ProductUpdateSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=models.Category.objects.all()
     )
 
-    class Meta(ProductSerializerFieldsMixin):
-        pass
-
     def validate(self, attrs):
-        errors = {}
-
-        if len(attrs.get("care")) < 1:
-            errors["care"] = "The product must have at least one care instruction."
+        errors = self._validate_common_fields(attrs, require_all=True)
 
         if errors:
             raise serializers.ValidationError(errors)
