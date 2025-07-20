@@ -23,6 +23,7 @@ import Product from "./pages/Product";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
 import EditProduct from "./pages/EditProduct";
+import VariationKindsModel from "./components/Admin/VariationKindsModel";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +40,9 @@ function App() {
                 <Route path="categories" element={<AdminCategories />}>
                   <Route path="new" element={<CategoryModal />} />
                 </Route>
-                <Route path="variation-kinds" element={<VariationKinds />} />
+                <Route path="variation-kinds" element={<VariationKinds />}>
+                  <Route path="new" element={<VariationKindsModel />} />
+                </Route>
                 <Route path="variation-types" element={<VariationTypes />} />
                 <Route
                   path="variation-options"

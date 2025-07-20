@@ -82,7 +82,21 @@ export async function getDashboardStatistics() {
 }
 
 export async function getVariationKinds() {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_VARIATION_KINDS);
+  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS);
+}
+
+export async function addVariationKind(data: { name: string }) {
+  return await customFetch(
+    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
+    {
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    },
+    { ignore400Response: true },
+  );
 }
 
 export async function getVariationTypes() {
