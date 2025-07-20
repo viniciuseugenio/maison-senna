@@ -11,11 +11,13 @@ import { ApiFormError, ApiResponse } from "../types/api";
 import { NewProductForm } from "../types/forms";
 import { toast } from "../utils/customToast";
 import { isApiFormError } from "../utils/typeGuards";
+import { useNavigate } from "react-router";
 
 const NewProduct: React.FC = () => {
   const methods = useForm<NewProductForm>({
     resolver: zodResolver(newProductSchema),
   });
+  const navigate = useNavigate();
 
   const { setError } = methods;
 
@@ -35,6 +37,7 @@ const NewProduct: React.FC = () => {
         title: "The product was created.",
         description: "Now you need to create its variation options!",
       });
+      navigate('/admin/products/')
     },
     onError: (error) => {
       toast.error({
