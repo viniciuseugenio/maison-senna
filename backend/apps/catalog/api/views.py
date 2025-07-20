@@ -1,8 +1,11 @@
 from django.contrib.auth import get_user_model
 from rest_framework import filters
 from rest_framework.decorators import action
-from rest_framework.generics import (ListAPIView, ListCreateAPIView,
-                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
@@ -83,7 +86,7 @@ class DashboardViewSet(ViewSet):
         )
 
 
-class VariationKindsList(OrderedListView):
+class VariationKindsList(OrderedListMixin, ListCreateAPIView):
     serializer_class = serializers.VariationKindSerializer
     queryset = models.VariationKind.objects.all()
 
