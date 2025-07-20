@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
-import { useLocation } from "react-router";
 import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
 import { getCategories } from "../../api/endpoints/products";
@@ -10,13 +9,12 @@ import AdminPageLayout from "../../components/Admin/PageLayout";
 import TableActions from "../../components/Admin/RowActions";
 import TableData from "../../components/Admin/TableData";
 import TableRow from "../../components/Admin/TableRow";
+import useLastSegment from "../../hooks/lastSegment";
 import { HeaderConfig } from "../../types/admin";
 import { Category } from "../../types/catalog";
 
 const AdminCategories: React.FC = () => {
-  const location = useLocation();
-  const segments = location.pathname.split("/").filter(Boolean);
-  const lastSegment = segments[segments.length - 1] || "";
+  const lastSegment = useLastSegment();
   const isModalOpen = lastSegment === "new";
 
   const { data: categories, isLoading } = useQuery<Category[]>({
