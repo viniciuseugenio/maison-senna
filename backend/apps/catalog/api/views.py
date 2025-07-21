@@ -88,8 +88,14 @@ class DashboardViewSet(ViewSet):
 
 
 class VariationKindsList(OrderedListMixin, ListCreateAPIView):
-    serializer_class = serializers.VariationKindSerializer
     queryset = models.VariationKind.objects.all()
+    serializer_class = serializers.VariationKindSerializer
+
+
+class VariationKindsDetailsView(RetrieveUpdateDestroyAPIView):
+    queryset = models.VariationKind.objects.all()
+    serializer_class = serializers.VariationKindSerializer
+    permission_classes = [IsAdminUser]
 
 
 class VariationTypesList(OrderedAdminListView):

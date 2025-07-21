@@ -24,6 +24,11 @@ urlpatterns = [
         name="variation-kinds-list",
     ),
     path(
+        "variation/kinds/<int:pk>/",
+        views.VariationKindsDetailsView.as_view(),
+        name="variation-kinds-detail",
+    ),
+    path(
         "variation/types/",
         views.VariationTypesList.as_view(),
         name="variation-types-list",
