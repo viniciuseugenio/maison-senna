@@ -17,7 +17,8 @@ from . import serializers
 User = get_user_model()
 
 
-class OrderedListView(ListAPIView):
+class OrderedAdminListView(ListAPIView):
+    permission_classes = [IsAdminUser]
     filter_backends = [filters.OrderingFilter]
     ordering = ["-id"]
 
@@ -91,16 +92,16 @@ class VariationKindsList(OrderedListMixin, ListCreateAPIView):
     queryset = models.VariationKind.objects.all()
 
 
-class VariationTypesList(OrderedListView):
+class VariationTypesList(OrderedAdminListView):
     serializer_class = serializers.DashboardVariationTypeSerializer
     queryset = models.VariationType.objects.all()
 
 
-class VariationOptionsList(OrderedListView):
+class VariationOptionsList(OrderedAdminListView):
     serializer_class = serializers.VariationOptionsListSerializer
     queryset = models.VariationOption.objects.all()
 
 
-class ProductVariationList(OrderedListView):
+class ProductVariationList(OrderedAdminListView):
     serializer_class = serializers.ProductVariationSerializer
     queryset = models.ProductVariation.objects.all()
