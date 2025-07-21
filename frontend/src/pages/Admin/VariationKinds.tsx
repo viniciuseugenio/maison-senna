@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
+import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
+import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
 import { getVariationKinds } from "../../api/endpoints/products";
 import LoadingRow from "../../components/Admin/LoadingRow";
 import PageLayout from "../../components/Admin/PageLayout";
@@ -19,6 +21,10 @@ const VariationKinds: React.FC = () => {
     queryKey: ["variationKinds"],
     queryFn: getVariationKinds,
   });
+
+  const buildDeleteLink = (id: number) => {
+    return buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
+  };
 
   const headers: HeaderConfig[] = [
     { title: "ID" },
@@ -48,7 +54,7 @@ const VariationKinds: React.FC = () => {
                 <TableData>{variationKind.name}</TableData>
                 <TableActions
                   editLink="/"
-                  deleteLink="/"
+                  deleteLink={buildDeleteLink(variationKind.id)}
                   resourceType="Variation Kind"
                   queryKey={["variationKinds"]}
                 />

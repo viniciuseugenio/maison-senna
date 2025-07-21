@@ -21,6 +21,7 @@ export const CATALOG_ENDPOINTS = {
   CATEGORY_DETAILS: `${VITE_BACKEND_URL}/catalog/categories/:id/`,
   ADMIN_METRICS: `${VITE_BACKEND_URL}/catalog/admin/dashboard/metrics/`,
   LIST_CREATE_VARIATION_KINDS: `${VITE_BACKEND_URL}/catalog/variation/kinds/`,
+  VARIATION_KINDS_DETAIL: `${VITE_BACKEND_URL}/catalog/variation/kinds/:id/`,
   LIST_VARIATION_TYPES: `${VITE_BACKEND_URL}/catalog/variation/types/`,
   LIST_VARIATION_OPTIONS: `${VITE_BACKEND_URL}/catalog/variation/options/`,
   LIST_PRODUCT_VARIATIONS: `${VITE_BACKEND_URL}/catalog/products_variations/`,
