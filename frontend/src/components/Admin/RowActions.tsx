@@ -6,6 +6,7 @@ import Modal from "../Modal";
 import { useState } from "react";
 import { toast } from "../../utils/customToast";
 import { ERROR_NOTIFICATIONS } from "../../constants/notifications";
+import capitalizeWord from "../../utils/capitalizeWord";
 
 type TableActionsProps = {
   editLink: string;
@@ -22,6 +23,7 @@ type TableActionsProps = {
    */
   queryKey: string[];
 };
+
 const TableActions: React.FC<TableActionsProps> = ({
   editLink,
   deleteLink,
@@ -31,15 +33,17 @@ const TableActions: React.FC<TableActionsProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
 
-  const resourceTypeCapitalized =
-    resourceType.charAt(0).toUpperCase() + resourceType.slice(1).toLowerCase();
-  const resourceTypeLow = resourceType.toLowerCase();
+  const capitalizedResourceType = resourceType
+    .split(" ")
+    .map((word) => capitalizeWord(word))
+    .join(" ");
+  const lowerResourceType = resourceType.toLowerCase();
 
   const { mutate, isPending } = useMutation({
     mutationFn: genericDeleteModel,
     onSuccess: () => {
       toast.success({
-        title: `The ${resourceTypeLow} was deleted successfully.`,
+        title: `The ${lowerResourceType} was deleted successfully.`,
       });
       setIsOpen(false);
       queryClient.invalidateQueries({ queryKey });
@@ -70,8 +74,8 @@ const TableActions: React.FC<TableActionsProps> = ({
       </TableData>
 
       <Modal
-        title={`Delete ${resourceTypeCapitalized}`}
-        description={`Are you sure you want to delete this ${resourceTypeLow}? This action cannot be undone.`}
+        title={`Delete ${capitalizedResourceType}`}
+        description={`Are you sure you want to delete this ${lowerResourceType}? This action cannot be undone.`}
         variant="danger"
         isOpen={isOpen}
         isPending={isPending}
