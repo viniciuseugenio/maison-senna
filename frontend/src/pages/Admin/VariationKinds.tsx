@@ -9,12 +9,14 @@ import PageLayout from "../../components/Admin/PageLayout";
 import TableActions from "../../components/Admin/RowActions";
 import TableData from "../../components/Admin/TableData";
 import TableRow from "../../components/Admin/TableRow";
+import VariationKindsEdit from "../../components/Admin/VariationKindsEdit";
 import VariationKindsCreate from "../../components/Admin/VariationKindsCreate";
 import { HeaderConfig } from "../../types/admin";
 import { VariationKind } from "../../types/catalog";
 
 const VariationKinds: React.FC = () => {
   const matchNew = useMatch("/admin/variation-kinds/new");
+  const matchEdit = useMatch("/admin/variation-kinds/edit/:id");
 
   const { data: variationKinds, isLoading } = useQuery<VariationKind[]>({
     queryKey: ["variationKinds"],
@@ -35,6 +37,7 @@ const VariationKinds: React.FC = () => {
     <>
       <AnimatePresence>
         {!!matchNew && <VariationKindsCreate />}
+        {!!matchEdit && <VariationKindsEdit />}
       </AnimatePresence>
       <PageLayout
         title="Variation Kinds"
@@ -52,7 +55,7 @@ const VariationKinds: React.FC = () => {
                 <TableData>{variationKind.id}</TableData>
                 <TableData>{variationKind.name}</TableData>
                 <TableActions
-                  editLink="/"
+                  editLink={`/admin/variation-kinds/edit/${variationKind.id}`}
                   deleteLink={buildDeleteLink(variationKind.id)}
                   resourceType="Variation Kind"
                   queryKey={["variationKinds"]}

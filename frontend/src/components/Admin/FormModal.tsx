@@ -11,6 +11,8 @@ type FormModalProps<T> = {
   isPending: boolean;
   methods: UseFormReturn<T>;
   onSubmit: (values: T) => void;
+  defaultValue?: string;
+  isEdit?: boolean;
 
   /**
    * The name of the model that is being created.
@@ -24,9 +26,15 @@ export default function FormModal<T>({
   onClose,
   isPending,
   onSubmit,
+  defaultValue,
+  isEdit,
   modelName,
 }: FormModalProps<T>) {
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+  const labels = isEdit ? "Edit" : "Create New";
 
   return createPortal(
     <div
@@ -60,16 +68,18 @@ export default function FormModal<T>({
         </button>
         <div className="flex flex-col items-center">
           <h2 className="text-mine-shaft font-serif text-2xl font-light">
-            Create New {modelName}
+            {labels} {modelName}
           </h2>
           <HorizontalDivider className="mx-auto" />
         </div>
         <FormProvider {...methods}>
           <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
             <FloatingInput
+              defaultValue={defaultValue}
               icon={<Tag className="h-4 w-4" />}
               name="name"
               label="Name"
+              error={errors?.name?.message}
             />
             <Button
               isLoading={isPending}
@@ -77,12 +87,12 @@ export default function FormModal<T>({
               className="mt-4 w-full gap-2"
             >
               <Plus className="h-4 w-4" />
-              Create {modelName}
+              {labels} {modelName}
             </Button>
           </form>
         </FormProvider>
       </motion.div>
     </div>,
-    document.getElementById("modal"),
+    document.getElementById("modal")!,
   );
 }

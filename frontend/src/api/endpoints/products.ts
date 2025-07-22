@@ -85,6 +85,11 @@ export async function getVariationKinds() {
   return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS);
 }
 
+export async function getVariationKind(id: number) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
+  return await customFetch(url);
+}
+
 export async function addVariationKind(data: { name: string }) {
   return await customFetch(
     CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
@@ -94,6 +99,27 @@ export async function addVariationKind(data: { name: string }) {
         "Content-Type": "application/json",
       },
       method: "POST",
+    },
+    { ignore400Response: true },
+  );
+}
+
+export async function updateVariationKind({
+  id,
+  data,
+}: {
+  id: number;
+  data: { name: string };
+}) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
+  return await customFetch(
+    url,
+    {
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PATCH",
     },
     { ignore400Response: true },
   );
