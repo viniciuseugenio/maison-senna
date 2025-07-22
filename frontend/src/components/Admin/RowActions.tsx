@@ -63,7 +63,7 @@ const TableActions: React.FC<TableActionsProps> = ({
         </Link>
         <button
           onClick={() => setIsOpen(true)}
-          className="font-medium text-red-500 duration-300 hover:text-red-600"
+          className="cursor-pointer font-medium text-red-500 duration-300 hover:text-red-600"
         >
           Delete
         </button>
