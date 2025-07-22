@@ -9,7 +9,7 @@ import PageLayout from "../../components/Admin/PageLayout";
 import TableActions from "../../components/Admin/RowActions";
 import TableData from "../../components/Admin/TableData";
 import TableRow from "../../components/Admin/TableRow";
-import VariationKindsModel from "../../components/Admin/VariationKindsModel";
+import VariationKindsCreate from "../../components/Admin/VariationKindsCreate";
 import { HeaderConfig } from "../../types/admin";
 import { VariationKind } from "../../types/catalog";
 
@@ -34,7 +34,7 @@ const VariationKinds: React.FC = () => {
   return (
     <>
       <AnimatePresence>
-        {!!matchNew && <VariationKindsModel />}
+        {!!matchNew && <VariationKindsCreate />}
       </AnimatePresence>
       <PageLayout
         title="Variation Kinds"

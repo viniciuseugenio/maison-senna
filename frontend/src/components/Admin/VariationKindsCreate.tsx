@@ -9,7 +9,7 @@ import { VariationKindsForm, VariationKindsFormError } from "../../types/forms";
 import { toast } from "../../utils/customToast";
 import FormModal from "./FormModal";
 
-const VariationKindsModel: React.FC = () => {
+const VariationKindsCreate: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -60,4 +60,4 @@ const VariationKindsModel: React.FC = () => {
   );
 };
 
-export default VariationKindsModel;
+export default VariationKindsCreate;
