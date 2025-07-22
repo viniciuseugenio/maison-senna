@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
+import { useMatch } from "react-router";
 import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
 import { getVariationKinds } from "../../api/endpoints/products";
@@ -9,13 +10,11 @@ import TableActions from "../../components/Admin/RowActions";
 import TableData from "../../components/Admin/TableData";
 import TableRow from "../../components/Admin/TableRow";
 import VariationKindsModel from "../../components/Admin/VariationKindsModel";
-import useLastSegment from "../../hooks/lastSegment";
 import { HeaderConfig } from "../../types/admin";
 import { VariationKind } from "../../types/catalog";
 
 const VariationKinds: React.FC = () => {
-  const lastSegment = useLastSegment();
-  const isModalOpen = lastSegment === "new";
+  const matchNew = useMatch("/admin/variation-kinds/new");
 
   const { data: variationKinds, isLoading } = useQuery<VariationKind[]>({
     queryKey: ["variationKinds"],
@@ -35,7 +34,7 @@ const VariationKinds: React.FC = () => {
   return (
     <>
       <AnimatePresence>
-        {isModalOpen && <VariationKindsModel />}
+        {!!matchNew && <VariationKindsModel />}
       </AnimatePresence>
       <PageLayout
         title="Variation Kinds"
