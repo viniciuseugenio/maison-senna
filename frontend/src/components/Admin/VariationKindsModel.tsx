@@ -11,11 +11,10 @@ import FormModal from "./FormModal";
 
 const VariationKindsModel: React.FC = () => {
   const navigate = useNavigate();
-  const closeModalUrl = "/admin/variation-kinds";
   const queryClient = useQueryClient();
 
   const onClose = () => {
-    navigate(closeModalUrl);
+    navigate(-1);
   };
 
   const { mutate, isPending } = useMutation({
@@ -33,7 +32,7 @@ const VariationKindsModel: React.FC = () => {
         });
         return;
       }
-      navigate(closeModalUrl);
+      navigate(-1);
       queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
       toast.success({ title: "The variation kind was successfully created." });
     },
