@@ -1,11 +1,11 @@
-import { Link, Outlet } from "react-router";
-import BackButton from "./BackButton";
-import PageTitle from "./PageTitle";
-import HorizontalDivider from "../HorizontalDivider";
 import { Plus, Search } from "lucide-react";
 import { useRef } from "react";
-import TableHead from "./TableHead";
+import { Link } from "react-router";
 import { PageLayoutProps } from "../../types/admin";
+import HorizontalDivider from "../HorizontalDivider";
+import BackButton from "./BackButton";
+import PageTitle from "./PageTitle";
+import TableHead from "./TableHead";
 
 const PageLayout: React.FC<PageLayoutProps> = ({
   title,
@@ -30,7 +30,6 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   return (
     <div>
       <BackButton />
-      <Outlet />
       <PageTitle>{title}</PageTitle>
       <HorizontalDivider />
       <div className="border-oyster/30 mt-6 h-full w-full rounded-md border bg-white">
