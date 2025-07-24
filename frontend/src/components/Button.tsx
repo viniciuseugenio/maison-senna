@@ -4,6 +4,7 @@ import { LoaderCircle } from "lucide-react";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "outline";
   size?: "default" | "sm" | "lg" | "icon";
+  color?: "brown" | "black";
   isLoading?: boolean;
   loadingLabel?: string;
 }
@@ -13,16 +14,21 @@ export default function Button({
   children,
   variant = "default",
   size = "default",
+  color = "black",
   onClick,
   isLoading,
   loadingLabel = "Loading...",
   ...props
 }: ButtonProps) {
+  const colorStyles = {
+    brown: "bg-[#8b7a6c] duration-300 hover:bg-[#7b6c60] active:bg-[#7b6c60]",
+    black: "bg-mine-shaft/90 hover:bg-mine-shaft/95 active:bg-mine-shaft",
+  };
+
   const variantStyles = {
     outline:
       "bg-transparent text-mine-shaft border-mine-shaft hover:bg-mine-shaft/95 active:bg-mine-shaft hover:text-light border",
-    default:
-      "bg-mine-shaft/90 hover:bg-mine-shaft/95 active:bg-mine-shaft text-light border-transparent",
+    default: `${colorStyles[color]} text-light border-transparent`,
   } as const;
   const variantStyle = variantStyles[variant];
 

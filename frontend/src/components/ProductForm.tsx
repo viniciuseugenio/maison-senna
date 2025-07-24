@@ -116,11 +116,7 @@ function ProductForm<T extends FieldValues>({
           >
             Cancel
           </Link>
-          <Button
-            loadingLabel="Saving..."
-            isLoading={isPending}
-            className="gap-2 bg-[#8b7a6c] duration-300 hover:bg-[#7b6c60] active:bg-[#7b6c60]"
-          >
+          <Button loadingLabel="Saving..." isLoading={isPending} color="brown">
             <Check className="h-4 w-4" />
             {buttonLabel}
           </Button>
