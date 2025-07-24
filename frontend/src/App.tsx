@@ -25,6 +25,7 @@ import ResetPassword from "./pages/ResetPassword";
 import EditProduct from "./pages/EditProduct";
 import VariationKindsCreate from "./components/Admin/VariationKindsCreate";
 import VariationKindsEdit from "./components/Admin/VariationKindsEdit";
+import NewVariationType from "./components/Admin/NewVariationType";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,10 @@ function App() {
                   <Route path="edit/:id" element={<VariationKindsEdit />} />
                 </Route>
                 <Route path="variation-types" element={<VariationTypes />} />
+                <Route
+                  path="variation-types/new"
+                  element={<NewVariationType />}
+                />
                 <Route
                   path="variation-options"
                   element={<VariationOptions />}

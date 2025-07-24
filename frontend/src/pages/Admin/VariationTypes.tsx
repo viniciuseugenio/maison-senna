@@ -43,7 +43,7 @@ const VariationTypes: React.FC = () => {
       title="Variation Types"
       headers={headers}
       actionLabel="New Variation Type"
-      actionLink="/"
+      actionLink="/admin/variation-types/new/"
       onSearch={onSearch}
     >
       {!dataToRender || isLoading ? (
