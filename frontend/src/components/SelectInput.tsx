@@ -62,7 +62,7 @@ const SelectInput: SelectInputProps = ({
   }, [setIsOpen]);
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative w-full">
       <div
         tabIndex={0}
         onClick={() => setIsOpen(!isOpen)}
