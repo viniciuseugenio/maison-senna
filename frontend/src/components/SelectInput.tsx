@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import InputError from "./InputError";
 import { useFormContext } from "react-hook-form";
+import Option from "./Option";
 
-type SelectInputProps = {
+type SelectInputProps = React.FC<{
   label: string;
   Icon: LucideIcon;
   children: React.ReactNode;
@@ -13,9 +14,11 @@ type SelectInputProps = {
   setIsOpen: (value: React.SetStateAction<boolean>) => void;
   selectedValue?: string;
   error?: string;
+}> & {
+  Option: typeof Option;
 };
 
-const SelectInput: React.FC<SelectInputProps> = ({
+const SelectInput: SelectInputProps = ({
   label,
   Icon,
   children,
@@ -120,5 +123,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
     </div>
   );
 };
+
+SelectInput.Option = Option;
 
 export default SelectInput;

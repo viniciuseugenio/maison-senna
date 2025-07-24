@@ -59,20 +59,9 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
     >
       {categories &&
         categories.map((cat) => (
-          <li
-            tabIndex={0}
-            role="button"
-            aria-selected={cat.id === category?.id}
-            onKeyDown={(e) => selectOnEnter(e, cat)}
-            onClick={() => selectCategory(cat)}
-            key={cat.id}
-            className={twMerge(
-              `hover:bg-oyster/10 text-mine-shaft/80 hover:text-mine-shaft focus:bg-oyster/10 focus:text-mine-shaft outline-oyster cursor-pointer rounded-md p-2 transition-colors duration-300 focus-visible:outline-2`,
-              `${cat.id === category?.id && "bg-oyster/10 text-mine-shaft"}`,
-            )}
-          >
+          <SelectInput.Option key={cat.id} isSelected={cat.id === category?.id}>
             {cat.name}
-          </li>
+          </SelectInput.Option>
         ))}
     </SelectInput>
   );
