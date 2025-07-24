@@ -99,9 +99,16 @@ class VariationKindsDetailsView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
 
 
-class VariationTypesList(OrderedAdminListView):
+class VariationTypesList(OrderedListMixin, ListCreateAPIView):
     serializer_class = serializers.DashboardVariationTypeSerializer
     queryset = models.VariationType.objects.all()
+    permission_classes = [IsAdminUser]
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return serializers.VariationTypeCreateSerializer
+
+        return super().get_serializer_class()
 
 
 class VariationOptionsList(OrderedAdminListView):

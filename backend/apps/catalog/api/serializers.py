@@ -65,6 +65,26 @@ class DashboardVariationTypeSerializer(serializers.ModelSerializer):
         return obj.product.name
 
 
+class VariationTypeCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.VariationType
+        fields = ["id", "kind", "product"]
+
+    def validate(self, attrs):
+        kind = attrs.get("kind")
+        product = attrs.get("product")
+        already_exists = models.VariationType.objects.filter(
+            kind=kind, product=product
+        ).exists()
+
+        if already_exists:
+            raise serializers.ValidationError(
+                {"kind": "A variation type with this kind and product already exists"}
+            )
+
+        return super().validate(attrs)
+
+
 class VariationOptionsListSerializer(serializers.ModelSerializer):
     type = DashboardVariationTypeSerializer()
 
