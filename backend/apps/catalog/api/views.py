@@ -97,6 +97,7 @@ class VariationKindsDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = models.VariationKind.objects.all()
     serializer_class = serializers.VariationKindSerializer
     permission_classes = [IsAdminUser]
+    lookup_field = "pk"
 
 
 class VariationTypesList(OrderedListMixin, ListCreateAPIView):
@@ -109,6 +110,12 @@ class VariationTypesList(OrderedListMixin, ListCreateAPIView):
             return serializers.VariationTypeCreateSerializer
 
         return super().get_serializer_class()
+
+
+class VariationTypesDetail(RetrieveUpdateDestroyAPIView):
+    queryset = models.VariationType.objects.all()
+    serializer_class = serializers.VariationTypeSerializer
+    permission_classes = [IsAdminUser]
 
 
 class VariationOptionsList(OrderedAdminListView):

@@ -23,6 +23,7 @@ export const CATALOG_ENDPOINTS = {
   LIST_CREATE_VARIATION_KINDS: `${VITE_BACKEND_URL}/catalog/variation/kinds/`,
   VARIATION_KINDS_DETAIL: `${VITE_BACKEND_URL}/catalog/variation/kinds/:id/`,
   LIST_CREATE_VARIATION_TYPES: `${VITE_BACKEND_URL}/catalog/variation/types/`,
+  VARIATION_TYPES_DETAILS: `${VITE_BACKEND_URL}/catalog/variation/types/:id/`,
   LIST_VARIATION_OPTIONS: `${VITE_BACKEND_URL}/catalog/variation/options/`,
   LIST_PRODUCT_VARIATIONS: `${VITE_BACKEND_URL}/catalog/products_variations/`,
 };

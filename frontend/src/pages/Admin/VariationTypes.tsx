@@ -8,6 +8,8 @@ import { getVariationTypes } from "../../api/endpoints/products";
 import { VariationTypeList } from "../../types/catalog";
 import { HeaderConfig } from "../../types/admin";
 import { useState } from "react";
+import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
+import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
 
 const VariationTypes: React.FC = () => {
   const { data: variationTypes, isLoading } = useQuery<VariationTypeList[]>({
@@ -36,6 +38,10 @@ const VariationTypes: React.FC = () => {
     setFilteredOptions(result);
   };
 
+  const buildDeleteLink = (id) => {
+    return buildApiUrl(CATALOG_ENDPOINTS.VARIATION_TYPES_DETAILS, { id });
+  };
+
   const dataToRender = filteredOptions ?? variationTypes;
 
   return (
@@ -57,7 +63,7 @@ const VariationTypes: React.FC = () => {
               <TableData>{variationType.product}</TableData>
               <TableActions
                 editLink="/"
-                deleteLink="/"
+                deleteLink={buildDeleteLink(variationType.id)}
                 resourceType="Variation Type"
                 queryKey={["variationTypes"]}
               />
