@@ -59,7 +59,12 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
     >
       {categories &&
         categories.map((cat) => (
-          <SelectInput.Option key={cat.id} isSelected={cat.id === category?.id}>
+          <SelectInput.Option
+            isSelected={cat.id === category?.id}
+            onKeyDown={(e) => selectOnEnter(e, cat)}
+            onClick={() => selectCategory(cat)}
+            key={cat.id}
+          >
             {cat.name}
           </SelectInput.Option>
         ))}
