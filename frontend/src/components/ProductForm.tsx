@@ -13,6 +13,7 @@ import DescriptionInput from "./ProductForm/DescriptionInput";
 import ImageInput from "./ProductForm/ImageInput";
 import ProductSpecs from "./ProductForm/ProductSpecs";
 import { ProductDetails } from "../types/catalog";
+import CancelLink from "./CancelLink";
 
 type ProductFormProps<T extends FieldValues> = {
   methods: UseFormReturn<T>;
@@ -110,12 +111,7 @@ function ProductForm<T extends FieldValues>({
           </div>
         </div>
         <div className="items-right flex justify-end gap-3">
-          <Link
-            to="/admin/products"
-            className="border-mine-shaft/20 hover:bg-mine-shaft/10 cursor-pointer rounded-md border px-4 py-2 text-sm transition-colors duration-300"
-          >
-            Cancel
-          </Link>
+          <CancelLink to="/admin/products" />
           <Button loadingLabel="Saving..." isLoading={isPending} color="brown">
             <Check className="h-4 w-4" />
             {buttonLabel}
