@@ -1,41 +1,22 @@
-import { Plus, Tag, X } from "lucide-react";
+import { X } from "lucide-react";
 import { motion } from "motion/react";
 import { createPortal } from "react-dom";
-import { FormProvider, UseFormReturn } from "react-hook-form";
-import Button from "../Button";
-import FloatingInput from "../FloatingInput";
 import HorizontalDivider from "../HorizontalDivider";
 
 type FormModalProps<T> = {
   onClose: () => void;
   isPending: boolean;
-  methods: UseFormReturn<T>;
-  onSubmit: (values: T) => void;
-  defaultValue?: string;
   isEdit?: boolean;
-
-  /**
-   * The name of the model that is being created.
-   * (e.g Category, Variation Kind)
-   */
-  modelName: string;
+  children: React.ReactNode;
+  title: string;
 };
 
 export default function FormModal<T>({
-  methods,
+  title,
   onClose,
   isPending,
-  onSubmit,
-  defaultValue,
-  isEdit,
-  modelName,
+  children,
 }: FormModalProps<T>) {
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
-  const labels = isEdit ? "Edit" : "Create New";
-
   return createPortal(
     <div
       role="dialog"
@@ -55,7 +36,7 @@ export default function FormModal<T>({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 10 }}
         transition={{ type: "spring", damping: 20, stiffness: 300 }}
-        className="border-oyster/30 relative z-20 min-w-md rounded-md border bg-white p-4 shadow-lg"
+        className="border-oyster/70 relative z-20 max-w-xl min-w-md rounded-md border bg-white p-6 shadow-lg"
       >
         <button
           className="text-mine-shaft/60 absolute top-3 right-3 cursor-pointer duration-300 hover:text-red-600"
@@ -67,30 +48,12 @@ export default function FormModal<T>({
           <X className="h-5 w-5" />
         </button>
         <div className="flex flex-col items-center">
-          <h2 className="text-mine-shaft font-serif text-2xl font-light">
-            {labels} {modelName}
+          <h2 className="text-mine-shaft text-center font-serif text-2xl font-light">
+            {title}
           </h2>
           <HorizontalDivider className="mx-auto" />
         </div>
-        <FormProvider {...methods}>
-          <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
-            <FloatingInput
-              defaultValue={defaultValue}
-              icon={<Tag className="h-4 w-4" />}
-              name="name"
-              label="Name"
-              error={errors?.name?.message}
-            />
-            <Button
-              isLoading={isPending}
-              loadingLabel="Creating..."
-              className="mt-4 w-full gap-2"
-            >
-              <Plus className="h-4 w-4" />
-              {labels} {modelName}
-            </Button>
-          </form>
-        </FormProvider>
+        {children}
       </motion.div>
     </div>,
     document.getElementById("modal")!,

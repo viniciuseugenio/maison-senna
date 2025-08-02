@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { addVariationKind } from "../../api/endpoints/products";
 import { variationKindsSchema } from "../../schemas/variationTypes";
@@ -8,6 +8,9 @@ import { ApiResponse } from "../../types/api";
 import { VariationKindsForm, VariationKindsFormError } from "../../types/forms";
 import { toast } from "../../utils/customToast";
 import FormModal from "./FormModal";
+import FloatingInput from "../FloatingInput";
+import { Plus, Tag } from "lucide-react";
+import Button from "../Button";
 
 const VariationKindsCreate: React.FC = () => {
   const navigate = useNavigate();
@@ -44,6 +47,10 @@ const VariationKindsCreate: React.FC = () => {
   const methods = useForm({
     resolver: zodResolver(variationKindsSchema),
   });
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
   const onSubmit: SubmitHandler<VariationKindsForm> = async (data) => {
     mutate(data);
@@ -51,12 +58,29 @@ const VariationKindsCreate: React.FC = () => {
 
   return (
     <FormModal
-      onSubmit={onSubmit}
-      modelName="Variation Kind"
+      title="Create New Variation Kind"
       onClose={onClose}
       isPending={isPending}
-      methods={methods}
-    />
+    >
+      <FormProvider {...methods}>
+        <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
+          <FloatingInput
+            icon={<Tag className="h-4 w-4" />}
+            name="name"
+            label="Name"
+            error={errors?.name?.message}
+          />
+          <Button
+            isLoading={isPending}
+            loadingLabel="Creating..."
+            className="mt-4 w-full gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Create
+          </Button>
+        </form>
+      </FormProvider>
+    </FormModal>
   );
 };
 
