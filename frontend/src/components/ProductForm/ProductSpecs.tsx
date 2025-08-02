@@ -3,14 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import InputError from "../InputError";
 import ProductSpecItem from "./ProductSpecItem";
-
-type ProductSpecsProps = {
-  name: string;
-  label: string;
-  placeholder: string;
-  value?: string[];
-  error?: string;
-};
+import { ProductSpecsProps } from "./types";
 
 const ProductSpecs: React.FC<ProductSpecsProps> = ({
   name,

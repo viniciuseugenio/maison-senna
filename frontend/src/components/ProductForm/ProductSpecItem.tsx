@@ -1,12 +1,13 @@
 import { useState } from "react";
 import SpecItemDisplay from "./SpecItemDisplay";
 import SpecItemEdit from "./SpecItemEdit";
+import { ProductSpecItemProps } from "./types";
 
-const ProductSpecItem: React.FC<{
-  itemIndex: number;
-  spec: string;
-  setSpecs: React.Dispatch<React.SetStateAction<string[]>>;
-}> = ({ itemIndex, spec, setSpecs }) => {
+const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
+  itemIndex,
+  spec,
+  setSpecs,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(spec);
 

@@ -3,12 +3,7 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import ConnectForm from "../ConnectForm";
-
-type ImageInputProps = {
-  name?: string;
-  value?: string;
-  error?: string;
-};
+import { ImageInputProps } from "./types";
 
 const ImageInput: React.FC<ImageInputProps> = ({
   name = "referenceImage",

@@ -1,5 +1,5 @@
 import { Check, X } from "lucide-react";
-import { SpecItemEditProps } from "../../types/admin";
+import { SpecItemEditProps } from "./types";
 
 const SpecItemEdit: React.FC<SpecItemEditProps> = ({
   inputValue,

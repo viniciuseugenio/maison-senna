@@ -1,5 +1,5 @@
 import { Pen, X } from "lucide-react";
-import { SpecItemDisplayProps } from "../../types/admin";
+import { SpecItemDisplayProps } from "./types";
 
 const SpecItemDisplay: React.FC<SpecItemDisplayProps> = ({
   spec,

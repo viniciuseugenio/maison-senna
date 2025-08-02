@@ -2,15 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Tag } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { twMerge } from "tailwind-merge";
 import { getCategories } from "../../api/endpoints/products";
 import { Category } from "../../types/catalog";
 import SelectInput from "../SelectInput";
-
-type CategoryInputProps = {
-  value?: Category | null;
-  error?: string | null;
-};
+import { CategoryInputProps } from "./types";
 
 const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
   const [isOpen, setIsOpen] = useState(false);

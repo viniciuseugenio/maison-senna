@@ -44,17 +44,3 @@ export type SmallBoxProps = {
   title: string;
   data?: string | number;
 };
-
-export type SpecItemDisplayProps = {
-  spec: string;
-  index: number;
-  onEdit: () => void;
-  onDelete: () => void;
-};
-
-export type SpecItemEditProps = {
-  inputValue: string;
-  setInputValue: (value: string) => void;
-  onSave: () => void;
-  onCancel: () => void;
-};
