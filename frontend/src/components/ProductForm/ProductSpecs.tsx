@@ -53,7 +53,7 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
           id={name}
           aria-invalid={!!error}
           placeholder={placeholder}
-          className="border-oyster/20 focus:border-oyster ring-oyster/30 flex-1 rounded-md border p-2 text-sm duration-300 outline-none focus:ring-2"
+          className="border-oyster/20 focus:border-oyster ring-oyster/30 flex-1 rounded-md border bg-white p-2 text-sm duration-300 outline-none focus:ring-2"
         />
         <button
           onClick={onAdd}
