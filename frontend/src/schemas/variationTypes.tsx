@@ -6,7 +6,7 @@ export const variationKindsSchema = z.object({
 
 export const newVariationType = z.object({
   kind: z.number({
-    required_error: "You must select a variation kind!",
+    required_error: "You must select a variation kind",
   }),
-  product: z.number({ required_error: "You must select a product!" }),
+  product: z.number({ required_error: "You must select a product" }),
 });
