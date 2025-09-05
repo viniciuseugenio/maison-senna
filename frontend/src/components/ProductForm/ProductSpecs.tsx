@@ -1,31 +1,31 @@
 import { Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 import InputError from "../InputError";
 import ProductSpecItem from "./ProductSpecItem";
-import { ProductSpecsProps } from "./types";
-import { twMerge } from "tailwind-merge";
+import { ProductSpecsProps, SpecItem } from "./types";
 
 const ProductSpecs: React.FC<ProductSpecsProps> = ({
   name,
-  value = [],
+  value,
   label,
   error,
   placeholder,
+  className,
 }) => {
-  const [specs, setSpecs] = useState<string[]>(value);
+  const { setValue, watch } = useFormContext();
+  const initialSpecs = watch(name) || value || [];
+  const [specs, setSpecs] = useState<SpecItem[]>(
+    initialSpecs.map((spec) => ({ id: crypto.randomUUID(), value: spec })),
+  );
+  const [touched, setTouched] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { setValue } = useFormContext();
 
   useEffect(() => {
-    if (value && !specs) {
-      setSpecs(value);
-    }
-  }, [value]);
-
-  useEffect(() => {
-    setValue(name, specs, { shouldValidate: true });
-  }, [specs, name, setValue]);
+    const onlyNames = specs.map((spec) => spec.value);
+    setValue(name, onlyNames, { shouldValidate: touched });
+  }, [name, setValue, specs, touched]);
 
   const onAdd = () => {
     if (!inputRef.current) return;
@@ -33,7 +33,19 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
     const value = inputRef.current.value.trim();
     if (!value) return;
 
-    setSpecs((prevSpecs) => [...prevSpecs, value]);
+    if (
+      specs.some((spec) => spec.value.toLowerCase() === value.toLowerCase())
+    ) {
+      return;
+    }
+
+    if (!touched) setTouched(true);
+
+    const newSpec = {
+      id: crypto.randomUUID(),
+      value,
+    };
+    setSpecs((prevSpecs) => [...prevSpecs, newSpec]);
     inputRef.current!.value = "";
   };
 
@@ -45,7 +57,7 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
   };
 
   return (
-    <div className="md:col-span-3">
+    <div className={twMerge("md:col-span-3", className)}>
       <div className="text-mine-shaft mb-2 text-sm font-medium">{label}</div>
       <div className="flex gap-2">
         <input
@@ -72,9 +84,10 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
         <div className="space-y-2">
           {specs.map((spec, ind) => (
             <ProductSpecItem
-              key={ind}
-              spec={spec}
-              itemIndex={ind}
+              key={spec.id}
+              spec={spec.value}
+              index={ind}
+              id={spec.id}
               setSpecs={setSpecs}
             />
           ))}

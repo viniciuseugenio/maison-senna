@@ -4,7 +4,8 @@ import SpecItemEdit from "./SpecItemEdit";
 import { ProductSpecItemProps } from "./types";
 
 const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
-  itemIndex,
+  id,
+  index,
   spec,
   setSpecs,
 }) => {
@@ -12,7 +13,7 @@ const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
   const [inputValue, setInputValue] = useState(spec);
 
   const onDelete = () => {
-    setSpecs((prevSpecs) => prevSpecs.filter((_, i) => i !== itemIndex));
+    setSpecs((prevSpecs) => prevSpecs.filter((spec) => spec.id !== id));
   };
 
   const onEdit = () => {
@@ -20,7 +21,9 @@ const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
     if (!newValue) return null;
 
     setSpecs((prevSpecs) =>
-      prevSpecs.map((item, i) => (i === itemIndex ? newValue : item)),
+      prevSpecs.map((spec) =>
+        spec.id === id ? { ...spec, value: newValue } : spec,
+      ),
     );
 
     setIsEditing(false);
@@ -36,7 +39,7 @@ const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
   ) : (
     <SpecItemDisplay
       spec={spec}
-      index={itemIndex}
+      index={index}
       onEdit={() => setIsEditing(true)}
       onDelete={onDelete}
     />
