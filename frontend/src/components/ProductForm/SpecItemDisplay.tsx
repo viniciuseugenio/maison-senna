@@ -1,4 +1,4 @@
-import { Pen, X } from "lucide-react";
+import { Pen, Trash2 } from "lucide-react";
 import { SpecItemDisplayProps } from "./types";
 
 const SpecItemDisplay: React.FC<SpecItemDisplayProps> = ({
@@ -31,7 +31,7 @@ const SpecItemDisplay: React.FC<SpecItemDisplayProps> = ({
           className="hover:bg-oyster/40 cursor-pointer rounded-sm p-1.5 opacity-40 transition-colors duration-300 hover:text-red-600 hover:opacity-100"
           onClick={onDelete}
         >
-          <X className="h-4 w-4" />
+          <Trash2 className="h-4 w-4" />
         </button>
       </div>
     </div>
