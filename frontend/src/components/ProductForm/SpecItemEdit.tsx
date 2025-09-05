@@ -21,7 +21,7 @@ const SpecItemEdit: React.FC<SpecItemEditProps> = ({
         value={inputValue}
         onKeyDown={handleKeyDown}
         onChange={(e) => setInputValue(e.target.value)}
-        className="border-oyster/30 focus:border-oyster ring-oyster/30 w-full rounded-sm border p-3 text-sm duration-300 outline-none focus:ring-3"
+        className="border-oyster/60 focus:border-oyster ring-oyster/40 focus:ring-oyster/30 w-full rounded-sm border p-3 text-sm ring-1 duration-300 outline-none focus:ring-3"
       />
       <div className="absolute top-1/2 right-3 flex -translate-y-1/2 gap-2">
         <button
