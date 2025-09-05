@@ -7,10 +7,19 @@ const SpecItemEdit: React.FC<SpecItemEditProps> = ({
   onSave,
   onCancel,
 }) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onSave();
+    }
+  };
+
   return (
     <div className="group relative">
       <input
+        autoFocus
         value={inputValue}
+        onKeyDown={handleKeyDown}
         onChange={(e) => setInputValue(e.target.value)}
         className="border-oyster/30 focus:border-oyster ring-oyster/30 w-full rounded-sm border p-3 text-sm duration-300 outline-none focus:ring-3"
       />
