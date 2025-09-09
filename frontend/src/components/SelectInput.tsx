@@ -74,7 +74,7 @@ const SelectInput: SelectInputProps = ({
         className={twMerge(
           `border-oyster/20 focus:border-oyster ring-oyster/30 focus-visible:border-oyster flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-md border bg-white px-3 text-sm transition-colors duration-300 outline-none focus-visible:ring-2`,
           `${isOpen && "border-oyster ring-2"}`,
-          `${error && "border-red-500 ring-red-200"}`,
+          `${error && "border-red-500 ring-red-200 focus:border-red-600"}`,
         )}
       >
         <div className="pointer-events-none flex items-center justify-start gap-2 select-none">
