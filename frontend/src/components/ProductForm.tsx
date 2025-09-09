@@ -1,19 +1,18 @@
-import { Check, DollarSign, Tag } from "lucide-react";
+import { ArrowLeft, Check, Package, Palette } from "lucide-react";
+import { useState } from "react";
 import {
   FieldValues,
   FormProvider,
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form";
-import { Link } from "react-router";
-import Button from "./Button";
-import FloatingInput from "./FloatingInput";
-import CategoryInput from "./ProductForm/CategoryInput";
-import DescriptionInput from "./ProductForm/DescriptionInput";
-import ImageInput from "./ProductForm/ImageInput";
-import ProductSpecs from "./ProductForm/ProductSpecs";
 import { ProductDetails } from "../types/catalog";
+import { NewProductForm } from "../types/forms";
+import Button from "./Button";
 import CancelLink from "./CancelLink";
+import BasicInfo from "./ProductForm/BasicInfo";
+import StepInfo from "./ProductForm/StepInfo";
+import Variations from "./ProductForm/Variations";
 
 type ProductFormProps<T extends FieldValues> = {
   methods: UseFormReturn<T>;
@@ -30,10 +29,7 @@ function ProductForm<T extends FieldValues>({
   onSubmit,
   buttonLabel,
 }: ProductFormProps<T>) {
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, trigger } = methods;
 
   const getErrorMessage = (error: any) => {
     if (!error) return undefined;
@@ -41,84 +37,107 @@ function ProductForm<T extends FieldValues>({
     return undefined;
   };
 
+  const [currentStep, setCurrentStep] = useState(0);
+  const steps = [
+    {
+      icon: Package,
+      label: "Basic Info",
+      description: "Product details",
+      fields: [
+        "name",
+        "basePrice",
+        "description",
+        "category",
+        "details",
+        "materials",
+        "care",
+        "referenceImage",
+      ],
+    },
+    {
+      icon: Palette,
+      label: "Variations",
+      description: "Types & Options",
+      fields: ["variations"],
+    },
+  ];
+
+  const isLastStep = steps.length - 1 === currentStep;
+
+  type FieldName = keyof NewProductForm;
+
+  const nextStep = async () => {
+    const fields = steps[currentStep].fields;
+    const output = await trigger(fields as FieldName[], { shouldFocus: true });
+
+    if (!output) return;
+
+    setCurrentStep((prev) => (prev == steps.length - 1 ? prev : prev + 1));
+  };
+
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   return (
-    <FormProvider {...methods}>
-      <form className="space-y-12" onSubmit={handleSubmit(onSubmit)}>
-        <div className="border-oyster/30 rounded-md border bg-white p-6">
-          <h2 className="text-mine-shaft mb-6 font-serif text-xl font-light">
-            Basic Information
-          </h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            <FloatingInput
-              defaultValue={data?.name}
-              name="name"
-              label="Product Name"
-              icon={<Tag className="h-4 w-4" />}
-              error={getErrorMessage(errors.name)}
-            />
-            <FloatingInput
-              defaultValue={data?.basePrice}
-              name="basePrice"
-              label="Price"
-              icon={<DollarSign className="h-4 w-4" />}
-              error={getErrorMessage(errors.basePrice)}
-            />
-            <CategoryInput
-              value={data?.category}
-              error={getErrorMessage(errors.category)}
-            />
-            <DescriptionInput
-              value={data?.description}
-              error={getErrorMessage(errors.description)}
-            />
-          </div>
-        </div>
-        <div className="border-oyster/30 rounded-md border bg-white p-6">
-          <h2 className="text-mine-shaft mb-6 font-serif text-xl font-light">
-            Product Image
-          </h2>
-          <ImageInput
-            value={data?.referenceImage}
-            error={getErrorMessage(errors.referenceImage)}
+    <>
+      <div className="mb-6 flex items-center gap-6">
+        {steps.map((step, i) => (
+          <StepInfo
+            Icon={step.icon}
+            label={step.label}
+            description={step.description}
+            isLast={i === steps.length - 1}
+            isComplete={currentStep > i}
+            isCurrentStep={currentStep === i}
+            onClick={() => setCurrentStep(i)}
           />
-        </div>
-        <div className="border-oyster/30 rounded-md border bg-white p-6">
-          <h2 className="text-mine-shaft mb-6 font-serif text-xl font-light">
-            Product Details
-          </h2>
-          <div className="flex flex-col gap-12">
-            <ProductSpecs
-              name="details"
-              value={data?.details}
-              label="Details"
-              placeholder="Add a product detail..."
-              error={getErrorMessage(errors.details)}
-            />
-            <ProductSpecs
-              name="materials"
-              value={data?.materials}
-              label="Materials"
-              placeholder="Add a material..."
-              error={getErrorMessage(errors.materials)}
-            />
-            <ProductSpecs
-              name="care"
-              value={data?.care}
-              label="Care"
-              placeholder="Add a care instruction..."
-              error={getErrorMessage(errors.care)}
-            />
+        ))}
+      </div>
+
+      <FormProvider {...methods}>
+        <form className="space-y-12" onSubmit={handleSubmit(onSubmit)}>
+          {currentStep === 0 && (
+            <BasicInfo data={data} getErrorMessage={getErrorMessage} />
+          )}
+
+          {currentStep === 1 && <Variations />}
+
+          <div className="flex justify-between">
+            <div>
+              {currentStep !== 0 && (
+                <Button
+                  onClick={prevStep}
+                  color="brown"
+                  type="button"
+                  className="text-oyster border-oyster/40 hover:bg-oyster gap-1 border bg-transparent hover:text-white"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Previous step
+                </Button>
+              )}
+            </div>
+
+            <div className="flex gap-3">
+              <CancelLink to="/admin/products" />
+              <Button
+                type={isLastStep ? "submit" : "button"}
+                loadingLabel="Saving..."
+                isLoading={isPending}
+                color="brown"
+                className="gap-1"
+                {...(!isLastStep ? { onClick: nextStep } : {})}
+              >
+                <Check className="h-4 w-4" />
+                {isLastStep ? buttonLabel : "Go to next step"}
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className="items-right flex justify-end gap-3">
-          <CancelLink to="/admin/products" />
-          <Button loadingLabel="Saving..." isLoading={isPending} color="brown">
-            <Check className="h-4 w-4" />
-            {buttonLabel}
-          </Button>
-        </div>
-      </form>
-    </FormProvider>
+        </form>
+      </FormProvider>
+    </>
   );
 }
 

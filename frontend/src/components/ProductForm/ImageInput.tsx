@@ -10,9 +10,11 @@ const ImageInput: React.FC<ImageInputProps> = ({
   value,
   error,
 }) => {
-  const [image, setImage] = useState<File | null>(null);
+  const { setValue, watch } = useFormContext();
+  const formValue = watch("referenceImage");
+
+  const [image, setImage] = useState<File | null>(formValue || null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(value);
-  const { setValue } = useFormContext();
 
   useEffect(() => {
     if (!image) return;
@@ -22,7 +24,7 @@ const ImageInput: React.FC<ImageInputProps> = ({
     setPreviewUrl(objectUrl);
 
     return () => URL.revokeObjectURL(objectUrl);
-  }, [image, name]);
+  }, [image, name, setValue]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files[0];

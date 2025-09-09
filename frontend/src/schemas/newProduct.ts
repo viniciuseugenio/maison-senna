@@ -39,4 +39,31 @@ export default z.object({
     .refine((file) => file.type.startsWith("image/"), {
       message: "File must be an image",
     }),
+  variations: z
+    .array(
+      z.object({
+        variationKind: z.number({
+          invalid_type_error: "You have to select a variation kind",
+        }),
+        options: z
+          .array(z.string())
+          .min(1, "The variation must have at least one option"),
+      }),
+    )
+    .superRefine((vars, ctx) => {
+      if (vars.length === 1) return;
+      const seen = new Map<number, number>();
+      vars.forEach((v, idx) => {
+        if (v.variationKind === null) return;
+        if (seen.has(v.variationKind)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: [idx, "variationKind"],
+            message: "This variation kind is already used",
+          });
+        } else {
+          seen.set(v.variationKind, idx);
+        }
+      });
+    }),
 });

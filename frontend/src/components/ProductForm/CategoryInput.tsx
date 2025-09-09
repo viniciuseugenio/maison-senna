@@ -8,9 +8,10 @@ import SelectInput from "../SelectInput";
 import { CategoryInputProps } from "./types";
 
 const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
+  const { setValue, watch } = useFormContext();
+  const formValue = watch("category");
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState<Category | null>(value || null);
-  const { setValue } = useFormContext();
 
   const { data: categories = [] } = useQuery<Category[]>({
     queryFn: getCategories,
@@ -18,18 +19,23 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
   });
 
   const handleCategorySelect = useCallback(
-    (value: Category) => {
-      setCategory(value);
-      setValue("category", value.id, { shouldValidate: true });
+    (cat: Category) => {
+      setCategory(cat);
+      setValue("category", cat.id, { shouldValidate: true });
     },
     [setValue],
   );
 
   useEffect(() => {
-    if (value && !category) {
-      handleCategorySelect(value);
+    if (!category && (formValue || value)) {
+      const matched = categories.find((cat) => cat.id === formValue);
+      if (matched) {
+        handleCategorySelect(matched);
+      } else if (value) {
+        handleCategorySelect(value);
+      }
     }
-  }, [value, setValue, handleCategorySelect, category]);
+  }, [formValue, categories, value, handleCategorySelect, category]);
 
   const selectCategory = (category: Category) => {
     handleCategorySelect(category);
@@ -52,17 +58,16 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
       selectedValue={category?.name}
       error={error}
     >
-      {categories &&
-        categories.map((cat) => (
-          <SelectInput.Option
-            isSelected={cat.id === category?.id}
-            onKeyDown={(e) => selectOnEnter(e, cat)}
-            onClick={() => selectCategory(cat)}
-            key={cat.id}
-          >
-            {cat.name}
-          </SelectInput.Option>
-        ))}
+      {categories.map((cat) => (
+        <SelectInput.Option
+          isSelected={cat.id === category?.id}
+          onKeyDown={(e) => selectOnEnter(e, cat)}
+          onClick={() => selectCategory(cat)}
+          key={cat.id}
+        >
+          {cat.name}
+        </SelectInput.Option>
+      ))}
     </SelectInput>
   );
 };
