@@ -1,9 +1,9 @@
 import { useGoogleLogin } from "@react-oauth/google";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { camelCase } from "change-case";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
-import { checkUserAuthenticity, logoutUser } from "../api/endpoints/auth";
+import { logoutUser } from "../api/endpoints/auth";
 import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
 import { ERROR_NOTIFICATIONS } from "../constants/auth";
@@ -22,7 +22,7 @@ export function useUserContext() {
   return user;
 }
 
-export function useLogout() {
+export function useLogout(automatic?: boolean) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,7 +32,7 @@ export function useLogout() {
       const previousUser = queryClient.getQueryData(["user"]);
       queryClient.setQueryData(["user"], null);
 
-      if (previousUser) {
+      if (previousUser && !automatic) {
         toast.info({
           title: data.detail,
           description: data.description,
