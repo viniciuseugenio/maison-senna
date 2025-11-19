@@ -35,7 +35,8 @@ export default function UserContextProvider({
   });
 
   const isAuthenticated = !!user;
-  const { mutate: logout } = useLogout(true);
+  const { mutate: automaticLogout } = useLogout(true);
+  const { mutate: logout } = useLogout(false);
 
   useEffect(() => {
     (async () => {
@@ -51,10 +52,10 @@ export default function UserContextProvider({
           if (data && !isError) {
             queryClient.setQueryData(["user"], data);
           } else {
-            logout();
+            automaticLogout();
           }
         } catch {
-          logout();
+          automaticLogout();
         } finally {
           setIsInitializing(false);
         }
@@ -62,7 +63,7 @@ export default function UserContextProvider({
         setIsInitializing(false);
       }
     })();
-  }, [user, error, queryClient, fetchRefreshUser, logout]);
+  }, [user, error, queryClient, fetchRefreshUser, automaticLogout]);
 
   const contextValue = {
     user,
