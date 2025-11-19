@@ -19,7 +19,6 @@ export default function UserContextProvider({
     data: user,
     isLoading,
     error,
-    isError,
   } = useQuery({
     queryKey: ["user"],
     queryFn: checkUserAuthenticity,
@@ -36,7 +35,7 @@ export default function UserContextProvider({
   });
 
   const isAuthenticated = !!user;
-  const { mutate: logout } = useLogout();
+  const { mutate: logout } = useLogout(true);
 
   useEffect(() => {
     (async () => {
@@ -45,11 +44,11 @@ export default function UserContextProvider({
         return;
       }
 
-      if (error && error.status === 401) {
+      if (error?.status === 401) {
         try {
-          const { data } = await fetchRefreshUser();
+          const { data, isError } = await fetchRefreshUser();
 
-          if (data) {
+          if (data && !isError) {
             queryClient.setQueryData(["user"], data);
           } else {
             logout();
@@ -59,17 +58,11 @@ export default function UserContextProvider({
         } finally {
           setIsInitializing(false);
         }
+      } else if (error) {
+        setIsInitializing(false);
       }
     })();
-  }, [
-    user,
-    logout,
-    error,
-    isError,
-    queryClient,
-    isInitializing,
-    fetchRefreshUser,
-  ]);
+  }, [user, error, queryClient, fetchRefreshUser, logout]);
 
   const contextValue = {
     user,
