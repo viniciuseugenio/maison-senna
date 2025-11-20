@@ -42,12 +42,30 @@ export default z.object({
   variations: z
     .array(
       z.object({
-        variationKind: z.number({
-          invalid_type_error: "You have to select a variation kind",
-        }),
+        id: z.string(),
+        variationKind: z
+          .number({
+            invalid_type_error: "You have to select a variation kind",
+          })
+          .refine((val) => val !== 0, {
+            message: "You have to select a variation kind",
+          }),
         options: z
-          .array(z.string())
-          .min(1, "The variation must have at least one option"),
+          .array(z.object({ id: z.string(), value: z.string() }))
+          .min(1, "The variation must have at least one option")
+          .refine(
+            (options) => {
+              const seen: string[] = [];
+              for (const obj of options) {
+                if (seen.includes(obj.value)) {
+                  return false;
+                }
+                seen.push(obj.value);
+              }
+              return true;
+            },
+            { message: "Duplicate options are not accepted" },
+          ),
       }),
     )
     .superRefine((vars, ctx) => {
@@ -67,3 +85,57 @@ export default z.object({
       });
     }),
 });
+
+const earrings = {
+  id: 6,
+  category: {
+    id: 3,
+    name: "Earrings",
+    slug: "earrings",
+  },
+  name: "Luna Pearl Drop Earrings",
+  slug: "luna-pearl-drop-earrings",
+  basePrice: "950.00",
+  referenceImage:
+    "http://localhost:8000/media/catalog/products/luna-pearl-drop-earrings.jpg",
+  description:
+    "The Luna Pearl Drop Earrings blend timeless sophistication with modern minimalism, featuring lustrous freshwater pearls suspended from sleek gold hooks.",
+  variationTypes: [
+    {
+      id: 11,
+      kind: {
+        id: 3,
+        name: "Metal Type",
+      },
+      options: [
+        { id: 28, name: "14k Yellow Gold", priceModifier: null },
+        { id: 29, name: "14k White Gold", priceModifier: "100.00" },
+        { id: 30, name: "Platinum", priceModifier: "250.00" },
+      ],
+    },
+    {
+      id: 12,
+      kind: {
+        id: 7,
+        name: "Pearl Size",
+      },
+      options: [
+        { id: 31, name: "8mm", priceModifier: null },
+        { id: 32, name: "10mm", priceModifier: "120.00" },
+      ],
+    },
+  ],
+  details: [
+    "Natural freshwater pearls",
+    "Hand-polished gold hooks",
+    "Secure push-back closure",
+    "Available in two pearl sizes",
+    "Delivered in satin jewelry pouch",
+  ],
+  materials: ["14k gold or platinum", "Freshwater pearls"],
+  care: [
+    "Avoid contact with hairspray and perfume",
+    "Wipe with a clean soft cloth after each wear",
+    "Store in a separate pouch to prevent scratches",
+  ],
+};
