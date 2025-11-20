@@ -50,12 +50,12 @@ const VariationItem: React.FC<VariationItemProps> = ({
         <VariationKindSelect
           value={variation.variationKind}
           onChange={(value: number) => onUpdateKind(index, value)}
-          error={errors?.variations?.[index]?.variationKind?.message}
+          error={errors?.variationKind?.message}
         />
         <VariationOptionsInput
           values={variation.options}
           setValues={(updater) => onUpdateOptions(index, updater)}
-          error={errors?.variations?.[index]?.options?.message}
+          error={errors?.options?.message}
         />
       </div>
     </fieldset>
