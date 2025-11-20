@@ -8,6 +8,7 @@ const Variations: React.FC = () => {
   const {
     watch,
     setValue,
+    trigger,
     formState: { errors },
   } = useFormContext();
   const variations = watch("variations") as VariationOptionsObj[];
@@ -29,8 +30,9 @@ const Variations: React.FC = () => {
     );
   };
 
-  const updateVariationKind = (index: number, value: number) => {
+  const updateVariationKind = async (index: number, value: number) => {
     setValue(`variations.${index}.variationKind`, value);
+    await trigger(`variations.${index}.variationKind`);
   };
 
   const updateVariationOption = (
