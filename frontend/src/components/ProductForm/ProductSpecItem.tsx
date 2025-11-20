@@ -16,13 +16,13 @@ const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
     setSpecs((prevSpecs) => prevSpecs.filter((spec) => spec.id !== id));
   };
 
-  const onEdit = () => {
-    const newValue = inputValue.trim();
-    if (!newValue) return null;
+  const handleSave = () => {
+    const trimmedValue = inputValue.trim();
+    if (!trimmedValue) return null;
 
     setSpecs((prevSpecs) =>
       prevSpecs.map((spec) =>
-        spec.id === id ? { ...spec, value: newValue } : spec,
+        spec.id === id ? { ...spec, value: trimmedValue } : spec,
       ),
     );
 
@@ -33,7 +33,7 @@ const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
     <SpecItemEdit
       inputValue={inputValue}
       setInputValue={setInputValue}
-      onSave={onEdit}
+      onSave={handleSave}
       onCancel={() => setIsEditing(false)}
     />
   ) : (
