@@ -35,25 +35,29 @@ const VariationKindSelect: React.FC<VariationKindSelectProps> = ({
   };
 
   return (
-    <SelectInput
-      label="Select a variation kind"
-      Icon={Layers}
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-      selectedValue={kindName}
-      error={error}
-    >
-      {variationKinds &&
-        variationKinds.map((variationKind) => (
-          <SelectInput.Option
-            key={variationKind.id}
-            onClick={() => handleOnChange(variationKind)}
-            isSelected={false}
-          >
-            {variationKind.name}
-          </SelectInput.Option>
-        ))}
-    </SelectInput>
+    <div className="flex-1">
+      <p className="text-mine-shaft mb-2 text-sm font-medium">Variation Kind</p>
+
+      <SelectInput
+        label="Select a variation kind"
+        Icon={Layers}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        selectedValue={kindName}
+        error={error}
+      >
+        {variationKinds &&
+          variationKinds.map((variationKind) => (
+            <SelectInput.Option
+              key={variationKind.id}
+              onClick={() => handleOnChange(variationKind)}
+              isSelected={false}
+            >
+              {variationKind.name}
+            </SelectInput.Option>
+          ))}
+      </SelectInput>
+    </div>
   );
 };
 
