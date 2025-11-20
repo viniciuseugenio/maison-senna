@@ -3,10 +3,11 @@ import { twMerge } from "tailwind-merge";
 import { useSpecInput } from "../../hooks/useSpecInput";
 import InputError from "../InputError";
 import ProductSpecItem from "./ProductSpecItem";
+import { SpecItem } from "./types";
 
 type VariationOptionsInputProps = {
-  values: string[];
-  setValues: React.Dispatch<React.SetStateAction<string[]>>;
+  values: SpecItem[];
+  setValues: (updater: (prev: SpecItem[]) => SpecItem[]) => void;
   error?: string;
 };
 
@@ -18,11 +19,11 @@ const VariationOptionsInput: React.FC<VariationOptionsInputProps> = ({
   const { addItem, handleKeyDown, inputRef } = useSpecInput(values, setValues);
 
   return (
-    <div className="w-full">
+    <div className="flex-1">
       <div className="text-mine-shaft mb-2 text-sm font-medium">Options</div>
       <div className="flex gap-2">
         <input
-          onKeyDown={handleEnter}
+          onKeyDown={handleKeyDown}
           ref={inputRef}
           aria-invalid={!!error}
           placeholder="Add a new option"
@@ -32,7 +33,7 @@ const VariationOptionsInput: React.FC<VariationOptionsInputProps> = ({
           )}
         />
         <button
-          onClick={onAdd}
+          onClick={addItem}
           type="button"
           className="bg-oyster/80 hover:bg-oyster cursor-pointer rounded-md p-3 transition-colors duration-300"
         >
@@ -42,10 +43,11 @@ const VariationOptionsInput: React.FC<VariationOptionsInputProps> = ({
       <InputError>{error}</InputError>
       <div className="mt-2">
         <div className="space-y-2">
-          {values.map((value, ind) => (
+          {values.map((option, ind) => (
             <ProductSpecItem
-              key={ind}
-              spec={value}
+              id={option.id}
+              key={option.id}
+              spec={option.value}
               index={ind}
               setSpecs={setValues}
             />
