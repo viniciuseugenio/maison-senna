@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import InputError from "../InputError";
 import ProductSpecItem from "./ProductSpecItem";
 import { ProductSpecsProps, SpecItem } from "./types";
+import { useSpecInput } from "../../hooks/useSpecInput";
 
 const ProductSpecs: React.FC<ProductSpecsProps> = ({
   name,
@@ -15,53 +16,31 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
   className,
 }) => {
   const { setValue, watch } = useFormContext();
-  const initialSpecs = watch(name) || value || [];
+  const formSpecs = watch(name) || value || [];
   const [specs, setSpecs] = useState<SpecItem[]>(
-    initialSpecs.map((spec) => ({ id: crypto.randomUUID(), value: spec })),
+    formSpecs.map((spec) => ({ id: crypto.randomUUID(), value: spec })),
   );
   const [touched, setTouched] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const onlyNames = specs.map((spec) => spec.value);
     setValue(name, onlyNames, { shouldValidate: touched });
   }, [name, setValue, specs, touched]);
 
-  const onAdd = () => {
-    if (!inputRef.current) return;
-
-    const value = inputRef.current.value.trim();
-    if (!value) return;
-
-    if (
-      specs.some((spec) => spec.value.toLowerCase() === value.toLowerCase())
-    ) {
-      return;
-    }
-
-    if (!touched) setTouched(true);
-
-    const newSpec = {
-      id: crypto.randomUUID(),
-      value,
-    };
-    setSpecs((prevSpecs) => [...prevSpecs, newSpec]);
-    inputRef.current!.value = "";
-  };
-
-  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      onAdd();
-    }
-  };
+  const { inputRef, addItem, handleKeyDown } = useSpecInput(
+    specs,
+    (updater) => {
+      setSpecs(updater);
+      if (!touched) setTouched(true);
+    },
+  );
 
   return (
     <div className={twMerge("md:col-span-3", className)}>
       <div className="text-mine-shaft mb-2 text-sm font-medium">{label}</div>
       <div className="flex gap-2">
         <input
-          onKeyDown={handleEnter}
+          onKeyDown={handleKeyDown}
           ref={inputRef}
           id={name}
           aria-invalid={!!error}
@@ -72,7 +51,7 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
           )}
         />
         <button
-          onClick={onAdd}
+          onClick={addItem}
           type="button"
           className="bg-oyster/80 hover:bg-oyster cursor-pointer rounded-md p-3 transition-colors duration-300"
         >

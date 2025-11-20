@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
-import { useRef } from "react";
 import { twMerge } from "tailwind-merge";
+import { useSpecInput } from "../../hooks/useSpecInput";
 import InputError from "../InputError";
 import ProductSpecItem from "./ProductSpecItem";
 
@@ -15,24 +15,7 @@ const VariationOptionsInput: React.FC<VariationOptionsInputProps> = ({
   setValues,
   error,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const onAdd = () => {
-    if (!inputRef.current) return;
-
-    const value = inputRef.current.value.trim();
-    if (!value) return;
-    setValues((prev) => [...prev, value]);
-
-    inputRef.current.focus();
-    inputRef.current.value = "";
-  };
-
-  const handleEnter = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      onAdd();
-    }
-  };
+  const { addItem, handleKeyDown, inputRef } = useSpecInput(values, setValues);
 
   return (
     <div className="w-full">
