@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
-import { useUserContext } from "../hooks/auth";
 import NavbarButton from "./NavbarButton";
 import { useAuth } from "../store/useAuth";
 
