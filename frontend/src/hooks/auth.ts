@@ -1,25 +1,35 @@
 import { useGoogleLogin } from "@react-oauth/google";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { camelCase } from "change-case";
-import { useContext } from "react";
 import { useNavigate } from "react-router";
-import { logoutUser } from "../api/endpoints/auth";
+import { checkUserAuthenticity, logoutUser } from "../api/endpoints/auth";
 import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
 import { ERROR_NOTIFICATIONS } from "../constants/auth";
-import { UserContext } from "../store/UserContext";
 import { ApiResponse } from "../types/api";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
 
-export function useUserContext() {
-  const user = useContext(UserContext);
+export function useAuthUser() {
+  return useQuery<{ authenticated: boolean; user: any }>({
+    queryKey: ["user"],
+    queryFn: checkUserAuthenticity,
+    retry: false,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnReconnect: "always",
+    refetchOnWindowFocus: "always",
+  });
+}
 
-  if (user === undefined) {
-    throw new Error("useUserContext must be used with a UserContext");
-  }
+export function useIsAuthenticated() {
+  const { data } = useAuthUser();
+  return data?.authenticated ?? false;
+}
 
-  return user;
+export function useCurrentUser() {
+  const { data } = useAuthUser();
+  return data?.user ?? null;
 }
 
 export function useLogout(automatic?: boolean) {
