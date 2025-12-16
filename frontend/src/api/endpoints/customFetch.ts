@@ -6,7 +6,10 @@ interface FetchOptions extends RequestInit {
   _isRetry?: boolean;
 }
 
-export async function customFetch(url: string, options: FetchOptions = {}) {
+export async function customFetch<T>(
+  url: string,
+  options: FetchOptions = {},
+): Promise<T> {
   try {
     const {
       requiresAuth = false,
