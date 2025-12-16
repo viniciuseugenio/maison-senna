@@ -1,5 +1,3 @@
-import { camelCase } from "change-case";
-import { transformKeys } from "../../utils/transformKeys";
 import { AUTH_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
 
 export async function customFetch(
@@ -16,7 +14,6 @@ export async function customFetch(
       ...options,
       credentials: "include",
     });
-    let data = response;
 
     if (response.status === 401 && !additionalOptions?._isRetry) {
       const refresh = await fetch(AUTH_ENDPOINTS.REFRESH_ACCESS_TOKEN, {
@@ -33,19 +30,20 @@ export async function customFetch(
       }
     }
 
-    const camelData = transformKeys(data, camelCase);
+    const data = await response.json();
+
     if (!response.ok) {
       if (response.status === 400 && additionalOptions?.ignore400Response) {
-        return { errors: camelData, status: response.status };
+        return { errors: data, status: response.status };
       }
       throw {
-        title: camelData.detail || UNEXPECTED_ERROR,
-        description: camelData.description,
+        title: data.detail || UNEXPECTED_ERROR,
+        description: data.description,
         status: response.status,
       };
     }
 
-    return camelData;
+    return data;
   } catch (error: unknown) {
     if (
       typeof error === "object" &&
