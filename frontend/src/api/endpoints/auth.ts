@@ -5,35 +5,21 @@ import { customFetch } from "./customFetch";
 export async function loginUser(formData: LoginForm) {
   return await customFetch(AUTH_ENDPOINTS.LOGIN, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(formData),
   });
 }
 
 export async function registerUser(formData: RegisterForm) {
-  return await customFetch(
-    AUTH_ENDPOINTS.REGISTER,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    },
-    {
-      ignore400Response: true,
-    }
-  );
+  return await customFetch(AUTH_ENDPOINTS.REGISTER, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    returnBadRequest: true,
+  });
 }
 
 export async function checkEmailAvailability(email: string) {
   return await customFetch(AUTH_ENDPOINTS.CHECK_EMAIL_AVAILABITY, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify({ email }),
   });
 }
@@ -43,27 +29,20 @@ export async function checkUserAuthenticity() {
 }
 
 export async function refreshAccessToken() {
-  return await customFetch(
-    AUTH_ENDPOINTS.REFRESH_ACCESS_TOKEN,
-    {
-      method: "POST",
-    },
-  );
+  return await customFetch(AUTH_ENDPOINTS.REFRESH_ACCESS_TOKEN, {
+    method: "POST",
+  });
 }
 
 export async function logoutUser() {
-  return await customFetch(
-    AUTH_ENDPOINTS.LOGOUT,
-    {
-      method: "POST",
-    },
-  );
+  return await customFetch(AUTH_ENDPOINTS.LOGOUT, {
+    method: "POST",
+  });
 }
 
 export async function requestPasswordReset(email: string) {
   return await customFetch(AUTH_ENDPOINTS.REQUEST_PASSWORD_RESET, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
   });
 }
@@ -79,7 +58,6 @@ export async function resetPassword({
 }) {
   return await customFetch(AUTH_ENDPOINTS.RESET_PASSWORD, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ uid, token, new_password }),
   });
 }

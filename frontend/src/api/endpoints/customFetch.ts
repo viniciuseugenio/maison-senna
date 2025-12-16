@@ -1,21 +1,34 @@
 import { AUTH_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
 
-export async function customFetch(
-  url: string,
-  options?: RequestInit,
-  additionalOptions?: {
-    ignore400Response?: boolean;
-    noContent?: boolean;
-    _isRetry?: boolean;
-  },
-) {
-  try {
-    const response = await fetch(url, {
-      ...options,
-      credentials: "include",
-    });
+interface FetchOptions extends RequestInit {
+  requiresAuth?: boolean;
+  returnBadRequest?: boolean;
+  _isRetry?: boolean;
+}
 
-    if (response.status === 401 && !additionalOptions?._isRetry) {
+export async function customFetch(url: string, options: FetchOptions = {}) {
+  try {
+    const {
+      requiresAuth = false,
+      returnBadRequest = false,
+      _isRetry = false,
+      ...fetchOptions
+    } = options;
+
+    const config: RequestInit = {
+      headers: {
+        ...(!(fetchOptions.body instanceof FormData) && {
+          "Content-Type": "application/json",
+        }),
+        ...fetchOptions.headers,
+      },
+      credentials: "include",
+      ...fetchOptions,
+    };
+
+    const response = await fetch(url, config);
+
+    if (response.status === 401 && requiresAuth && !_isRetry) {
       const refresh = await fetch(AUTH_ENDPOINTS.REFRESH_ACCESS_TOKEN, {
         method: "POST",
       });
@@ -33,7 +46,7 @@ export async function customFetch(
     const data = await response.json();
 
     if (!response.ok) {
-      if (response.status === 400 && additionalOptions?.ignore400Response) {
+      if (response.status === 400 && returnBadRequest) {
         return { errors: data, status: response.status };
       }
       throw {

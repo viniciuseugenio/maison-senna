@@ -8,16 +8,11 @@ export async function getProducts() {
 }
 
 export async function createProduct(data: FormData) {
-  return await customFetch(
-    CATALOG_ENDPOINTS.PRODUCTS,
-    {
-      body: data,
-      method: "POST",
-    },
-    {
-      ignore400Response: true,
-    },
-  );
+  return await customFetch(CATALOG_ENDPOINTS.PRODUCTS, {
+    body: data,
+    method: "POST",
+    returnBadRequest: true,
+  });
 }
 
 export async function updateProduct({
@@ -28,44 +23,25 @@ export async function updateProduct({
   slug: string;
 }) {
   const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
-  return await customFetch(
-    url,
-    {
-      body: data,
-      method: "PATCH",
-    },
-    {
-      ignore400Response: true,
-    },
-  );
+  return await customFetch(url, {
+    body: data,
+    method: "PATCH",
+    returnBadRequest: true,
+  });
 }
 
 export async function genericDeleteModel(endpoint: string) {
-  return await customFetch(
-    endpoint,
-    {
-      method: "DELETE",
-    },
-    {
-      noContent: true,
-    },
-  );
+  return await customFetch(endpoint, {
+    method: "DELETE",
+  });
 }
 
 export async function addCategory(data: { name: string }) {
-  return await customFetch(
-    CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
-    {
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    },
-    {
-      ignore400Response: true,
-    },
-  );
+  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES, {
+    body: JSON.stringify(data),
+    method: "POST",
+    returnBadRequest: true,
+  });
 }
 
 export async function getProduct(slug: string): Promise<ProductDetails> {
@@ -91,17 +67,11 @@ export async function getVariationKind(id: number) {
 }
 
 export async function addVariationKind(data: { name: string }) {
-  return await customFetch(
-    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
-    {
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    },
-    { ignore400Response: true },
-  );
+  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS, {
+    body: JSON.stringify(data),
+    method: "POST",
+    returnBadRequest: true,
+  });
 }
 
 export async function updateVariationKind({
@@ -112,17 +82,11 @@ export async function updateVariationKind({
   data: { name: string };
 }) {
   const url = buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
-  return await customFetch(
-    url,
-    {
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "PATCH",
-    },
-    { ignore400Response: true },
-  );
+  return await customFetch(url, {
+    body: JSON.stringify(data),
+    method: "PATCH",
+    returnBadRequest: true,
+  });
 }
 
 export async function getVariationTypes() {
@@ -133,19 +97,11 @@ export async function addVariationType(data: {
   kind: number;
   product: number;
 }) {
-  return await customFetch(
-    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_TYPES,
-    {
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    },
-    {
-      ignore400Response: true,
-    },
-  );
+  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_TYPES, {
+    body: JSON.stringify(data),
+    method: "POST",
+    returnBadRequest: true,
+  });
 }
 
 export async function getVariationOptions() {
