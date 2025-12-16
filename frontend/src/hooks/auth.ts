@@ -9,6 +9,7 @@ import { ERROR_NOTIFICATIONS } from "../constants/auth";
 import { ApiResponse } from "../types/api";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
+import { User as UserType } from "../types/auth";
 
 export function useAuthUser() {
   return useQuery<{ authenticated: boolean; user: any }>({
@@ -29,7 +30,8 @@ export function useIsAuthenticated() {
 
 export function useCurrentUser() {
   const { data } = useAuthUser();
-  return data?.user ?? null;
+  const user: UserType = data?.user;
+  return user ?? null;
 }
 
 export function useLogout(automatic?: boolean) {
