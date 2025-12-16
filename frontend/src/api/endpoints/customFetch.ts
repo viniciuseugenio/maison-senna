@@ -1,6 +1,6 @@
 import { camelCase } from "change-case";
 import { transformKeys } from "../../utils/transformKeys";
-import { UNEXPECTED_ERROR } from "./constants";
+import { AUTH_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
 
 export async function customFetch(
   url: string,
@@ -8,6 +8,7 @@ export async function customFetch(
   additionalOptions?: {
     ignore400Response?: boolean;
     noContent?: boolean;
+    _isRetry?: boolean;
   },
 ) {
   try {
@@ -17,8 +18,19 @@ export async function customFetch(
     });
     let data = response;
 
-    if (!additionalOptions?.noContent) {
-      data = await response.json();
+    if (response.status === 401 && !additionalOptions?._isRetry) {
+      const refresh = await fetch(AUTH_ENDPOINTS.REFRESH_ACCESS_TOKEN, {
+        method: "POST",
+      });
+
+      if (refresh.ok) {
+        return await customFetch(url, {
+          ...options,
+          credentials: "include",
+        });
+      } else {
+        throw new Error("User must be authenticated");
+      }
     }
 
     const camelData = transformKeys(data, camelCase);
