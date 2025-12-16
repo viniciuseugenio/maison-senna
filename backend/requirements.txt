@@ -10,6 +10,7 @@ django-nested-admin==4.1.1
 django-stubs==5.2.1
 django-stubs-ext==5.2.1
 djangorestframework==3.16.0
+djangorestframework-camel-case==1.4.2
 djangorestframework_simplejwt==5.5.0
 google-auth==2.39.0
 idna==3.10
