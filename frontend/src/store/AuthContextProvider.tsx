@@ -5,9 +5,9 @@ import {
   refreshAccessToken,
 } from "../api/endpoints/auth";
 import { useLogout } from "../hooks/auth";
-import { UserContext } from "../store/UserContext";
+import { AuthContext } from "./AuthContext";
 
-export default function UserContextProvider({
+export default function AuthContextProvider({
   children,
 }: {
   children: React.ReactNode;
@@ -73,6 +73,6 @@ export default function UserContextProvider({
   };
 
   return (
-    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 }

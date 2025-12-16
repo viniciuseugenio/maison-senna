@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
 import { useUserContext } from "../hooks/auth";
 import NavbarButton from "./NavbarButton";
+import { useAuth } from "../store/useAuth";
 
 type UserDropdownProps = {
   setLogoutModalOpen: (value: boolean) => void;
@@ -35,7 +36,7 @@ function UserDropdownItem<T extends React.ElementType = "button">({
 }
 
 const UserDropdown: React.FC<UserDropdownProps> = ({ setLogoutModalOpen }) => {
-  const { user } = useUserContext();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const fullName = user ? `${user.firstName} ${user.lastName}` : "Unnamed User";
   const dropdownRef = useRef<HTMLDivElement>(null);

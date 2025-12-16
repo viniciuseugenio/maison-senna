@@ -1,5 +1,5 @@
-import { useUserContext } from "../../hooks/auth";
 import { Navigate } from "react-router";
+import { useAuth } from "../../store/useAuth";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -10,9 +10,9 @@ export default function ProtectedRoute({
   children,
   next,
 }: ProtectedRouteProps) {
-  const { isAuthenticated } = useUserContext();
+  const { isAuthenticated, isLoading } = useAuth();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !isLoading) {
     return <Navigate to={`/login?${next}`} replace />;
   }
 

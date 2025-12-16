@@ -1,5 +1,5 @@
 import { Search, ShoppingBag } from "lucide-react";
-import { useUserContext } from "../hooks/auth";
+import { useAuth } from "../store/useAuth";
 import { UiStateType } from "../types/navbar";
 import AuthButtons from "./AuthButtons";
 import NavbarButton from "./NavbarButton";
@@ -8,7 +8,7 @@ import UserDropdown from "./UserDropdown";
 const NavbarIcons: React.FC<{
   toggleUI: (key: keyof UiStateType, value: boolean) => void;
 }> = ({ toggleUI }) => {
-  const { isAuthenticated } = useUserContext();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="flex items-center space-x-4">

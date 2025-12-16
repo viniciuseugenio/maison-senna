@@ -5,15 +5,16 @@ import { useUserContext } from "../../hooks/auth";
 import { toast } from "../../utils/customToast";
 import SectionHeader from "./SectionHeader";
 import SidebarLink from "./SidebarLink";
+import { useAuth } from "../../store/useAuth";
 
 const Layout: React.FC = () => {
-  const { user, isLoading } = useUserContext();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (!user) {
+    if (!isAuthenticated) {
       toast.error({
         title: "You cannot access this page",
         description:
@@ -30,7 +31,7 @@ const Layout: React.FC = () => {
       });
       navigate("/");
     }
-  }, [user, navigate, isLoading]);
+  }, [isAuthenticated, user, navigate, isLoading]);
 
   if (isLoading || !user) {
     return null;

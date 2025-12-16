@@ -10,7 +10,7 @@ export type User = {
   groups: string[];
 };
 
-export type UserContext = {
+export type AuthContextType = {
   user?: User;
   isAuthenticated: boolean;
   isLoading: boolean;

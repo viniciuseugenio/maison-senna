@@ -1,14 +1,14 @@
-import { Outlet, useNavigate } from "react-router";
-import { useUserContext } from "../hooks/auth";
-import { toast } from "../utils/customToast";
 import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
+import { useAuth } from "../store/useAuth";
+import { toast } from "../utils/customToast";
 
 const UnauthenticatedRoutes: React.FC = () => {
-  const { user } = useUserContext();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
       toast.error({
         title: "You cannot enter this page.",
         description:
@@ -16,7 +16,7 @@ const UnauthenticatedRoutes: React.FC = () => {
       });
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [isAuthenticated, navigate]);
 
   return <Outlet />;
 };

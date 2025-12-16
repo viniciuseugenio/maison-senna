@@ -6,7 +6,7 @@ import AuthPageLayout from "./components/AuthPageLayout";
 import BaseLayout from "./components/Layout";
 import ToasterWrapper from "./components/ToasterWrapper";
 import UnauthenticatedRoutes from "./components/UnauthenticatedRoutes";
-import UserContextProvider from "./components/UserContextProvider";
+import AuthContextProvider from "./store/AuthContextProvider";
 import AdminCategories from "./pages/Admin/Categories";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import AdminProducts from "./pages/Admin/Products";
@@ -32,7 +32,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
+      <AuthContextProvider>
         <BrowserRouter>
           <Routes>
             <Route element={<ToasterWrapper />}>
@@ -83,7 +83,7 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
-      </UserContextProvider>
+      </AuthContextProvider>
     </QueryClientProvider>
   );
 }
