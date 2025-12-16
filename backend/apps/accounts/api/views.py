@@ -190,7 +190,7 @@ class MeView(APIView):
             )
 
         user = request.user
-        return Response(UserShortSerializer(user).data)
+        return Response({"authenticated": True, "user": UserShortSerializer(user).data})
 
 
 class PasswordRequestResetView(APIView):
