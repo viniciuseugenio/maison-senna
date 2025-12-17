@@ -1,5 +1,5 @@
 import { LoginForm, RegisterForm } from "../../types/auth";
-import { AUTH_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
+import { AUTH_ENDPOINTS } from "./constants";
 import { customFetch } from "./customFetch";
 
 export async function loginUser(data: LoginForm) {
@@ -28,7 +28,9 @@ export async function checkEmailAvailability(email: string) {
 }
 
 export async function checkUserAuthenticity() {
-  return await customFetch(AUTH_ENDPOINTS.CHECK_USER_AUTHENTICITY);
+  return await customFetch<{ authenticated: boolean; user: any }>(
+    AUTH_ENDPOINTS.CHECK_USER_AUTHENTICITY,
+  );
 }
 
 export async function refreshAccessToken() {
@@ -38,9 +40,12 @@ export async function refreshAccessToken() {
 }
 
 export async function logoutUser() {
-  return await customFetch(AUTH_ENDPOINTS.LOGOUT, {
-    method: "POST",
-  });
+  return await customFetch<{ detail: string; description: string }>(
+    AUTH_ENDPOINTS.LOGOUT,
+    {
+      method: "POST",
+    },
+  );
 }
 
 export async function requestPasswordReset(email: string) {
