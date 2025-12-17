@@ -2,11 +2,14 @@ import { LoginForm, RegisterForm } from "../../types/auth";
 import { AUTH_ENDPOINTS, UNEXPECTED_ERROR } from "./constants";
 import { customFetch } from "./customFetch";
 
-export async function loginUser(formData: LoginForm) {
-  return await customFetch(AUTH_ENDPOINTS.LOGIN, {
-    method: "POST",
-    body: JSON.stringify(formData),
-  });
+export async function loginUser(data: LoginForm) {
+  return await customFetch<{ detail: string; description: string; user: any }>(
+    AUTH_ENDPOINTS.LOGIN,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    },
+  );
 }
 
 export async function registerUser(formData: RegisterForm) {
