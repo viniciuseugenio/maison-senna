@@ -7,9 +7,8 @@ import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
 import { ERROR_NOTIFICATIONS } from "../constants/auth";
 import { ApiResponse } from "../types/api";
-import { toast } from "../utils/customToast";
-import { transformKeys } from "../utils/transformKeys";
 import { User as UserType } from "../types/auth";
+import { toast } from "../utils/customToast";
 
 export function useAuthUser() {
   return useQuery<{ authenticated: boolean; user: any }>({
@@ -34,27 +33,21 @@ export function useCurrentUser() {
   return user ?? null;
 }
 
-export function useLogout(automatic?: boolean) {
+export function useLogout() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["logout"],
     mutationFn: logoutUser,
-    onSuccess: (data: ApiResponse) => {
-      const previousUser = queryClient.getQueryData(["user"]);
+    onSuccess: (data) => {
       queryClient.setQueryData(["user"], null);
-
-      if (previousUser && !automatic) {
-        toast.info({
-          title: data.detail,
-          description: data.description,
-        });
-      }
+      toast.success({ title: data.detail, description: data.description });
     },
     onError: () => {
-      toast.error({
-        title: ERROR_NOTIFICATIONS.LOGOUT_ERROR.title,
-        description: ERROR_NOTIFICATIONS.LOGOUT_ERROR.description,
+      queryClient.setQueryData(["user"], null);
+      toast.success({
+        title: "You've Signed Out",
+        description:
+          "You’ve been securely signed out. We look forward to welcoming you back.",
       });
     },
   });
