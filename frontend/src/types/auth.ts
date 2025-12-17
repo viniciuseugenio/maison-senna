@@ -10,13 +10,6 @@ export type User = {
   groups: string[];
 };
 
-export type AuthContextType = {
-  user?: User;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  logout: () => void;
-};
-
 export type LoginForm = z.infer<typeof loginSchema>;
 
 export type RegisterForm = z.infer<typeof registerSchema>;

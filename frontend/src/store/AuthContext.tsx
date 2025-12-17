@@ -1,6 +1,15 @@
 import { createContext } from "react";
-import { UserContext as UserContextType } from "../types/auth";
+import { useLogin } from "../hooks/auth";
+import { User } from "../types/auth";
 
-export const AuthContext = createContext<UserContextType | undefined>(
+export interface AuthContextType {
+  user: User;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  logout: () => void;
+  login: ReturnType<typeof useLogin>;
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(
   undefined,
 );
