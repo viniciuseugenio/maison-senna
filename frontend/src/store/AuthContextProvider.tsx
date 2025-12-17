@@ -14,7 +14,7 @@ export default function AuthContextProvider({
   const { isLoading } = useAuthUser();
   const user = useCurrentUser();
   const isAuthenticated = useIsAuthenticated();
-  const { mutate: logout } = useLogout(false);
+  const { mutate: logout } = useLogout();
 
   const contextValue = {
     user,
