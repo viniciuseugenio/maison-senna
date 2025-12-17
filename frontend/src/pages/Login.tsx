@@ -78,8 +78,8 @@ export default function Login() {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <input
+              {...register("rememberMe")}
               id="remember-me"
-              name="remember-me"
               type="checkbox"
               className="accent-oyster h-4 w-4 rounded-sm border-2"
             />

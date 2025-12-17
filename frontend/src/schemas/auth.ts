@@ -5,6 +5,7 @@ import { REGISTER_FORM_ERRORS } from "../constants/auth";
 export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string(),
+  rememberMe: z.boolean(),
 });
 
 export const registerSchema = z
