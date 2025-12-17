@@ -40,20 +40,15 @@ export function useLogin() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      email,
-      password,
-      rememberMe,
-    }: {
-      email: string;
-      password: string;
-      rememberMe: boolean;
-    }) => loginUser({ email, password, rememberMe }),
+    mutationFn: loginUser,
     onSuccess: (data) => {
       queryClient.setQueryData(["user"], {
         authenticated: true,
         user: data.user,
       });
+    },
+    onError: (data) => {
+      toast.error({ title: data.title, description: data.description });
     },
   });
 }
