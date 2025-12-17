@@ -1,58 +1,37 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { camelCase } from "change-case";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { loginUser } from "../api/endpoints/auth";
 import LoginPasswordInput from "../components/Auth/LoginPasswordInput";
 import SocialLogin from "../components/Auth/SocialLogin";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
 import { loginSchema } from "../schemas/auth";
-import { ApiError, ApiResponse } from "../types/api";
-import { LoginForm, User } from "../types/auth";
+import { useAuth } from "../store/useAuth";
+import { LoginForm } from "../types/auth";
 import { toast } from "../utils/customToast";
-import { transformKeys } from "../utils/transformKeys";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
 export default function Login() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const methods = useForm({
     resolver: zodResolver(loginSchema),
   });
 
-  const { handleSubmit } = methods;
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: loginUser,
-    onSuccess: async (data: ApiResponse & { user: User }) => {
-      toast.success({
-        title: data.detail,
-        description: data.description,
-      });
-
-      navigate("/");
-
-      setTimeout(() => {
-        queryClient.setQueryData(["user"], data.user);
-      }, 200);
-    },
-    onError: (error: ApiError) => {
-      toast.error({
-        title: error.title,
-        description: error.description,
-      });
-    },
-  });
+  const { handleSubmit, register } = methods;
+  const { login } = useAuth();
 
   const onSubmit: SubmitHandler<LoginForm> = async (data) => {
-    mutate(data);
+    login.mutate(data, {
+      onSuccess: (data) => {
+        navigate("/", { replace: true });
+        toast.success({ title: data.detail, description: data.description });
+      },
+    });
   };
 
   return (
@@ -97,7 +76,11 @@ export default function Login() {
           </div>
         </div>
 
-        <Button isLoading={isPending} className="w-full py-6" type="submit">
+        <Button
+          isLoading={login.isPending}
+          className="w-full py-6"
+          type="submit"
+        >
           <LogIn className="mr-2 h-4 w-4" /> Sign in
         </Button>
       </form>

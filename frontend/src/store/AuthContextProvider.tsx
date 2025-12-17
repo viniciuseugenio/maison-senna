@@ -2,6 +2,7 @@ import {
   useAuthUser,
   useCurrentUser,
   useIsAuthenticated,
+  useLogin,
   useLogout,
 } from "../hooks/auth";
 import { AuthContext } from "./AuthContext";
@@ -15,12 +16,14 @@ export default function AuthContextProvider({
   const user = useCurrentUser();
   const isAuthenticated = useIsAuthenticated();
   const { mutate: logout } = useLogout();
+  const login = useLogin();
 
   const contextValue = {
     user,
     isAuthenticated,
     isLoading,
     logout,
+    login,
   };
 
   return (

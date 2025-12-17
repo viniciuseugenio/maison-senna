@@ -1,8 +1,11 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { camelCase } from "change-case";
 import { useNavigate } from "react-router";
-import { checkUserAuthenticity, logoutUser } from "../api/endpoints/auth";
+import {
+  checkUserAuthenticity,
+  loginUser,
+  logoutUser,
+} from "../api/endpoints/auth";
 import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
 import { ERROR_NOTIFICATIONS } from "../constants/auth";
@@ -31,6 +34,28 @@ export function useCurrentUser() {
   const { data } = useAuthUser();
   const user: UserType = data?.user;
   return user ?? null;
+}
+
+export function useLogin() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      email,
+      password,
+      rememberMe,
+    }: {
+      email: string;
+      password: string;
+      rememberMe: boolean;
+    }) => loginUser({ email, password, rememberMe }),
+    onSuccess: (data) => {
+      queryClient.setQueryData(["user"], {
+        authenticated: true,
+        user: data.user,
+      });
+    },
+  });
 }
 
 export function useLogout() {
@@ -73,8 +98,6 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
           },
         );
 
-        const userObj = transformKeys(data.user, camelCase);
-
         toast.success({
           title: data.detail,
           description: data.description,
@@ -82,7 +105,10 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
 
         navigate("/");
         setTimeout(() => {
-          queryClient.setQueryData(["user"], userObj);
+          queryClient.setQueryData(["user"], {
+            authenticated: true,
+            user: data.user,
+          });
         }, 200);
       } catch {
         toast.error({
