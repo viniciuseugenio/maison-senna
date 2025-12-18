@@ -34,6 +34,7 @@ export async function customFetch<T>(
     if (response.status === 401 && requiresAuth && !_isRetry) {
       const refresh = await fetch(AUTH_ENDPOINTS.REFRESH_ACCESS_TOKEN, {
         method: "POST",
+        credentials: "include",
       });
 
       if (refresh.ok) {
