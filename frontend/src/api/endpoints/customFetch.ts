@@ -40,6 +40,7 @@ export async function customFetch<T>(
         return await customFetch(url, {
           ...options,
           credentials: "include",
+          _isRetry: true,
         });
       } else {
         throw new Error("User must be authenticated");
