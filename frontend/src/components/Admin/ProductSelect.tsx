@@ -7,7 +7,7 @@ import { ProductList } from "../../types/catalog";
 import SelectInput from "../SelectInput";
 
 const ProductSelect: React.FC = () => {
-  const { data: products } = useQuery<ProductList[]>({
+  const { data: products } = useQuery({
     queryFn: getProducts,
     queryKey: ["products"],
   });

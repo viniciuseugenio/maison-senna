@@ -1,14 +1,23 @@
-import { customFetch } from "./customFetch";
-import { CATALOG_ENDPOINTS } from "./constants";
+import { Statistics } from "../../types/admin";
+import {
+  Category,
+  ProductDetails,
+  ProductList,
+  ProductVariation,
+  VariationKind,
+  VariationOptionList,
+  VariationTypeList,
+} from "../../types/catalog";
 import { buildApiUrl } from "./buildApiUrl";
-import { ProductDetails } from "../../types/catalog";
+import { CATALOG_ENDPOINTS } from "./constants";
+import { customFetch } from "./customFetch";
 
 export async function getProducts() {
-  return await customFetch(CATALOG_ENDPOINTS.PRODUCTS);
+  return await customFetch<ProductList[]>(CATALOG_ENDPOINTS.PRODUCTS);
 }
 
 export async function createProduct(data: FormData) {
-  return await customFetch(CATALOG_ENDPOINTS.PRODUCTS, {
+  return await customFetch<ProductDetails>(CATALOG_ENDPOINTS.PRODUCTS, {
     body: data,
     method: "POST",
     returnBadRequest: true,
@@ -24,7 +33,7 @@ export async function updateProduct({
   slug: string;
 }) {
   const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
-  return await customFetch(url, {
+  return await customFetch<ProductDetails>(url, {
     body: data,
     method: "PATCH",
     returnBadRequest: true,
@@ -40,7 +49,7 @@ export async function genericDeleteModel(endpoint: string) {
 }
 
 export async function addCategory(data: { name: string }) {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES, {
+  return await customFetch<Category>(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES, {
     body: JSON.stringify(data),
     method: "POST",
     returnBadRequest: true,
@@ -50,33 +59,40 @@ export async function addCategory(data: { name: string }) {
 
 export async function getProduct(slug: string): Promise<ProductDetails> {
   const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
-  return await customFetch(url);
+  return await customFetch<ProductDetails>(url);
 }
 
 export async function getCategories() {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES);
+  return await customFetch<Category[]>(
+    CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
+  );
 }
 
 export async function getDashboardStatistics() {
-  return await customFetch(CATALOG_ENDPOINTS.ADMIN_METRICS);
+  return await customFetch<Statistics>(CATALOG_ENDPOINTS.ADMIN_METRICS);
 }
 
 export async function getVariationKinds() {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS);
+  return await customFetch<VariationKind[]>(
+    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
+  );
 }
 
 export async function getVariationKind(id: number) {
   const url = buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
-  return await customFetch(url);
+  return await customFetch<VariationKind>(url);
 }
 
 export async function addVariationKind(data: { name: string }) {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS, {
-    body: JSON.stringify(data),
-    method: "POST",
-    returnBadRequest: true,
-    requiresAuth: true,
-  });
+  return await customFetch<VariationKind>(
+    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
+    {
+      body: JSON.stringify(data),
+      method: "POST",
+      returnBadRequest: true,
+      requiresAuth: true,
+    },
+  );
 }
 
 export async function updateVariationKind({
@@ -87,7 +103,7 @@ export async function updateVariationKind({
   data: { name: string };
 }) {
   const url = buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
-  return await customFetch(url, {
+  return await customFetch<VariationKind>(url, {
     body: JSON.stringify(data),
     method: "PATCH",
     returnBadRequest: true,
@@ -96,25 +112,34 @@ export async function updateVariationKind({
 }
 
 export async function getVariationTypes() {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_TYPES);
+  return await customFetch<VariationTypeList[]>(
+    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_TYPES,
+  );
 }
 
 export async function addVariationType(data: {
   kind: number;
   product: number;
 }) {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_TYPES, {
-    body: JSON.stringify(data),
-    method: "POST",
-    returnBadRequest: true,
-    requiresAuth: true,
-  });
+  return await customFetch<VariationTypeList>(
+    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_TYPES,
+    {
+      body: JSON.stringify(data),
+      method: "POST",
+      returnBadRequest: true,
+      requiresAuth: true,
+    },
+  );
 }
 
 export async function getVariationOptions() {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_VARIATION_OPTIONS);
+  return await customFetch<VariationOptionList[]>(
+    CATALOG_ENDPOINTS.LIST_VARIATION_OPTIONS,
+  );
 }
 
 export async function getProductVariations() {
-  return await customFetch(CATALOG_ENDPOINTS.LIST_PRODUCT_VARIATIONS);
+  return await customFetch<ProductVariation[]>(
+    CATALOG_ENDPOINTS.LIST_PRODUCT_VARIATIONS,
+  );
 }

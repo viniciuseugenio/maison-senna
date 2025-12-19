@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { getProducts } from "../api/endpoints/products";
-import { ProductList } from "../types/catalog";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -16,7 +15,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
-  const { data: products } = useQuery<ProductList[]>({
+  const { data: products } = useQuery({
     queryFn: getProducts,
     queryKey: ["products"],
   });
@@ -72,8 +71,8 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
     const filtered = searchQuery
       ? products.filter((p) =>
-          p.name.toLowerCase().includes(searchQuery.toLowerCase()),
-        )
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
       : products.slice(0, 3);
 
     setSearchResults(filtered.slice(0, 3));

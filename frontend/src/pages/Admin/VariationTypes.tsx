@@ -12,7 +12,7 @@ import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
 
 const VariationTypes: React.FC = () => {
-  const { data: variationTypes, isLoading } = useQuery<VariationTypeList[]>({
+  const { data: variationTypes, isLoading } = useQuery({
     queryKey: ["variationTypes"],
     queryFn: getVariationTypes,
   });

@@ -1,17 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import PageLayout from "../../components/Admin/PageLayout";
-import PageTitle from "../../components/Admin/PageTitle";
-import HorizontalDivider from "../../components/HorizontalDivider";
 import { getProductVariations } from "../../api/endpoints/products";
-import { HeaderConfig } from "../../types/admin";
 import LoadingRow from "../../components/Admin/LoadingRow";
-import TableRow from "../../components/Admin/TableRow";
-import { ProductVariation } from "../../types/catalog";
-import TableData from "../../components/Admin/TableData";
+import PageLayout from "../../components/Admin/PageLayout";
 import TableActions from "../../components/Admin/RowActions";
+import TableData from "../../components/Admin/TableData";
+import TableRow from "../../components/Admin/TableRow";
+import { HeaderConfig } from "../../types/admin";
 
 const ProductVariations: React.FC = () => {
-  const { data: productVariations, isLoading } = useQuery<ProductVariation[]>({
+  const { data: productVariations, isLoading } = useQuery({
     queryKey: ["productVariations"],
     queryFn: getProductVariations,
   });

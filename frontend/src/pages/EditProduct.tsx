@@ -2,13 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
-import { updateProduct, getProduct } from "../api/endpoints/products";
+import { getProduct, updateProduct } from "../api/endpoints/products";
 import BackButton from "../components/Admin/BackButton";
 import HorizontalDivider from "../components/HorizontalDivider";
 import ProductForm from "../components/ProductForm";
 import newProduct from "../schemas/newProduct";
 import { ApiFormError, ApiResponse } from "../types/api";
-import { ProductDetails } from "../types/catalog";
 import { NewProductForm } from "../types/forms";
 import { toast } from "../utils/customToast";
 import { getUpdatedFields, partialFormData } from "../utils/products/helpers";
@@ -19,7 +18,7 @@ const EditProduct: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: product, isLoading } = useQuery<ProductDetails>({
+  const { data: product, isLoading } = useQuery({
     queryFn: () => getProduct(slug as string),
     queryKey: ["products", slug],
   });

@@ -11,13 +11,12 @@ import TableData from "../../components/Admin/TableData";
 import TableRow from "../../components/Admin/TableRow";
 import useLastSegment from "../../hooks/lastSegment";
 import { HeaderConfig } from "../../types/admin";
-import { Category } from "../../types/catalog";
 
 const AdminCategories: React.FC = () => {
   const lastSegment = useLastSegment();
   const isModalOpen = lastSegment === "new";
 
-  const { data: categories, isLoading } = useQuery<Category[]>({
+  const { data: categories, isLoading } = useQuery({
     queryFn: getCategories,
     queryKey: ["categories"],
   });

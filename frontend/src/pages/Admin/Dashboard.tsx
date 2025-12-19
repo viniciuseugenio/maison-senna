@@ -12,10 +12,9 @@ import { getDashboardStatistics } from "../../api/endpoints/products";
 import BigBox from "../../components/Admin/BigBox";
 import PageTitle from "../../components/Admin/PageTitle";
 import SmallBox from "../../components/Admin/SmallBox";
-import { Statistics } from "../../types/admin";
 
 const AdminDashboard: React.FC = () => {
-  const { data: statistics } = useQuery<Statistics>({
+  const { data: statistics } = useQuery({
     queryFn: getDashboardStatistics,
     queryKey: ["adminStatistics"],
   });

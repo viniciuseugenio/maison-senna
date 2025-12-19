@@ -9,16 +9,15 @@ import PageLayout from "../../components/Admin/PageLayout";
 import TableActions from "../../components/Admin/RowActions";
 import TableData from "../../components/Admin/TableData";
 import TableRow from "../../components/Admin/TableRow";
-import VariationKindsEdit from "../../components/Admin/VariationKindsEdit";
 import VariationKindsCreate from "../../components/Admin/VariationKindsCreate";
+import VariationKindsEdit from "../../components/Admin/VariationKindsEdit";
 import { HeaderConfig } from "../../types/admin";
-import { VariationKind } from "../../types/catalog";
 
 const VariationKinds: React.FC = () => {
   const matchNew = useMatch("/admin/variation-kinds/new");
   const matchEdit = useMatch("/admin/variation-kinds/edit/:id");
 
-  const { data: variationKinds, isLoading } = useQuery<VariationKind[]>({
+  const { data: variationKinds, isLoading } = useQuery({
     queryKey: ["variationKinds"],
     queryFn: getVariationKinds,
   });

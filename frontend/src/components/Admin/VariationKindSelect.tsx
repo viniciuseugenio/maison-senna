@@ -7,7 +7,7 @@ import { VariationKind } from "../../types/catalog";
 import SelectInput from "../SelectInput";
 
 const VariationKindSelect: React.FC = () => {
-  const { data: variationKinds } = useQuery<VariationKind[]>({
+  const { data: variationKinds } = useQuery({
     queryFn: getVariationKinds,
     queryKey: ["variationKinds"],
   });

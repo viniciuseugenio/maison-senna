@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../api/endpoints/products";
+import LoadingRow from "../../components/Admin/LoadingRow";
 import AdminPageLayout from "../../components/Admin/PageLayout";
 import ProductRow from "../../components/Admin/ProductRow";
-import { ProductList } from "../../types/catalog";
 import { HeaderConfig } from "../../types/admin";
-import LoadingRow from "../../components/Admin/LoadingRow";
 
 const AdminProducts: React.FC = () => {
-  const { data: products, isLoading } = useQuery<ProductList[]>({
+  const { data: products, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });

@@ -16,7 +16,7 @@ const VariationKindSelect: React.FC<VariationKindSelectProps> = ({
   onChange,
   error,
 }) => {
-  const { data: variationKinds, isLoading } = useQuery<VariationKind[]>({
+  const { data: variationKinds, isLoading } = useQuery({
     queryFn: getVariationKinds,
     queryKey: ["variationKinds"],
   });

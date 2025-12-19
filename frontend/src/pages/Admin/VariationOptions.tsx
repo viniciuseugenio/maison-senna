@@ -10,12 +10,10 @@ import { VariationOptionList } from "../../types/catalog";
 import { useState } from "react";
 
 const VariationOptions: React.FC = () => {
-  const { data: variationOptions, isLoading } = useQuery<VariationOptionList[]>(
-    {
-      queryKey: ["variationOptions"],
-      queryFn: getVariationOptions,
-    },
-  );
+  const { data: variationOptions, isLoading } = useQuery({
+    queryKey: ["variationOptions"],
+    queryFn: getVariationOptions,
+  });
   const [filteredOptions, setFilteredOptions] = useState<
     VariationOptionList[] | null
   >(null);

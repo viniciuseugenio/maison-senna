@@ -13,7 +13,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState<Category | null>(value || null);
 
-  const { data: categories = [] } = useQuery<Category[]>({
+  const { data: categories = [] } = useQuery({
     queryFn: getCategories,
     queryKey: ["categories"],
   });

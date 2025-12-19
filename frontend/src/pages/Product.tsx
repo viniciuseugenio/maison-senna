@@ -30,7 +30,7 @@ const Product: React.FC = () => {
     }
   };
 
-  const { data: product, isPending } = useQuery<ProductDetails>({
+  const { data: product, isPending } = useQuery({
     queryFn: () => getProduct(slug as string),
     queryKey: ["products", slug],
     enabled: !!slug,

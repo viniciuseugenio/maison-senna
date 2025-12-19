@@ -7,7 +7,6 @@ import {
   updateVariationKind,
 } from "../../api/endpoints/products";
 import { variationKindsSchema } from "../../schemas/variationTypes";
-import { VariationKind } from "../../types/catalog";
 import { VariationKindsForm } from "../../types/forms";
 import { toast } from "../../utils/customToast";
 import FormModal from "./FormModal";
@@ -28,7 +27,7 @@ const VariationKindsEdit: React.FC = () => {
 
   const { setError } = methods;
 
-  const { data: variationKind } = useQuery<VariationKind>({
+  const { data: variationKind } = useQuery({
     queryFn: () => getVariationKind(id),
     queryKey: ["variationKinds", id],
     enabled: !!id,

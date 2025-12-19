@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import { getProducts } from "../../api/endpoints/products";
-import { ProductList } from "../../types/catalog";
 import Button from "../Button";
 import HorizontalDivider from "../HorizontalDivider";
 
 export default function FeaturedProducts() {
-  const { data: products } = useQuery<ProductList[]>({
+  const { data: products } = useQuery({
     queryFn: getProducts,
     queryKey: ["products"],
   });
