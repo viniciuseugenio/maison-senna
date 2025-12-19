@@ -30,6 +30,9 @@ export async function checkEmailAvailability(email: string) {
 export async function checkUserAuthenticity() {
   return await customFetch<{ authenticated: boolean; user: any }>(
     AUTH_ENDPOINTS.CHECK_USER_AUTHENTICITY,
+    {
+      requiresAuth: true,
+    },
   );
 }
 
