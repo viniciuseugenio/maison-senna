@@ -2,6 +2,7 @@ import environ
 import jwt
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import BaseAuthentication
+from rest_framework.exceptions import AuthenticationFailed
 
 env = environ.Env()
 User = get_user_model()
@@ -11,16 +12,20 @@ class CustomJWTAuthentication(BaseAuthentication):
     def authenticate(self, request):
         access_token = request.COOKIES.get("access_token")
 
-        if access_token:
-            try:
-                decoded = jwt.decode(
-                    access_token.encode(), env("SECRET_KEY"), algorithms=["HS256"]
-                )
-                user_id = decoded["user_id"]
-                user = User.objects.get(id=user_id)
-                return (user, None)
+        if not access_token:
+            return None
 
-            except (jwt.exceptions.InvalidTokenError, User.DoesNotExist):
-                return None
+        try:
+            decoded = jwt.decode(access_token, env("SECRET_KEY"), algorithms=["HS256"])
+            user_id = decoded["user_id"]
+            user = User.objects.get(id=user_id)
+            return (user, None)
 
-        return None
+        except jwt.exceptions.InvalidTokenError:
+            raise AuthenticationFailed("Invalid or expired tokens")
+
+        except User.DoesNotExist:
+            raise AuthenticationFailed("User not found.")
+
+    def authenticate_header(self, request):
+        return 'Bearer realm="api"'
