@@ -12,6 +12,7 @@ export async function createProduct(data: FormData) {
     body: data,
     method: "POST",
     returnBadRequest: true,
+    requiresAuth: true,
   });
 }
 
@@ -27,12 +28,14 @@ export async function updateProduct({
     body: data,
     method: "PATCH",
     returnBadRequest: true,
+    requiresAuth: true,
   });
 }
 
 export async function genericDeleteModel(endpoint: string) {
   return await customFetch(endpoint, {
     method: "DELETE",
+    requiresAuth: true,
   });
 }
 
@@ -41,6 +44,7 @@ export async function addCategory(data: { name: string }) {
     body: JSON.stringify(data),
     method: "POST",
     returnBadRequest: true,
+    requiresAuth: true,
   });
 }
 
@@ -71,6 +75,7 @@ export async function addVariationKind(data: { name: string }) {
     body: JSON.stringify(data),
     method: "POST",
     returnBadRequest: true,
+    requiresAuth: true,
   });
 }
 
@@ -86,6 +91,7 @@ export async function updateVariationKind({
     body: JSON.stringify(data),
     method: "PATCH",
     returnBadRequest: true,
+    requiresAuth: true,
   });
 }
 
@@ -101,6 +107,7 @@ export async function addVariationType(data: {
     body: JSON.stringify(data),
     method: "POST",
     returnBadRequest: true,
+    requiresAuth: true,
   });
 }
 
