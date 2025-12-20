@@ -4,6 +4,7 @@ import CategoryModal from "./components/Admin/CategoryModal";
 import AdminLayout from "./components/Admin/Layout";
 import AuthPageLayout from "./components/AuthPageLayout";
 import BaseLayout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 import ToasterWrapper from "./components/ToasterWrapper";
 import UnauthenticatedRoutes from "./components/UnauthenticatedRoutes";
 import AuthContextProvider from "./store/AuthContextProvider";
@@ -36,31 +37,33 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<ToasterWrapper />}>
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<AdminDashboard />} />
-                <Route path="products" element={<AdminProducts />} />
-                <Route path="categories" element={<AdminCategories />}>
-                  <Route path="new" element={<CategoryModal />} />
+              <Route element={<ProtectedRoute requireAdmin />}>
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="products" element={<AdminProducts />} />
+                  <Route path="categories" element={<AdminCategories />}>
+                    <Route path="new" element={<CategoryModal />} />
+                  </Route>
+                  <Route path="variation-kinds" element={<VariationKinds />}>
+                    <Route path="new" element={<VariationKindsCreate />} />
+                    <Route path="edit/:id" element={<VariationKindsEdit />} />
+                  </Route>
+                  <Route path="variation-types" element={<VariationTypes />} />
+                  <Route
+                    path="variation-types/new"
+                    element={<NewVariationType />}
+                  />
+                  <Route
+                    path="variation-options"
+                    element={<VariationOptions />}
+                  />
+                  <Route
+                    path="product-variations"
+                    element={<ProductVariations />}
+                  />
+                  <Route path="products/new" element={<NewProduct />} />
+                  <Route path="products/edit/:slug" element={<EditProduct />} />
                 </Route>
-                <Route path="variation-kinds" element={<VariationKinds />}>
-                  <Route path="new" element={<VariationKindsCreate />} />
-                  <Route path="edit/:id" element={<VariationKindsEdit />} />
-                </Route>
-                <Route path="variation-types" element={<VariationTypes />} />
-                <Route
-                  path="variation-types/new"
-                  element={<NewVariationType />}
-                />
-                <Route
-                  path="variation-options"
-                  element={<VariationOptions />}
-                />
-                <Route
-                  path="product-variations"
-                  element={<ProductVariations />}
-                />
-                <Route path="products/new" element={<NewProduct />} />
-                <Route path="products/edit/:slug" element={<EditProduct />} />
               </Route>
 
               <Route element={<BaseLayout />}>

@@ -1,46 +1,9 @@
 import { Grid, Home, Layers, Settings, ShoppingBag, Tag } from "lucide-react";
-import { useEffect } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router";
-import { useUserContext } from "../../hooks/auth";
-import { toast } from "../../utils/customToast";
+import { NavLink, Outlet } from "react-router";
 import SectionHeader from "./SectionHeader";
 import SidebarLink from "./SidebarLink";
-import { useAuth } from "../../store/useAuth";
 
 const Layout: React.FC = () => {
-  const { user, isAuthenticated, isLoading } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoading) return;
-
-    if (!isAuthenticated) {
-      toast.error({
-        title: "You cannot access this page",
-        description:
-          "Please, login first before accessing this part of our website.",
-      });
-      navigate("/login");
-      return;
-    }
-
-    if (user && !user.isAdmin) {
-      toast.error({
-        title: "You cannot access this page",
-        description: "This page is meant only for the administration.",
-      });
-      navigate("/");
-    }
-  }, [isAuthenticated, user, navigate, isLoading]);
-
-  if (isLoading || !user) {
-    return null;
-  }
-
-  if (!user.isAdmin) {
-    return null;
-  }
-
   return (
     <div className="bg-light flex min-h-screen">
       <div className="border-r-oyster/30 fixed h-full w-64 border-r bg-white">
@@ -95,4 +58,5 @@ const Layout: React.FC = () => {
     </div>
   );
 };
+
 export default Layout;
