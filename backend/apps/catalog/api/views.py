@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from rest_framework import filters
+from django.core.exceptions import PermissionDenied
+from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.generics import (
     ListAPIView,
@@ -7,7 +8,12 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import (
+    AllowAny,
+    BasePermission,
+    IsAdminUser,
+    IsAuthenticated,
+)
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
@@ -15,6 +21,17 @@ from .. import models
 from . import serializers
 
 User = get_user_model()
+
+
+class IsAuthenticatedUserAdmin(BasePermission):
+    def has_permission(self, request, view):
+        if not request.user or not request.user.is_authenticated:
+            return False
+
+        if not request.user.is_staff:
+            raise PermissionDenied("You do not have permission to perform this action.")
+
+        return True
 
 
 class OrderedAdminListView(ListAPIView):
@@ -46,6 +63,24 @@ class ProductViewSet(ModelViewSet):
             return serializers.ProductUpdateSerializer
 
         return serializers.ProductListSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        product_name = serializer.data.get("name", "Product")
+
+        return Response(
+            {
+                "detail": "Product created",
+                "description": f"{product_name} is now live at your store",
+                "product": serializer.data,
+            },
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )
 
     def get_permissions(self):
         admin_only_actions = {"create", "partial_update", "destroy", "update"}
@@ -89,21 +124,21 @@ class DashboardViewSet(ViewSet):
 
 class VariationKindsList(OrderedListMixin, ListCreateAPIView):
     queryset = models.VariationKind.objects.all()
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticatedUserAdmin]
     serializer_class = serializers.VariationKindSerializer
 
 
 class VariationKindsDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = models.VariationKind.objects.all()
     serializer_class = serializers.VariationKindSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdminUser]
     lookup_field = "pk"
 
 
 class VariationTypesList(OrderedListMixin, ListCreateAPIView):
     serializer_class = serializers.DashboardVariationTypeSerializer
     queryset = models.VariationType.objects.all()
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
     def get_serializer_class(self):
         if self.request.method == "POST":

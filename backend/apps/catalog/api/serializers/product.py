@@ -1,26 +1,12 @@
-from django.core.exceptions import ValidationError
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 
+from apps.catalog import models
 from apps.catalog.api.constants import PRODUCT_ERROR_MESSAGES
-
-from .. import models
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    name = serializers.CharField(
-        validators=[
-            UniqueValidator(
-                queryset=models.Category.objects.all(),
-                message="A category with this name already exists.",
-            )
-        ]
-    )
-    slug = serializers.SlugField(read_only=True)
-
-    class Meta:
-        model = models.Category
-        fields = ["id", "name", "slug"]
+from apps.catalog.api.serializers.category import CategorySerializer
+from apps.catalog.api.serializers.variation import (
+    VariationOptionSerializer,
+    VariationTypeSerializer,
+)
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -36,70 +22,6 @@ class ProductListSerializer(serializers.ModelSerializer):
             "base_price",
             "reference_image",
         ]
-
-
-class VariationKindSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.VariationKind
-        fields = ["id", "name"]
-
-
-class VariationOptionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.VariationOption
-        fields = ["id", "name", "price_modifier"]
-
-
-class DashboardVariationTypeSerializer(serializers.ModelSerializer):
-    kind = serializers.SerializerMethodField()
-    product = serializers.SerializerMethodField()
-
-    class Meta:
-        model = models.VariationType
-        fields = ["id", "kind", "product"]
-
-    def get_kind(self, obj):
-        return obj.kind.name
-
-    def get_product(self, obj):
-        return obj.product.name
-
-
-class VariationTypeCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.VariationType
-        fields = ["id", "kind", "product"]
-
-    def validate(self, attrs):
-        kind = attrs.get("kind")
-        product = attrs.get("product")
-        already_exists = models.VariationType.objects.filter(
-            kind=kind, product=product
-        ).exists()
-
-        if already_exists:
-            raise serializers.ValidationError(
-                {"kind": "A variation type with this kind and product already exists"}
-            )
-
-        return super().validate(attrs)
-
-
-class VariationOptionsListSerializer(serializers.ModelSerializer):
-    type = DashboardVariationTypeSerializer()
-
-    class Meta:
-        model = models.VariationOption
-        fields = ["id", "type", "name", "price_modifier"]
-
-
-class VariationTypeSerializer(serializers.ModelSerializer):
-    kind = VariationKindSerializer(read_only=True)
-    options = VariationOptionSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = models.VariationType
-        fields = ["id", "kind", "options"]
 
 
 class ProductSerializer(serializers.ModelSerializer):

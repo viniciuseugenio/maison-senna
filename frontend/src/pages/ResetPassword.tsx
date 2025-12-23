@@ -9,7 +9,6 @@ import Button from "../components/Button";
 import FloatingInputPassword from "../components/Auth/FloatingInputPassword";
 import HorizontalDivider from "../components/HorizontalDivider";
 import PasswordRequirement from "../components/Auth/PasswordRequirement";
-import { ApiError } from "../types/api";
 import { toast } from "../utils/customToast";
 import { validatePassword } from "../utils/validatePassword";
 import { ERROR_NOTIFICATIONS } from "../constants/auth";
@@ -62,9 +61,9 @@ const ResetPassword: React.FC = () => {
       });
       navigate("/login");
     },
-    onError: (error: ApiError) => {
+    onError: (error) => {
       toast.error({
-        title: error.title,
+        title: error.detail,
         description: error.description,
       });
     },
