@@ -3,10 +3,7 @@ from rest_framework import serializers
 from apps.catalog import models
 from apps.catalog.api.constants import PRODUCT_ERROR_MESSAGES
 from apps.catalog.api.serializers.category import CategorySerializer
-from apps.catalog.api.serializers.variation import (
-    VariationOptionSerializer,
-    VariationTypeSerializer,
-)
+from apps.catalog.api.serializers.variation import VariationOptionSerializer
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -27,10 +24,10 @@ class ProductListSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     details = serializers.ListField(child=serializers.CharField())
-    variation_types = VariationTypeSerializer(read_only=True, many=True)
     materials = serializers.ListField(child=serializers.CharField())
     care = serializers.ListField(child=serializers.CharField())
     reference_image = serializers.ImageField()
+    variation_options = VariationOptionSerializer(many=True)
 
     class Meta:
         model = models.Product
@@ -42,7 +39,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "base_price",
             "reference_image",
             "description",
-            "variation_types",
+            "variation_options",
             "details",
             "materials",
             "care",
@@ -61,6 +58,7 @@ class ProductSerializerFieldsMixin:
         "details",
         "materials",
         "care",
+        "variations",
     ]
 
 

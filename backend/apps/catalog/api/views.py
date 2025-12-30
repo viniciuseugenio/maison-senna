@@ -115,7 +115,6 @@ class DashboardViewSet(ViewSet):
                 "products": models.Product.objects.all().count(),
                 "categories": models.Category.objects.all().count(),
                 "variation_kinds": models.VariationKind.objects.all().count(),
-                "variation_types": models.VariationType.objects.all().count(),
                 "variation_options": models.VariationOption.objects.all().count(),
                 "product_variations": models.ProductVariation.objects.all().count(),
             }
@@ -135,26 +134,8 @@ class VariationKindsDetailsView(RetrieveUpdateDestroyAPIView):
     lookup_field = "pk"
 
 
-class VariationTypesList(OrderedListMixin, ListCreateAPIView):
-    serializer_class = serializers.DashboardVariationTypeSerializer
-    queryset = models.VariationType.objects.all()
-    permission_classes = [IsAuthenticated, IsAdminUser]
-
-    def get_serializer_class(self):
-        if self.request.method == "POST":
-            return serializers.VariationTypeCreateSerializer
-
-        return super().get_serializer_class()
-
-
-class VariationTypesDetail(RetrieveUpdateDestroyAPIView):
-    queryset = models.VariationType.objects.all()
-    serializer_class = serializers.VariationTypeSerializer
-    permission_classes = [IsAdminUser]
-
-
 class VariationOptionsList(OrderedAdminListView):
-    serializer_class = serializers.VariationOptionsListSerializer
+    serializer_class = serializers.VariationOptionSerializer
     queryset = models.VariationOption.objects.all()
 
 

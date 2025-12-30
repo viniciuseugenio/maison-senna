@@ -56,21 +56,12 @@ class VariationKind(models.Model):
         return f"{self.name}"
 
 
-class VariationType(models.Model):
+class VariationOption(models.Model):
     kind = models.ForeignKey(
-        VariationKind, on_delete=models.CASCADE, related_name="variation_type"
+        VariationKind, on_delete=models.CASCADE, related_name="variation_options"
     )
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="variation_types"
-    )
-
-    def __str__(self):
-        return f"{self.kind} for {self.product}"
-
-
-class VariationOption(models.Model):
-    type = models.ForeignKey(
-        VariationType, on_delete=models.CASCADE, related_name="options"
+        Product, on_delete=models.CASCADE, related_name="variation_options"
     )
     name = models.CharField(max_length=50)
     price_modifier = models.DecimalField(
@@ -78,7 +69,7 @@ class VariationOption(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} - {self.type}"
+        return f"{self.kind.name} - {self.name} for {self.product.name}"
 
 
 class ProductVariation(models.Model):
