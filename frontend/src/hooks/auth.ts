@@ -48,7 +48,7 @@ export function useLogin() {
       });
     },
     onError: (data) => {
-      toast.error({ title: data.title, description: data.description });
+      toast.error({ title: data.detail, description: data.description });
     },
   });
 }
