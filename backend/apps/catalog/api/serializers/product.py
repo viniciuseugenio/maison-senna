@@ -72,6 +72,7 @@ class BaseProductSerializer(serializers.ModelSerializer):
         errors = {}
 
         name = attrs.get("name")
+        description = attrs.get("description")
         base_price = attrs.get("base_price")
         details = attrs.get("details")
         care = attrs.get("care")
@@ -79,6 +80,9 @@ class BaseProductSerializer(serializers.ModelSerializer):
 
         if (require_all or name is not None) and len(name or "") < 6:
             errors["name"] = self.ERROR_MESSAGES["name_length"]
+
+        if (require_all or description is not None) and len(description or "") < 20:
+            errors["description"] = self.ERROR_MESSAGES["description_length"]
 
         if (require_all or base_price is not None) and base_price < 1:
             errors["base_price"] = self.ERROR_MESSAGES["price_min"]
