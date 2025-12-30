@@ -13,11 +13,14 @@ export async function loginUser(data: LoginForm) {
 }
 
 export async function registerUser(formData: RegisterForm) {
-  return await customFetch(AUTH_ENDPOINTS.REGISTER, {
-    method: "POST",
-    body: JSON.stringify(formData),
-    returnBadRequest: true,
-  });
+  return await customFetch<{ detail: string; description: string }>(
+    AUTH_ENDPOINTS.REGISTER,
+    {
+      method: "POST",
+      body: JSON.stringify(formData),
+      returnBadRequest: true,
+    },
+  );
 }
 
 export async function checkEmailAvailability(email: string) {
@@ -52,10 +55,13 @@ export async function logoutUser() {
 }
 
 export async function requestPasswordReset(email: string) {
-  return await customFetch(AUTH_ENDPOINTS.REQUEST_PASSWORD_RESET, {
-    method: "POST",
-    body: JSON.stringify({ email }),
-  });
+  return await customFetch<{ detail: string; description: string }>(
+    AUTH_ENDPOINTS.REQUEST_PASSWORD_RESET,
+    {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    },
+  );
 }
 
 export async function resetPassword({
