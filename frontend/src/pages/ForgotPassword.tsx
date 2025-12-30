@@ -8,7 +8,6 @@ import { requestPasswordReset } from "../api/endpoints/auth";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
-import { ApiResponse } from "../types/api";
 import { toast } from "../utils/customToast";
 
 const forgotPasswordSchema = z.object({
@@ -25,7 +24,7 @@ export default function ForgotPassword() {
   const { handleSubmit, getValues, setValue } = methods;
   const { mutate, isPending, isSuccess, reset } = useMutation({
     mutationFn: requestPasswordReset,
-    onSuccess: (data: ApiResponse) => {
+    onSuccess: (data) => {
       toast.success({
         title: data.detail,
         description: data.description,

@@ -7,11 +7,9 @@ import BackButton from "../components/Admin/BackButton";
 import HorizontalDivider from "../components/HorizontalDivider";
 import ProductForm from "../components/ProductForm";
 import newProduct from "../schemas/newProduct";
-import { ApiFormError, ApiResponse } from "../types/api";
 import { NewProductForm } from "../types/forms";
 import { toast } from "../utils/customToast";
 import { getUpdatedFields, partialFormData } from "../utils/products/helpers";
-import { isApiFormError } from "../utils/typeGuards";
 
 const EditProduct: React.FC = () => {
   const { slug } = useParams();
@@ -32,32 +30,30 @@ const EditProduct: React.FC = () => {
     mutationFn: (data: FormData) =>
       updateProduct({ data, slug: slug as string }),
     mutationKey: ["products", slug],
-    onSuccess: (data: ApiFormError | ApiResponse) => {
-      if (isApiFormError(data)) {
-        Object.entries(data.errors).forEach(([key, error]) => {
-          setError(
-            key as keyof NewProductForm,
-            {
-              message: error[0],
-            },
-            {
-              shouldFocus: true,
-            },
-          );
-        });
-
-        toast.error({
-          title: "An error occurred",
-          description: "Please, review all fields of the form.",
-        });
-        return;
-      }
-
+    onSuccess: (data) => {
       toast.success({
-        title: "The product was updated successfully.",
+        title: data.detail,
+        description: data.description,
       });
       queryClient.invalidateQueries({ queryKey: ["products"] });
       navigate("/admin/products/");
+    },
+    onError: (error) => {
+      if (error.errors) {
+        Object.entries(error.errors).forEach(([key, errorArray]) => {
+          setError(
+            key as keyof NewProductForm,
+            { message: errorArray[0] },
+            { shouldFocus: true },
+          );
+        });
+        toast.error({ title: error.detail, description: error.description });
+      } else {
+        toast.error({
+          title: error.detail,
+          description: error.description,
+        });
+      }
     },
   });
 
