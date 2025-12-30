@@ -4,10 +4,11 @@ export type Category = {
   slug: string;
 };
 
-type VariationOption = {
+export type VariationOption = {
   id: number;
   name: string;
-  price_modifier: string;
+  priceModifier: number;
+  kind: VariationKind;
 };
 
 export type VariationKind = {
@@ -51,7 +52,7 @@ export type ProductDetails = {
   referenceImage: string;
   basePrice: string;
   slug: string;
-  variationTypes: VariationType[];
+  variationOptions: VariationOption[];
   care: string[];
   materials: string[];
   details: string[];

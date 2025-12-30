@@ -75,7 +75,7 @@ const Product: React.FC = () => {
               <div className="text-mine-shaft/80 mt-6 text-sm leading-relaxed">
                 {product.description}
               </div>
-              <ProductVariations variationTypes={product.variationTypes} />
+              <ProductVariations variationOptions={product.variationOptions} />
               <div className="mt-6">
                 <h3 className="text-mine-shaft mb-3 text-sm font-medium">
                   Quantity

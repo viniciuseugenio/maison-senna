@@ -1,20 +1,38 @@
-import { VariationType } from "../../types/catalog";
+import { VariationOption } from "../../types/catalog";
 import VariantButton from "./VariantButton";
 
 const ProductVariations: React.FC<{
-  variationTypes: VariationType[];
-}> = ({ variationTypes }) => {
-  return variationTypes.map((variant) => (
-    <div key={variant.kind.id} className="mt-6">
+  variationOptions: VariationOption[];
+}> = ({ variationOptions }) => {
+  const groupedOptionsRecord: Record<string, VariationOption[]> =
+    variationOptions.reduce(
+      (acc, option) => {
+        const kindName = option.kind.name;
+
+        if (!acc[kindName]) {
+          acc[kindName] = [];
+        }
+
+        acc[kindName].push(option);
+        return acc;
+      },
+      {} as Record<string, VariationOption[]>,
+    );
+
+  const groupedOptions: [string, VariationOption[]][] =
+    Object.entries(groupedOptionsRecord);
+
+  return groupedOptions.map((variation) => (
+    <div key={variation[0]} className="mt-6">
       <h3 className="text-mine-shaft mb-3 text-sm font-medium">
-        {variant.kind.name}
+        {variation[0]}
       </h3>
       <div className="flex flex-wrap gap-3">
-        {variant.options.map((option, i) => (
+        {variation[1].map((option, i) => (
           <VariantButton key={i} isSelected={false}>
             {option.name}{" "}
-            {option.price_modifier && (
-              <span className="text-oyster ml-2">${option.price_modifier}</span>
+            {option.priceModifier && (
+              <span className="text-oyster ml-2">${option.priceModifier}</span>
             )}
           </VariantButton>
         ))}
