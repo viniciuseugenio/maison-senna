@@ -1,16 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Plus, Tag } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { addCategory } from "../../api/endpoints/products";
 import { categorySchema } from "../../schemas/category";
-import { ApiResponse } from "../../types/api";
-import { CategoryForm, CategoryFormError } from "../../types/forms";
+import { CategoryForm } from "../../types/forms";
 import { toast } from "../../utils/customToast";
-import FormModal from "./FormModal";
-import { Tag, Plus } from "lucide-react";
 import Button from "../Button";
 import FloatingInput from "../FloatingInput";
+import FormModal from "./FormModal";
 
 const CategoryModal: React.FC = () => {
   const navigate = useNavigate();
@@ -24,21 +23,20 @@ const CategoryModal: React.FC = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: addCategory,
     mutationKey: ["createCategory"],
-    onSuccess: (data: CategoryFormError | ApiResponse) => {
-      if ("errors" in data) {
-        const errors = data.errors as Record<keyof CategoryForm, string[]>;
-        toast.error({
-          title: "An error occurred.",
-          description: errors.name[0],
-        });
-        return;
-      }
+    onSuccess: () => {
       navigate(closeModalUrl);
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       toast.success({ title: "The category was successfully created." });
     },
     onError: (error) => {
-      toast.error({ title: error.title, description: error.description });
+      if (error.errors) {
+        toast.error({
+          title: "An error occurred",
+          description: error.errors.name[0],
+        });
+        return;
+      }
+      toast.error({ title: error.detail, description: error.description });
     },
   });
 

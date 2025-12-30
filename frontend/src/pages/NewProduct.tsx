@@ -8,10 +8,8 @@ import HorizontalDivider from "../components/HorizontalDivider";
 import ProductForm from "../components/ProductForm";
 import { convertToFormData } from "../lib/convertToFormData";
 import newProductSchema from "../schemas/newProduct";
-import { ApiFormError, ApiResponse } from "../types/api";
 import { NewProductForm } from "../types/forms";
 import { toast } from "../utils/customToast";
-import { isApiFormError } from "../utils/typeGuards";
 
 const NewProduct: React.FC = () => {
   const methods = useForm<NewProductForm>({
@@ -32,27 +30,31 @@ const NewProduct: React.FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createProduct,
-    onSuccess: (data: ApiFormError | ApiResponse) => {
-      if (isApiFormError(data)) {
-        Object.entries(data.errors).forEach(([key, error]) => {
-          setError(key as keyof NewProductForm, {
-            message: error[0],
-          });
-        });
-        return;
-      }
-
+    onSuccess: (data) => {
       toast.success({
-        title: "The product was created.",
-        description: "Now you need to create its variation options!",
+        title: data.detail,
+        description: data.description,
       });
       navigate("/admin/products/");
     },
     onError: (error) => {
-      toast.error({
-        title: error.title,
-        description: error.description,
-      });
+      if (error.errors) {
+        Object.entries(error.errors).forEach(([key, errorArray]) => {
+          setError(
+            key as keyof NewProductForm,
+            {
+              message: errorArray[0],
+            },
+            { shouldFocus: true },
+          );
+        });
+        toast.error({ title: "Please, review all form fields" });
+      } else {
+        toast.error({
+          title: error.detail,
+          description: error.description,
+        });
+      }
     },
   });
 

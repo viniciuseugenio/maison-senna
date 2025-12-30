@@ -17,10 +17,13 @@ export async function getProducts() {
 }
 
 export async function createProduct(data: FormData) {
-  return await customFetch<ProductDetails>(CATALOG_ENDPOINTS.PRODUCTS, {
+  return await customFetch<{
+    detail: string;
+    description: string;
+    product: ProductDetails;
+  }>(CATALOG_ENDPOINTS.PRODUCTS, {
     body: data,
     method: "POST",
-    returnBadRequest: true,
     requiresAuth: true,
   });
 }
@@ -33,10 +36,13 @@ export async function updateProduct({
   slug: string;
 }) {
   const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
-  return await customFetch<ProductDetails>(url, {
+  return await customFetch<{
+    detail: string;
+    description: string;
+    product: ProductDetails;
+  }>(url, {
     body: data,
     method: "PATCH",
-    returnBadRequest: true,
     requiresAuth: true,
   });
 }

@@ -35,23 +35,26 @@ const VariationKindsEdit: React.FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateVariationKind,
-    onSuccess: (data) => {
-      if (data.errors) {
-        const error = data.errors.name[0] as string;
+    onSuccess: () => {
+      toast.success({
+        title: "The variation kind was updated successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
+      navigate(-1);
+    },
+    onError: (error) => {
+      if (error.errors) {
+        const nameError = error.errors.name[0] as string;
 
         if (error) {
-          const errorCapitalized = error[0].toUpperCase() + error.slice(1);
+          const errorCapitalized =
+            nameError[0].toUpperCase() + nameError.slice(1);
           setError("name", {
             message: errorCapitalized,
           });
           return;
         }
       }
-      toast.success({
-        title: "The variation kind was updated successfully.",
-      });
-      queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
-      navigate(-1);
     },
   });
 

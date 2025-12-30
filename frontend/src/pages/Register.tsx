@@ -13,7 +13,6 @@ import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
 import { REGISTER_FORM_ERRORS } from "../constants/auth";
 import { registerSchema } from "../schemas/auth";
-import { ApiError } from "../types/api";
 import { RegisterForm } from "../types/auth";
 import { toast } from "../utils/customToast";
 import { transformKeys } from "../utils/transformKeys";
@@ -37,14 +36,19 @@ export default function Register() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: registerUser,
-    onSuccess: (result) => {
-      if (result.errors) {
-        const objectErrors = transformKeys(result.errors, camelCase);
-
-        Object.entries(objectErrors).forEach(([field, messages]) => {
-          setError(field as keyof RegisterForm, {
+    onSuccess: (data) => {
+      toast.success({
+        title: data.detail,
+        description: data.description,
+      });
+      navigate("/login", { replace: true });
+    },
+    onError: (error) => {
+      if (error.errors) {
+        Object.entries(error.errors).forEach(([key, errorArray]) => {
+          setError(key as keyof RegisterForm, {
             type: "server",
-            message: messages[0],
+            message: errorArray[0],
           });
         });
 
@@ -54,16 +58,8 @@ export default function Register() {
         });
         return;
       }
-
-      toast.success({
-        title: result.detail,
-        description: result.description,
-      });
-      navigate("/login", { replace: true });
-    },
-    onError: (error: ApiError) => {
       toast.error({
-        title: error.title,
+        title: error.detail,
         description: error.description,
       });
     },
