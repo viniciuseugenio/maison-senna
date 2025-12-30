@@ -9,7 +9,7 @@ import {
 import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
 import { ERROR_NOTIFICATIONS } from "../constants/auth";
-import { ApiResponse } from "../types/api";
+import { ApiResponseType } from "../types/api";
 import { User as UserType } from "../types/auth";
 import { toast } from "../utils/customToast";
 
@@ -84,7 +84,7 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
       if (!code) return;
 
       try {
-        const data: ApiResponse = await customFetch(
+        const data: ApiResponseType = await customFetch(
           AUTH_ENDPOINTS.GOOGLE_LOGIN,
           {
             method: "POST",

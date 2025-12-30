@@ -1,17 +1,12 @@
-import { NewProductForm } from "./forms";
-
-export type ApiResponse = {
+export type ApiResponseType = {
   detail: string;
   description?: string;
   [key: string]: unknown;
 };
 
-export type ApiFormError = {
-  errors: Partial<Record<keyof NewProductForm, string[]>>;
-};
-
-export type ApiError = {
-  title: string;
+export type FetchErrorType = {
+  detail: string;
   description?: string;
   status: number;
+  errors?: Record<string, string[]>;
 };
