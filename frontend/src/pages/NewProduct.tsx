@@ -18,6 +18,7 @@ const NewProduct: React.FC = () => {
     defaultValues: {
       variations: [
         {
+          id: crypto.randomUUID(),
           variationKind: undefined,
           options: [],
         },
