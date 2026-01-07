@@ -11,7 +11,7 @@ import HorizontalDivider from "../components/HorizontalDivider";
 import PasswordRequirement from "../components/Auth/PasswordRequirement";
 import { toast } from "../utils/customToast";
 import { validatePassword } from "../utils/validatePassword";
-import { ERROR_NOTIFICATIONS } from "../constants/auth";
+import { errorNotifications } from "../constants/auth";
 
 const resetPasswordSchema = z.object({
   password: z.string(),
@@ -31,8 +31,8 @@ const ResetPassword: React.FC = () => {
   useEffect(() => {
     if (!uid || !token) {
       toast.error({
-        title: ERROR_NOTIFICATIONS.RESET_PASSWORD_TOKENS.title,
-        description: ERROR_NOTIFICATIONS.RESET_PASSWORD_TOKENS.description,
+        title: errorNotifications.resetPasswordTokens.title,
+        description: errorNotifications.resetPasswordTokens.description,
         customId: "missing-tokens",
       });
       navigate("/forgot-password");
@@ -73,8 +73,8 @@ const ResetPassword: React.FC = () => {
   const onSubmit: SubmitHandler<ResetPasswordForm> = async (data) => {
     if (hasError) {
       toast.error({
-        title: ERROR_NOTIFICATIONS.RESET_PASSWORD_VALIDATION.title,
-        description: ERROR_NOTIFICATIONS.RESET_PASSWORD_VALIDATION.description,
+        title: errorNotifications.resetPasswordValidation.title,
+        description: errorNotifications.resetPasswordValidation.description,
       });
       return;
     }

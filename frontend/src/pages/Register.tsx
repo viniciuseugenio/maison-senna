@@ -11,7 +11,7 @@ import SocialLogin from "../components/Auth/SocialLogin";
 import Button from "../components/Button";
 import FloatingInput from "../components/FloatingInput";
 import HorizontalDivider from "../components/HorizontalDivider";
-import { REGISTER_FORM_ERRORS } from "../constants/auth";
+import { registerFormErrors } from "../constants/auth";
 import { registerSchema } from "../schemas/auth";
 import { RegisterForm } from "../types/auth";
 import { toast } from "../utils/customToast";
@@ -54,7 +54,7 @@ export default function Register() {
 
         toast.error({
           title: "An error occurred",
-          description: REGISTER_FORM_ERRORS.FORM_ERROR,
+          description: registerFormErrors.formError,
         });
         return;
       }

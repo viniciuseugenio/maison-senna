@@ -8,7 +8,7 @@ import {
 } from "../api/endpoints/auth";
 import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
-import { ERROR_NOTIFICATIONS } from "../constants/auth";
+import { errorNotifications } from "../constants/auth";
 import { ApiResponseType } from "../types/api";
 import { User as UserType } from "../types/auth";
 import { toast } from "../utils/customToast";
@@ -107,8 +107,8 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
         }, 200);
       } catch {
         toast.error({
-          title: ERROR_NOTIFICATIONS.SOCIAL_LOGIN_ERROR.title,
-          description: ERROR_NOTIFICATIONS.SOCIAL_LOGIN_ERROR.description,
+          title: errorNotifications.socialLoginError.title,
+          description: errorNotifications.socialLoginError.description,
         });
       } finally {
         setIsLoading(false);
@@ -117,11 +117,11 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
     onError: (errorResponse) => {
       const description =
         errorResponse.error === "access_denied"
-          ? ERROR_NOTIFICATIONS.SOCIAL_LOGIN_ERROR.access_denied
-          : ERROR_NOTIFICATIONS.SOCIAL_LOGIN_ERROR.description;
+          ? errorNotifications.socialLoginError.access_denied
+          : errorNotifications.socialLoginError.description;
 
       toast.error({
-        title: ERROR_NOTIFICATIONS.SOCIAL_LOGIN_ERROR.title,
+        title: errorNotifications.socialLoginError.title,
         description: description,
       });
       setIsLoading(false);
