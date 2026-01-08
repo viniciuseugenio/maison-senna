@@ -9,12 +9,19 @@ class VariationKindSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
+class ProductBasicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Product
+        fields = ["id", "name", "slug"]
+
+
 class VariationOptionSerializer(serializers.ModelSerializer):
     kind = VariationKindSerializer(read_only=True)
+    product = ProductBasicSerializer()
 
     class Meta:
         model = models.VariationOption
-        fields = ["id", "kind", "name", "price_modifier"]
+        fields = ["id", "kind", "product", "name", "price_modifier"]
 
 
 class VariationOptionCreateSerializer(serializers.ModelSerializer):

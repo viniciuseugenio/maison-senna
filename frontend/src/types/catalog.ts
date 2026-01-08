@@ -20,6 +20,11 @@ export type VariationOptionList = {
   id: number;
   name: string;
   kind: VariationKind;
+  product: {
+    id: number;
+    name: string;
+    slug: string;
+  };
   priceModifier?: number;
 };
 
