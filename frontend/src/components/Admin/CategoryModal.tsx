@@ -10,6 +10,7 @@ import { toast } from "../../utils/customToast";
 import Button from "../Button";
 import FloatingInput from "../FloatingInput";
 import FormModal from "./FormModal";
+import { toastMessages } from "../../constants/auth";
 
 const CategoryModal: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const CategoryModal: React.FC = () => {
     onSuccess: () => {
       navigate(closeModalUrl);
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-      toast.success({ title: "The category was successfully created." });
+      toast.success({ title: toastMessages.admin.categoryCreated.title });
     },
     onError: (error) => {
       if (error.errors) {

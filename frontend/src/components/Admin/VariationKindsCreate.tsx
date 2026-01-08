@@ -10,6 +10,7 @@ import { toast } from "../../utils/customToast";
 import Button from "../Button";
 import FloatingInput from "../FloatingInput";
 import FormModal from "./FormModal";
+import { toastMessages } from "../../constants/auth";
 
 const VariationKindsCreate: React.FC = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const VariationKindsCreate: React.FC = () => {
     onSuccess: () => {
       navigate(-1);
       queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
-      toast.success({ title: "The variation kind was successfully created." });
+      toast.success({ title: toastMessages.admin.variationKindCreated.title });
     },
     onError: (error) => {
       if (error.errors) {

@@ -10,6 +10,7 @@ import { convertToFormData } from "../lib/convertToFormData";
 import newProductSchema from "../schemas/newProduct";
 import { NewProductForm } from "../types/forms";
 import { toast } from "../utils/customToast";
+import { toastMessages } from "../constants/auth";
 
 const NewProduct: React.FC = () => {
   const methods = useForm<NewProductForm>({
@@ -49,7 +50,10 @@ const NewProduct: React.FC = () => {
             { shouldFocus: true },
           );
         });
-        toast.error({ title: "Please, review all form fields" });
+        toast.error({
+          title: toastMessages.formSubmissionFailed.title,
+          description: toastMessages.formSubmissionFailed.description,
+        });
       } else {
         toast.error({
           title: error.detail,

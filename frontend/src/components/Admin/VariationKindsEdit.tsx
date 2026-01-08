@@ -10,6 +10,7 @@ import { variationKindsSchema } from "../../schemas/variationTypes";
 import { VariationKindsForm } from "../../types/forms";
 import { toast } from "../../utils/customToast";
 import FormModal from "./FormModal";
+import { toastMessages } from "../../constants/auth";
 
 const VariationKindsEdit: React.FC = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const VariationKindsEdit: React.FC = () => {
     mutationFn: updateVariationKind,
     onSuccess: () => {
       toast.success({
-        title: "The variation kind was updated successfully.",
+        title: toastMessages.admin.variationKindUpdated.title,
       });
       queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
       navigate(-1);

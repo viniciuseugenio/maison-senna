@@ -1,3 +1,4 @@
+import { toastMessages } from "../../constants/auth";
 import { AUTH_ENDPOINTS } from "./constants";
 
 export class FetchError extends Error {
@@ -74,8 +75,8 @@ export async function customFetch<T>(
     if (response.status === 400) {
       throw new FetchError(
         response.status,
-        "Form submission failed",
-        "Please, review the highlighted fields and try again.",
+        toastMessages.formSubmissionFailed.title,
+        toastMessages.formSubmissionFailed.description,
         data,
       );
     }

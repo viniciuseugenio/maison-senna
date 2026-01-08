@@ -7,6 +7,7 @@ import { useState } from "react";
 import { toast } from "../../utils/customToast";
 import { ERROR_NOTIFICATIONS } from "../../constants/notifications";
 import capitalizeWord from "../../utils/capitalizeWord";
+import { toastMessages } from "../../constants/auth";
 
 type TableActionsProps = {
   editLink: string;
@@ -43,7 +44,7 @@ const TableActions: React.FC<TableActionsProps> = ({
     mutationFn: genericDeleteModel,
     onSuccess: () => {
       toast.success({
-        title: `The ${lowerResourceType} was deleted successfully.`,
+        title: toastMessages.admin.resourceDeleted(lowerResourceType).title,
       });
       setIsOpen(false);
       queryClient.invalidateQueries({ queryKey });

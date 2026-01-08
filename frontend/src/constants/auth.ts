@@ -35,6 +35,38 @@ export const errorNotifications = {
     title: "Something is Wrong",
     description: "Please, check all requirements and submit again",
   },
+  genericError: {
+    title: "Something Went Wrong",
+    description: "An unexpected error occurred. Please, try again later",
+  },
+};
+
+export const toastMessages = {
+  auth: {
+    signedOut: {
+      title: "You've Signed Out",
+      description:
+        "You’ve been securely signed out. We look forward to welcoming you back.",
+    },
+  },
+  formSubmissionFailed: {
+    title: "Form submission failed",
+    description: "Please, review the highlighted fields and try again.",
+  },
+  admin: {
+    categoryCreated: {
+      title: "The category was successfully created.",
+    },
+    variationKindCreated: {
+      title: "The variation kind was successfully created.",
+    },
+    variationKindUpdated: {
+      title: "The variation kind was updated successfully.",
+    },
+    resourceDeleted: (resourceType: string) => ({
+      title: `The ${resourceType} was deleted successfully.`,
+    }),
+  },
 };
 
 export const ACCESS_TOKEN_LIFETIME = 15 * 60 * 1000;

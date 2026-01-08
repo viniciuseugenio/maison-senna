@@ -8,7 +8,7 @@ import {
 } from "../api/endpoints/auth";
 import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
 import { customFetch } from "../api/endpoints/customFetch";
-import { errorNotifications } from "../constants/auth";
+import { errorNotifications, toastMessages } from "../constants/auth";
 import { ApiResponseType } from "../types/api";
 import { User as UserType } from "../types/auth";
 import { toast } from "../utils/customToast";
@@ -65,9 +65,8 @@ export function useLogout() {
     onError: () => {
       queryClient.setQueryData(["user"], null);
       toast.success({
-        title: "You've Signed Out",
-        description:
-          "You’ve been securely signed out. We look forward to welcoming you back.",
+        title: toastMessages.auth.signedOut.title,
+        description: toastMessages.auth.signedOut.description,
       });
     },
   });
