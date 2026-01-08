@@ -6,7 +6,7 @@ import {
   getVariationKind,
   updateVariationKind,
 } from "../../api/endpoints/products";
-import { variationKindsSchema } from "../../schemas/variationTypes";
+import { variationKindsSchema } from "../../schemas/variations";
 import { VariationKindsForm } from "../../types/forms";
 import { toast } from "../../utils/customToast";
 import FormModal from "./FormModal";

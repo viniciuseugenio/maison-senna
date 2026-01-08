@@ -6,7 +6,6 @@ export type Statistics = {
   categories: number;
   variationKinds: number;
   variationOptions: number;
-  variationTypes: number;
   productVariations: number;
 };
 

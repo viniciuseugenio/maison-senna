@@ -16,22 +16,10 @@ export type VariationKind = {
   name: string;
 };
 
-export type VariationType = {
-  id: number;
-  kind: VariationKind;
-  options: VariationOption[];
-};
-
-export type VariationTypeList = {
-  id: number;
-  kind: string;
-  product: string;
-};
-
 export type VariationOptionList = {
   id: number;
-  type: VariationTypeList;
   name: string;
+  kind: VariationKind;
   priceModifier?: number;
 };
 

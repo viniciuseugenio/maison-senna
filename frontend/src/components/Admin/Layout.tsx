@@ -38,10 +38,6 @@ const Layout: React.FC = () => {
             <Settings className="h-4 w-4" />
             Variation Kinds
           </SidebarLink>
-          <SidebarLink to="/admin/variation-types">
-            <Layers className="h-4 w-4" />
-            Variation Types
-          </SidebarLink>
           <SidebarLink to="/admin/variation-options">
             <Grid className="h-4 w-4" />
             Variation Options

@@ -21,26 +21,21 @@ const VariationOptions: React.FC = () => {
   const headers: HeaderConfig[] = [
     { title: "ID" },
     { title: "Name" },
-    { title: "Variation Type" },
+    { title: "Variation Kind" },
     { title: "Price Modifier" },
     { title: "ACTIONS", className: "text-right", isButton: false },
   ];
 
+  // Does not work until the back-end returns a product variable again
   const onSearch = (query: string) => {
     if (!variationOptions) return;
 
-    const result = variationOptions.filter((variationOption) =>
-      variationOption.type.product.toLowerCase().includes(query.toLowerCase()),
-    );
+    const result = variationOptions;
 
     setFilteredOptions(result);
   };
 
-  const dataToRender =
-    filteredOptions ??
-    variationOptions?.sort((a, b) =>
-      a.type.product.localeCompare(b.type.product),
-    );
+  const dataToRender = filteredOptions ?? variationOptions;
 
   return (
     <PageLayout
@@ -58,9 +53,7 @@ const VariationOptions: React.FC = () => {
             <TableRow key={variationOption.id}>
               <TableData>{variationOption.id}</TableData>
               <TableData>{variationOption.name}</TableData>
-              <TableData>
-                {variationOption.type.kind} ({variationOption.type.product})
-              </TableData>
+              <TableData>{variationOption.kind.name}</TableData>
               <TableData>${variationOption.priceModifier ?? "0.00"}</TableData>
               <TableActions
                 editLink="/"

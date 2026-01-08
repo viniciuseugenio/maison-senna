@@ -14,7 +14,6 @@ import AdminProducts from "./pages/Admin/Products";
 import ProductVariations from "./pages/Admin/ProductVariations";
 import VariationKinds from "./pages/Admin/VariationKinds";
 import VariationOptions from "./pages/Admin/VariationOptions";
-import VariationTypes from "./pages/Admin/VariationTypes";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -26,7 +25,6 @@ import ResetPassword from "./pages/ResetPassword";
 import EditProduct from "./pages/EditProduct";
 import VariationKindsCreate from "./components/Admin/VariationKindsCreate";
 import VariationKindsEdit from "./components/Admin/VariationKindsEdit";
-import NewVariationType from "./components/Admin/NewVariationType";
 
 const queryClient = new QueryClient();
 
@@ -48,11 +46,6 @@ function App() {
                     <Route path="new" element={<VariationKindsCreate />} />
                     <Route path="edit/:id" element={<VariationKindsEdit />} />
                   </Route>
-                  <Route path="variation-types" element={<VariationTypes />} />
-                  <Route
-                    path="variation-types/new"
-                    element={<NewVariationType />}
-                  />
                   <Route
                     path="variation-options"
                     element={<VariationOptions />}

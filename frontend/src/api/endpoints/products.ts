@@ -117,27 +117,6 @@ export async function updateVariationKind({
   });
 }
 
-export async function getVariationTypes() {
-  return await customFetch<VariationTypeList[]>(
-    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_TYPES,
-  );
-}
-
-export async function addVariationType(data: {
-  kind: number;
-  product: number;
-}) {
-  return await customFetch<VariationTypeList>(
-    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_TYPES,
-    {
-      body: JSON.stringify(data),
-      method: "POST",
-      returnBadRequest: true,
-      requiresAuth: true,
-    },
-  );
-}
-
 export async function getVariationOptions() {
   return await customFetch<VariationOptionList[]>(
     CATALOG_ENDPOINTS.LIST_VARIATION_OPTIONS,

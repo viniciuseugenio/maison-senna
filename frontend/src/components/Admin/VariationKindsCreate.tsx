@@ -4,7 +4,7 @@ import { Plus, Tag } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { addVariationKind } from "../../api/endpoints/products";
-import { variationKindsSchema } from "../../schemas/variationTypes";
+import { variationKindsSchema } from "../../schemas/variations";
 import { VariationKindsForm } from "../../types/forms";
 import { toast } from "../../utils/customToast";
 import Button from "../Button";

@@ -59,13 +59,6 @@ const AdminDashboard: React.FC = () => {
           description="Manage variation types (Color, Size, etc...)"
         />
         <BigBox
-          to="/admin/variation-types"
-          Icon={Layers}
-          data={statistics?.variationTypes}
-          title="Variation Types"
-          description="Link variation kinds to products"
-        />
-        <BigBox
           to="/admin/variation-options"
           Icon={Grid}
           data={statistics?.variationOptions}
