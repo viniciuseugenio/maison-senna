@@ -12,7 +12,7 @@ interface FloatingInputProps
   customBorder?: string;
 }
 
-export default function FloatingInput({
+const FloatingInput: React.FC<FloatingInputProps> = ({
   name,
   label,
   icon,
@@ -20,7 +20,7 @@ export default function FloatingInput({
   type,
   customBorder,
   ...props
-}: FloatingInputProps) {
+}) => {
   const isError = !!error;
 
   const { watch } = useFormContext();
@@ -68,4 +68,6 @@ export default function FloatingInput({
       )}
     </ConnectForm>
   );
-}
+};
+
+export default FloatingInput;
