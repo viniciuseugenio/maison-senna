@@ -14,6 +14,7 @@ const VariationOptions: React.FC = () => {
     queryKey: ["variationOptions"],
     queryFn: getVariationOptions,
   });
+
   const [filteredOptions, setFilteredOptions] = useState<
     VariationOptionList[] | null
   >(null);
@@ -22,15 +23,40 @@ const VariationOptions: React.FC = () => {
     { title: "ID" },
     { title: "Name" },
     { title: "Variation Kind" },
+    { title: "Product" },
     { title: "Price Modifier" },
     { title: "ACTIONS", className: "text-right", isButton: false },
   ];
 
-  // Does not work until the back-end returns a product variable again
   const onSearch = (query: string) => {
     if (!variationOptions) return;
 
-    const result = variationOptions;
+    if (!query.trim()) {
+      setFilteredOptions(null);
+      return;
+    }
+
+    const lowerQuery = query.toLowerCase();
+
+    const result = variationOptions.filter((option) => {
+      const matchesName = option.name.toLowerCase().includes(lowerQuery);
+      const matchesKind = option.kind.name.toLowerCase().includes(lowerQuery);
+      const matchesProduct = option.product.name
+        .toLowerCase()
+        .includes(lowerQuery);
+      const matchesId = option.id.toString().includes(lowerQuery);
+      const matchesPrice = option.priceModifier
+        ?.toString()
+        .includes(lowerQuery);
+
+      return (
+        matchesName ||
+        matchesKind ||
+        matchesProduct ||
+        matchesId ||
+        matchesPrice
+      );
+    });
 
     setFilteredOptions(result);
   };
@@ -54,6 +80,7 @@ const VariationOptions: React.FC = () => {
               <TableData>{variationOption.id}</TableData>
               <TableData>{variationOption.name}</TableData>
               <TableData>{variationOption.kind.name}</TableData>
+              <TableData>{variationOption.product.name}</TableData>
               <TableData>${variationOption.priceModifier ?? "0.00"}</TableData>
               <TableActions
                 editLink="/"
