@@ -23,10 +23,6 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
-    details = serializers.ListField(child=serializers.CharField())
-    materials = serializers.ListField(child=serializers.CharField())
-    care = serializers.ListField(child=serializers.CharField())
-    reference_image = serializers.ImageField()
     variation_options = VariationOptionSerializer(many=True)
 
     class Meta:
