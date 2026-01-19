@@ -6,7 +6,7 @@ import { getProducts } from "../../api/endpoints/products";
 import { ProductList } from "../../types/catalog";
 import SelectInput from "../SelectInput";
 
-const ProductSelect: React.FC = () => {
+const ProductSelect: React.FC<{ className?: string }> = ({ className }) => {
   const { data: products } = useQuery({
     queryFn: getProducts,
     queryKey: ["products"],
@@ -37,6 +37,7 @@ const ProductSelect: React.FC = () => {
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       error={error}
+      className={className}
     >
       {products &&
         products.map((product) => (
