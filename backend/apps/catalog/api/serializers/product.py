@@ -46,22 +46,6 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
 
-class ProductSerializerFieldsMixin:
-    model = models.Product
-    fields = [
-        "id",
-        "category",
-        "name",
-        "base_price",
-        "reference_image",
-        "description",
-        "details",
-        "materials",
-        "care",
-        "variations",
-    ]
-
-
 class BaseProductSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
         max_length=255,
