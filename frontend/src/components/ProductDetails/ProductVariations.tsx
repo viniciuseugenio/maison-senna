@@ -1,26 +1,11 @@
 import { VariationOption } from "../../types/catalog";
+import { groupOptions } from "../../utils/groupOptions";
 import VariantButton from "./VariantButton";
 
 const ProductVariations: React.FC<{
   variationOptions: VariationOption[];
 }> = ({ variationOptions }) => {
-  const groupedOptionsRecord: Record<string, VariationOption[]> =
-    variationOptions.reduce(
-      (acc, option) => {
-        const kindName = option.kind.name;
-
-        if (!acc[kindName]) {
-          acc[kindName] = [];
-        }
-
-        acc[kindName].push(option);
-        return acc;
-      },
-      {} as Record<string, VariationOption[]>,
-    );
-
-  const groupedOptions: [string, VariationOption[]][] =
-    Object.entries(groupedOptionsRecord);
+  const groupedOptions = groupOptions(variationOptions);
 
   return groupedOptions.map((variation) => (
     <div key={variation[0]} className="mt-6">
