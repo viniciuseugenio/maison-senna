@@ -24,10 +24,6 @@ class VariationOptionSerializer(serializers.ModelSerializer):
         fields = ["id", "kind", "product", "name", "price_modifier"]
 
 
-class VariationOptionCreateSerializer(serializers.ModelSerializer):
-    kind = serializers.PrimaryKeyRelatedField(
-        queryset=models.VariationKind.objects.all()
-    )
 class ProductVariationOption(serializers.ModelSerializer):
     kind = VariationKindSerializer()
 
@@ -36,3 +32,15 @@ class ProductVariationOption(serializers.ModelSerializer):
         fields = ["id", "kind", "name", "price_modifier"]
 
 
+class VariationOptionInputSerializer(serializers.Serializer):
+    id = serializers.PrimaryKeyRelatedField(
+        queryset=models.VariationOption.objects.all(), required=False
+    )
+    name = serializers.CharField(max_length=255)
+
+
+class VariationOptionCreateSerializer(serializers.Serializer):
+    kind = serializers.PrimaryKeyRelatedField(
+        queryset=models.VariationKind.objects.all()
+    )
+    options = VariationOptionInputSerializer(many=True)
