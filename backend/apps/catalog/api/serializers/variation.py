@@ -28,7 +28,11 @@ class VariationOptionCreateSerializer(serializers.ModelSerializer):
     kind = serializers.PrimaryKeyRelatedField(
         queryset=models.VariationKind.objects.all()
     )
+class ProductVariationOption(serializers.ModelSerializer):
+    kind = VariationKindSerializer()
 
     class Meta:
         model = models.VariationOption
-        fields = ["kind", "name", "price_modifier"]
+        fields = ["id", "kind", "name", "price_modifier"]
+
+

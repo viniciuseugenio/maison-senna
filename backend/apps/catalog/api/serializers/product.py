@@ -3,7 +3,10 @@ from rest_framework import serializers
 from apps.catalog import models
 from apps.catalog.api.constants import PRODUCT_ERROR_MESSAGES
 from apps.catalog.api.serializers.category import CategorySerializer
-from apps.catalog.api.serializers.variation import VariationOptionSerializer
+from apps.catalog.api.serializers.variation import (
+    ProductVariationOption,
+    VariationOptionSerializer,
+)
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -23,7 +26,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
-    variation_options = VariationOptionSerializer(many=True)
+    variation_options = ProductVariationOption(many=True)
 
     class Meta:
         model = models.Product
