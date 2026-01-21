@@ -14,6 +14,7 @@ type SelectInputProps = React.FC<{
   setIsOpen: (value: React.SetStateAction<boolean>) => void;
   selectedValue?: string;
   error?: string;
+  className?: string;
 }> & {
   Option: typeof Option;
 };
@@ -26,6 +27,7 @@ const SelectInput: SelectInputProps = ({
   setIsOpen,
   selectedValue,
   error,
+  className,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLDivElement>(null);
@@ -62,7 +64,7 @@ const SelectInput: SelectInputProps = ({
   }, [setIsOpen]);
 
   return (
-    <div ref={containerRef} className="relative w-full">
+    <div ref={containerRef} className={twMerge("relative", className)}>
       <div
         tabIndex={0}
         onClick={() => setIsOpen(!isOpen)}
@@ -100,7 +102,7 @@ const SelectInput: SelectInputProps = ({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="border-oyster/30 absolute z-10 mt-1 w-full rounded-md border bg-white p-1"
+            className="border-oyster/30 absolute z-40 mt-1 w-full rounded-md border bg-white p-1"
             variants={{
               hidden: { opacity: 0, y: -20 },
             }}
