@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from rest_framework import filters, status
@@ -64,22 +65,65 @@ class ProductViewSet(ModelViewSet):
 
         return serializers.ProductListSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
+    def _parse_request_data(self, data):
+        data = dict(data)
 
-        product_name = serializer.data.get("name", "Product")
+        for key, value in data.items():
+            if isinstance(value, list) and len(value) == 1:
+                data[key] = value[0]
+
+        json_fields = ["details", "materials", "care", "variation_options"]
+        for field in json_fields:
+            if field in data and isinstance(data[field], str):
+                try:
+                    data[field] = json.loads(data[field])
+                except json.JSONDecodeError:
+                    pass
+
+        return data
+
+    def create(self, request, *args, **kwargs):
+        data = self._parse_request_data(request.data)
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        instance = serializer.save()
+
+        output_serializer = serializers.ProductSerializer(instance)
+        output_data = output_serializer.data
+
+        headers = self.get_success_headers(output_data)
+        product_name = output_serializer.data.get("name", "Product")
 
         return Response(
             {
                 "detail": "Product created",
                 "description": f"{product_name} is now live at your store",
-                "product": serializer.data,
+                "product": output_data,
             },
             status=status.HTTP_201_CREATED,
             headers=headers,
+        )
+
+    def partial_update(self, request, *args, **kwargs):
+        data = self._parse_request_data(request.data)
+
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        output_serializer = serializers.ProductSerializer(instance)
+        output_data = output_serializer.data
+        product_name = output_serializer.data.get("name", "Product")
+
+        return Response(
+            {
+                "detail": "Product updated",
+                "description": f"{product_name} has been successfully updated",
+                "product": output_data,
+            },
+            status=status.HTTP_200_OK,
         )
 
     def get_permissions(self):
