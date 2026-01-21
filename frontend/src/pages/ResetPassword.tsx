@@ -1,3 +1,7 @@
+import FloatingInputPassword from "@components/features/auth/FloatingInputPassword";
+import PasswordRequirement from "@components/features/auth/PasswordRequirement";
+import Button from "@components/ui/Button";
+import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -5,10 +9,6 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { z } from "zod";
 import { resetPassword } from "../api/endpoints/auth";
-import Button from "../components/Button";
-import FloatingInputPassword from "../components/Auth/FloatingInputPassword";
-import HorizontalDivider from "../components/HorizontalDivider";
-import PasswordRequirement from "../components/Auth/PasswordRequirement";
 import { toast } from "../utils/customToast";
 import { validatePassword } from "../utils/validatePassword";
 import { errorNotifications } from "../constants/auth";

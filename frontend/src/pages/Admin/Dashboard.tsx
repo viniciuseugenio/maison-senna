@@ -9,9 +9,9 @@ import {
   Users,
 } from "lucide-react";
 import { getDashboardStatistics } from "../../api/endpoints/products";
-import BigBox from "../../components/Admin/BigBox";
-import PageTitle from "../../components/Admin/PageTitle";
-import SmallBox from "../../components/Admin/SmallBox";
+import BigBox from "../../components/features/admin/BigBox";
+import PageTitle from "../../components/features/admin/PageTitle";
+import SmallBox from "../../components/features/admin/SmallBox";
 
 const AdminDashboard: React.FC = () => {
   const { data: statistics } = useQuery({

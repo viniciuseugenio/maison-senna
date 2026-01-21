@@ -1,13 +1,13 @@
+import LoginPasswordInput from "@components/features/auth/LoginPasswordInput";
+import SocialLogin from "@components/features/auth/SocialLogin";
+import Button from "@components/ui/Button";
+import FloatingInput from "@components/ui/FloatingInput";
+import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import LoginPasswordInput from "../components/Auth/LoginPasswordInput";
-import SocialLogin from "../components/Auth/SocialLogin";
-import Button from "../components/Button";
-import FloatingInput from "../components/FloatingInput";
-import HorizontalDivider from "../components/HorizontalDivider";
 import { loginSchema } from "../schemas/auth";
 import { useAuth } from "../store/useAuth";
 import { LoginForm } from "../types/auth";

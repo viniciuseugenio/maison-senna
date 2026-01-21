@@ -1,10 +1,10 @@
+import LoadingRow from "@components/features/admin/LoadingRow";
+import PageLayout from "@components/features/admin/PageLayout";
+import TableActions from "@components/features/admin/RowActions";
+import TableData from "@components/features/admin/TableData";
+import TableRow from "@components/features/admin/TableRow";
 import { useQuery } from "@tanstack/react-query";
 import { getProductVariations } from "../../api/endpoints/products";
-import LoadingRow from "../../components/Admin/LoadingRow";
-import PageLayout from "../../components/Admin/PageLayout";
-import TableActions from "../../components/Admin/RowActions";
-import TableData from "../../components/Admin/TableData";
-import TableRow from "../../components/Admin/TableRow";
 import { HeaderConfig } from "../../types/admin";
 
 const ProductVariations: React.FC = () => {

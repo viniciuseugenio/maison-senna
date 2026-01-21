@@ -1,6 +1,6 @@
-import FeaturedProducts from "../components/Home/FeaturedProducts";
-import Hero from "../components/Home/Hero";
-import ProjectShowcase from "../components/Home/ProjectShowcase";
+import FeaturedProducts from "@components/features/home/FeaturedProducts";
+import Hero from "@components/features/home/Hero";
+import ProjectShowcase from "@components/features/home/ProjectShowcase";
 
 export default function Home() {
   return (

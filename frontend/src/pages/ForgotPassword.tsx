@@ -1,3 +1,6 @@
+import Button from "@components/ui/Button";
+import FloatingInput from "@components/ui/FloatingInput";
+import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Mail } from "lucide-react";
@@ -5,9 +8,6 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router";
 import { z } from "zod";
 import { requestPasswordReset } from "../api/endpoints/auth";
-import Button from "../components/Button";
-import FloatingInput from "../components/FloatingInput";
-import HorizontalDivider from "../components/HorizontalDivider";
 import { toast } from "../utils/customToast";
 
 const forgotPasswordSchema = z.object({

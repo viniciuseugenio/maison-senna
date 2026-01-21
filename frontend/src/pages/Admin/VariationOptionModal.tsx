@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router";
-import FormModal from "../../components/Admin/FormModal";
+import FormModal from "@components/features/admin/FormModal";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../api/endpoints/products";
 

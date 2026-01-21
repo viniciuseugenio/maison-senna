@@ -1,11 +1,11 @@
+import BackButton from "@components/features/admin/BackButton";
+import ProductForm from "@components/features/product-form/ProductForm";
+import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { createProduct } from "../api/endpoints/products";
-import BackButton from "../components/Admin/BackButton";
-import HorizontalDivider from "../components/HorizontalDivider";
-import ProductForm from "../components/ProductForm";
 import { convertToFormData } from "../lib/convertToFormData";
 import newProductSchema from "../schemas/newProduct";
 import { NewProductForm } from "../types/forms";

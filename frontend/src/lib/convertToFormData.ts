@@ -1,5 +1,5 @@
-import { SpecItem } from "../components/ProductForm/types";
 import { NewProductForm } from "../types/forms";
+import { SpecItem } from "@components/features/product-form/types";
 
 type VariationsObj = {
   id: string;

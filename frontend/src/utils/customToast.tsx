@@ -1,6 +1,6 @@
 import { ToastVariant, ToastObjectProps } from "../types/customToast";
+import CustomToast from "@components/ui/CustomToast";
 import { toast as sonnerToast } from "sonner";
-import CustomToast from "../components/CustomToast";
 
 const createToast = (variant: ToastVariant = "info") => {
   return ({ title, description, Icon, customId }: ToastObjectProps) => {
