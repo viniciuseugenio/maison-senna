@@ -1,4 +1,4 @@
-import { Statistics } from "../../types/admin";
+import { Statistics } from "@/types/admin";
 import {
   Category,
   ProductDetails,
@@ -6,8 +6,7 @@ import {
   ProductVariation,
   VariationKind,
   VariationOptionList,
-  VariationTypeList,
-} from "../../types/catalog";
+} from "@/types/catalog";
 import { buildApiUrl } from "./buildApiUrl";
 import { CATALOG_ENDPOINTS } from "./constants";
 import { customFetch } from "./customFetch";

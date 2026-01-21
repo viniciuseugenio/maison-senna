@@ -1,15 +1,15 @@
+import { getVariationOptions } from "@/api/endpoints/products";
+import { HeaderConfig } from "@/types/admin";
+import { VariationOptionList } from "@/types/catalog";
 import LoadingRow from "@components/features/admin/LoadingRow";
 import PageLayout from "@components/features/admin/PageLayout";
 import TableActions from "@components/features/admin/RowActions";
 import TableData from "@components/features/admin/TableData";
 import TableRow from "@components/features/admin/TableRow";
+import useLastSegment from "@hooks/lastSegment";
 import { useQuery } from "@tanstack/react-query";
-import { getVariationOptions } from "../../api/endpoints/products";
-import { HeaderConfig } from "../../types/admin";
-import { VariationOptionList } from "../../types/catalog";
-import { useState } from "react";
-import useLastSegment from "../../hooks/lastSegment";
 import { AnimatePresence } from "motion/react";
+import { useState } from "react";
 import VariationOptionModal from "./VariationOptionModal";
 
 const VariationOptions: React.FC = () => {

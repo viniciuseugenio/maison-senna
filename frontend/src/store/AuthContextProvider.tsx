@@ -4,7 +4,7 @@ import {
   useIsAuthenticated,
   useLogin,
   useLogout,
-} from "../hooks/auth";
+} from "@hooks/auth";
 import { AuthContext } from "./AuthContext";
 
 export default function AuthContextProvider({

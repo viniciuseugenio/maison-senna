@@ -1,4 +1,4 @@
-import { LoginForm, RegisterForm } from "../../types/auth";
+import { LoginForm, RegisterForm } from "@/types/auth";
 import { AUTH_ENDPOINTS } from "./constants";
 import { customFetch } from "./customFetch";
 

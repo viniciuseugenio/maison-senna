@@ -1,3 +1,4 @@
+import { getProduct } from "@/api/endpoints/products";
 import DetailsTabs from "@components/features/product-details/DetailsTabs";
 import ProductReviews from "@components/features/product-details/ProductReviews";
 import ProductVariations from "@components/features/product-details/ProductVariations";
@@ -6,8 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Heart, Share2, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { getProduct } from "../api/endpoints/products";
-import { ProductDetails } from "../types/catalog";
 import ProductLoading from "./ProductLoading";
 
 const Product: React.FC = () => {

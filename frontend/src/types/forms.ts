@@ -1,7 +1,7 @@
+import { categorySchema } from "@/schemas/category";
+import newProductSchema from "@/schemas/newProduct";
+import { variationKindsSchema } from "@/schemas/variations";
 import { z } from "zod";
-import { categorySchema } from "../schemas/category";
-import newProductSchema from "../schemas/newProduct";
-import { variationKindsSchema } from "../schemas/variations";
 
 export type NewProductForm = z.infer<typeof newProductSchema>;
 

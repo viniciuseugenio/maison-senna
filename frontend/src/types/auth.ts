@@ -1,5 +1,5 @@
+import { loginSchema, registerSchema } from "@/schemas/auth";
 import { z } from "zod";
-import { loginSchema, registerSchema } from "../schemas/auth";
 
 export type User = {
   id: string;

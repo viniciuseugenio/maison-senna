@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router";
+import { getProducts } from "@/api/endpoints/products";
 import FormModal from "@components/features/admin/FormModal";
 import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "../../api/endpoints/products";
+import { Link, useNavigate } from "react-router";
 
 const VariationOptionModal: React.FC = () => {
   const navigate = useNavigate();

@@ -1,17 +1,17 @@
-import { useGoogleLogin } from "@react-oauth/google";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
 import {
   checkUserAuthenticity,
   loginUser,
   logoutUser,
-} from "../api/endpoints/auth";
-import { AUTH_ENDPOINTS } from "../api/endpoints/constants";
-import { customFetch } from "../api/endpoints/customFetch";
-import { errorNotifications, toastMessages } from "../constants/auth";
-import { ApiResponseType } from "../types/api";
-import { User as UserType } from "../types/auth";
-import { toast } from "../utils/customToast";
+} from "@/api/endpoints/auth";
+import { AUTH_ENDPOINTS } from "@/api/endpoints/constants";
+import { customFetch } from "@/api/endpoints/customFetch";
+import { errorNotifications, toastMessages } from "@/constants/auth";
+import { ApiResponseType } from "@/types/api";
+import { User as UserType } from "@/types/auth";
+import { toast } from "@/utils/customToast";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 
 export function useAuthUser() {
   return useQuery<{ authenticated: boolean; user: any }>({

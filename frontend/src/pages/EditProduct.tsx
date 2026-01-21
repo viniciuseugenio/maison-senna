@@ -1,3 +1,8 @@
+import { getProduct, updateProduct } from "@/api/endpoints/products";
+import newProduct from "@/schemas/newProduct";
+import { NewProductForm } from "@/types/forms";
+import { toast } from "@/utils/customToast";
+import { getUpdatedFields, partialFormData } from "@/utils/products/helpers";
 import BackButton from "@components/features/admin/BackButton";
 import ProductForm from "@components/features/product-form/ProductForm";
 import HorizontalDivider from "@components/ui/HorizontalDivider";
@@ -5,11 +10,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
-import { getProduct, updateProduct } from "../api/endpoints/products";
-import newProduct from "../schemas/newProduct";
-import { NewProductForm } from "../types/forms";
-import { toast } from "../utils/customToast";
-import { getUpdatedFields, partialFormData } from "../utils/products/helpers";
 
 const EditProduct: React.FC = () => {
   const { slug } = useParams();

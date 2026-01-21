@@ -1,3 +1,7 @@
+import { buildApiUrl } from "@/api/endpoints/buildApiUrl";
+import { CATALOG_ENDPOINTS } from "@/api/endpoints/constants";
+import { getVariationKinds } from "@/api/endpoints/products";
+import { HeaderConfig } from "@/types/admin";
 import LoadingRow from "@components/features/admin/LoadingRow";
 import PageLayout from "@components/features/admin/PageLayout";
 import TableActions from "@components/features/admin/RowActions";
@@ -8,10 +12,6 @@ import VariationKindsEdit from "@components/features/admin/VariationKindsEdit";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
 import { useMatch } from "react-router";
-import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
-import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
-import { getVariationKinds } from "../../api/endpoints/products";
-import { HeaderConfig } from "../../types/admin";
 
 const VariationKinds: React.FC = () => {
   const matchNew = useMatch("/admin/variation-kinds/new");

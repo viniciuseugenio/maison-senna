@@ -1,3 +1,5 @@
+import { requestPasswordReset } from "@/api/endpoints/auth";
+import { toast } from "@/utils/customToast";
 import Button from "@components/ui/Button";
 import FloatingInput from "@components/ui/FloatingInput";
 import HorizontalDivider from "@components/ui/HorizontalDivider";
@@ -7,8 +9,6 @@ import { Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router";
 import { z } from "zod";
-import { requestPasswordReset } from "../api/endpoints/auth";
-import { toast } from "../utils/customToast";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email(),

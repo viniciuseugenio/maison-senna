@@ -1,21 +1,21 @@
+import { registerUser } from "@/api/endpoints/auth";
 import RegisterPasswordInputs from "@/components/features/auth/RegisterPasswordInputs";
 import SocialLogin from "@/components/features/auth/SocialLogin";
 import Button from "@/components/ui/Button";
 import FloatingInput from "@/components/ui/FloatingInput";
 import HorizontalDivider from "@/components/ui/HorizontalDivider";
+import { registerFormErrors } from "@/constants/auth";
+import { registerSchema } from "@/schemas/auth";
+import { RegisterForm } from "@/types/auth";
+import { toast } from "@/utils/customToast";
+import { transformKeys } from "@/utils/transformKeys";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useMutation } from "@tanstack/react-query";
-import { camelCase, snakeCase } from "change-case";
+import { snakeCase } from "change-case";
 import { Mail, User, UserPlus } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { registerUser } from "../api/endpoints/auth";
-import { registerFormErrors } from "../constants/auth";
-import { registerSchema } from "../schemas/auth";
-import { RegisterForm } from "../types/auth";
-import { toast } from "../utils/customToast";
-import { transformKeys } from "../utils/transformKeys";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 

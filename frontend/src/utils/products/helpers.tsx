@@ -1,6 +1,6 @@
+import { ProductDetails } from "@/types/catalog";
+import { NewProductForm } from "@/types/forms";
 import { snakeCase } from "change-case";
-import { ProductDetails } from "../../types/catalog";
-import { NewProductForm } from "../../types/forms";
 
 export function getUpdatedFields(
   original: ProductDetails,

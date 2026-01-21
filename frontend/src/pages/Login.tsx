@@ -1,3 +1,7 @@
+import { loginSchema } from "@/schemas/auth";
+import { useAuth } from "@/store/useAuth";
+import { LoginForm } from "@/types/auth";
+import { toast } from "@/utils/customToast";
 import LoginPasswordInput from "@components/features/auth/LoginPasswordInput";
 import SocialLogin from "@components/features/auth/SocialLogin";
 import Button from "@components/ui/Button";
@@ -8,10 +12,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { loginSchema } from "../schemas/auth";
-import { useAuth } from "../store/useAuth";
-import { LoginForm } from "../types/auth";
-import { toast } from "../utils/customToast";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 

@@ -1,16 +1,16 @@
+import { buildApiUrl } from "@/api/endpoints/buildApiUrl";
+import { CATALOG_ENDPOINTS } from "@/api/endpoints/constants";
+import { getCategories } from "@/api/endpoints/products";
+import { HeaderConfig } from "@/types/admin";
 import CategoryModal from "@components/features/admin/CategoryModal";
 import LoadingRow from "@components/features/admin/LoadingRow";
 import AdminPageLayout from "@components/features/admin/PageLayout";
 import TableActions from "@components/features/admin/RowActions";
 import TableData from "@components/features/admin/TableData";
 import TableRow from "@components/features/admin/TableRow";
+import useLastSegment from "@hooks/lastSegment";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
-import { buildApiUrl } from "../../api/endpoints/buildApiUrl";
-import { CATALOG_ENDPOINTS } from "../../api/endpoints/constants";
-import { getCategories } from "../../api/endpoints/products";
-import useLastSegment from "../../hooks/lastSegment";
-import { HeaderConfig } from "../../types/admin";
 
 const AdminCategories: React.FC = () => {
   const lastSegment = useLastSegment();

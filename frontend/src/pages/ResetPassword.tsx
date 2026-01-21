@@ -1,3 +1,7 @@
+import { resetPassword } from "@/api/endpoints/auth";
+import { errorNotifications } from "@/constants/auth";
+import { toast } from "@/utils/customToast";
+import { validatePassword } from "@/utils/validatePassword";
 import FloatingInputPassword from "@components/features/auth/FloatingInputPassword";
 import PasswordRequirement from "@components/features/auth/PasswordRequirement";
 import Button from "@components/ui/Button";
@@ -8,10 +12,6 @@ import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { z } from "zod";
-import { resetPassword } from "../api/endpoints/auth";
-import { toast } from "../utils/customToast";
-import { validatePassword } from "../utils/validatePassword";
-import { errorNotifications } from "../constants/auth";
 
 const resetPasswordSchema = z.object({
   password: z.string(),

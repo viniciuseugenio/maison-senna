@@ -1,11 +1,11 @@
+import { getProductVariations } from "@/api/endpoints/products";
+import { HeaderConfig } from "@/types/admin";
 import LoadingRow from "@components/features/admin/LoadingRow";
 import PageLayout from "@components/features/admin/PageLayout";
 import TableActions from "@components/features/admin/RowActions";
 import TableData from "@components/features/admin/TableData";
 import TableRow from "@components/features/admin/TableRow";
 import { useQuery } from "@tanstack/react-query";
-import { getProductVariations } from "../../api/endpoints/products";
-import { HeaderConfig } from "../../types/admin";
 
 const ProductVariations: React.FC = () => {
   const { data: productVariations, isLoading } = useQuery({

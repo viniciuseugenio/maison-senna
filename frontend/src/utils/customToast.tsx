@@ -1,4 +1,4 @@
-import { ToastVariant, ToastObjectProps } from "../types/customToast";
+import { ToastObjectProps, ToastVariant } from "@/types/customToast";
 import CustomToast from "@components/ui/CustomToast";
 import { toast as sonnerToast } from "sonner";
 

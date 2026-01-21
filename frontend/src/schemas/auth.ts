@@ -1,6 +1,6 @@
-import { checkEmailAvailability } from "../api/endpoints/auth";
+import { checkEmailAvailability } from "@/api/endpoints/auth";
 import { z } from "zod";
-import { registerFormErrors } from "../constants/auth";
+import { registerFormErrors } from "@/constants/auth";
 
 export const loginSchema = z.object({
   email: z.string().email(),

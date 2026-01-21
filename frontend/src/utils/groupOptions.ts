@@ -1,4 +1,4 @@
-import { VariationOption } from "../types/catalog";
+import { VariationOption } from "@/types/catalog";
 
 export const groupOptions = (variations: VariationOption[], byId = false) => {
   const groupedOptionsRecord: Record<string, VariationOption[]> =

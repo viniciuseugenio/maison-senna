@@ -1,3 +1,9 @@
+import { createProduct } from "@/api/endpoints/products";
+import { toastMessages } from "@/constants/auth";
+import { convertToFormData } from "@/lib/convertToFormData";
+import newProductSchema from "@/schemas/newProduct";
+import { NewProductForm } from "@/types/forms";
+import { toast } from "@/utils/customToast";
 import BackButton from "@components/features/admin/BackButton";
 import ProductForm from "@components/features/product-form/ProductForm";
 import HorizontalDivider from "@components/ui/HorizontalDivider";
@@ -5,12 +11,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { createProduct } from "../api/endpoints/products";
-import { convertToFormData } from "../lib/convertToFormData";
-import newProductSchema from "../schemas/newProduct";
-import { NewProductForm } from "../types/forms";
-import { toast } from "../utils/customToast";
-import { toastMessages } from "../constants/auth";
 
 const NewProduct: React.FC = () => {
   const methods = useForm<NewProductForm>({

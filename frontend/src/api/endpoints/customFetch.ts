@@ -1,4 +1,4 @@
-import { toastMessages } from "../../constants/auth";
+import { toastMessages } from "@/constants/auth";
 import { AUTH_ENDPOINTS } from "./constants";
 
 export class FetchError extends Error {
