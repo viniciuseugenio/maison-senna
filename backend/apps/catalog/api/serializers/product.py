@@ -1,3 +1,4 @@
+from django.core.validators import MinLengthValidator, MinValueValidator
 from rest_framework import serializers
 
 from apps.catalog import models
@@ -5,6 +6,7 @@ from apps.catalog.api.constants import PRODUCT_ERROR_MESSAGES
 from apps.catalog.api.serializers.category import CategorySerializer
 from apps.catalog.api.serializers.variation import (
     ProductVariationOption,
+    VariationOptionCreateSerializer,
     VariationOptionSerializer,
 )
 
@@ -99,29 +101,68 @@ class BaseProductSerializer(serializers.ModelSerializer):
         ]
 
 
-
-class ProductUpdateSerializer(BaseProductSerializer):
-    def validate(self, attrs):
-        errors = self._validate_common_fields(attrs, require_all=False)
-
-        if errors:
-            raise serializers.ValidationError(errors)
-
-        return super().validate(attrs)
-
-
-class ProductCreateSerializer(ProductUpdateSerializer):
+class ProductCreateSerializer(BaseProductSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=models.Category.objects.all()
     )
+    variation_options = VariationOptionCreateSerializer(many=True, required=False)
 
-    def validate(self, attrs):
-        errors = self._validate_common_fields(attrs, require_all=True)
+    def create(self, validated_data):
+        variation_options = validated_data.pop("variation_options", [])
+        instance = super().create(validated_data)
 
-        if errors:
-            raise serializers.ValidationError(errors)
+        for option_data in variation_options:
+            kind = option_data.get("kind")
 
-        return super().validate(attrs)
+            for option in option_data.get("options"):
+                models.VariationOption.objects.create(
+                    kind=kind,
+                    product=instance,
+                    name=option.get("name"),
+                )
+
+        return instance
+
+
+class ProductUpdateSerializer(BaseProductSerializer):
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=models.Category.objects.all()
+    )
+    variation_options = VariationOptionCreateSerializer(many=True, required=False)
+
+    class Meta(BaseProductSerializer.Meta):
+        fields = BaseProductSerializer.Meta.fields
+        extra_kwargs = {
+            "name": {"required": False},
+            "description": {"required": False},
+            "base_price": {"required": False},
+            "reference_image": {"required": False},
+            "details": {"required": False},
+            "materials": {"required": False},
+            "care": {"required": False},
+            "variation_options": {"required": False},
+        }
+
+    def update(self, instance, validated_data):
+        variations_data = validated_data.pop("variation_options", None)
+        instance = super().update(instance, validated_data)
+
+        if variations_data is not None:
+            for variation_object in variations_data:
+                kind = variation_object.get("kind")
+
+                options = variation_object.get("options")
+                for option in options:
+                    id = option.get("id")
+                    if id:
+                        continue
+
+                    name = option.get("name")
+                    models.VariationOption.objects.create(
+                        kind=kind, product=instance, name=name
+                    )
+
+        return instance
 
 
 class ProductVariationSerializer(serializers.ModelSerializer):
