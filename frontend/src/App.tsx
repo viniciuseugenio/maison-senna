@@ -25,6 +25,7 @@ import ResetPassword from "./pages/ResetPassword";
 import EditProduct from "./pages/EditProduct";
 import VariationKindsCreate from "./components/Admin/VariationKindsCreate";
 import VariationKindsEdit from "./components/Admin/VariationKindsEdit";
+import VariationOptionModal from "./pages/Admin/VariationOptionModal";
 
 const queryClient = new QueryClient();
 
@@ -49,7 +50,9 @@ function App() {
                   <Route
                     path="variation-options"
                     element={<VariationOptions />}
-                  />
+                  >
+                    <Route path="new" element={<VariationOptionModal />} />
+                  </Route>
                   <Route
                     path="product-variations"
                     element={<ProductVariations />}

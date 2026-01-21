@@ -8,8 +8,14 @@ import TableRow from "../../components/Admin/TableRow";
 import { HeaderConfig } from "../../types/admin";
 import { VariationOptionList } from "../../types/catalog";
 import { useState } from "react";
+import useLastSegment from "../../hooks/lastSegment";
+import { AnimatePresence } from "motion/react";
+import VariationOptionModal from "./VariationOptionModal";
 
 const VariationOptions: React.FC = () => {
+  const lastSegment = useLastSegment();
+  const isModalOpen = lastSegment === "new";
+
   const { data: variationOptions, isLoading } = useQuery({
     queryKey: ["variationOptions"],
     queryFn: getVariationOptions,
@@ -64,35 +70,42 @@ const VariationOptions: React.FC = () => {
   const dataToRender = filteredOptions ?? variationOptions;
 
   return (
-    <PageLayout
-      title="Variation Options"
-      headers={headers}
-      actionLabel="New Variation Option"
-      actionLink="/"
-      onSearch={onSearch}
-    >
-      {!dataToRender || isLoading ? (
-        <LoadingRow colSpan={headers.length} />
-      ) : (
-        <>
-          {dataToRender.map((variationOption) => (
-            <TableRow key={variationOption.id}>
-              <TableData>{variationOption.id}</TableData>
-              <TableData>{variationOption.name}</TableData>
-              <TableData>{variationOption.kind.name}</TableData>
-              <TableData>{variationOption.product.name}</TableData>
-              <TableData>${variationOption.priceModifier ?? "0.00"}</TableData>
-              <TableActions
-                editLink="/"
-                deleteLink="/"
-                resourceType="Variation Option"
-                queryKey={["variationOptions"]}
-              />
-            </TableRow>
-          ))}
-        </>
-      )}
-    </PageLayout>
+    <>
+      <AnimatePresence>
+        {isModalOpen && <VariationOptionModal />}
+      </AnimatePresence>
+      <PageLayout
+        title="Variation Options"
+        headers={headers}
+        actionLabel="New Variation Option"
+        actionLink="new"
+        onSearch={onSearch}
+      >
+        {!dataToRender || isLoading ? (
+          <LoadingRow colSpan={headers.length} />
+        ) : (
+          <>
+            {dataToRender.map((variationOption) => (
+              <TableRow key={variationOption.id}>
+                <TableData>{variationOption.id}</TableData>
+                <TableData>{variationOption.name}</TableData>
+                <TableData>{variationOption.kind.name}</TableData>
+                <TableData>{variationOption.product.name}</TableData>
+                <TableData>
+                  ${variationOption.priceModifier ?? "0.00"}
+                </TableData>
+                <TableActions
+                  editLink="/"
+                  deleteLink="/"
+                  resourceType="Variation Option"
+                  queryKey={["variationOptions"]}
+                />
+              </TableRow>
+            ))}
+          </>
+        )}
+      </PageLayout>
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form";
+import { useSearchParams } from "react-router";
 import { ProductDetails } from "../types/catalog";
 import { NewProductForm } from "../types/forms";
 import Button from "./Button";
@@ -37,7 +38,6 @@ function ProductForm<T extends FieldValues>({
     return undefined;
   };
 
-  const [currentStep, setCurrentStep] = useState(0);
   const steps = [
     {
       icon: Package,
@@ -61,6 +61,12 @@ function ProductForm<T extends FieldValues>({
       fields: ["variations"],
     },
   ];
+
+  const qtySteps = steps.length - 1;
+  const [searchParams, _] = useSearchParams();
+  let step = Number(searchParams.get("step"));
+  step = step > qtySteps ? qtySteps : step;
+  const [currentStep, setCurrentStep] = useState(step ?? 0);
 
   const isLastStep = steps.length - 1 === currentStep;
 
@@ -86,6 +92,7 @@ function ProductForm<T extends FieldValues>({
       <div className="mb-6 flex items-center gap-6">
         {steps.map((step, i) => (
           <StepInfo
+            key={i}
             Icon={step.icon}
             label={step.label}
             description={step.description}
