@@ -25,14 +25,17 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
   className,
 }) => {
   const { setValue, watch } = useFormContext();
-  const formSpecs = watch(name) || value || [];
+  const formSpecs: string[] = watch(name) || value || [];
   const [specs, setSpecs] = useState<SpecItem[]>(
-    formSpecs.map((spec) => ({ id: crypto.randomUUID(), value: spec })),
+    formSpecs.map((spec) => ({
+      idx: crypto.randomUUID() as string,
+      name: spec,
+    })),
   );
   const [touched, setTouched] = useState(false);
 
   useEffect(() => {
-    const onlyNames = specs.map((spec) => spec.value);
+    const onlyNames = specs.map((spec) => spec.name);
     setValue(name, onlyNames, { shouldValidate: touched });
   }, [name, setValue, specs, touched]);
 
@@ -72,10 +75,10 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
         <div className="space-y-2">
           {specs.map((spec, ind) => (
             <ProductSpecItem
-              key={spec.id}
-              spec={spec.value}
+              key={spec.idx}
+              spec={spec.name}
               index={ind}
-              id={spec.id}
+              id={spec.idx}
               setSpecs={setSpecs}
             />
           ))}
