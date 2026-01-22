@@ -1,10 +1,18 @@
 import { VariationOption } from "@/types/catalog";
+import { groupOptions } from "@/utils/groupOptions";
 import { Plus } from "lucide-react";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import Button from "@components/ui/Button";
 import { SpecItem, VariationOptionsObj } from "./types";
 import VariationItem from "./VariationItem";
 import { FormVariatonOption, Option } from "./types";
+
+interface VariationOptionsApi {
+  idx: string;
+  kind: number;
+  options: Option[];
+}
 
 interface VariationsProps {
   data?: VariationOption[];
@@ -19,6 +27,35 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
   } = useFormContext();
   const error = errors.variationOptions?.message;
   const variations = watch("variationOptions") as FormVariatonOption[];
+
+  useEffect(() => {
+    if (data) {
+      const groupedOptions = groupOptions(data, true);
+      let variationObject;
+      const variationOptions: VariationOptionsApi[] = [];
+
+      groupedOptions.map((option) => {
+        const kindId = Number(option[0]);
+        const options: Option[] = [];
+
+        option[1].map((optionObject) => {
+          options.push({
+            idx: crypto.randomUUID(),
+            id: optionObject.id,
+            name: optionObject.name,
+          });
+        });
+
+        variationObject = {
+          idx: crypto.randomUUID(),
+          kind: kindId,
+          options,
+        };
+        variationOptions.push(variationObject);
+      });
+      setValue("variationOptions", variationOptions);
+    }
+  }, [data, setValue]);
 
   const addVariation = () => {
     const newVariation = {
