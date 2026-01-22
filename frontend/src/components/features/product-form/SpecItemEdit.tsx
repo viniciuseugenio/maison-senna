@@ -1,5 +1,11 @@
 import { Check, X } from "lucide-react";
-import { SpecItemEditProps } from "./types";
+
+type SpecItemEditProps = {
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  onSave: () => void;
+  onCancel: () => void;
+};
 
 const SpecItemEdit: React.FC<SpecItemEditProps> = ({
   inputValue,

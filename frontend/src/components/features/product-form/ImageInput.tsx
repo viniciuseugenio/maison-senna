@@ -3,7 +3,12 @@ import { Upload, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { ImageInputProps } from "./types";
+
+type ImageInputProps = {
+  name?: string;
+  value?: string;
+  error?: string;
+};
 
 const ImageInput: React.FC<ImageInputProps> = ({
   name = "referenceImage",

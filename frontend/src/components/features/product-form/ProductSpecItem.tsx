@@ -1,7 +1,14 @@
 import { useState } from "react";
 import SpecItemDisplay from "./SpecItemDisplay";
 import SpecItemEdit from "./SpecItemEdit";
-import { ProductSpecItemProps } from "./types";
+import { SpecItem } from "./types";
+
+type ProductSpecItemProps = {
+  id: string;
+  index: number;
+  spec: string;
+  setSpecs: React.Dispatch<React.SetStateAction<SpecItem[]>>;
+};
 
 const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
   id,
@@ -22,7 +29,7 @@ const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
 
     setSpecs((prevSpecs) =>
       prevSpecs.map((spec) =>
-        spec.id === id ? { ...spec, value: trimmedValue } : spec,
+        spec.id === id ? { ...spec, name: trimmedValue } : spec,
       ),
     );
 

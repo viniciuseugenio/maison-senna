@@ -1,5 +1,11 @@
 import { Pen, Trash2 } from "lucide-react";
-import { SpecItemDisplayProps } from "./types";
+
+type SpecItemDisplayProps = {
+  spec: string;
+  index: number;
+  onEdit: () => void;
+  onDelete: () => void;
+};
 
 const SpecItemDisplay: React.FC<SpecItemDisplayProps> = ({
   spec,

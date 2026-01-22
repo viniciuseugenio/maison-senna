@@ -5,7 +5,16 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import ProductSpecItem from "./ProductSpecItem";
-import { ProductSpecsProps, SpecItem } from "./types";
+import { SpecItem } from "./types";
+
+type ProductSpecsProps = {
+  name: string;
+  label: string;
+  placeholder: string;
+  value?: string[];
+  error?: string;
+  className?: string;
+};
 
 const ProductSpecs: React.FC<ProductSpecsProps> = ({
   name,

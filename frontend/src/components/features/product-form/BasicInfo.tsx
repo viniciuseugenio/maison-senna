@@ -5,7 +5,12 @@ import CategoryInput from "./CategoryInput";
 import DescriptionInput from "./DescriptionInput";
 import ImageInput from "./ImageInput";
 import ProductSpecs from "./ProductSpecs";
-import { BasicInfoProps } from "./types";
+import { ProductDetails } from "../../types/catalog";
+
+type BasicInfoProps = {
+  getErrorMessage: (error: any) => string | undefined;
+  data?: ProductDetails;
+};
 
 const BasicInfo: React.FC<BasicInfoProps> = ({ getErrorMessage, data }) => {
   const {

@@ -1,6 +1,15 @@
-import { CircleCheckBig } from "lucide-react";
+import { CircleCheckBig, LucideIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
-import { StepInfoProps } from "./types";
+
+type StepInfoProps = {
+  Icon: LucideIcon;
+  label: string;
+  description: string;
+  isLast: boolean;
+  onClick?: () => void;
+  isCurrentStep: boolean;
+  isComplete?: boolean;
+};
 
 const StepInfo: React.FC<StepInfoProps> = ({
   Icon,
