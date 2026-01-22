@@ -6,6 +6,7 @@ import { useFormContext } from "react-hook-form";
 import Button from "@components/ui/Button";
 import { SpecItem, VariationOptionsObj } from "./types";
 import VariationItem from "./VariationItem";
+import { twMerge } from "tailwind-merge";
 import { FormVariatonOption, Option } from "./types";
 
 interface VariationOptionsApi {
@@ -88,7 +89,12 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
   };
 
   return (
-    <div className="border-oyster/30 rounded-md border bg-white p-6">
+    <div
+      className={twMerge(
+        "border-oyster/30 rounded-md border bg-white p-6",
+        error && "border-red-300",
+      )}
+    >
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-mine-shaft font-serif text-xl font-light">
           Product Variations
@@ -118,6 +124,7 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
           />
         ))}
       </div>
+      {error && <p className="mt-2 text-red-600">{error}</p>}
     </div>
   );
 };
