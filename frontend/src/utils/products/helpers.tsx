@@ -20,6 +20,10 @@ export function getUpdatedFields(
       return;
     }
 
+    if (key === "variationOptions") {
+      updated[key] = value;
+    }
+
     if (["care", "details", "materials"].includes(key)) {
       if (original[key].length !== value.length) {
         updated[key] = value;
