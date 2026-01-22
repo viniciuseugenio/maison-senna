@@ -51,7 +51,6 @@ class ProductViewSet(ModelViewSet):
     lookup_field = "slug"
     filter_backends = [filters.OrderingFilter]
     ordering = ["-id"]
-    parser_classes = [MultiPartParser, FormParser]
 
     def get_serializer_class(self):
         if self.action == "retrieve":
