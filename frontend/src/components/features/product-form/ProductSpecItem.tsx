@@ -4,14 +4,14 @@ import SpecItemEdit from "./SpecItemEdit";
 import { SpecItem } from "./types";
 
 type ProductSpecItemProps = {
-  id: string;
+  idx: string;
   index: number;
   spec: string;
   setSpecs: React.Dispatch<React.SetStateAction<SpecItem[]>>;
 };
 
 const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
-  id,
+  idx,
   index,
   spec,
   setSpecs,
@@ -20,7 +20,7 @@ const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
   const [inputValue, setInputValue] = useState(spec);
 
   const onDelete = () => {
-    setSpecs((prevSpecs) => prevSpecs.filter((spec) => spec.id !== id));
+    setSpecs((prevSpecs) => prevSpecs.filter((spec) => spec.idx !== idx));
   };
 
   const handleSave = () => {
@@ -29,7 +29,7 @@ const ProductSpecItem: React.FC<ProductSpecItemProps> = ({
 
     setSpecs((prevSpecs) =>
       prevSpecs.map((spec) =>
-        spec.id === id ? { ...spec, name: trimmedValue } : spec,
+        spec.idx === idx ? { ...spec, name: trimmedValue } : spec,
       ),
     );
 

@@ -78,7 +78,7 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({
               key={spec.idx}
               spec={spec.name}
               index={ind}
-              id={spec.idx}
+              idx={spec.idx}
               setSpecs={setSpecs}
             />
           ))}
