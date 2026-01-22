@@ -1,46 +1,53 @@
+import { VariationOption } from "@/types/catalog";
 import { Plus } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import Button from "@components/ui/Button";
 import { SpecItem, VariationOptionsObj } from "./types";
 import VariationItem from "./VariationItem";
+import { FormVariatonOption, Option } from "./types";
 
-const Variations: React.FC = () => {
+interface VariationsProps {
+  data?: VariationOption[];
+}
+
+const Variations: React.FC<VariationsProps> = ({ data }) => {
   const {
     watch,
     setValue,
     trigger,
     formState: { errors },
   } = useFormContext();
-  const variations = watch("variations") as VariationOptionsObj[];
+  const error = errors.variationOptions?.message;
+  const variations = watch("variationOptions") as FormVariatonOption[];
 
   const addVariation = () => {
     const newVariation = {
-      id: crypto.randomUUID(),
-      variationKind: 0,
+      idx: crypto.randomUUID(),
+      kind: 0,
       options: [],
     };
 
-    setValue("variations", [...variations, newVariation]);
+    setValue("variationOptions", [...(variations || []), newVariation]);
   };
 
-  const deleteVariation = (id: string) => {
+  const deleteVariation = (idx: string) => {
     setValue(
-      "variations",
-      variations.filter((obj) => obj.id !== id),
+      "variationOptions",
+      variations.filter((obj) => obj.idx !== idx),
     );
   };
 
   const updateVariationKind = async (index: number, value: number) => {
-    setValue(`variations.${index}.variationKind`, value);
-    await trigger(`variations.${index}.variationKind`);
+    setValue(`variationOptions.${index}.kind`, value);
+    await trigger(`variationOptions.${index}.kind`);
   };
 
   const updateVariationOption = (
     index: number,
-    updater: (prev: SpecItem[]) => SpecItem[],
+    updater: (prev: Option[]) => Option[],
   ) => {
     const newValues = updater(variations[index].options);
-    setValue(`variations.${index}.options`, newValues);
+    setValue(`variationOptions.${index}.options`, newValues);
   };
 
   return (

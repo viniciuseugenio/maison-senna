@@ -6,7 +6,11 @@ import ProductSpecItem from "./ProductSpecItem";
 import { SpecItem } from "./types";
 
 type VariationOptionsInputProps = {
-  values: SpecItem[];
+  values: {
+    idx: string;
+    id?: number;
+    value: string;
+  };
   setValues: (updater: (prev: SpecItem[]) => SpecItem[]) => void;
   error?: string;
 };
@@ -45,9 +49,9 @@ const VariationOptionsInput: React.FC<VariationOptionsInputProps> = ({
         <div className="space-y-2">
           {values.map((option, ind) => (
             <ProductSpecItem
-              id={option.id}
-              key={option.id}
-              spec={option.value}
+              id={option.idx}
+              key={option.idx}
+              spec={option.name}
               index={ind}
               setSpecs={setValues}
             />

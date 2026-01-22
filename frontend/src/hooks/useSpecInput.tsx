@@ -9,23 +9,23 @@ export const useSpecInput = (
 
   const isDuplicate = (value: string) => {
     return items.some(
-      (item) => item.value.toLowerCase() === value.toLowerCase(),
+      (item) => item.name.toLowerCase() === value.toLowerCase(),
     );
   };
 
   const addItem = () => {
     if (!inputRef.current) return;
 
-    const value = inputRef.current.value.trim();
-    if (!value) return;
+    const name = inputRef.current.value.trim();
+    if (!name) return;
 
-    if (isDuplicate(value)) {
+    if (isDuplicate(name)) {
       return;
     }
 
     const newValue = {
-      id: crypto.randomUUID(),
-      value,
+      idx: crypto.randomUUID(),
+      name,
     };
     setItems((prev) => [...prev, newValue]);
 

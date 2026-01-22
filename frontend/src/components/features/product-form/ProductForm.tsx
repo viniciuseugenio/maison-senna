@@ -110,7 +110,7 @@ function ProductForm<T extends FieldValues>({
             <BasicInfo data={data} getErrorMessage={getErrorMessage} />
           )}
 
-          {currentStep === 1 && <Variations />}
+          {currentStep === 1 && <Variations data={data?.variationOptions} />}
 
           <div className="flex justify-between">
             <div>

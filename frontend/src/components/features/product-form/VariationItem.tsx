@@ -1,11 +1,11 @@
 import { Trash2 } from "lucide-react";
-import { SpecItem, VariationOptionsObj } from "./types";
+import { SpecItem, FormVariatonOption } from "./types";
 import VariationKindSelect from "./VariationKindSelect";
 import VariationOptionsInput from "./VariationOptionsInput";
 
 type VariationItemProps = {
   index: number;
-  variation: VariationOptionsObj;
+  variation: FormVariatonOption;
   canDelete: boolean;
   onUpdateKind: (index: number, value: number) => void;
   onUpdateOptions: (
@@ -48,7 +48,7 @@ const VariationItem: React.FC<VariationItemProps> = ({
 
       <div className="flex gap-2">
         <VariationKindSelect
-          value={variation.variationKind}
+          value={variation.kind}
           onChange={(value: number) => onUpdateKind(index, value)}
           error={errors?.variationKind?.message}
         />

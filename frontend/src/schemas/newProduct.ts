@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const variationsSchema = z
+const variationOptionsSchema = z
   .array(
     z.object({
       idx: z.string(),
@@ -91,5 +91,5 @@ export default z.object({
     .refine((file) => file.type.startsWith("image/"), {
       message: "File must be an image",
     }),
-  variations: variationsSchema,
+  variationOptions: variationOptionsSchema,
 });

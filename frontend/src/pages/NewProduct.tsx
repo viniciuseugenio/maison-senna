@@ -17,10 +17,10 @@ const NewProduct: React.FC = () => {
     resolver: zodResolver(newProductSchema),
     mode: "onBlur",
     defaultValues: {
-      variations: [
+      variationOptions: [
         {
-          id: crypto.randomUUID(),
-          variationKind: undefined,
+          idx: crypto.randomUUID(),
+          kind: 0,
           options: [],
         },
       ],
