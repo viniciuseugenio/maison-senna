@@ -159,12 +159,12 @@ const VariationCard: React.FC<VariationCardProps> = ({
           </div>
           <InputError>{getOptionError(index)}</InputError>
           <div className="mt-2 space-y-2">
-            {variation.options.map((option) => (
+            {variation.options.map((option, optionIndex) => (
               <VariationOptionItem
                 key={option.idx}
                 option={option}
-                index={index}
-                onUpdate={onUpdateOptions}
+                index={optionIndex}
+                onUpdate={(updater) => onUpdateOptions(index, updater)}
               />
             ))}
           </div>

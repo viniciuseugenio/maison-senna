@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Option } from "./types";
 
 interface VariationOptionItemProps {
-  onUpdate: (index: number, updater: (prev: Option[]) => Option[]) => void;
+  onUpdate: (updater: (prev: Option[]) => Option[]) => void;
   index: number;
   option: Option;
 }
@@ -21,7 +21,7 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
       // Send fetch to back-end
     }
 
-    onUpdate(index, (prev) =>
+    onUpdate((prev) =>
       prev.map((opt) =>
         opt.idx === idx ? { ...opt, name: editingValue } : opt,
       ),
