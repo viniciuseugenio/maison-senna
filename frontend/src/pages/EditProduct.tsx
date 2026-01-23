@@ -9,11 +9,10 @@ import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 
 const EditProduct: React.FC = () => {
   const { slug } = useParams();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { data: product, isLoading } = useQuery({
@@ -36,7 +35,6 @@ const EditProduct: React.FC = () => {
         description: data.description,
       });
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      navigate("/admin/products/");
     },
     onError: (error) => {
       if (error.errors) {
