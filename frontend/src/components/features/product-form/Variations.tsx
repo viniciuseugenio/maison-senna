@@ -1,11 +1,10 @@
 import { VariationOption } from "@/types/catalog";
 import { groupOptions } from "@/utils/groupOptions";
+import VariationCard from "@components/features/product-form/VariationCard";
+import Button from "@components/ui/Button";
 import { Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import Button from "@components/ui/Button";
-import { SpecItem, VariationOptionsObj } from "./types";
-import VariationItem from "./VariationItem";
 import { twMerge } from "tailwind-merge";
 import { FormVariatonOption, Option } from "./types";
 
@@ -26,8 +25,8 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
     trigger,
     formState: { errors },
   } = useFormContext();
-  const error = errors.variationOptions?.message;
   const variations = watch("variationOptions") as FormVariatonOption[];
+  const hasError = !!errors?.variationOptions;
 
   useEffect(() => {
     if (data) {
@@ -92,7 +91,7 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
     <div
       className={twMerge(
         "border-oyster/30 rounded-md border bg-white p-6",
-        error && "border-red-300",
+        hasError && "border-red-300",
       )}
     >
       <div className="mb-6 flex items-center justify-between">
@@ -112,19 +111,17 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
 
       <div className="space-y-6">
         {variations?.map((variation, index) => (
-          <VariationItem
-            key={index}
+          <VariationCard
             index={index}
+            key={index}
             variation={variation}
             canDelete={variations.length > 1}
             onUpdateKind={updateVariationKind}
             onUpdateOptions={updateVariationOption}
             onDelete={deleteVariation}
-            errors={errors?.variations?.[index]}
           />
         ))}
       </div>
-      {error && <p className="mt-2 text-red-600">{error}</p>}
     </div>
   );
 };
