@@ -75,8 +75,8 @@ export async function customFetch<T>(
     if (response.status === 400) {
       throw new FetchError(
         response.status,
-        toastMessages.formSubmissionFailed.title,
-        toastMessages.formSubmissionFailed.description,
+        data.detail ?? toastMessages.formSubmissionFailed.title,
+        data.description ?? toastMessages.formSubmissionFailed.description,
         data,
       );
     }
