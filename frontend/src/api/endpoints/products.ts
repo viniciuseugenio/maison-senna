@@ -46,8 +46,8 @@ export async function updateProduct({
   });
 }
 
-export async function genericDeleteModel(endpoint: string) {
-  return await customFetch(endpoint, {
+export async function genericDeleteModel<T>(endpoint: string) {
+  return await customFetch<T>(endpoint, {
     method: "DELETE",
     requiresAuth: true,
   });
@@ -120,6 +120,29 @@ export async function getVariationOptions() {
   return await customFetch<VariationOptionList[]>(
     CATALOG_ENDPOINTS.LIST_VARIATION_OPTIONS,
   );
+}
+
+export async function updateVariationOption({
+  id,
+  name,
+}: {
+  id: number;
+  name: string;
+}) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.VARIATION_OPTION_DETAILS, { id });
+  return await customFetch<{
+    detail: string;
+    option: { id: number; name: string; priceModifier?: number };
+  }>(url, {
+    body: JSON.stringify({ name }),
+    method: "PATCH",
+    requiresAuth: true,
+  });
+}
+
+export async function deleteVariationOption(id: number) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.VARIATION_OPTION_DETAILS, { id });
+  return await genericDeleteModel<{ detail: string }>(url);
 }
 
 export async function getProductVariations() {

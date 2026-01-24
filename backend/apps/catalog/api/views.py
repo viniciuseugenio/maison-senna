@@ -182,6 +182,29 @@ class VariationOptionsList(OrderedAdminListView):
     queryset = models.VariationOption.objects.all()
 
 
+class VariationOptionRUDView(RetrieveUpdateDestroyAPIView):
+    queryset = models.VariationOption.objects.all()
+    serializer_class = serializers.VariationOptionEditSerializer
+    lookup_field = "pk"
+
+    def patch(self, request, *args, **kwargs):
+        response = super().patch(request, *args, **kwargs)
+        return Response(
+            {
+                "detail": "The option was successfully updated!",
+                "option": response.data,
+            }
+        )
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        super().delete(request, *args, **kwargs)
+        return Response(
+            {"detail": f"The option {instance.name} was successfully deleted"},
+            status=status.HTTP_200_OK,
+        )
+
+
 class ProductVariationList(OrderedAdminListView):
     serializer_class = serializers.ProductVariationSerializer
     queryset = models.ProductVariation.objects.all()

@@ -34,6 +34,11 @@ urlpatterns = [
         name="variation-options-list",
     ),
     path(
+        "variation/options/<int:pk>/",
+        views.VariationOptionRUDView.as_view(),
+        name="variation-options-detail",
+    ),
+    path(
         "products_variations/",
         views.ProductVariationList.as_view(),
         name="product-variations-list",

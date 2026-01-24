@@ -26,4 +26,5 @@ export const CATALOG_ENDPOINTS = {
   VARIATION_TYPES_DETAILS: `${VITE_BACKEND_URL}/catalog/variation/types/:id/`,
   LIST_VARIATION_OPTIONS: `${VITE_BACKEND_URL}/catalog/variation/options/`,
   LIST_PRODUCT_VARIATIONS: `${VITE_BACKEND_URL}/catalog/products_variations/`,
+  VARIATION_OPTION_DETAILS: `${VITE_BACKEND_URL}/catalog/variation/options/:id/`,
 };

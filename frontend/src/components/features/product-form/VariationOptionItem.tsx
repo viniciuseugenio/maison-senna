@@ -1,3 +1,8 @@
+import {
+  deleteVariationOption,
+  updateVariationOption,
+} from "@/api/endpoints/products";
+import { useOptimisticMutation } from "@/hooks/useOptimisticMutation";
 import { Check, Pen, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { Option } from "./types";
@@ -15,26 +20,68 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingValue, setEditingValue] = useState(option.name);
+  const { mutate: editOption } = useOptimisticMutation({
+    mutationFn: updateVariationOption,
+    getPreviousOptions: () => {
+      let previousOptions: Option[] = [];
+      onUpdate((prev) => {
+        previousOptions = prev;
+        return prev;
+      });
+      return previousOptions;
+    },
+    onOptimisticUpdate: (variables) => {
+      onUpdate((prev) =>
+        prev.map((opt) =>
+          option.idx === opt.idx ? { ...opt, name: variables.name } : opt,
+        ),
+      );
+      setIsEditing(false);
+    },
+    onRollback: (previousOptions) => {
+      onUpdate(() => previousOptions);
+    },
+    successMessage: (data) => data.detail,
+  });
+
+  const { mutate: deleteOption } = useOptimisticMutation({
+    mutationFn: deleteVariationOption,
+    onOptimisticUpdate: () => {
+      onUpdate((prev) => prev.filter((opt) => opt.idx !== option.idx));
+    },
+    getPreviousOptions: () => {
+      let previousOptions: Option[] = [];
+      onUpdate((prev) => {
+        previousOptions = prev;
+        return prev;
+      });
+      return previousOptions;
+    },
+    onRollback: (previousOptions) => {
+      onUpdate(() => previousOptions);
+    },
+    errorMessage: (error) => error.detail,
+  });
 
   const handleSave = (idx: string) => {
     if (option.id) {
-      // Send fetch to back-end
+      editOption({ id: option.id, name: editingValue });
+    } else {
+      onUpdate((prev) =>
+        prev.map((opt) =>
+          opt.idx === idx ? { ...opt, name: editingValue } : opt,
+        ),
+      );
+      setIsEditing(false);
     }
-
-    onUpdate((prev) =>
-      prev.map((opt) =>
-        opt.idx === idx ? { ...opt, name: editingValue } : opt,
-      ),
-    );
-    setIsEditing(false);
   };
 
   const handleDelete = (idx: string) => {
     if (option.id) {
-      // Send fetch to back-end
+      deleteOption(option.id);
+    } else {
+      onUpdate((prev) => prev.filter((opt) => opt.idx !== idx));
     }
-
-    onUpdate(index, (prev) => prev.filter((opt) => opt.idx !== idx));
   };
 
   const handleCancel = () => {

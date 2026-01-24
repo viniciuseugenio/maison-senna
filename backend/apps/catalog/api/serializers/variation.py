@@ -24,6 +24,13 @@ class VariationOptionSerializer(serializers.ModelSerializer):
         fields = ["id", "kind", "product", "name", "price_modifier"]
 
 
+class VariationOptionEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.VariationOption
+        fields = ["id", "name", "price_modifier"]
+        extra_kwargs = {"price_modifier": {"required": False}}
+
+
 class ProductVariationOption(serializers.ModelSerializer):
     kind = VariationKindSerializer()
 
