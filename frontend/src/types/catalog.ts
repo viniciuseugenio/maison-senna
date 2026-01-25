@@ -7,7 +7,7 @@ export type Category = {
 export type VariationOption = {
   id: number;
   name: string;
-  priceModifier: number;
+  priceModifier: string;
   kind: VariationKind;
 };
 
@@ -25,7 +25,7 @@ export type VariationOptionList = {
     name: string;
     slug: string;
   };
-  priceModifier?: number;
+  priceModifier?: string;
 };
 
 export type ProductList = {

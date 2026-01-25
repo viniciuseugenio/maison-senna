@@ -37,6 +37,7 @@ const VariationCard: React.FC<VariationCardProps> = ({
 
   const [isKindOpen, setIsKindOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const priceModifierRef = useRef<HTMLInputElement>(null);
   const selectedKind = variationKinds?.find((k) => k.id === variation.kind);
 
   const {
@@ -53,7 +54,7 @@ const VariationCard: React.FC<VariationCardProps> = ({
   };
 
   const addOption = () => {
-    if (!inputRef.current) return;
+    if (!inputRef.current || !priceModifierRef.current) return;
     const name = inputRef.current.value;
     if (!name) return;
 
@@ -62,12 +63,14 @@ const VariationCard: React.FC<VariationCardProps> = ({
     );
     if (isDuplicate) return;
 
+    const priceModifier = parseFloat(priceModifierRef.current.value) || 0;
     onUpdateOptions(index, (prev) => [
       ...prev,
-      { idx: crypto.randomUUID(), name },
+      { idx: crypto.randomUUID(), name, priceModifier },
     ]);
 
     inputRef.current.value = "";
+    priceModifierRef.current.value = "";
     inputRef.current.focus();
   };
 
@@ -85,6 +88,10 @@ const VariationCard: React.FC<VariationCardProps> = ({
   const getOptionError = (index: number) => {
     return variationErrors?.[index]?.options?.message;
   };
+
+  const inputStyle =
+    "border-oyster/20 focus:border-oyster ring-oyster/30 rounded-md border bg-white w-full p-2 text-sm duration-300 outline-none focus:ring-2";
+  const labelStyle = "text-mine-shaft mb-2 block text-sm font-medium";
 
   return (
     <fieldset className="border-oyster/30 bg-light/30 w-full rounded-md border p-6">
@@ -106,9 +113,7 @@ const VariationCard: React.FC<VariationCardProps> = ({
 
       <div className="flex gap-2">
         <div className="flex-1">
-          <label className="text-mine-shaft mb-2 text-sm font-medium">
-            Variation Kind
-          </label>
+          <label className={labelStyle}>Variation Kind</label>
           <SelectInput
             label="Select a variation kind"
             selectedValue={selectedKind?.name}
@@ -129,30 +134,46 @@ const VariationCard: React.FC<VariationCardProps> = ({
               ))}
           </SelectInput>
         </div>
-        <div className="w-full flex-1">
-          <label
-            htmlFor="options-input"
-            className="text-mine-shaft mb-2 text-sm font-medium"
-          >
-            Options
-          </label>
+        <div className="flex-1">
           <div className="flex gap-2">
-            <input
-              id="options-input"
-              onKeyDown={handleKeyDown}
-              ref={inputRef}
-              aria-invalid={!!getOptionError(index)}
-              placeholder="Add a new option"
-              className={twMerge(
-                "border-oyster/20 focus:border-oyster ring-oyster/30 flex-1 rounded-md border bg-white p-2 text-sm duration-300 outline-none focus:ring-2",
-                getOptionError(index) &&
-                  "border-red-500 ring-red-200 focus:border-red-600",
-              )}
-            />
+            <div className="flex-1">
+              <label htmlFor="options-input" className={labelStyle}>
+                Options
+              </label>
+              <input
+                id="options-input"
+                onKeyDown={handleKeyDown}
+                ref={inputRef}
+                aria-invalid={!!getOptionError(index)}
+                placeholder="Add a new option"
+                className={twMerge(
+                  inputStyle,
+                  getOptionError(index) &&
+                    "border-red-500 ring-red-200 focus:border-red-600",
+                )}
+              />
+            </div>
+
+            <div className="max-w-40">
+              <label className={labelStyle}>Price modifier</label>
+              <div className="relative">
+                <span className="text-mine-shaft/60 absolute top-1/2 -translate-y-1/2 px-3 text-sm">
+                  $
+                </span>
+                <input
+                  ref={priceModifierRef}
+                  className={twMerge(inputStyle, "pl-7")}
+                  type="number"
+                  step={0.01}
+                  placeholder="Price modifier"
+                />
+              </div>
+            </div>
+
             <button
               onClick={addOption}
               type="button"
-              className="bg-oyster/80 hover:bg-oyster cursor-pointer rounded-md p-3 transition-colors duration-300"
+              className="bg-oyster/80 hover:bg-oyster h-fit cursor-pointer self-end rounded-md p-3 transition-colors duration-300"
             >
               <Plus className="h-4 w-4 text-white" />
             </button>

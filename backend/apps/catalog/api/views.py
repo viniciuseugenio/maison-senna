@@ -1,6 +1,8 @@
 import json
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
+from djangorestframework_camel_case.util import underscoreize
 from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.generics import (
@@ -8,7 +10,6 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
-from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import (
     AllowAny,
     BasePermission,
@@ -75,7 +76,8 @@ class ProductViewSet(ModelViewSet):
         for field in json_fields:
             if field in data and isinstance(data[field], str):
                 try:
-                    data[field] = json.loads(data[field])
+                    parsed = json.loads(data[field])
+                    data[field] = underscoreize(parsed)
                 except json.JSONDecodeError:
                     pass
 

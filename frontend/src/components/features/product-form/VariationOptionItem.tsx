@@ -3,9 +3,11 @@ import {
   updateVariationOption,
 } from "@/api/endpoints/products";
 import { useOptimisticMutation } from "@/hooks/useOptimisticMutation";
-import { Check, Pen, Trash2, X } from "lucide-react";
+import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 import { Option } from "./types";
+import Button from "@/components/ui/Button";
 
 interface VariationOptionItemProps {
   onUpdate: (updater: (prev: Option[]) => Option[]) => void;
@@ -19,7 +21,11 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
   option,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editingValue, setEditingValue] = useState(option.name);
+  const [editingValue, setEditingValue] = useState({
+    name: option.name,
+    priceModifier: option.priceModifier,
+  });
+
   const { mutate: editOption } = useOptimisticMutation({
     mutationFn: updateVariationOption,
     getPreviousOptions: () => {
@@ -33,7 +39,13 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
     onOptimisticUpdate: (variables) => {
       onUpdate((prev) =>
         prev.map((opt) =>
-          option.idx === opt.idx ? { ...opt, name: variables.name } : opt,
+          option.idx === opt.idx
+            ? {
+                ...opt,
+                name: variables.name,
+                priceModifier: variables.priceModifier,
+              }
+            : opt,
         ),
       );
       setIsEditing(false);
@@ -60,68 +72,112 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
     onRollback: (previousOptions) => {
       onUpdate(() => previousOptions);
     },
+    successMessage: (data) => data.detail,
     errorMessage: (error) => error.detail,
   });
 
-  const handleSave = (idx: string) => {
+  const handleSave = () => {
     if (option.id) {
-      editOption({ id: option.id, name: editingValue });
+      editOption({ id: option.id, ...editingValue });
     } else {
       onUpdate((prev) =>
         prev.map((opt) =>
-          opt.idx === idx ? { ...opt, name: editingValue } : opt,
+          opt.idx === option.idx ? { ...opt, ...editingValue } : opt,
         ),
       );
       setIsEditing(false);
     }
   };
 
-  const handleDelete = (idx: string) => {
+  const handleDelete = () => {
     if (option.id) {
       deleteOption(option.id);
     } else {
-      onUpdate((prev) => prev.filter((opt) => opt.idx !== idx));
+      onUpdate((prev) => prev.filter((opt) => opt.idx !== option.idx));
     }
   };
 
   const handleCancel = () => {
-    setEditingValue(option.name);
+    setEditingValue({
+      name: option.name,
+      priceModifier: option.priceModifier,
+    });
     setIsEditing(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      handleSave(option.idx);
+      handleSave();
     }
   };
 
   if (isEditing) {
+    const inputStyle =
+      "border-oyster/60 focus:border-oyster ring-oyster/40 focus:ring-oyster/30 w-full rounded-sm border bg-white p-3 text-sm ring-1 duration-300 outline-none focus:ring-3";
     return (
-      <div className="group relative">
-        <input
-          autoFocus
-          onKeyDown={handleKeyDown}
-          value={editingValue}
-          onChange={(e) => setEditingValue(e.target.value)}
-          className="border-oyster/60 focus:border-oyster ring-oyster/40 focus:ring-oyster/30 w-full rounded-sm border p-3 text-sm ring-1 duration-300 outline-none focus:ring-3"
-        />
-        <div className="absolute top-1/2 right-3 flex -translate-y-1/2 gap-2">
-          <button
-            onClick={() => handleSave(option.idx)}
-            className="cursor-pointer rounded-sm p-1.5 transition-colors duration-300 hover:bg-green-100 hover:text-green-700 focus:bg-green-100 focus:text-green-700"
-            type="button"
-          >
-            <Check className="h-4 w-4" />
-          </button>
+      <div className="group bg-oyster/5 border-oyster/50 relative rounded-md border p-3">
+        <div className="mb-3 flex gap-3">
+          <div className="flex-1">
+            <label
+              htmlFor="option-name"
+              className="text-mine-shaft mb-2 block text-sm font-medium"
+            >
+              Option name
+            </label>
+            <input
+              autoFocus
+              id="option-name"
+              onKeyDown={handleKeyDown}
+              value={editingValue.name}
+              onChange={(e) =>
+                setEditingValue((prev) => ({ ...prev, name: e.target.value }))
+              }
+              className={inputStyle}
+            />
+          </div>
+          <div className="w-40">
+            <label
+              htmlFor="price-modifier"
+              className="text-mine-shaft mb-2 block text-sm font-medium"
+            >
+              Price modifier
+            </label>
+            <div className="relative">
+              <span className="text-mine-shaft/80 absolute top-1/2 -translate-y-1/2 px-3 text-sm">
+                $
+              </span>
+              <input
+                id="price-modifier"
+                type="number"
+                step={0.01}
+                placeholder="Price modifier"
+                value={editingValue.priceModifier}
+                onChange={(e) =>
+                  setEditingValue((prev) => ({
+                    ...prev,
+                    priceModifier: parseFloat(e.target.value) || 0,
+                  }))
+                }
+                className={twMerge(inputStyle, "pl-7")}
+              />
+            </div>
+          </div>
+        </div>
 
+        {/* Separator */}
+        <hr className="border-oyster/60" />
+
+        <div className="mt-3 flex justify-end gap-3">
           <button
-            className="cursor-pointer rounded-sm p-1.5 transition-colors duration-300 hover:bg-red-100 hover:text-red-700 focus:bg-red-100 focus:text-red-700"
-            type="button"
             onClick={handleCancel}
+            className="hover:bg-oyster/30 cursor-pointer rounded-md px-4 py-2 text-sm font-medium duration-300"
           >
-            <X className="h-4 w-4" />
+            Cancel
           </button>
+          <Button color="brown" onClick={handleSave}>
+            Save
+          </Button>
         </div>
       </div>
     );
@@ -138,6 +194,11 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
           {index + 1}
         </span>
         <p className="text-mine-shaft text-sm leading-relaxed">{option.name}</p>
+        {option.priceModifier > 0 && (
+          <span className="text-mine-shaft bg-oyster/50 rounded-full px-2 py-1 text-xs">
+            +${option.priceModifier}
+          </span>
+        )}
       </div>
       <div className="invisible flex gap-2 opacity-0 transition-opacity duration-300 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
         <button

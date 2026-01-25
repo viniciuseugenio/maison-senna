@@ -17,6 +17,7 @@ const variationOptionsSchema = z
             idx: z.string(),
             id: z.number().optional(),
             name: z.string(),
+            priceModifier: z.number().nonnegative(),
           }),
         )
         .min(1, "The variation must have at least one option")

@@ -92,7 +92,10 @@ const VariationOptions: React.FC = () => {
                 <TableData>{variationOption.kind.name}</TableData>
                 <TableData>{variationOption.product.name}</TableData>
                 <TableData>
-                  ${variationOption.priceModifier ?? "0.00"}
+                  $
+                  {variationOption.priceModifier
+                    ? parseFloat(variationOption.priceModifier)
+                    : "0.00"}
                 </TableData>
                 <TableActions
                   editLink="/"

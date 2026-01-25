@@ -119,6 +119,7 @@ class ProductCreateSerializer(BaseProductSerializer):
                     kind=kind,
                     product=instance,
                     name=option.get("name"),
+                    price_modifier=option.get("price_modifier"),
                 )
 
         return instance
@@ -158,8 +159,13 @@ class ProductUpdateSerializer(BaseProductSerializer):
                         continue
 
                     name = option.get("name")
+                    price_modifier = option.get("price_modifier")
+
                     models.VariationOption.objects.create(
-                        kind=kind, product=instance, name=name
+                        kind=kind,
+                        product=instance,
+                        name=name,
+                        price_modifier=price_modifier,
                     )
 
         return instance

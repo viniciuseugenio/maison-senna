@@ -125,16 +125,18 @@ export async function getVariationOptions() {
 export async function updateVariationOption({
   id,
   name,
+  priceModifier,
 }: {
   id: number;
   name: string;
+  priceModifier: number;
 }) {
   const url = buildApiUrl(CATALOG_ENDPOINTS.VARIATION_OPTION_DETAILS, { id });
   return await customFetch<{
     detail: string;
     option: { id: number; name: string; priceModifier?: number };
   }>(url, {
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, priceModifier }),
     method: "PATCH",
     requiresAuth: true,
   });

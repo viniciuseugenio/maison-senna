@@ -43,6 +43,7 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
             idx: crypto.randomUUID(),
             id: optionObject.id,
             name: optionObject.name,
+            priceModifier: parseFloat(optionObject.priceModifier) || 0,
           });
         });
 
