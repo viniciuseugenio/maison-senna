@@ -1,4 +1,4 @@
-import { getProducts } from "@/api/endpoints/products";
+import { getFeaturedProducts, getProducts } from "@/api/endpoints/products";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Search, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -15,17 +15,12 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
-  const { data: products } = useQuery({
-    queryFn: getProducts,
-    queryKey: ["products"],
+  const { data: featuredProducts } = useQuery({
+    queryFn: getFeaturedProducts,
+    queryKey: ["featuredProducts"],
   });
-  const [searchResults, setSearchResults] = useState(products?.slice(0, 3));
-
-  useEffect(() => {
-    if (products) {
-      setSearchResults(products.slice(0, 3));
-    }
-  }, [products]);
+  const slicedFeaturedProducts = featuredProducts?.slice(0, 3);
+  const [searchResults, setSearchResults] = useState(slicedFeaturedProducts);
 
   useEffect(() => {
     if (!isOpen) {
@@ -67,16 +62,16 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   }, [isOpen]);
 
   useEffect(() => {
-    if (!products) return;
+    if (!featuredProducts) return;
 
     const filtered = searchQuery
-      ? products.filter((p) =>
+      ? featuredProducts.filter((p) =>
           p.name.toLowerCase().includes(searchQuery.toLowerCase()),
         )
-      : products.slice(0, 3);
+      : featuredProducts.slice(0, 3);
 
     setSearchResults(filtered.slice(0, 3));
-  }, [searchQuery, products]);
+  }, [searchQuery, featuredProducts]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;

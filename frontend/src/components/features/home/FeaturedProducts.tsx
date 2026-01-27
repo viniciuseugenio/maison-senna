@@ -1,13 +1,13 @@
-import { getProducts } from "@/api/endpoints/products";
+import { getFeaturedProducts } from "@/api/endpoints/products";
 import Button from "@components/ui/Button";
 import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 
 export default function FeaturedProducts() {
-  const { data: products } = useQuery({
-    queryFn: getProducts,
-    queryKey: ["products"],
+  const { data: featuredProducts } = useQuery({
+    queryFn: getFeaturedProducts,
+    queryKey: ["featuredProducts"],
   });
 
   return (
@@ -25,8 +25,8 @@ export default function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {products &&
-            products.map((product) => (
+          {featuredProducts &&
+            featuredProducts.map((product) => (
               <div key={product.slug} className="group">
                 <Link to={`/products/${product.slug}`}>
                   <div className="relative aspect-square overflow-hidden">

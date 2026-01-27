@@ -4,6 +4,11 @@ from . import models
 
 admin.site.register(models.VariationKind)
 admin.site.register(models.Category)
-admin.site.register(models.Product)
 admin.site.register(models.VariationOption)
 admin.site.register(models.ProductVariation)
+
+
+@admin.register(models.Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "slug", "base_price", "is_featured"]
+    list_editable = ["is_featured"]

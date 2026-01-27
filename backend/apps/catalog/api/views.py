@@ -127,6 +127,14 @@ class ProductViewSet(ModelViewSet):
             status=status.HTTP_200_OK,
         )
 
+    @action(["get"], detail=False)
+    def featured(self, request):
+        queryset = models.Product.objects.filter(is_featured=True)
+        serializer = serializers.ProductListSerializer(
+            queryset, many=True, context={"request": request}
+        )
+        return Response(serializer.data)
+
     def get_permissions(self):
         admin_only_actions = {"create", "partial_update", "destroy", "update"}
         if self.action in admin_only_actions:

@@ -15,6 +15,10 @@ export async function getProducts() {
   return await customFetch<ProductList[]>(CATALOG_ENDPOINTS.PRODUCTS);
 }
 
+export async function getFeaturedProducts() {
+  return await customFetch<ProductList[]>(CATALOG_ENDPOINTS.FEATURED_PRODUCTS);
+}
+
 export async function createProduct(data: FormData) {
   return await customFetch<{
     detail: string;

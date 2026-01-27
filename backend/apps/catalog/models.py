@@ -38,6 +38,7 @@ class Product(models.Model):
     details = models.JSONField(default=list)
     materials = models.JSONField(default=list)
     care = models.JSONField(default=list)
+    is_featured = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name}"
