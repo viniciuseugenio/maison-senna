@@ -1,6 +1,7 @@
 import { DollarSign, Tag } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import FloatingInput from "@components/ui/FloatingInput";
+import CheckboxInput from "@components/ui/CheckboxInput";
 import CategoryInput from "./CategoryInput";
 import DescriptionInput from "./DescriptionInput";
 import ImageInput from "./ImageInput";
@@ -41,6 +42,11 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ getErrorMessage, data }) => {
           <CategoryInput
             value={data?.category}
             error={getErrorMessage(errors.category)}
+          />
+          <CheckboxInput
+            name="isFeatured"
+            label="Featured Product"
+            defaultChecked={data?.isFeatured}
           />
           <DescriptionInput
             value={data?.description}

@@ -52,6 +52,7 @@ function ProductForm<T extends FieldValues>({
         "materials",
         "care",
         "referenceImage",
+        "isFeatured",
       ],
     },
     {

@@ -93,4 +93,5 @@ export default z.object({
       message: "File must be an image",
     }),
   variationOptions: variationOptionsSchema,
+  isFeatured: z.boolean(),
 });

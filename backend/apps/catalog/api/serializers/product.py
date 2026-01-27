@@ -44,6 +44,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "details",
             "materials",
             "care",
+            "is_featured",
         ]
 
 
@@ -98,6 +99,7 @@ class BaseProductSerializer(serializers.ModelSerializer):
             "materials",
             "care",
             "variation_options",
+            "is_featured",
         ]
 
 
@@ -142,6 +144,7 @@ class ProductUpdateSerializer(BaseProductSerializer):
             "materials": {"required": False},
             "care": {"required": False},
             "variation_options": {"required": False},
+            "is_featured": {"required": False},
         }
 
     def update(self, instance, validated_data):
