@@ -87,6 +87,9 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="search-title"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -105,8 +108,14 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             >
               {/* Header */}
               <div className="border-mine-shaft/10 flex items-center justify-between border-b py-8">
-                <h2 className="font-serif text-2xl font-light">Search</h2>
+                <h2
+                  id="search-title"
+                  className="font-serif text-2xl font-light"
+                >
+                  Search
+                </h2>
                 <button
+                  aria-label="Close search"
                   onClick={onClose}
                   className="hover:bg-mine-shaft/10 cursor-pointer rounded-full p-2 transition-colors"
                 >
@@ -127,6 +136,10 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 </div>
                 <input
                   ref={inputRef}
+                  aria-label="Search products"
+                  role="searchbox"
+                  aria-autocomplete="list"
+                  aria-controls="search-results"
                   className="border-b-oyster/30 focus:border-b-oyster placeholder:text-mine-shaft/60 w-full border-b bg-transparent py-4 pr-4 pl-12 text-lg transition-colors outline-none"
                   placeholder="Search for products.."
                   type="text"
@@ -145,7 +158,11 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 <h3 className="text-mine-shaft/70 text-sm font-medium tracking-wider uppercase">
                   Popular Searches
                 </h3>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div
+                  role="Group"
+                  aria-label="Popular search terms"
+                  className="mt-4 flex flex-wrap gap-2"
+                >
                   {[
                     "Necklaces",
                     "Rings",
@@ -172,6 +189,12 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
               {/* Search results/Featured products */}
               <motion.div
                 className="mt-12"
+                id="search-results"
+                role="region"
+                aria-live="polite"
+                aria-label={
+                  searchQuery ? "Search results" : "Featured products"
+                }
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.4 }}
@@ -184,6 +207,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                     className="text-oyster flex items-center text-sm hover:underline"
                     to="/"
                     onClick={onClose}
+                    aria-label="View all search results"
                   >
                     View all <ArrowRight className="inline-block h-4 w-4" />
                   </Link>
