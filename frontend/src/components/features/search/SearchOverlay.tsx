@@ -1,4 +1,4 @@
-import { getFeaturedProducts, getProducts } from "@/api/endpoints/products";
+import { getFeaturedProducts } from "@/api/endpoints/products";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Search, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -18,6 +18,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const { data: featuredProducts } = useQuery({
     queryFn: getFeaturedProducts,
     queryKey: ["featuredProducts"],
+    enabled: isOpen,
   });
   const slicedFeaturedProducts = featuredProducts?.slice(0, 3);
   const [searchResults, setSearchResults] = useState(slicedFeaturedProducts);
