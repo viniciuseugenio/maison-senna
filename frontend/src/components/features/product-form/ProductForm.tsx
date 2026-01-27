@@ -72,7 +72,9 @@ function ProductForm<T extends FieldValues>({
 
   type FieldName = keyof NewProductForm;
 
-  const nextStep = async () => {
+  const nextStep = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     const fields = steps[currentStep].fields;
     const output = await trigger(fields as FieldName[], { shouldFocus: true });
 
