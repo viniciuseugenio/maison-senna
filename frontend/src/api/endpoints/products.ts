@@ -15,6 +15,12 @@ export async function getProducts() {
   return await customFetch<ProductList[]>(CATALOG_ENDPOINTS.PRODUCTS);
 }
 
+export async function searchProduts(query: string) {
+  return await customFetch<ProductList[]>(
+    `${CATALOG_ENDPOINTS.SEARCH_PRODUCTS}?q=${encodeURIComponent(query)}`,
+  );
+}
+
 export async function getFeaturedProducts() {
   return await customFetch<ProductList[]>(CATALOG_ENDPOINTS.FEATURED_PRODUCTS);
 }

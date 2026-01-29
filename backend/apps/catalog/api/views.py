@@ -2,6 +2,7 @@ import json
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from djangorestframework_camel_case.util import underscoreize
 from rest_framework import filters, status
 from rest_framework.decorators import action
@@ -133,6 +134,25 @@ class ProductViewSet(ModelViewSet):
         serializer = serializers.ProductListSerializer(
             queryset, many=True, context={"request": request}
         )
+        return Response(serializer.data)
+
+    @action(["get"], detail=False)
+    def search(self, request):
+        query = request.query_params.get("q", "").strip()
+
+        if not query:
+            return Response([], status=status.HTTP_200_OK)
+
+        queryset = models.Product.objects.filter(
+            Q(name__icontains=query)
+            | Q(description__icontains=query)
+            | Q(category__name__icontains=query)
+        ).distinct()
+
+        serializer = serializers.ProductListSerializer(
+            queryset, many=True, context={"request": request}
+        )
+
         return Response(serializer.data)
 
     def get_permissions(self):

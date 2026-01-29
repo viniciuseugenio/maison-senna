@@ -1,6 +1,7 @@
-import { getFeaturedProducts } from "@/api/endpoints/products";
+import { getFeaturedProducts, searchProduts } from "@/api/endpoints/products";
+import { useDebounce } from "@/hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Search, X } from "lucide-react";
+import { ArrowRight, Loader2, Search, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
@@ -13,19 +14,30 @@ interface SearchOverlayProps {
 export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const { data: featuredProducts } = useQuery({
     queryFn: getFeaturedProducts,
     queryKey: ["featuredProducts"],
     enabled: isOpen,
   });
-  const slicedFeaturedProducts = featuredProducts?.slice(0, 3);
-  const [searchResults, setSearchResults] = useState(slicedFeaturedProducts);
+
+  const {
+    data: searchResultsQuery,
+    isLoading: isSearching,
+    isError,
+  } = useQuery({
+    queryFn: () => searchProduts(debouncedSearchQuery),
+    queryKey: ["searchProduts", debouncedSearchQuery],
+    enabled: isOpen && debouncedSearchQuery.length > 0,
+  });
+
+  const displayProducts = searchQuery
+    ? searchResultsQuery
+    : featuredProducts?.slice(0, 3);
 
   useEffect(() => {
     if (!isOpen) {
-      setHasSearched(false);
       setSearchQuery("");
     }
 
@@ -62,25 +74,8 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!featuredProducts) return;
-
-    const filtered = searchQuery
-      ? featuredProducts.filter((p) =>
-          p.name.toLowerCase().includes(searchQuery.toLowerCase()),
-        )
-      : featuredProducts.slice(0, 3);
-
-    setSearchResults(filtered.slice(0, 3));
-  }, [searchQuery, featuredProducts]);
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-
-    if (query && !hasSearched) {
-      setHasSearched(true);
-    }
+    setSearchQuery(e.target.value);
   };
 
   return (
@@ -132,9 +127,15 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 transition={{ duration: 0.3, delay: 0.2 }}
                 className="relative mt-8"
               >
-                <div className="pointer-events-none absolute inset-y-0 top-1/2 left-0 flex -translate-y-1/2 items-center pl-4">
-                  <Search className="text-oyster/60 h-5 w-5" />
-                </div>
+                {isSearching ? (
+                  <div className="pointer-events-none absolute inset-y-0 top-1/2 left-0 flex -translate-y-1/2 items-center pl-4">
+                    <Loader2 className="text-oyster/90 h-5 w-5 animate-spin" />
+                  </div>
+                ) : (
+                  <div className="pointer-events-none absolute inset-y-0 top-1/2 left-0 flex -translate-y-1/2 items-center pl-4">
+                    <Search className="text-oyster/60 h-5 w-5" />
+                  </div>
+                )}
                 <input
                   ref={inputRef}
                   aria-label="Search products"
@@ -189,12 +190,12 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
               {/* Search results/Featured products */}
               <motion.div
-                className="mt-12"
+                className="mt-12 mb-12"
                 id="search-results"
                 role="region"
                 aria-live="polite"
                 aria-label={
-                  searchQuery ? "Search results" : "Featured products"
+                  debouncedSearchQuery ? "Search results" : "Featured products"
                 }
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -215,10 +216,24 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                  {searchResults &&
-                    searchResults.map((product, index) => (
+                  {isError && (
+                    <p className="text-mine-shaft/70 col-span-full py-12 text-center">
+                      Failed to load search results. Please, try again.
+                    </p>
+                  )}
+                  {!isError &&
+                    displayProducts &&
+                    displayProducts.length === 0 &&
+                    searchQuery && (
+                      <p className="text-mine-shaft/70 col-span-full py-12 text-center">
+                        No products found for "{searchQuery}"
+                      </p>
+                    )}
+                  {!isError &&
+                    displayProducts &&
+                    displayProducts.map((product, index) => (
                       <motion.div
-                        initial={hasSearched ? false : { opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                         key={product.id}
