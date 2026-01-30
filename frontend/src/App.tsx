@@ -26,6 +26,7 @@ import EditProduct from "./pages/EditProduct";
 import VariationKindsCreate from "./components/features/admin/VariationKindsCreate";
 import VariationKindsEdit from "./components/features/admin/VariationKindsEdit";
 import VariationOptionModal from "./pages/Admin/VariationOptionModal";
+import Collections from "./pages/Collections";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<NotFound />} />
                 <Route path="/products/:slug" element={<Product />} />
+                <Route path="/collections" element={<Collections />} />
 
                 <Route element={<UnauthenticatedRoutes />}>
                   <Route element={<AuthPageLayout />}>

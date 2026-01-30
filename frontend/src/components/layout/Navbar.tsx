@@ -68,7 +68,7 @@ export default function Navbar() {
 
             {/* Desktop navigation */}
             <nav className="hidden lg:flex lg:items-center lg:space-x-8">
-              <NavbarLink to="/" label="COLLECTIONS" />
+              <NavbarLink to="/collections" label="COLLECTIONS" />
               <NavbarLink to="/" label="JEWELRY" />
               <NavbarLink to="/" label="ACCESSORIES" />
               <NavbarLink to="/" label="ABOUT" />

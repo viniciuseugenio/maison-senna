@@ -2,6 +2,7 @@ export type Category = {
   id: number;
   name: string;
   slug: string;
+  cover?: string;
 };
 
 export type VariationOption = {

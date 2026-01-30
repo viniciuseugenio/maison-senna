@@ -8,6 +8,7 @@ class Category(models.Model):
     parent = models.ForeignKey(
         "self", null=True, blank=True, on_delete=models.CASCADE, related_name="children"
     )
+    cover = models.ImageField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "categories"

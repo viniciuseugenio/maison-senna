@@ -170,6 +170,9 @@ class CategoryListCreateView(
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
 
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 
 class CategoryDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = models.Category.objects.all()
