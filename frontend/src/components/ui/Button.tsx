@@ -22,7 +22,7 @@ export default function Button({
 }: ButtonProps) {
   const colorStyles = {
     brown: "bg-[#8b7a6c] duration-300 hover:bg-[#7b6c60] active:bg-[#7b6c60]",
-    black: "bg-mine-shaft/90 hover:bg-mine-shaft/95 active:bg-mine-shaft",
+    black: "bg-mine-shaft hover:bg-mine-shaft/95 active:bg-mine-shaft",
   };
 
   const variantStyles = {
@@ -45,7 +45,7 @@ export default function Button({
       onClick={onClick}
       disabled={isLoading}
       className={twMerge(
-        `flex cursor-pointer items-center justify-center rounded-sm px-4 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 ${variantStyle} ${sizeStyle} ${className}`,
+        `flex cursor-pointer items-center justify-center px-4 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 ${variantStyle} ${sizeStyle} ${className}`,
       )}
       {...props}
     >
