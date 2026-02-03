@@ -176,9 +176,13 @@ class CategoryListCreateView(
 
 class CategoryDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = models.Category.objects.all()
-    permission_classes = [IsAdminUser]
     serializer_class = serializers.CategorySerializer
 
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+
+        return [IsAdminUser()]
 
 class DashboardViewSet(ViewSet):
     permission_classes = [IsAdminUser]
