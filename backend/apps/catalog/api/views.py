@@ -20,6 +20,8 @@ from rest_framework.permissions import (
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
+from apps.catalog.api.serializers.category import CategoryWProductsSerializer
+
 from .. import models
 from . import serializers
 
@@ -170,9 +172,6 @@ class CategoryListCreateView(
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
 
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
-
 
 class CategoryDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = models.Category.objects.all()
@@ -184,6 +183,21 @@ class CategoryDetailsView(RetrieveUpdateDestroyAPIView):
             return [AllowAny()]
 
         return [IsAdminUser()]
+
+    def get(self, request, *args, **kwargs):
+        get_products = request.query_params.get("products")
+
+        if get_products:
+            category = self.get_object()
+            return Response(
+                CategoryWProductsSerializer(
+                    category, context={"request": request}
+                ).data,
+                status=status.HTTP_200_OK,
+            )
+
+        return super().get(request, *args, **kwargs)
+
 
 class DashboardViewSet(ViewSet):
     permission_classes = [IsAdminUser]

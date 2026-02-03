@@ -18,3 +18,18 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Category
         fields = ["id", "name", "slug", "cover", "description"]
+
+
+class CategoryWProductsSerializer(serializers.ModelSerializer):
+    products = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Category
+        fields = ["id", "name", "slug", "cover", "description", "products"]
+
+    def get_products(self, obj):
+        from apps.catalog.api.serializers.product import ProductListSerializer
+
+        return ProductListSerializer(
+            obj.products.all(), many=True, context=self.context
+        ).data
