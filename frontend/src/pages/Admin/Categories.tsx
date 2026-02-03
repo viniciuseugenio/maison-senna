@@ -21,8 +21,8 @@ const AdminCategories: React.FC = () => {
     queryKey: ["categories"],
   });
 
-  const createDeleteLink = (id: number) => {
-    return buildApiUrl(CATALOG_ENDPOINTS.CATEGORY_DETAILS, { id });
+  const createDeleteLink = (slug: string) => {
+    return buildApiUrl(CATALOG_ENDPOINTS.CATEGORY_DETAILS, { slug });
   };
 
   const headers: HeaderConfig[] = [
@@ -55,7 +55,7 @@ const AdminCategories: React.FC = () => {
                 <TableData>12</TableData>
                 <TableActions
                   editLink="/"
-                  deleteLink={createDeleteLink(category.id)}
+                  deleteLink={createDeleteLink(category.slug)}
                   resourceType="Category"
                   queryKey={["categories"]}
                 />

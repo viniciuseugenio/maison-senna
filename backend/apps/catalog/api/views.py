@@ -177,6 +177,7 @@ class CategoryListCreateView(
 class CategoryDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
+    lookup_field = "slug"
 
     def get_permissions(self):
         if self.request.method == "GET":

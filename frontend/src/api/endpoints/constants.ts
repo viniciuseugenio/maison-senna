@@ -20,7 +20,7 @@ export const CATALOG_ENDPOINTS = {
   FEATURED_PRODUCTS: `${VITE_BACKEND_URL}/catalog/products/featured/`,
   PRODUCT_DETAILS: `${VITE_BACKEND_URL}/catalog/products/:slug/`,
   LIST_CREATE_CATEGORIES: `${VITE_BACKEND_URL}/catalog/categories/`,
-  CATEGORY_DETAILS: `${VITE_BACKEND_URL}/catalog/categories/:id/`,
+  CATEGORY_DETAILS: `${VITE_BACKEND_URL}/catalog/categories/:slug/`,
   ADMIN_METRICS: `${VITE_BACKEND_URL}/catalog/admin/dashboard/metrics/`,
   LIST_CREATE_VARIATION_KINDS: `${VITE_BACKEND_URL}/catalog/variation/kinds/`,
   VARIATION_KINDS_DETAIL: `${VITE_BACKEND_URL}/catalog/variation/kinds/:id/`,
