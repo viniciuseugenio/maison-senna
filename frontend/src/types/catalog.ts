@@ -2,7 +2,26 @@ export type Category = {
   id: number;
   name: string;
   slug: string;
+  description: string;
+  cover: string;
+};
+
+export type ProductList = {
+  category: Category;
+  id: number;
+  name: string;
+  basePrice: string;
+  referenceImage: string;
+  slug: string;
+};
+
+export type CategoryWithProducts = {
+  id: number;
+  name: string;
+  slug: string;
   cover?: string;
+  description?: string;
+  products?: ProductList[];
 };
 
 export type VariationOption = {
@@ -27,15 +46,6 @@ export type VariationOptionList = {
     slug: string;
   };
   priceModifier?: string;
-};
-
-export type ProductList = {
-  category: Category;
-  id: number;
-  name: string;
-  basePrice: string;
-  referenceImage: string;
-  slug: string;
 };
 
 export type ProductDetails = {
