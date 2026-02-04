@@ -17,6 +17,7 @@ import ProductVariations from "./pages/Admin/ProductVariations";
 import VariationKinds from "./pages/Admin/VariationKinds";
 import VariationOptionModal from "./pages/Admin/VariationOptionModal";
 import VariationOptions from "./pages/Admin/VariationOptions";
+import Collection from "./pages/Collection";
 import Collections from "./pages/Collections";
 import EditProduct from "./pages/EditProduct";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -73,6 +74,7 @@ function App() {
                   <Route path="*" element={<NotFound />} />
                   <Route path="/products/:slug" element={<Product />} />
                   <Route path="/collections" element={<Collections />} />
+                  <Route path="/collections/:slug" element={<Collection />} />
 
                   <Route element={<UnauthenticatedRoutes />}>
                     <Route element={<AuthPageLayout />}>

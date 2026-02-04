@@ -1,6 +1,7 @@
 import { Statistics } from "@/types/admin";
 import {
   Category,
+  CategoryWithProducts,
   ProductDetails,
   ProductList,
   ProductVariation,
@@ -81,6 +82,11 @@ export async function getCategories() {
   return await customFetch<Category[]>(
     CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
   );
+}
+
+export async function getCategory(slug: string) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.CATEGORY_DETAILS, { slug });
+  return await customFetch<CategoryWithProducts>(`${url}?products=True`);
 }
 
 export async function getDashboardStatistics() {

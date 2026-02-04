@@ -1,9 +1,14 @@
-import Button from "@/components/ui/Button";
+import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
 
-type CardProps = { className?: string; img?: string; title: string };
+type CardProps = {
+  className?: string;
+  img?: string;
+  title: string;
+  slug: string;
+};
 
-const Card: React.FC<CardProps> = ({ className, img, title }) => {
+const Card: React.FC<CardProps> = ({ className, img, title, slug }) => {
   return (
     <div className={twMerge(className, "group cursor-pointer")}>
       <div className="mb-6 aspect-[4/5] overflow-hidden">
@@ -17,10 +22,12 @@ const Card: React.FC<CardProps> = ({ className, img, title }) => {
           Timeless Elegance
         </p>
         <h3 className="text-mine-shaft mb-6 font-serif text-3xl">{title}</h3>
-        <Button className="rounded-none px-8 font-light tracking-[.2em] uppercase">
+        <Link
+          to={`/collections/${slug}`}
+          className="bg-mine-shaft hover:bg-mine-shaft/95 text-light mx-auto px-14 py-4 text-sm font-light tracking-widest uppercase duration-300"
+        >
           Discover
-        </Button>
-
+        </Link>
         <div className="bg-oyster mx-auto mt-8 h-[1px] w-0 duration-500 group-hover:w-36" />
       </div>
     </div>
