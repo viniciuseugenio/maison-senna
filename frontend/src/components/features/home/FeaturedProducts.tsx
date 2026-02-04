@@ -1,4 +1,5 @@
 import { getFeaturedProducts } from "@/api/endpoints/products";
+import ProductCard from "@/components/ui/ProductCard";
 import Button from "@components/ui/Button";
 import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { useQuery } from "@tanstack/react-query";
@@ -27,28 +28,7 @@ export default function FeaturedProducts() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {featuredProducts &&
             featuredProducts.map((product) => (
-              <div key={product.slug} className="group">
-                <Link to={`/products/${product.slug}`}>
-                  <div className="relative aspect-square overflow-hidden">
-                    <img
-                      src={product.referenceImage}
-                      alt={product.name}
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="mt-6 text-center">
-                    <p className="text-oyster font-sans text-sm font-medium tracking-wider uppercase">
-                      {product.category.name}
-                    </p>
-                    <h3 className="text-mine-shaft mt-2 font-serif text-lg font-light">
-                      {product.name}
-                    </h3>
-                    <p className="text-mine-shaft/90 mt-2 text-sm">
-                      ${product.basePrice}
-                    </p>
-                  </div>
-                </Link>
-              </div>
+              <ProductCard product={product} key={product.id} />
             ))}
         </div>
 
