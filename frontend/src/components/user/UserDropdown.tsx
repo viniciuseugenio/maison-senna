@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
 import NavbarButton from "@components/layout/NavbarButton";
 import { useAuth } from "@/store/useAuth";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 type UserDropdownProps = {
   setLogoutModalOpen: (value: boolean) => void;
@@ -45,24 +46,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ setLogoutModalOpen }) => {
     setLogoutModalOpen(true);
   };
 
-  useEffect(() => {
-    function handleOutsideClick(e: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    }
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [isOpen]);
+  useOutsideClick(isOpen, setIsOpen, dropdownRef);
 
   return (
     <div className="relative" ref={dropdownRef}>
