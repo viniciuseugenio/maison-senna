@@ -8,6 +8,7 @@ import {
   ProductVariation,
   VariationKind,
   VariationOptionList,
+  WishlistItem,
 } from "@/types/catalog";
 import { buildApiUrl } from "./buildApiUrl";
 import { CATALOG_ENDPOINTS } from "./constants";
@@ -170,4 +171,25 @@ export async function getProductVariations() {
   return await customFetch<PaginationResults<ProductVariation>>(
     CATALOG_ENDPOINTS.LIST_PRODUCT_VARIATIONS,
   );
+}
+
+export async function getWishlistItems(limit?: number) {
+  const limitQueryString = limit ? `?limit=${limit}` : "";
+  const url = `${CATALOG_ENDPOINTS.WISHLIST}${limitQueryString}`;
+  return await customFetch<WishlistItem[]>(url, { requiresAuth: true });
+}
+
+export async function createWishlistItem(productId: number) {
+  return await customFetch(CATALOG_ENDPOINTS.WISHLIST, {
+    method: "POST",
+    body: JSON.stringify({ productId }),
+    requiresAuth: true,
+  });
+}
+
+export async function deleteWishlistItemByProduct(productId: number) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.WISHLIST_DELETE_BY_PRODUCT, {
+    productId,
+  });
+  return await genericDeleteModel(url);
 }
