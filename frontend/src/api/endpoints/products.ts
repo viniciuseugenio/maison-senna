@@ -187,6 +187,11 @@ export async function createWishlistItem(productId: number) {
   });
 }
 
+export async function deleteWishlistItem(id: number) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.WISHLIST_DETAILS, { id });
+  return genericDeleteModel(url);
+}
+
 export async function deleteWishlistItemByProduct(productId: number) {
   const url = buildApiUrl(CATALOG_ENDPOINTS.WISHLIST_DELETE_BY_PRODUCT, {
     productId,
