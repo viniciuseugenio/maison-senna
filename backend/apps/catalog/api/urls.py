@@ -6,6 +6,7 @@ from . import views
 router = SimpleRouter()
 router.register(r"admin/dashboard", views.DashboardViewSet, basename="dashboard")
 router.register("products", views.ProductViewSet, basename="products")
+router.register("wishlist", views.WishlistViewSet, basename="wishlist")
 
 urlpatterns = [
     path(
