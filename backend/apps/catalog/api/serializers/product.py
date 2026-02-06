@@ -29,6 +29,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     variation_options = ProductVariationOption(many=True)
+    is_wishlisted = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Product
@@ -45,7 +46,16 @@ class ProductSerializer(serializers.ModelSerializer):
             "materials",
             "care",
             "is_featured",
+            "is_wishlisted",
         ]
+
+    def get_is_wishlisted(self, obj):
+        request = self.context.get("request")
+        if request and request.user.is_authenticated:
+            return models.WishlistItem.objects.filter(
+                user=request.user, product=obj
+            ).exists()
+        return False
 
 
 class BaseProductSerializer(serializers.ModelSerializer):
@@ -191,3 +201,33 @@ class ProductVariationSerializer(serializers.ModelSerializer):
 
     def get_product(self, obj):
         return obj.product.name
+
+
+class WishlistItemSerializer(serializers.ModelSerializer):
+    product = ProductListSerializer(read_only=True)
+
+    class Meta:
+        model = models.WishlistItem
+        fields = ["id", "user", "product", "added_at"]
+        read_only_fields = ["added_at"]
+
+
+class WishlistItemCreateSerializer(serializers.ModelSerializer):
+    product_id = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = models.WishlistItem
+        fields = ["product_id"]
+
+    def validate_product_id(self, value):
+        if not models.Product.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Product not found")
+
+        return value
+
+    def create(self, validated_data):
+        product_id = validated_data.pop("product_id")
+        return models.WishlistItem.objects.get_or_create(
+            user=self.context["request"].user,
+            product_id=product_id,
+        )[0]

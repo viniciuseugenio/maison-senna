@@ -67,6 +67,7 @@ export type ProductDetails = {
   care: string[];
   materials: string[];
   details: string[];
+  isWishlisted: boolean;
 };
 
 export type ProductVariation = {
@@ -76,4 +77,11 @@ export type ProductVariation = {
   stock: number;
   image: string;
   options: VariationOption[];
+};
+
+export type WishlistItem = {
+  id: number;
+  user: number;
+  product: ProductList;
+  addedAt: string;
 };
