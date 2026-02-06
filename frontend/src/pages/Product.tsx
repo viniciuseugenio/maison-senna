@@ -1,10 +1,11 @@
 import { getProduct } from "@/api/endpoints/products";
+import WishlistButton from "@/components/features/product-details/WishlistButton";
 import DetailsTabs from "@components/features/product-details/DetailsTabs";
 import ProductReviews from "@components/features/product-details/ProductReviews";
 import ProductVariations from "@components/features/product-details/ProductVariations";
 import Button from "@components/ui/Button";
 import { useQuery } from "@tanstack/react-query";
-import { Heart, Share2, ShoppingBag, Star } from "lucide-react";
+import { Share2, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import ProductLoading from "./ProductLoading";
@@ -104,14 +105,10 @@ const Product: React.FC = () => {
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Add to Cart
                 </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="hover:bg-oyster/10 hover:text-mine-shaft active:bg-oyster/10 border-oyster/20 text-sm uppercase"
-                >
-                  <Heart className="mr-2 h-4 w-4" />
-                  Wishlist
-                </Button>
+                <WishlistButton
+                  productId={product.id}
+                  isWishlisted={product.isWishlisted}
+                />
                 <Button
                   variant="outline"
                   size="lg"
