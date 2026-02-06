@@ -1,6 +1,10 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -102,3 +106,15 @@ class ProductVariation(models.Model):
 
     def __str__(self):
         return f"{self.sku}"
+
+
+class WishlistItem(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="wishlist_items"
+    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "product")
+        ordering = ["-added_at"]
