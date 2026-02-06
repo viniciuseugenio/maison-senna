@@ -262,3 +262,45 @@ class VariationOptionRUDView(RetrieveUpdateDestroyAPIView):
 class ProductVariationList(OrderedAdminListView):
     serializer_class = serializers.ProductVariationSerializer
     queryset = models.ProductVariation.objects.all()
+
+
+class WishlistViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = models.WishlistItem.objects.filter(user=self.request.user)
+
+        limit = self.request.query_params.get("limit")
+        if limit:
+            try:
+                limit = int(limit)
+                queryset = queryset[0:limit]
+            except ValueError:
+                pass
+
+        return queryset
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.WishlistItemCreateSerializer
+
+        return serializers.WishlistItemSerializer
+
+    @action(
+        detail=False, methods=["delete"], url_path="by-product/(?P<product_id>[0-9]+)"
+    )
+    def delete_by_product(self, request, product_id=None):
+        try:
+            wishlist_item = models.WishlistItem.objects.get(
+                user=request.user, product_id=product_id
+            )
+            wishlist_item.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except models.WishlistItem.DoesNotExist:
+            return Response(
+                {
+                    "detail": "Item not in your wishlist",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
