@@ -4,6 +4,7 @@ import AuthButtons from "@components/features/auth/AuthButtons";
 import UserDropdown from "@components/user/UserDropdown";
 import { Search, ShoppingBag } from "lucide-react";
 import NavbarButton from "./NavbarButton";
+import WishlistDropdown from "../features/collections/wishlist/WishlistDropdown";
 
 const NavbarIcons: React.FC<{
   toggleUI: (key: keyof UiStateType, value: boolean) => void;
@@ -27,6 +28,8 @@ const NavbarIcons: React.FC<{
           setLogoutModalOpen={(value) => toggleUI("logoutModalOpen", value)}
         />
       )}
+
+      <WishlistDropdown />
 
       <NavbarButton
         aria-label="Open shopping bag"
