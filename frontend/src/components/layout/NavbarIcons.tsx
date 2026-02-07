@@ -24,12 +24,13 @@ const NavbarIcons: React.FC<{
       {!isAuthenticated ? (
         <AuthButtons />
       ) : (
-        <UserDropdown
-          setLogoutModalOpen={(value) => toggleUI("logoutModalOpen", value)}
-        />
+        <>
+          <UserDropdown
+            setLogoutModalOpen={(value) => toggleUI("logoutModalOpen", value)}
+          />
+          <WishlistDropdown />
+        </>
       )}
-
-      <WishlistDropdown />
 
       <NavbarButton
         aria-label="Open shopping bag"
