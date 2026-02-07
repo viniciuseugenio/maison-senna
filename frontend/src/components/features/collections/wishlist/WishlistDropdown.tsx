@@ -52,7 +52,10 @@ const ProductCard: React.FC<{ itemId: number; product: ProductList }> = ({
         <div className="flex w-full items-center justify-between">
           <p className="text-sm font-light">${product.basePrice}</p>
           <button
-            onClick={() => deleteItem(itemId)}
+            onClick={(e) => {
+              e.preventDefault();
+              deleteItem(itemId);
+            }}
             className="text-mine-shaft/60 cursor-pointer text-xs font-light tracking-widest uppercase duration-200 hover:text-red-500"
           >
             Remove
