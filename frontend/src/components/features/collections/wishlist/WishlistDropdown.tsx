@@ -75,7 +75,7 @@ const WishlistDropdown: React.FC = () => {
 
   const { data: wishlist, isLoading } = useQuery({
     queryFn: () => getWishlistItems(limitQuerySet),
-    queryKey: ["wishlist"],
+    queryKey: ["wishlist", { limit: limitQuerySet }],
     enabled: isOpen,
   });
 
