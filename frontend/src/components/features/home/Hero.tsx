@@ -1,12 +1,13 @@
 import sennaImg from "@assets/senna.jpg";
 import Button from "@components/ui/Button";
+import snookerImg from "@assets/snooker.jpg";
 
 export default function Hero() {
   return (
     <section className="relative h-[90vh] overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${sennaImg})` }}
+        style={{ backgroundImage: `url(${snookerImg})` }}
       >
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
       </div>
