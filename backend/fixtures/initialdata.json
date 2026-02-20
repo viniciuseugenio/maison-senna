@@ -1,0 +1,421 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Rings",
+      "slug": "rings",
+      "parent": null,
+      "cover": "categories/luxury-rings.jpg",
+      "description": "Intimate symbols of connection and self-expression, our rings unite structure and emotion. Forged through time-honored techniques, they honor both the past and the values shaping the future."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Necklaces",
+      "slug": "necklaces",
+      "parent": null,
+      "cover": "categories/necklaces.jpg",
+      "description": "Suspended stories of form and meaning, our necklaces rest close to the heart. Each design weaves recycled gold and conscious stones into compositions of grace, depth, and quiet power."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Accessories",
+      "slug": "accessories",
+      "parent": null,
+      "cover": "categories/elegant-scarf.jpg",
+      "description": "Beyond adornment, these pieces are accents of identity. Crafted with the same devotion to detail and sustainability, our accessories refine everyday moments into deliberate style."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Earrings",
+      "slug": "earrings",
+      "parent": null,
+      "cover": "categories/earrings.jpg",
+      "description": "Designed to frame the face with light and precision, our earrings explore contrast and symmetry. Sculpted in precious metals and ethically sourced stones, they reflect both heritage and modern expression."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 18,
+    "fields": {
+      "name": "Bracelets",
+      "slug": "bracelets",
+      "parent": null,
+      "cover": "categories/vancleef.jpg",
+      "description": "A quiet statement of movement and form, where fluid lines meet enduring materials. Each bracelet traces the rhythm of the wrist, balancing elegance with intention through responsible craftsmanship."
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "category": 1,
+      "name": "Ethereal Diamond Ring",
+      "slug": "ethereal-diamond-ring",
+      "description": "The Ethereal Diamond Ring features a stunning center stone surrounded by a halo of smaller diamonds, all set in meticulously crafted precious metal. This timeless piece symbolizes eternal elegance and makes for a perfect engagement ring or special occasion statement piece.",
+      "created_at": "2025-05-22T14:30:29.433Z",
+      "base_price": "2600.00",
+      "reference_image": "catalog/products/diamong-ring.jpg",
+      "details": [
+        "Platinum or 18k gold setting",
+        "1.2 carat center diamond (F-G color, VS1-VS2 clarity)",
+        "0.5 carat total weight of accent diamonds",
+        "Available in sizes 4-9",
+        "Includes certificate of authenticity"
+      ],
+      "materials": [
+        "Platinum or 18k gold (yellow, white, or rose)",
+        "Ethically sourced diamonds",
+        "Conflict-free gemstones"
+      ],
+      "care": [
+        "Store separately to prevent scratches",
+        "Remove when engaging in physical activities",
+        "Clean with a soft brush and mild soap solution",
+        "Professional inspection recommended annually"
+      ],
+      "is_featured": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "category": 2,
+      "name": "The Celestial Pendant",
+      "slug": "the-celestial-pendant",
+      "description": "The Celestial Pendant embodies timeless elegance with its delicate design and brilliant craftsmanship. Featuring ethically sourced diamonds set in 18k gold, this piece captures the essence of the night sky, creating a stunning focal point for any ensemble.",
+      "created_at": "2025-05-22T15:29:12.824Z",
+      "base_price": "1250.00",
+      "reference_image": "catalog/products/necklace.jpg",
+      "details": [
+        "Platinum or 18k gold setting",
+        "1.2 carat center diamond (F-G color, VS1-VS2 clarity)",
+        "0.5 carat total weight of accent diamonds",
+        "Available in sizes 4-9",
+        "Includes certificate of authenticity"
+      ],
+      "materials": [
+        "Platinum or 18k gold (yellow, white, or rose)",
+        "Ethically sourced VS clarity diamonds",
+        "Conflict-free gemstones"
+      ],
+      "care": [
+        "Store in the provided jewelry box when not in use",
+        "Clean with a soft polishing cloth",
+        "Avoid contact with perfumes, lotions, and chemicals",
+        "Professional cleaning recommended every 6 months"
+      ],
+      "is_featured": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "category": 4,
+      "name": "Luminous Pearl Earrings",
+      "slug": "luminous-pearl-earrings",
+      "description": "Our Luminous Pearl Earrings feature perfectly matched South Sea pearls, known for their exceptional luster and size. Each pearl is carefully selected and paired with diamond accents in an elegant setting that enhances their natural beauty.",
+      "created_at": "2025-06-17T18:17:41.087Z",
+      "base_price": "950.00",
+      "reference_image": "catalog/products/luminous-pearl-earrings.jpg",
+      "details": [
+        "10-11mm South Sea pearls",
+        "18k gold settings with diamond accents"
+      ],
+      "materials": [
+        "Cultured South Sea pearls",
+        "18k gold (yellow or white)"
+      ],
+      "care": [
+        "Wipe gently with a soft, damp cloth after wearing",
+        "Store in a cool, dry place"
+      ],
+      "is_featured": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 23,
+    "fields": {
+      "category": 3,
+      "name": "Silk Cashmere Scarf",
+      "slug": "silk-cashmere-scarf",
+      "description": "Our Silk Cashmere Scarf combines the finest natural fibers to create an accessory of unparalleled softness and elegance. Hand-finished with delicate fringed edges, this versatile piece adds a touch of luxury to any outfit throughout the seasons.",
+      "created_at": "2025-06-18T20:49:36.618Z",
+      "base_price": "420.00",
+      "reference_image": "catalog/products/silk-cashmere-scarf.jpg",
+      "details": [
+        "70% silk, 30% cashmere blend",
+        "Dimensions: 75\" x 28\"",
+        "Hand-rolled edges",
+        "Lightweight yet warm",
+        "Made in Italy"
+      ],
+      "materials": [
+        "Mulberry silk",
+        "Mongolian cashmere",
+        "Natural dyes"
+      ],
+      "care": [
+        "Dry clean only",
+        "Store folded in a cool, dry place",
+        "Avoid direct sunlight for extended periods",
+        "Steam to remove wrinkles"
+      ],
+      "is_featured": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 28,
+    "fields": {
+      "category": 3,
+      "name": "Aurora Sapphire Necklace",
+      "slug": "aurora-sapphire-necklace",
+      "description": "The Aurora Sapphire Necklace boasts a vibrant royal blue sapphire centerpiece encircled by pavé diamonds, elegantly suspended from a high-polish chain. A true statement of grace and prestige.",
+      "created_at": "2025-07-10T20:54:30.828Z",
+      "base_price": "3200.00",
+      "reference_image": "catalog/products/saphire-necklace.jpg",
+      "details": [
+        "Royal blue natural sapphire center",
+        "0.4 carat round diamond halo",
+        "Choice of platinum or white gold",
+        "Chain available in 16, 18, or 20 inches",
+        "Delivered in luxury jewelry box"
+      ],
+      "materials": [
+        "Platinum or 18k white gold",
+        "Natural sapphire",
+        "Ethically sourced diamonds"
+      ],
+      "care": [
+        "Keep away from direct sunlight when not in use",
+        "Clean with a lint-free cloth after wear",
+        "Avoid contact with perfume or chemicals",
+        "Annual gemstone re-polishing suggested"
+      ],
+      "is_featured": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 29,
+    "fields": {
+      "category": 3,
+      "name": "Solstice Emerald Earrings",
+      "slug": "solstice-emerald-earrings",
+      "description": "These Solstice Emerald Earrings are crafted with vivid green emeralds framed by shimmering diamonds in an artful drop design. A balance of vintage charm and contemporary luxury.",
+      "created_at": "2025-07-10T20:56:19.026Z",
+      "base_price": "2800.00",
+      "reference_image": "catalog/products/solstice-emerald-earrings.jpg",
+      "details": [
+        "2 natural Colombian emeralds (0.6 carats each)",
+        "Diamond accents totaling 0.3 carats",
+        "Elegant drop-style design",
+        "Back closure options available",
+        "Gift-ready packaging included"
+      ],
+      "materials": [
+        "18k gold",
+        "Natural emeralds",
+        "Conflict-free diamonds"
+      ],
+      "care": [
+        "Wipe clean after wear",
+        "Avoid ultrasonic cleaning",
+        "Keep stored in a fabric-lined box",
+        "Inspect gemstone prongs annually"
+      ],
+      "is_featured": true
+    }
+  },
+  {
+    "model": "catalog.variationkind",
+    "pk": 1,
+    "fields": {
+      "name": "Metal"
+    }
+  },
+  {
+    "model": "catalog.variationkind",
+    "pk": 2,
+    "fields": {
+      "name": "Chain Length"
+    }
+  },
+  {
+    "model": "catalog.variationkind",
+    "pk": 3,
+    "fields": {
+      "name": "Color"
+    }
+  },
+  {
+    "model": "catalog.variationkind",
+    "pk": 4,
+    "fields": {
+      "name": "Size"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 14,
+    "fields": {
+      "kind": 2,
+      "product": 2,
+      "name": "15cm",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 15,
+    "fields": {
+      "kind": 2,
+      "product": 2,
+      "name": "20cm",
+      "price_modifier": "50.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 16,
+    "fields": {
+      "kind": 2,
+      "product": 2,
+      "name": "25cm",
+      "price_modifier": "30.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 17,
+    "fields": {
+      "kind": 3,
+      "product": 28,
+      "name": "Green Sapphire",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 18,
+    "fields": {
+      "kind": 3,
+      "product": 28,
+      "name": "Blue Sapphire",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 23,
+    "fields": {
+      "kind": 4,
+      "product": 29,
+      "name": "25cm",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 24,
+    "fields": {
+      "kind": 4,
+      "product": 29,
+      "name": "30cm",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 30,
+    "fields": {
+      "kind": 3,
+      "product": 29,
+      "name": "Blue",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 31,
+    "fields": {
+      "kind": 3,
+      "product": 29,
+      "name": "Red",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 32,
+    "fields": {
+      "kind": 1,
+      "product": 29,
+      "name": "Prata",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 33,
+    "fields": {
+      "kind": 1,
+      "product": 29,
+      "name": "Diamante",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 34,
+    "fields": {
+      "kind": 3,
+      "product": 29,
+      "name": "Green",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 66,
+    "fields": {
+      "kind": 1,
+      "product": 6,
+      "name": "Gold",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 67,
+    "fields": {
+      "kind": 1,
+      "product": 6,
+      "name": "Platinum",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 68,
+    "fields": {
+      "kind": 1,
+      "product": 6,
+      "name": "Sterling Silver",
+      "price_modifier": null
+    }
+  }
+]

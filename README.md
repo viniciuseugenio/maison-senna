@@ -29,9 +29,15 @@ Um conceito de uma loja luxuosa e elegante que recebe pessoas de alta classe, qu
    docker compose exec backend python manage.py migrate
    ```
 
+6. Para melhor ver o funcionamento do website, adicionei uma funcionalidade para que você possa carregar categorias e produtos com suas opções, sem trabalho nenhum. Apenas rode o comando:
+   ```
+   docker compose exec backend python manage.py loaddata fixtures/initialdata
+   ```
+
 5. Finalmente, para criar um superuser, rode esse comando e preencha os campos:
    ```
    docker compose exec backend python manage.py createsuperuser
    ```
 
-O front-end estará acessível em `http://localhost:3000`. Faça o login, e aproveite o site. Você pode criar novos produtos e categorias na página admin (clique no icone de user na navbar, e entre em admin page)
+O front-end estará acessível em `http://localhost:3000`. Ao criar o superuser, você estará logado automaticamente. Você pode criar novos produtos e categorias na página admin (clique no icone de user na navbar, e entre em admin page).
+
