@@ -11,12 +11,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
 export default function Login() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const next = searchParams.get("next") ?? "/";
 
   const methods = useForm({
     resolver: zodResolver(loginSchema),
@@ -28,8 +30,10 @@ export default function Login() {
   const onSubmit: SubmitHandler<LoginForm> = async (data) => {
     login.mutate(data, {
       onSuccess: (data) => {
-        navigate("/", { replace: true });
         toast.success({ title: data.detail, description: data.description });
+        setTimeout(() => {
+          navigate(next, { replace: true });
+        }, 200);
       },
     });
   };
