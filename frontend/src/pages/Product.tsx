@@ -106,6 +106,7 @@ const Product: React.FC = () => {
                   Add to Cart
                 </Button>
                 <WishlistButton
+                  productSlug={product.slug}
                   productId={product.id}
                   isWishlisted={product.isWishlisted}
                 />

@@ -3,20 +3,26 @@ import {
   deleteWishlistItemByProduct,
 } from "@/api/endpoints/products";
 import Button from "@/components/ui/Button";
+import { useIsAuthenticated } from "@/hooks/auth";
 import { toast } from "@/utils/customToast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 type WishlistButtonProps = {
   isWishlisted: boolean;
   productId: number;
+  productSlug: string;
 };
 
 const WishlistButton: React.FC<WishlistButtonProps> = ({
+  productSlug,
   productId,
   isWishlisted,
 }) => {
+  const navigate = useNavigate();
+  const isAuthenticated = useIsAuthenticated();
   const [wishlistedState, setWishlistedState] = useState(isWishlisted);
   const queryClient = useQueryClient();
 
@@ -58,11 +64,20 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({
     },
   });
 
+  const handleWishlistItem = () => {
+    if (!isAuthenticated) {
+      toast.info({ title: "You have to authenticate yourself first." });
+      navigate(`/login?next=/products/${productSlug}`);
+      return;
+    }
+    mutateWishlistItem();
+  };
+
   return (
     <Button
       variant="outline"
       size="lg"
-      onClick={wishlistedState ? deleteWishlistItem : mutateWishlistItem}
+      onClick={wishlistedState ? deleteWishlistItem : handleWishlistItem}
       className="hover:bg-oyster/10 hover:text-mine-shaft active:bg-oyster/10 border-oyster/20 text-sm uppercase"
     >
       <Heart
