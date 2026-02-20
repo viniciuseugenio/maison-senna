@@ -14,4 +14,11 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "./src/assets"),
     },
   },
+  server: {
+    host: "0.0.0.0",
+    port: 3000,
+    proxy: {
+      "/api/v1": "http://backend:8000",
+    },
+  },
 });
