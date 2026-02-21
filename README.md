@@ -2,6 +2,29 @@
 
 Um conceito de uma loja luxuosa e elegante que recebe pessoas de alta classe, que procuram itens de alta produção.
 
+## Funcionalidades
+O projeto está em andamento e faltam diversas funcionalidades a serem incluidas ainda. Até agora temos:
+- **Autenticação JWT**: Sistema customizado e completo com tokens armazenados em HTTPOnly cookies
+- **Gestão de produtos**: Formulário de dois passos onde você cria também as opções de variação daquele produto
+- **Página admin**: Nesta página, é possível ver um resumo geral do e-commerce, gerenciar as categorias, os tipos de variaçõe e as opções
+- **Hooks de autenticação**:  Para facilitar a identificação, autorização e autenticação do user, montei um flow completo de autenticação e verificação com Context.
+  
+Muito mais coisas por vir...
+
+## Tecnologias utilizadas
+- **Python 3.14.2** + **Django 5.1.8**
+- **Django REST Framework**
+- **SimpleJWT** - Com views customizadas para armazenar tokens em HTTPOnly cookies
+- **MySQL**
+- **React.js** + **Vite**
+- **Tailwind** - Estilização inline
+- **Tanstack Query** - Cache de queries e mutations otimizadas
+- **Sonner** - Notificações toast, com estilização customizada
+- **Lucide** - Icons
+- **Motion** - Animações
+- **Docker** - Facilitar instalação e analisar o projeto
+
+
 ## Instalação
 
 ### Pré-requisitos
@@ -37,4 +60,5 @@ Agora, o servidor está rodando. O back-end estará acessível em `http://localh
    docker compose exec backend python manage.py createsuperuser
    ```
 
-Ao criar o superuser, você estará logado automaticamente. Você pode criar novos produtos e categorias na página admin (clique no icone de user na navbar, e entre em admin page).
+Ao criar o sup eruser, você estará logado automaticamente. Você pode criar novos produtos e categorias na página admin (clique no icone de user na navbar, e entre em admin page).
+
