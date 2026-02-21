@@ -1,3 +1,10 @@
+export type PaginationResults<T> = {
+  count: number;
+  next: string;
+  previous: string;
+  results: T[];
+};
+
 export type Category = {
   id: number;
   name: string;
