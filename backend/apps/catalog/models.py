@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
@@ -50,6 +51,21 @@ class Product(models.Model):
             self.slug = slugify(self.name)
 
         return super().save(*args, **kwargs)
+
+    def clean(self):
+        super().clean()
+
+        if not self.is_featured:
+            return
+
+        qs = Product.objects.filter(is_featured=True)
+        if self.pk:
+            qs = qs.exclude(pk=self.pk)
+
+        if qs.count() >= 4:
+            raise ValidationError(
+                {"is_featured": "You can only have up to 4 featured products."}
+            )
 
 
 class VariationKind(models.Model):
