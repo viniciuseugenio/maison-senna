@@ -1,4 +1,11 @@
-FROM python:3.14.2
+FROM python:3.14.2-slim
+
+RUN apt-get update && apt-get install -y \
+  default-mysql-client \
+  pkg-config \
+  default-libmysqlclient-dev gcc \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
