@@ -2,6 +2,7 @@ import { Statistics } from "@/types/admin";
 import {
   Category,
   CategoryWithProducts,
+  PaginationResults,
   ProductDetails,
   ProductList,
   ProductVariation,
@@ -13,7 +14,9 @@ import { CATALOG_ENDPOINTS } from "./constants";
 import { customFetch } from "./customFetch";
 
 export async function getProducts() {
-  return await customFetch<ProductList[]>(CATALOG_ENDPOINTS.PRODUCTS);
+  return await customFetch<PaginationResults<ProductList>>(
+    CATALOG_ENDPOINTS.PRODUCTS,
+  );
 }
 
 export async function searchProduts(query: string) {
@@ -94,7 +97,7 @@ export async function getDashboardStatistics() {
 }
 
 export async function getVariationKinds() {
-  return await customFetch<VariationKind[]>(
+  return await customFetch<PaginationResults<VariationKind>>(
     CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
   );
 }
@@ -133,7 +136,7 @@ export async function updateVariationKind({
 }
 
 export async function getVariationOptions() {
-  return await customFetch<VariationOptionList[]>(
+  return await customFetch<PaginationResults<VariationOptionList>>(
     CATALOG_ENDPOINTS.LIST_VARIATION_OPTIONS,
   );
 }
@@ -164,7 +167,7 @@ export async function deleteVariationOption(id: number) {
 }
 
 export async function getProductVariations() {
-  return await customFetch<ProductVariation[]>(
+  return await customFetch<PaginationResults<ProductVariation>>(
     CATALOG_ENDPOINTS.LIST_PRODUCT_VARIATIONS,
   );
 }

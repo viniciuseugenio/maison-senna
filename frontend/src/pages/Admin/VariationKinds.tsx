@@ -21,6 +21,7 @@ const VariationKinds: React.FC = () => {
     queryKey: ["variationKinds"],
     queryFn: getVariationKinds,
   });
+  const results = variationKinds?.results;
 
   const buildDeleteLink = (id: number) => {
     return buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
@@ -45,11 +46,11 @@ const VariationKinds: React.FC = () => {
         actionLink="new"
         onSearch={(query) => console.log(query)}
       >
-        {!variationKinds || isLoading ? (
+        {!results || isLoading ? (
           <LoadingRow colSpan={headers.length} />
         ) : (
           <>
-            {variationKinds.map((variationKind) => (
+            {results.map((variationKind) => (
               <TableRow key={variationKind.id}>
                 <TableData>{variationKind.id}</TableData>
                 <TableData>{variationKind.name}</TableData>

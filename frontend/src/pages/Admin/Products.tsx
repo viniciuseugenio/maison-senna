@@ -10,6 +10,7 @@ const AdminProducts: React.FC = () => {
     queryKey: ["products"],
     queryFn: getProducts,
   });
+  const results = products?.results;
 
   const headers: HeaderConfig[] = [
     { title: "ID" },
@@ -29,11 +30,11 @@ const AdminProducts: React.FC = () => {
       onSearch={(value) => console.log(value)}
       headers={headers}
     >
-      {!products || isLoading ? (
+      {!results || isLoading ? (
         <LoadingRow colSpan={headers.length} />
       ) : (
         <>
-          {products.map((product) => (
+          {results.map((product) => (
             <ProductRow key={product.id} product={product} />
           ))}
         </>

@@ -20,6 +20,7 @@ const VariationOptions: React.FC = () => {
     queryKey: ["variationOptions"],
     queryFn: getVariationOptions,
   });
+  const results = variationOptions?.results;
 
   const [filteredOptions, setFilteredOptions] = useState<
     VariationOptionList[] | null
@@ -35,7 +36,7 @@ const VariationOptions: React.FC = () => {
   ];
 
   const onSearch = (query: string) => {
-    if (!variationOptions) return;
+    if (!results) return;
 
     if (!query.trim()) {
       setFilteredOptions(null);
@@ -44,7 +45,7 @@ const VariationOptions: React.FC = () => {
 
     const lowerQuery = query.toLowerCase();
 
-    const result = variationOptions.filter((option) => {
+    const result = results.filter((option) => {
       const matchesName = option.name.toLowerCase().includes(lowerQuery);
       const matchesKind = option.kind.name.toLowerCase().includes(lowerQuery);
       const matchesProduct = option.product.name
@@ -67,7 +68,7 @@ const VariationOptions: React.FC = () => {
     setFilteredOptions(result);
   };
 
-  const dataToRender = filteredOptions ?? variationOptions;
+  const dataToRender = filteredOptions ?? results;
 
   return (
     <>

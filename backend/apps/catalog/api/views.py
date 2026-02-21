@@ -171,6 +171,7 @@ class CategoryListCreateView(
 ):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
+    pagination_class = None
 
 
 class CategoryDetailsView(RetrieveUpdateDestroyAPIView):

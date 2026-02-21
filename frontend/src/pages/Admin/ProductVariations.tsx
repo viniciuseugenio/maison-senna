@@ -12,6 +12,7 @@ const ProductVariations: React.FC = () => {
     queryKey: ["productVariations"],
     queryFn: getProductVariations,
   });
+  const results = productVariations?.results;
 
   const headers: HeaderConfig[] = [
     { title: "ID" },
@@ -33,7 +34,8 @@ const ProductVariations: React.FC = () => {
       {!productVariations || isLoading ? (
         <LoadingRow colSpan={headers.length} />
       ) : (
-        productVariations.map((productVariation) => (
+        results &&
+        results.map((productVariation) => (
           <TableRow>
             <TableData>{productVariation.id}</TableData>
             <TableData>{productVariation.image}</TableData>
