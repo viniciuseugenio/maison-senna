@@ -22,7 +22,7 @@ class CustomJWTAuthentication(BaseAuthentication):
             return (user, None)
 
         except jwt.exceptions.InvalidTokenError:
-            raise AuthenticationFailed("Invalid or expired tokens")
+            return None
 
         except User.DoesNotExist:
             raise AuthenticationFailed("User not found.")
