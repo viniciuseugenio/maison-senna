@@ -221,6 +221,7 @@ class VariationKindsList(OrderedListMixin, ListCreateAPIView):
     queryset = models.VariationKind.objects.all()
     permission_classes = [IsAuthenticatedUserAdmin]
     serializer_class = serializers.VariationKindSerializer
+    pagination_class = None
 
 
 class VariationKindsDetailsView(RetrieveUpdateDestroyAPIView):

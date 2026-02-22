@@ -97,7 +97,7 @@ export async function getDashboardStatistics() {
 }
 
 export async function getVariationKinds() {
-  return await customFetch<PaginationResults<VariationKind>>(
+  return await customFetch<VariationKind[]>(
     CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
   );
 }
