@@ -37,7 +37,7 @@ export default function Button<T extends React.ElementType = "button">({
   const variantStyle = variantStyles[variant];
 
   const sizeStyles = {
-    default: "h-10 px-4 py-2 text-sm",
+    default: "h-12 px-10 py-2 text-sm",
     sm: "h-8 px-3 text-sm",
     lg: "h-12 px-6 text-base",
     icon: "h-10 w-10",
@@ -49,7 +49,7 @@ export default function Button<T extends React.ElementType = "button">({
       onClick={onClick}
       disabled={isLoading}
       className={twMerge(
-        `flex cursor-pointer items-center justify-center px-4 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 ${variantStyle} ${sizeStyle} ${className}`,
+        `flex cursor-pointer items-center justify-center font-medium uppercase transition-colors disabled:pointer-events-none disabled:opacity-50 ${variantStyle} ${sizeStyle} ${className}`,
       )}
       {...props}
     >
