@@ -60,5 +60,6 @@ Agora, o servidor está rodando. O back-end estará acessível em `http://localh
    docker compose exec backend python manage.py createsuperuser
    ```
 
-Ao criar o sup eruser, você estará logado automaticamente. Você pode criar novos produtos e categorias na página admin (clique no icone de user na navbar, e entre em admin page).
+Ao criar o superuser, faça o login em `http://localhost:3000/login`. Você pode criar novos produtos e categorias na página admin (clique no icone de user na navbar, e entre em admin page).
+
 
