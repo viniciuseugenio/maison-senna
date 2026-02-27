@@ -40,26 +40,24 @@ Muito mais coisas por vir...
    
 2. Crie os arquivos .env
    ```
-   cp .env-example .env && cp backend/.env-example backend/.env && cp frontend/.env-example frontend/.env
+   make env
    ```
 
-3. Ao copiar, rode o seguinte comando para criar o container do mysql, rodar as migrations automaticamente, e preencher o banco de dados automaticamente:
+3. Ao copiar, o seguinte comando preencherá a base de dados e iniciará os dois servidores automaticamente. Levará alguns segundos/minutos.
    ```
-   docker compose --profile init run --rm db-seed
+   make up
    ```
 
-3. Após ver a mensagem "Banco de dados carregado com sucesso", rode o seguinte comando:
-   ```
-   docker compose up --build -d
-   ```
-   
-Agora, o servidor está rodando. O back-end estará acessível em `http://localhost:8000` e o front-end em `http://localhost:3000`.
+Quando terminar, o servidor está rodando. O back-end estará acessível em `http://localhost:8000` e o front-end em `http://localhost:3000`.
 
 5. Finalmente, para criar um superuser, rode esse comando e preencha os campos:
    ```
-   docker compose exec backend python manage.py createsuperuser
+   make superuser
    ```
 
 Ao criar o superuser, faça o login em `http://localhost:3000/login`. Você pode criar novos produtos e categorias na página admin (clique no icone de user na navbar, e entre em admin page).
 
-
+6. Caso deseje parar o servidor, rode o seguinte comando (removerá automaticamente o volume):
+    ```
+    make down
+    ```
