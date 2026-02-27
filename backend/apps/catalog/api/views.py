@@ -270,7 +270,7 @@ class WishlistViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = models.WishlistItem.objects.filter(user=self.request.user)
 
-        limit = self.request.query_params.get("limit")
+        limit = self.request.GET.get("limit")
         if limit:
             try:
                 limit = int(limit)
