@@ -1,6 +1,6 @@
 import { LogOut, User } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
 import NavbarButton from "@components/layout/NavbarButton";
@@ -46,6 +46,8 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ setLogoutModalOpen }) => {
     setLogoutModalOpen(true);
   };
 
+  const closeDropdown = () => setIsOpen(false);
+
   useOutsideClick(isOpen, setIsOpen, dropdownRef);
 
   return (
@@ -70,7 +72,13 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ setLogoutModalOpen }) => {
             <div className="m-1 flex flex-col text-sm text-neutral-600">
               <UserDropdownItem>My Account</UserDropdownItem>
               <UserDropdownItem>My Orders</UserDropdownItem>
-              <UserDropdownItem>Wishlist</UserDropdownItem>
+              <UserDropdownItem
+                onClick={closeDropdown}
+                as={Link}
+                to="/wishlist"
+              >
+                Wishlist
+              </UserDropdownItem>
               {user?.isAdmin && (
                 <UserDropdownItem as={Link} to="/admin">
                   Admin Page

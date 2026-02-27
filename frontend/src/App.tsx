@@ -29,6 +29,7 @@ import Product from "./pages/Product";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
 import AuthContextProvider from "./store/AuthContextProvider";
+import Wishlist from "./pages/Wishlist";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +76,10 @@ function App() {
                   <Route path="/products/:slug" element={<Product />} />
                   <Route path="/collections" element={<Collections />} />
                   <Route path="/collections/:slug" element={<Collection />} />
+
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/wishlist" element={<Wishlist />} />
+                  </Route>
 
                   <Route element={<UnauthenticatedRoutes />}>
                     <Route element={<AuthPageLayout />}>
