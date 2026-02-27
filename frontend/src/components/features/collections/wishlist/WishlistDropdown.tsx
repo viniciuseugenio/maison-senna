@@ -1,9 +1,10 @@
 import { deleteWishlistItem, getWishlistItems } from "@/api/endpoints/products";
+import HorizontalDivider from "@/components/ui/HorizontalDivider";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { ProductList } from "@/types/catalog";
 import NavbarButton from "@components/layout/NavbarButton";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Heart } from "lucide-react";
+import { Heart, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -67,17 +68,22 @@ const ProductCard: React.FC<{ itemId: number; product: ProductList }> = ({
 };
 
 const WishlistDropdown: React.FC = () => {
+  const LIMIT_QUERYSET = 3;
+
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(isOpen, setIsOpen, dropdownRef);
-  const limitQuerySet = 3;
 
   const { data: wishlist, isLoading } = useQuery({
-    queryFn: () => getWishlistItems(limitQuerySet),
-    queryKey: ["wishlist", { limit: limitQuerySet }],
+    queryFn: () => getWishlistItems({ limit: LIMIT_QUERYSET }),
+    queryKey: ["wishlist", { limit: LIMIT_QUERYSET }],
     enabled: isOpen,
   });
+  const results = wishlist?.results;
+  const isEmpty = results?.length === 0;
+  const linkStyle =
+    "bg-mine-shaft text-light hover:bg-mine-shaft/90 m-3 block py-3 text-center text-sm font-medium tracking-wider uppercase duration-300";
 
   return (
     <div ref={dropdownRef} className="relative">
@@ -104,43 +110,70 @@ const WishlistDropdown: React.FC = () => {
                 Your Wishlist
               </h3>
               <p className="text-mine-shaft/50 text-xs tracking-widest uppercase">
-                {wishlist?.length ?? 0} items
+                {results?.length ?? 0} items
               </p>
             </header>
             {/* Divider */}
-            <div className="bg-mine-shaft/20 h-[0.05rem] w-full" />
+            <HorizontalDivider className="bg-mine-shaft/20 w-full" />
             <div className="flex flex-col gap-6 p-6">
               {isLoading &&
                 Array.from({ length: 3 }).map((_, i) => (
                   <CardSkeleton key={i} />
                 ))}
 
-              {!isLoading &&
-                wishlist &&
-                wishlist.map((item, index) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 15 }}
-                    transition={{
-                      duration: 0.3,
-                      type: "spring",
-                      delay: 0.2 + index * 0.15,
-                    }}
-                  >
-                    <ProductCard itemId={item.id} product={item.product} />
-                  </motion.div>
-                ))}
+              {!isEmpty ? (
+                <>
+                  {!isLoading &&
+                    results &&
+                    results.map((item, index) => (
+                      <motion.div
+                        key={item.id}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 15 }}
+                        transition={{
+                          duration: 0.3,
+                          type: "spring",
+                          delay: 0.2 + index * 0.15,
+                        }}
+                      >
+                        <ProductCard itemId={item.id} product={item.product} />
+                      </motion.div>
+                    ))}
+                </>
+              ) : (
+                <div className="flex flex-col items-center gap-6 py-12 text-center">
+                  <Sparkles className="text-mine-shaft/60 h-7 w-7" />
+                  <p className="title text-mine-shaft/80 text-lg">
+                    Your curated selection is currently a blank canvas.
+                  </p>
+                  <p className="text-mine-shaft/60 text-xs tracking-widest uppercase">
+                    Awaiting your first discovery!
+                  </p>
+                </div>
+              )}
             </div>
+
             {/* Divider */}
-            <div className="bg-mine-shaft/20 h-[0.05rem] w-full" />
-            <Link
-              to="/wishlist"
-              className="bg-mine-shaft text-light hover:bg-mine-shaft/90 m-3 block py-3 text-center text-sm font-medium tracking-wider uppercase duration-300"
-            >
-              View all wishlist
-            </Link>
+            <HorizontalDivider className="bg-mine-shaft/20 w-full" />
+
+            {!isEmpty ? (
+              <Link
+                to="/wishlist"
+                onClick={() => setIsOpen(false)}
+                className={linkStyle}
+              >
+                View all wishlist
+              </Link>
+            ) : (
+              <Link
+                to="/collections"
+                className={linkStyle}
+                onClick={() => setIsOpen(false)}
+              >
+                Explore collections
+              </Link>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
