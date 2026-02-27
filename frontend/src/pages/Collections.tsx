@@ -76,15 +76,13 @@ const Collections: React.FC = () => {
     return (
       <Layout>
         {collections.map((collection, i) => (
-          <Link to={`/collections/${collection.slug}`}>
-            <Card
-              key={collection.id}
-              title={collection.name}
-              img={collection.cover}
-              slug={collection.slug}
-              className={i % 2 === 1 ? "mt-10" : ""}
-            />
-          </Link>
+          <Card
+            key={collection.id}
+            title={collection.name}
+            img={collection.cover}
+            slug={collection.slug}
+            className={i % 2 === 1 ? "mt-10" : ""}
+          />
         ))}
       </Layout>
     );
