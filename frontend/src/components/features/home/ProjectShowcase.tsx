@@ -19,7 +19,7 @@ export default function ProjectShowcase() {
               Portfolio Project
             </h2>
 
-            <HorizontalDivider />
+            <HorizontalDivider className="mt-4" />
 
             <p className="text-mine-shaft/90 mt-6 leading-relaxed">
               Maison Senna is a concept luxury e-commerce project designed to

@@ -31,7 +31,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
     <div>
       <BackButton />
       <PageTitle>{title}</PageTitle>
-      <HorizontalDivider />
+      <HorizontalDivider className="mt-4" />
       <div className="border-oyster/30 mt-6 h-full w-full rounded-md border bg-white">
         <div className="border-oyster/30 flex items-center justify-between border-b p-6">
           <h2 className="text-mine-shaft font-serif text-xl font-light">

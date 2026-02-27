@@ -43,7 +43,7 @@ export default function ForgotPassword() {
         <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
           Reset Password
         </h1>
-        <HorizontalDivider />
+        <HorizontalDivider className="mt-4" />
         <p className="text-mine-shaft/80 mt-4">
           {!isSuccess ? (
             <span>Enter your email to receive reset instructions</span>

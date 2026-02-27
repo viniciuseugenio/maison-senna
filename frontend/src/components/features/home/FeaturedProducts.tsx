@@ -18,7 +18,7 @@ export default function FeaturedProducts() {
           <h2 className="text-mine-shaft font-serif text-3xl font-light tracking-wider sm:text-4xl">
             Featured Collection
           </h2>
-          <HorizontalDivider className="mx-auto" />
+          <HorizontalDivider className="mx-auto mt-4" />
           <p className="text-mine-shaft/90 mt-6">
             Exquisite pieces crafted with the finest materials and unparalleled
             attention to detail.

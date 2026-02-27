@@ -78,7 +78,7 @@ const EditProduct: React.FC = () => {
           <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
             Edit A Product
           </h1>
-          <HorizontalDivider />
+          <HorizontalDivider className="mt-4" />
         </div>
 
         <ProductForm<Partial<NewProductForm>>

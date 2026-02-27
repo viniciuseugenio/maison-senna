@@ -51,7 +51,7 @@ export default function FormModal<T>({
           <h2 className="text-mine-shaft text-center font-serif text-2xl font-light">
             {title}
           </h2>
-          <HorizontalDivider className="mx-auto" />
+          <HorizontalDivider className="mx-auto mt-4" />
         </div>
         {children}
       </motion.div>

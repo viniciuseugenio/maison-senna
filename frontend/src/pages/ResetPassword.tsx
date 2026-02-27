@@ -87,7 +87,7 @@ const ResetPassword: React.FC = () => {
         <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
           Reset Password
         </h1>
-        <HorizontalDivider />
+        <HorizontalDivider className="mt-4" />
         <p className="text-mine-shaft/80 mt-4 text-sm">
           Create a new password for your account
         </p>
