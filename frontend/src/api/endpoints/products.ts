@@ -173,10 +173,24 @@ export async function getProductVariations() {
   );
 }
 
-export async function getWishlistItems(limit?: number) {
-  const limitQueryString = limit ? `?limit=${limit}` : "";
-  const url = `${CATALOG_ENDPOINTS.WISHLIST}${limitQueryString}`;
-  return await customFetch<WishlistItem[]>(url, { requiresAuth: true });
+export async function getWishlistItems({
+  limit,
+  page,
+}: {
+  limit?: number;
+  page?: number;
+}) {
+  const search = new URLSearchParams();
+
+  if (limit != null) search.set("limit", String(limit));
+  if (page != null) search.set("page", String(page));
+
+  const query = search.toString();
+  const url = `${CATALOG_ENDPOINTS.WISHLIST}${query ? `?${query}` : ""}`;
+
+  return await customFetch<PaginationResults<WishlistItem>>(url, {
+    requiresAuth: true,
+  });
 }
 
 export async function createWishlistItem(productId: number) {
