@@ -105,7 +105,7 @@ class ProductViewSet(ModelViewSet):
 
     @action(["get"], detail=False)
     def featured(self, request):
-        queryset = models.Product.objects.filter(is_featured=True)
+        queryset = self.queryset.filter(is_featured=True)
         serializer = serializers.ProductListSerializer(
             queryset, many=True, context={"request": request}
         )
@@ -118,7 +118,7 @@ class ProductViewSet(ModelViewSet):
         if not query:
             return Response([], status=status.HTTP_200_OK)
 
-        queryset = models.Product.objects.filter(
+        queryset = self.queryset.filter(
             Q(name__icontains=query)
             | Q(description__icontains=query)
             | Q(category__name__icontains=query)
