@@ -151,20 +151,6 @@ class ProductUpdateSerializer(BaseProductSerializer):
     )
     variation_options = VariationOptionCreateSerializer(many=True, required=False)
 
-    class Meta(BaseProductSerializer.Meta):
-        fields = BaseProductSerializer.Meta.fields
-        extra_kwargs = {
-            "name": {"required": False},
-            "description": {"required": False},
-            "base_price": {"required": False},
-            "reference_image": {"required": False},
-            "details": {"required": False},
-            "materials": {"required": False},
-            "care": {"required": False},
-            "variation_options": {"required": False},
-            "is_featured": {"required": False},
-        }
-
     def update(self, instance, validated_data):
         variations_data = validated_data.pop("variation_options", None)
         instance = super().update(instance, validated_data)
