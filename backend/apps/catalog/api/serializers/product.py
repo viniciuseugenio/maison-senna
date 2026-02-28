@@ -4,6 +4,7 @@ from rest_framework import serializers
 from apps.catalog import models
 from apps.catalog.api.constants import PRODUCT_ERROR_MESSAGES
 from apps.catalog.api.serializers.category import CategorySerializer
+from apps.catalog.api.serializers.utils import parse_form_data
 from apps.catalog.api.serializers.variation import (
     ProductVariationOption,
     VariationOptionCreateSerializer,
@@ -136,6 +137,13 @@ class ProductCreateSerializer(BaseProductSerializer):
 
         return instance
 
+    def to_representation(self, instance):
+        return ProductSerializer(instance).data
+
+    def to_internal_value(self, data):
+        parsed_data = parse_form_data(data)
+        return super().to_internal_value(parsed_data)
+
 
 class ProductUpdateSerializer(BaseProductSerializer):
     category = serializers.PrimaryKeyRelatedField(
@@ -182,6 +190,13 @@ class ProductUpdateSerializer(BaseProductSerializer):
                     )
 
         return instance
+
+    def to_representation(self, instance):
+        return ProductSerializer(instance).data
+
+    def to_internal_value(self, data):
+        parsed_data = parse_form_data(data)
+        return super().to_internal_value(parsed_data)
 
 
 class ProductVariationSerializer(serializers.ModelSerializer):
