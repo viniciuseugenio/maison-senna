@@ -206,11 +206,11 @@ class VariationKindsDetailsView(RetrieveUpdateDestroyAPIView):
 
 class VariationOptionsList(OrderedAdminListView):
     serializer_class = serializers.VariationOptionSerializer
-    queryset = models.VariationOption.objects.all()
+    queryset = models.VariationOption.objects.select_related("kind", "product")
 
 
 class VariationOptionRUDView(RetrieveUpdateDestroyAPIView):
-    queryset = models.VariationOption.objects.all()
+    queryset = models.VariationOption.objects.select_related("kind", "product")
     serializer_class = serializers.VariationOptionEditSerializer
     lookup_field = "pk"
 
@@ -234,14 +234,15 @@ class VariationOptionRUDView(RetrieveUpdateDestroyAPIView):
 
 class ProductVariationList(OrderedAdminListView):
     serializer_class = serializers.ProductVariationSerializer
-    queryset = models.ProductVariation.objects.all()
+    queryset = models.ProductVariation.objects.select_related("product")
 
 
 class WishlistViewSet(ModelViewSet):
+    queryset = models.WishlistItem.objects.select_related("user", "product__category")
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = models.WishlistItem.objects.filter(user=self.request.user)
+        queryset = super().get_queryset().filter(user=self.request.user)
 
         limit = self.request.GET.get("limit")
         if limit:
@@ -264,9 +265,7 @@ class WishlistViewSet(ModelViewSet):
     )
     def delete_by_product(self, request, product_id=None):
         try:
-            wishlist_item = models.WishlistItem.objects.get(
-                user=request.user, product_id=product_id
-            )
+            wishlist_item = self.queryset.get(user=request.user, product_id=product_id)
             wishlist_item.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
