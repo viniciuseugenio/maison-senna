@@ -51,10 +51,18 @@ class OrderedListMixin:
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = models.Product.objects.all()
+    queryset = models.Product.objects.select_related("category")
     lookup_field = "slug"
     filter_backends = [filters.OrderingFilter]
     ordering = ["-id"]
+
+    def get_queryset(self):
+        if self.action == "retrieve":
+            return models.Product.objects.select_related("category").prefetch_related(
+                "variation_options__kind"
+            )
+
+        return super().get_queryset()
 
     def get_serializer_class(self):
         if self.action == "retrieve":
