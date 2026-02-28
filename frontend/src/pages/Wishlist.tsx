@@ -1,10 +1,18 @@
-import { getWishlistItems } from "@/api/endpoints/products";
+import { deleteWishlistItem, getWishlistItems } from "@/api/endpoints/products";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { X } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 
 const Wishlist: React.FC = () => {
+  const queryClient = useQueryClient();
+
   const itemsPerPage = 12;
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page") ?? "1");
@@ -13,6 +21,13 @@ const Wishlist: React.FC = () => {
     queryFn: () => getWishlistItems({ page }),
     queryKey: ["wishlist", page],
     placeholderData: keepPreviousData,
+  });
+
+  const { mutate: mutateDeleteItem } = useMutation({
+    mutationFn: (id: number) => deleteWishlistItem(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+    },
   });
 
   const qtyPages = Math.ceil(wishlist?.count / itemsPerPage);
@@ -34,31 +49,37 @@ const Wishlist: React.FC = () => {
           <>
             <div className="mt-16 grid grid-cols-3 gap-12">
               {results &&
-                results.map(({ product }) => (
-                  <Link key={product.id} to={`/products/${product.slug}`}>
-                    <div className="group bg-white p-4 shadow-md duration-300 hover:shadow-lg">
-                      <div className="aspect-square overflow-hidden">
-                        <img
-                          src={product.referenceImage}
-                          className="h-full w-full object-cover duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="mt-4 text-center">
-                        <p className="title text-lg font-medium group-hover:underline">
+                results.map(({ id, product }) => (
+                  <div className="group bg-white p-4 shadow-md duration-300 hover:shadow-lg">
+                    <div className="relative aspect-square overflow-hidden">
+                      <img
+                        src={product.referenceImage}
+                        className="h-full w-full object-cover duration-300 group-hover:scale-105"
+                      />
+                      <button
+                        onClick={() => mutateDeleteItem(id)}
+                        className="text-light invisible absolute top-3 right-3 cursor-pointer rounded-full bg-black/30 p-2 group-hover:visible"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="mt-4 text-center">
+                      <Link key={product.id} to={`/products/${product.slug}`}>
+                        <p className="title text-lg font-medium hover:underline">
                           {product.name}
                         </p>
-                        <p className="text-mine-shaft/60 mt-2 font-light">
-                          ${product.basePrice}
-                        </p>
-                        <Button
-                          className="mt-3 w-full tracking-widest"
-                          variant="outline"
-                        >
-                          Add to Cart
-                        </Button>
-                      </div>
+                      </Link>
+                      <p className="text-mine-shaft/60 mt-2 font-light">
+                        ${product.basePrice}
+                      </p>
+                      <Button
+                        className="mt-3 w-full tracking-widest"
+                        variant="outline"
+                      >
+                        Add to Cart
+                      </Button>
                     </div>
-                  </Link>
+                  </div>
                 ))}
             </div>
             <Pagination qtyPages={qtyPages} windowSize={7}></Pagination>
