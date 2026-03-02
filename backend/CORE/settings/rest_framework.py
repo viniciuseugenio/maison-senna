@@ -20,4 +20,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "apps.accounts.api.middlewares.CustomJWTAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
 }
