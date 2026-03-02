@@ -1,116 +1,249 @@
 # Maison Senna
 
-Um conceito de uma loja luxuosa e elegante que recebe pessoas de alta classe, que procuram itens de alta produção.
+Um conceito de uma plataforma e-commerce de luxo, feita para uma clientela exigente que procura produtos premium com variações sofisticadas.
 
 ## Funcionalidades
-O projeto está em andamento e faltam diversas funcionalidades a serem incluidas ainda. Até agora temos:
-- **Autenticação JWT**: Sistema customizado e completo com tokens armazenados em HTTPOnly cookies
-- **Gestão de produtos**: Formulário de dois passos onde você cria também as opções de variação daquele produto
-- **Página admin**: Nesta página, é possível ver um resumo geral do e-commerce, gerenciar as categorias, os tipos de variaçõe e as opções
-- **Hooks de autenticação**:  Para facilitar a identificação, autorização e autenticação do user, montei um flow completo de autenticação e verificação com Context.
-  
-Muito mais coisas por vir...
 
-## Tecnologias utilizadas
-- **Python 3.14.2** + **Django 5.1.8**
-- **Django REST Framework**
-- **SimpleJWT** - Com views customizadas para armazenar tokens em HTTPOnly cookies
-- **MySQL**
-- **React.js** + **Vite** + **Tailwind**
-- **Tanstack Query** - Cache de queries e mutations otimizadas
-- **Sonner** - Notificações toast, com estilização customizada
-- **Docker** - Facilitar instalação e analisar o projeto
+Este projeto está atualmente em desenvolvimento. Até agora temos as seguintes funcionalidades:
 
+- **Autenticação JWT**: Autenticação customizada com tokens armazenados em HTTPOnly cookies para maior segurança.
+- **Gerenciamento de produtos**: Criação de produtos com duas etapas, com opções de variações.
+- **Dashboard Admin**: Visão geral da plataforma, com gerenciamento de categorias, variações e opções
+- **Hooks de autenticação**: Fluxo de autenticação completo com React Context para autenticação e autorização de usuários.
 
-## Instalação
+Mais funcionalidades vindo...
 
-Na construção do projeto, utilizei [uv](https://github.com/astral-sh/uv) como package manager, ao invés de usar o `pip` nativo. Caso vá rodar o projeto manualmente, as instruções irão guiá-lo, mas recomendo que dê uma olhada em sua [documentação](https://docs.astral.sh/uv/), onde também encontrará excelentes motivos para começar a utilizá-lo em seus próprios projetos.
+## Tech Stack
 
-### Pré-requisitos
-- Docker instalado
-  
-  **OU**
-  
-- Python 3.12+ e [uv](https://docs.astral.sh/uv/)
-- Node 22+
-- MySQL
+### Backend
+- **Python 3.14.2** com **Django 5.1.8**
+- **Django REST Framework** para desenvolvimento da API
+- **SimpleJWT** com views customizadas para armazenamento de HTTPOnly cookies com tokens
+- Banco de dados **MySQL** 
+- **UV** package manager (alternativa rápida e moderna para o pip)
 
-### Opção 1 (Docker)
-1. Clone o repositório
-   ```
-   git clone <url-do-repositorio>
-   cd maison-senna
-   ```
-   
-2. Crie os arquivos .env
-   ```
-   make env
-   ```
+### Frontend
+- **React 19** com **Vite** para desenvolvimento rápido
+- **TypeScript** para type safety
+- **Tailwind CSS 4** para estilização
+- **TanStack Query** para obteção de dados e caching otimizados
+- **React Hook Form** com validação Zod
+- **Sonner** para notificações toast elegantes
+- **Lucide React** para icons
+- **Motion** para animações suaves
 
-3. Ao copiar, o seguinte comando preencherá a base de dados e iniciará os dois servidores automaticamente. Levará alguns segundos/minutos.
-   ```
-   make up
-   ```
+### DevOps
+- **Docker** e **Docker Compose** para conteinerização
+- **Make** para execução dos comandos de maneira simplificada
 
-Quando terminar, o servidor está rodando. O back-end estará acessível em `http://localhost:8000` e o front-end em `http://localhost:3000`.
+## Pré-requisitos
 
-4. Finalmente, para criar um superuser, rode esse comando e preencha os campos:
-   ```
-   make superuser
-   ```
+Escolha o melhor método de setup para você:
 
-Ao criar o superuser, faça o login em `http://localhost:3000/login`. Você pode criar novos produtos e categorias na página admin (clique no icone de user na navbar, e entre em admin page).
+### Option 1: Docker (Recomendado)
+- [Docker](https://docs.docker.com/get-docker/) (versão 20.10+)
+- [Docker Compose](https://docs.docker.com/compose/install/) (versão 2.0+)
 
-5. Caso deseje parar o servidor, rode o seguinte comando (removerá automaticamente o volume):
-    ```
-    make down
-    ```
+### Option 2: Instalação manual
+- [Python 3.12+](https://www.python.org/downloads/)
+- [Gerenciador de pacotes UV](https://docs.astral.sh/uv/) - Instale com: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- [Node.js 18+](https://nodejs.org/) com npm
+- [MySQL 8.0+](https://dev.mysql.com/downloads/mysql/)
 
-### Opção 2 (Manualmente)
+## Início rápido
 
-1. Clone o repositório
-   ```
-   git clone <url-do-repositorio>
-   cd maison-senna
-   ```
+### Com Docker (5 minutes setup)
 
-2. Crie os arquivos .env
-   ```
-   make env
-   ```
+**1. Clone o repositório**
+```bash
+git clone <repository-url>
+cd maison-senna
+```
 
-#### Back-end (Django)
-3. Instale as dependências com UV:
-   ```
-   cd backend
-   uv sync
-   ```
+**2. Crie as variáveis de ambiente**
+```bash
+make env
+```
 
-Antes de rodar as migrations, você terá que configurar as variáveis de ambiente, onde a crucial para este passo é `DATABASE_URL`. Você precisará configurar o banco de dados também.
+Esse comando copiará os arquivos `.env-example` para `.env` nos diretórios root, backend, e frontend. Atualize estes arquivos com a sua configuração se for preciso.
 
-4. Rode as migrations:
-   ```
-   uv run manage.py migrate
-   ```
+**3. Rode a aplicação**
+```bash
+make up
+```
 
-5. Rode o servidor:
-   ```
-   uv run manage.py runserver
-   ```
+Esse comando vai:
+- Construir as imagens do Docker utilizadas para o projeto
+- Inicializar os serviços do mysql, back-end e front-end
+- Rodar as migrations
+- Carregar os dados iniciais para o banco (fixtures do Django)
+- Iniciar os servidores dev
 
-6. Caso deseje criar um superuser:
-   ```
-   uv run manage.py createsuperuser
-   ```
+Os serviços estarão disponíveis em:
+- **Frontend**: http://localhost:3000
+- **API Backend**: http://localhost:8000
+- **MySQL**: localhost:3307
 
-#### Front-end (React)
-4. Instale as dependências:
-   ```
-   cd frontend
-   npm run install
-   ```
+**4. Crie um superuser**
+```bash
+make superuser
+```
 
-5. Rode o servidor:
-   ```
-   npm run dev
-   ```
+Siga os prompts para criar a conta de admin no back-end.
+
+**5. Acesse a aplicação**
+
+Vá até a URL http://localhost:3000/login e faça login com as credenciais criadas. Clique no icone de user na navbar para acessar o painel de admin do front-end.
+
+**6. Pare a aplicação**
+```bash
+make down
+```
+
+Esse comando irá parar todos os containers e removerá os volumes.
+
+### Comandos "make" disponíveis
+
+| Comando | Descrição |
+|---------|-------------|
+| `make env` | Cria os arquivos .env com os exemplos |
+| `make up` | Roda todos os serviços e carrega as fixtures do Django |
+| `make down` | Para os serviços e remove os volumes |
+| `make superuser` | Cria um superuser no Django |
+| `make seed` | Roda as migrations e carrega as fixtures |
+
+---
+
+### Sem Docker (Setup manual)
+
+#### Parte 1: Setup do back-end
+
+**1. Clone o repositório**
+```bash
+git clone <repository-url>
+cd maison-senna
+```
+
+**2. Crie as variáveis de ambiente**
+```bash
+make env
+```
+
+**3. Configura o seu banco de dados**
+
+Edite o arquivo `backend/.env` e atualize as configurações da base de dados:
+```env
+DB_NAME=maison_senna
+DB_USER=your_mysql_user
+DB_PASSWORD=your_mysql_password
+DB_HOST=127.0.0.1
+DB_PORT=3306
+```
+
+**4. Crie a base no MySQL**
+```bash
+mysql -u root -p
+```
+
+No shell do MySQL:
+```sql
+CREATE DATABASE maison_senna CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EXIT;
+```
+
+**5. Navegue até o diretório do back-end**
+```bash
+cd backend
+```
+
+**6. Instale o UV (se não estiver instalado ainda)**
+```bash
+# Linux/macOS
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+**7. Instale as dependências**
+```bash
+uv sync
+```
+
+Esse comando criará o ambiente virtual automaticamente e instalar as dependências do arquivo `pyproject.toml`.
+
+**8. Rode as migrations**
+```bash
+uv run manage.py migrate
+```
+
+**9. (Opcional) Carregue as fixtures**
+```bash
+uv run manage.py loaddata fixtures/initialdata
+```
+
+**10. Crie um superuser**
+```bash
+uv run manage.py createsuperuser
+```
+
+**11. Inicie o servidor do Django**
+```bash
+uv run manage.py runserver
+```
+
+A API estará dispoível em http://localhost:8000
+
+#### Parte 2: Setup do front-end
+
+**1. Abra um novo terminal e vá até o diretório do front-end**
+```bash
+cd frontend
+```
+
+**2. Instale as dependências do Node.js**
+```bash
+npm install
+```
+
+**3. Configure as variáveis de ambiente**
+
+Edite `frontend/.env` e tenha certeza de que a URL do back-end está correta:
+```env
+VITE_BACKEND_URL=http://localhost:8000/api/v1
+```
+
+**4. Inicie o servidor Vite**
+```bash
+npm run dev
+```
+
+O frontend estará dispoível em http://localhost:3000
+
+**5. Acesse a aplicação**
+
+Abra seu navegador e vá até http://localhost:3000/login
+
+Logue com as suas credenciais criadas e explore a plataforma!
+
+## Estrutura do projeto
+
+```
+maison-senna/
+├── backend/              # Django REST API
+│   ├── apps/            # Aplicações Django
+│   ├── CORE/            # Configurações e ajustes principais
+│   ├── fixtures/        # Fixtures
+│   ├── media/           # Arquivos media carregados pelos usuários
+│   ├── manage.py        # Arquivo do Django
+│   └── pyproject.toml   # Dependências do projeto
+├── frontend/            # Aplicação React
+│   ├── src/            # Código-fonte
+│   ├── public/         # Arquivos estáticos
+│   └── package.json    # Dependências do Node.js
+├── docker-compose.yml   # Configuração dos serviços Docker
+├── Makefile            # Comandos make
+└── README.md           # Este arquivo kkk
+```
+
+**Nota**: Esse projeto utiliza a biblioteca UV como gerenciador de pacotes. Se você ficou interessado no por quê do UV ser utilizado no lugar do pip, dê uma olhada na [documentação da ferramenta](https://docs.astral.sh/uv/) para ver sobre os seus benefícios.
