@@ -50,9 +50,10 @@ Escolha o melhor método de setup para você:
 - [Node.js 18+](https://nodejs.org/) com npm
 - [MySQL 8.0+](https://dev.mysql.com/downloads/mysql/)
 
-## Início rápido
+## Inícialização
 
-### Com Docker (5 minutes setup)
+<details>
+<summary>Com Docker (~5 minutos)</summary>
 
 **1. Clone o repositório**
 ```bash
@@ -101,20 +102,10 @@ make down
 ```
 
 Esse comando irá parar todos os containers e removerá os volumes.
+</details>
 
-### Comandos "make" disponíveis
-
-| Comando | Descrição |
-|---------|-------------|
-| `make env` | Cria os arquivos .env com os exemplos |
-| `make up` | Roda todos os serviços e carrega as fixtures do Django |
-| `make down` | Para os serviços e remove os volumes |
-| `make superuser` | Cria um superuser no Django |
-| `make seed` | Roda as migrations e carrega as fixtures |
-
----
-
-### Sem Docker (Setup manual)
+<details>
+<summary>Sem Docker (Setup manual)</summary>
 
 #### Parte 1: Setup do back-end
 
@@ -193,6 +184,7 @@ uv run manage.py runserver
 ```
 
 A API estará dispoível em http://localhost:8000
+E o front-end em http://localhost:3000
 
 #### Parte 2: Setup do front-end
 
@@ -225,6 +217,19 @@ O frontend estará dispoível em http://localhost:3000
 Abra seu navegador e vá até http://localhost:3000/login
 
 Logue com as suas credenciais criadas e explore a plataforma!
+</details>
+
+### Comandos "make" disponíveis
+
+| Comando | Descrição |
+|---------|-------------|
+| `make env` | Cria os arquivos .env com os exemplos |
+| `make up` | Roda todos os serviços e carrega as fixtures do Django |
+| `make down` | Para os serviços e remove os volumes |
+| `make superuser` | Cria um superuser no Django |
+| `make seed` | Roda as migrations e carrega as fixtures |
+
+---
 
 ## Estrutura do projeto
 
@@ -247,3 +252,4 @@ maison-senna/
 ```
 
 **Nota**: Esse projeto utiliza a biblioteca UV como gerenciador de pacotes. Se você ficou interessado no por quê do UV ser utilizado no lugar do pip, dê uma olhada na [documentação da ferramenta](https://docs.astral.sh/uv/) para ver sobre os seus benefícios.
+
