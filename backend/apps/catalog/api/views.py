@@ -1,9 +1,6 @@
-import json
-
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from djangorestframework_camel_case.util import underscoreize
 from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.generics import (
