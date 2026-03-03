@@ -40,11 +40,11 @@ Mais funcionalidades vindo...
 
 Escolha o melhor método de setup para você:
 
-### Option 1: Docker (Recomendado)
+### Opção 1: Docker (Recomendado)
 - [Docker](https://docs.docker.com/get-docker/) (versão 20.10+)
 - [Docker Compose](https://docs.docker.com/compose/install/) (versão 2.0+)
 
-### Option 2: Instalação manual
+### Opção 2: Instalação manual
 - [Python 3.12+](https://www.python.org/downloads/)
 - [Gerenciador de pacotes UV](https://docs.astral.sh/uv/) - Instale com: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 - [Node.js 18+](https://nodejs.org/) com npm
@@ -252,4 +252,5 @@ maison-senna/
 ```
 
 **Nota**: Esse projeto utiliza a biblioteca UV como gerenciador de pacotes. Se você ficou interessado no por quê do UV ser utilizado no lugar do pip, dê uma olhada na [documentação da ferramenta](https://docs.astral.sh/uv/) para ver sobre os seus benefícios.
+
 
