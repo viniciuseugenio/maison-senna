@@ -1,8 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.auth import get_user_model
-
 
 User = get_user_model()
 
@@ -90,6 +89,12 @@ class VariationOption(models.Model):
     price_modifier = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True
     )
+
+    class Meta:
+        constraints = models.UniqueConstraint(
+            fields=("kind", "product", "name"), name="unique_variation_option"
+        )
+        ordering = ["name"]
 
     def __str__(self):
         return f"{self.kind.name} - {self.name} for {self.product.name}"
