@@ -91,9 +91,11 @@ class VariationOption(models.Model):
     )
 
     class Meta:
-        constraints = models.UniqueConstraint(
-            fields=("kind", "product", "name"), name="unique_variation_option"
-        )
+        constraints = [
+            models.UniqueConstraint(
+                fields=("kind", "product", "name"), name="unique_variation_option"
+            )
+        ]
         ordering = ["name"]
 
     def __str__(self):
