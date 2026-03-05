@@ -1,4 +1,5 @@
 from django.core.validators import MinLengthValidator, MinValueValidator
+from django.db import IntegrityError
 from rest_framework import serializers
 
 from apps.catalog import models
@@ -10,6 +11,7 @@ from apps.catalog.api.serializers.variation import (
     VariationOptionCreateSerializer,
     VariationOptionSerializer,
 )
+from apps.catalog.services.variation_service import create_variation_options
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -124,16 +126,7 @@ class ProductCreateSerializer(BaseProductSerializer):
         variation_options = validated_data.pop("variation_options", [])
         instance = super().create(validated_data)
 
-        for option_data in variation_options:
-            kind = option_data.get("kind")
-
-            for option in option_data.get("options"):
-                models.VariationOption.objects.create(
-                    kind=kind,
-                    product=instance,
-                    name=option.get("name"),
-                    price_modifier=option.get("price_modifier"),
-                )
+        create_variation_options(variation_options, instance)
 
         return instance
 
@@ -152,28 +145,11 @@ class ProductUpdateSerializer(BaseProductSerializer):
     variation_options = VariationOptionCreateSerializer(many=True, required=False)
 
     def update(self, instance, validated_data):
-        variations_data = validated_data.pop("variation_options", None)
+        variation_options = validated_data.pop("variation_options", None)
         instance = super().update(instance, validated_data)
 
-        if variations_data is not None:
-            for variation_object in variations_data:
-                kind = variation_object.get("kind")
-
-                options = variation_object.get("options")
-                for option in options:
-                    id = option.get("id")
-                    if id:
-                        continue
-
-                    name = option.get("name")
-                    price_modifier = option.get("price_modifier")
-
-                    models.VariationOption.objects.create(
-                        kind=kind,
-                        product=instance,
-                        name=name,
-                        price_modifier=price_modifier,
-                    )
+        if variation_options is not None:
+            create_variation_options(variation_options, instance)
 
         return instance
 
