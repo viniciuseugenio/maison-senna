@@ -44,7 +44,7 @@ def create_variation_options(
                         "variation_options": {
                             index: {
                                 "options": [
-                                    f"Variation option {option_name} already exists"
+                                    f'Variation option "{option_name}" already exists'
                                 ]
                             }
                         }
