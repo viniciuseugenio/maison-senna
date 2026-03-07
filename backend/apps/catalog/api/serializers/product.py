@@ -95,11 +95,13 @@ class ProductCreateSerializer(BaseProductSerializer):
     variation_options = VariationOptionCreateSerializer(many=True, required=False)
 
     def create(self, validated_data):
-        variation_options = validated_data.pop("variation_options", [])
+        variation_options = validated_data.pop("variation_options", None)
 
         with transaction.atomic():
             instance = super().create(validated_data)
-            create_variation_options(variation_options, instance)
+
+            if variation_options is not None:
+                create_variation_options(variation_options, instance)
 
         return instance
 
