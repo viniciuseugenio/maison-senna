@@ -10,9 +10,9 @@ import {
   VariationOptionList,
   WishlistItem,
 } from "@/types/catalog";
-import { buildApiUrl } from "./buildApiUrl";
-import { CATALOG_ENDPOINTS } from "./constants";
-import { customFetch } from "./customFetch";
+import { buildApiUrl } from "../endpoints/buildApiUrl";
+import { CATALOG_ENDPOINTS } from "../endpoints/constants";
+import { customFetch } from "../endpoints/customFetch";
 
 export async function getProducts() {
   return await customFetch<PaginationResults<ProductList>>(
@@ -68,6 +68,11 @@ export async function genericDeleteModel<T>(endpoint: string) {
   });
 }
 
+export async function getProduct(slug: string): Promise<ProductDetails> {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
+  return await customFetch<ProductDetails>(url);
+}
+
 export async function addCategory(data: { name: string }) {
   return await customFetch<Category>(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES, {
     body: JSON.stringify(data),
@@ -75,11 +80,6 @@ export async function addCategory(data: { name: string }) {
     returnBadRequest: true,
     requiresAuth: true,
   });
-}
-
-export async function getProduct(slug: string): Promise<ProductDetails> {
-  const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
-  return await customFetch<ProductDetails>(url);
 }
 
 export async function getCategories() {

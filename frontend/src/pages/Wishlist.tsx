@@ -1,4 +1,7 @@
-import { deleteWishlistItem, getWishlistItems } from "@/api/endpoints/products";
+import {
+  deleteWishlistItem,
+  getWishlistItems,
+} from "@/api/catalog/products.service";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
 import {

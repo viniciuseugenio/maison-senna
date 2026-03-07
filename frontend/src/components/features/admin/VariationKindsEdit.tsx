@@ -1,7 +1,7 @@
 import {
   getVariationKind,
   updateVariationKind,
-} from "@/api/endpoints/products";
+} from "@/api/catalog/products.service";
 import { toastMessages } from "@/constants/auth";
 import { variationKindsSchema } from "@/schemas/variations";
 import { VariationKindsForm } from "@/types/forms";

@@ -1,6 +1,6 @@
 import { buildApiUrl } from "@/api/endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "@/api/endpoints/constants";
-import { getVariationKinds } from "@/api/endpoints/products";
+import { getVariationKinds } from "@/api/catalog/products.service";
 import { HeaderConfig } from "@/types/admin";
 import LoadingRow from "@components/features/admin/LoadingRow";
 import PageLayout from "@components/features/admin/PageLayout";

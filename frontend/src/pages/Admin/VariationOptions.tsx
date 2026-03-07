@@ -1,4 +1,4 @@
-import { getVariationOptions } from "@/api/endpoints/products";
+import { getVariationOptions } from "@/api/catalog/products.service";
 import { HeaderConfig } from "@/types/admin";
 import { VariationOptionList } from "@/types/catalog";
 import LoadingRow from "@components/features/admin/LoadingRow";

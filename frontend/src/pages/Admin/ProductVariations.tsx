@@ -1,4 +1,4 @@
-import { getProductVariations } from "@/api/endpoints/products";
+import { getProductVariations } from "@/api/catalog/products.service";
 import { HeaderConfig } from "@/types/admin";
 import LoadingRow from "@components/features/admin/LoadingRow";
 import PageLayout from "@components/features/admin/PageLayout";

@@ -1,4 +1,4 @@
-import { getVariationKinds } from "@/api/endpoints/products";
+import { getVariationKinds } from "@/api/catalog/products.service";
 import { NewProductForm } from "@/types/forms";
 import InputError from "@components/ui/InputError";
 import SelectInput from "@components/ui/SelectInput";
@@ -7,12 +7,12 @@ import { Layers, Plus, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { FieldErrors, useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { FormVariatonOption, Option } from "./types";
+import { FormVariationOption, Option } from "./types";
 import VariationOptionItem from "./VariationOptionItem";
 
 type VariationCardProps = {
   index: number;
-  variation: FormVariatonOption;
+  variation: FormVariationOption;
   canDelete: boolean;
   onUpdateKind: (index: number, value: number) => void;
   onUpdateOptions: (
@@ -149,7 +149,7 @@ const VariationCard: React.FC<VariationCardProps> = ({
                 className={twMerge(
                   inputStyle,
                   getOptionError(index) &&
-                    "border-red-500 ring-red-200 focus:border-red-600",
+                  "border-red-500 ring-red-200 focus:border-red-600",
                 )}
               />
             </div>
