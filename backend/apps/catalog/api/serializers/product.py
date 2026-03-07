@@ -62,25 +62,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class BaseProductSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(
-        max_length=255,
-        validators=[
-            MinLengthValidator(6, message=PRODUCT_ERROR_MESSAGES["name_length"])
-        ],
-    )
-
-    description = serializers.CharField(
-        validators=[
-            MinLengthValidator(20, message=PRODUCT_ERROR_MESSAGES["description_length"])
-        ]
-    )
-
-    base_price = serializers.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        validators=[MinValueValidator(1, message=PRODUCT_ERROR_MESSAGES["price_min"])],
-    )
-
     details = serializers.ListField(
         child=serializers.CharField(),
         allow_empty=False,
