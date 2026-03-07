@@ -1,17 +1,12 @@
-import { SpecItem } from "@components/features/product-form/types";
+import { FormVariatonOption } from "@components/features/product-form/types";
 import { NewProductForm } from "@/types/forms";
 
-type VariationsObj = {
-  idx: string;
-  kind: number;
-  options: SpecItem[];
-};
-
-function formatVariations(variations: VariationsObj[]) {
+function formatVariations(variations: FormVariatonOption[]) {
   const newVariations = variations.map((variation) => ({
     kind: variation.kind,
     options: variation.options.map((option) => ({
       name: option.name,
+      priceModifier: option.priceModifier,
     })),
   }));
   return newVariations;
