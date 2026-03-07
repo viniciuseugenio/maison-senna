@@ -1,5 +1,5 @@
 from django.core.validators import MinLengthValidator, MinValueValidator
-from django.db import IntegrityError
+from django.db import transaction
 from rest_framework import serializers
 
 from apps.catalog import models
@@ -124,9 +124,10 @@ class ProductCreateSerializer(BaseProductSerializer):
 
     def create(self, validated_data):
         variation_options = validated_data.pop("variation_options", [])
-        instance = super().create(validated_data)
 
-        create_variation_options(variation_options, instance)
+        with transaction.atomic():
+            instance = super().create(validated_data)
+            create_variation_options(variation_options, instance)
 
         return instance
 
