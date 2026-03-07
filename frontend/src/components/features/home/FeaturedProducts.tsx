@@ -1,4 +1,4 @@
-import { getFeaturedProducts } from "@/api/endpoints/products";
+import { getFeaturedProducts } from "@/api/catalog/products.service";
 import ProductCard from "@/components/ui/ProductCard";
 import Button from "@components/ui/Button";
 import HorizontalDivider from "@components/ui/HorizontalDivider";

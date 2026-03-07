@@ -1,4 +1,4 @@
-import { addCategory } from "@/api/endpoints/products";
+import { addCategory } from "@/api/catalog/products.service";
 import { toastMessages } from "@/constants/auth";
 import { categorySchema } from "@/schemas/category";
 import { CategoryForm } from "@/types/forms";

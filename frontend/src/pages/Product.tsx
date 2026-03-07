@@ -1,4 +1,4 @@
-import { getProduct } from "@/api/endpoints/products";
+import { getProduct } from "@/api/catalog/products.service";
 import WishlistButton from "@/components/features/product-details/WishlistButton";
 import DetailsTabs from "@components/features/product-details/DetailsTabs";
 import ProductReviews from "@components/features/product-details/ProductReviews";

@@ -1,4 +1,4 @@
-import { getCategories } from "@/api/endpoints/products";
+import { getCategories } from "@/api/catalog/products.service";
 import Card from "@/components/features/collections/Card";
 import CardSkeleton from "@/components/features/collections/CardSkeleton";
 import Layout from "@/components/features/collections/Layout";

@@ -1,4 +1,4 @@
-import { addVariationKind } from "@/api/endpoints/products";
+import { addVariationKind } from "@/api/catalog/products.service";
 import { toastMessages } from "@/constants/auth";
 import { variationKindsSchema } from "@/schemas/variations";
 import { VariationKindsForm } from "@/types/forms";

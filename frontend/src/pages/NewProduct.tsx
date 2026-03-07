@@ -1,4 +1,4 @@
-import { createProduct } from "@/api/endpoints/products";
+import { createProduct } from "@/api/catalog/products.service";
 import { toastMessages } from "@/constants/auth";
 import { convertToFormData } from "@/lib/convertToFormData";
 import newProductSchema from "@/schemas/newProduct";

@@ -1,4 +1,4 @@
-import { getDashboardStatistics } from "@/api/endpoints/products";
+import { getDashboardStatistics } from "@/api/catalog/products.service";
 import BigBox from "@components/features/admin/BigBox";
 import PageTitle from "@components/features/admin/PageTitle";
 import SmallBox from "@components/features/admin/SmallBox";

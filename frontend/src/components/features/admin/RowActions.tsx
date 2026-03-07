@@ -1,4 +1,4 @@
-import { genericDeleteModel } from "@/api/endpoints/products";
+import { genericDeleteModel } from "@/api/catalog/products.service";
 import { toastMessages } from "@/constants/auth";
 import { ERROR_NOTIFICATIONS } from "@/constants/notifications";
 import capitalizeWord from "@/utils/capitalizeWord";

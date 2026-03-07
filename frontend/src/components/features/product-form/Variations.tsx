@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { FormVariatonOption, Option } from "./types";
+import { FormVariationOption, Option } from "./types";
 
 interface VariationOptionsApi {
   idx: string;
@@ -25,7 +25,7 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
     trigger,
     formState: { errors },
   } = useFormContext();
-  const variations = watch("variationOptions") as FormVariatonOption[];
+  const variations = watch("variationOptions") as FormVariationOption[];
   const hasError = !!errors?.variationOptions;
 
   useEffect(() => {

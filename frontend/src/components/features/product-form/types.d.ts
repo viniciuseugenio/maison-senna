@@ -5,10 +5,9 @@ export type Option = {
   priceModifier: number;
 };
 
-export type FormVariatonOption = {
+export type FormVariationOption = {
   idx: string;
   kind: number;
-  name: string;
   options: Option[];
   priceModifier?: number;
 };

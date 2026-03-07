@@ -1,4 +1,7 @@
-import { deleteWishlistItem, getWishlistItems } from "@/api/endpoints/products";
+import {
+  deleteWishlistItem,
+  getWishlistItems,
+} from "@/api/catalog/products.service";
 import HorizontalDivider from "@/components/ui/HorizontalDivider";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { ProductList } from "@/types/catalog";
