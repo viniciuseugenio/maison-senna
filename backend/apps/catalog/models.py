@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
+from apps.catalog import validators
+
 User = get_user_model()
 
 
@@ -32,11 +34,16 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, related_name="products"
     )
-    name = models.CharField(max_length=255)
+    name = models.CharField(
+        max_length=255,
+        validators=[validators.name_min_length],
+    )
     slug = models.SlugField(unique=True, blank=True)
-    description = models.TextField()
+    description = models.TextField(validators=[validators.description_min_length])
     created_at = models.DateTimeField(auto_now_add=True)
-    base_price = models.DecimalField(max_digits=10, decimal_places=2)
+    base_price = models.DecimalField(
+        max_digits=10, decimal_places=2, validators=[validators.base_price_min_value]
+    )
     reference_image = models.ImageField(
         upload_to="catalog/products/", blank=True, null=True
     )
