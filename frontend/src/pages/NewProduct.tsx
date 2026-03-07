@@ -4,6 +4,7 @@ import { convertToFormData } from "@/lib/convertToFormData";
 import newProductSchema from "@/schemas/newProduct";
 import { NewProductForm } from "@/types/forms";
 import { toast } from "@/utils/customToast";
+import { setServerErrors } from "@/utils/setServerErrors";
 import BackButton from "@components/features/admin/BackButton";
 import ProductForm from "@components/features/product-form/ProductForm";
 import HorizontalDivider from "@components/ui/HorizontalDivider";
@@ -41,15 +42,7 @@ const NewProduct: React.FC = () => {
     },
     onError: (error) => {
       if (error.errors) {
-        Object.entries(error.errors).forEach(([key, errorArray]) => {
-          setError(
-            key as keyof NewProductForm,
-            {
-              message: errorArray[0],
-            },
-            { shouldFocus: true },
-          );
-        });
+        setServerErrors(setError, error.errors);
         toast.error({
           title: toastMessages.formSubmissionFailed.title,
           description: toastMessages.formSubmissionFailed.description,
