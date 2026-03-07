@@ -1,4 +1,3 @@
-from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import transaction
 from rest_framework import serializers
 
@@ -62,24 +61,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class BaseProductSerializer(serializers.ModelSerializer):
-    details = serializers.ListField(
-        child=serializers.CharField(),
-        allow_empty=False,
-        error_messages={"empty": PRODUCT_ERROR_MESSAGES["empty_details"]},
-    )
-
-    care = serializers.ListField(
-        child=serializers.CharField(),
-        allow_empty=False,
-        error_messages={"empty": PRODUCT_ERROR_MESSAGES["empty_care"]},
-    )
-
-    materials = serializers.ListField(
-        child=serializers.CharField(),
-        allow_empty=False,
-        error_messages={"empty": PRODUCT_ERROR_MESSAGES["empty_materials"]},
-    )
-
     class Meta:
         model = models.Product
         fields = [
@@ -95,6 +76,16 @@ class BaseProductSerializer(serializers.ModelSerializer):
             "variation_options",
             "is_featured",
         ]
+
+        extra_kwargs = {
+            "details": {
+                "error_messages": {"empty": PRODUCT_ERROR_MESSAGES["empty_details"]}
+            },
+            "care": {"error_messages": {"empty": PRODUCT_ERROR_MESSAGES["empty_care"]}},
+            "materials": {
+                "error_messages": {"empty": PRODUCT_ERROR_MESSAGES["empty_materials"]}
+            },
+        }
 
 
 class ProductCreateSerializer(BaseProductSerializer):
