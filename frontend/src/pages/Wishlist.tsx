@@ -1,7 +1,7 @@
 import {
   deleteWishlistItem,
   getWishlistItems,
-} from "@/api/catalog/products.service";
+} from "@/api/catalog/wishlist.service";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
 import {
