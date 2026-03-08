@@ -1,7 +1,7 @@
 import {
   deleteVariationOption,
   updateVariationOption,
-} from "@/api/catalog/products.service";
+} from "@/api/catalog/variations.service";
 import { useOptimisticMutation } from "@/hooks/useOptimisticMutation";
 import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -41,10 +41,10 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
         prev.map((opt) =>
           option.idx === opt.idx
             ? {
-              ...opt,
-              name: variables.name,
-              priceModifier: variables.priceModifier,
-            }
+                ...opt,
+                name: variables.name,
+                priceModifier: variables.priceModifier,
+              }
             : opt,
         ),
       );

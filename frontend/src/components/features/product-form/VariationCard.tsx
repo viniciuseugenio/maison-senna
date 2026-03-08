@@ -1,4 +1,4 @@
-import { getVariationKinds } from "@/api/catalog/products.service";
+import { getVariationKinds } from "@/api/catalog/variations.service";
 import { NewProductForm } from "@/types/forms";
 import InputError from "@components/ui/InputError";
 import SelectInput from "@components/ui/SelectInput";
