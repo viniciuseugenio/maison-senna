@@ -1,8 +1,10 @@
 import { getProducts } from "@/api/catalog/products.service";
 import { HeaderConfig } from "@/types/admin";
-import LoadingRow from "@components/features/admin/LoadingRow";
-import AdminPageLayout from "@components/features/admin/PageLayout";
-import ProductRow from "@components/features/admin/ProductRow";
+import {
+  AdminPageLayout,
+  LoadingRow,
+  ProductRow,
+} from "@components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 
 const AdminProducts: React.FC = () => {

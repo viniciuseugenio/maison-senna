@@ -5,7 +5,7 @@ import newProductSchema from "@/schemas/newProduct";
 import { NewProductForm } from "@/types/forms";
 import { toast } from "@/utils/customToast";
 import { setServerErrors } from "@/utils/setServerErrors";
-import BackButton from "@components/features/admin/BackButton";
+import { BackButton } from "@components/features/admin";
 import ProductForm from "@components/features/product-form/ProductForm";
 import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { zodResolver } from "@hookform/resolvers/zod";
