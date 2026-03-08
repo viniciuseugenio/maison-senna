@@ -1,6 +1,6 @@
 import { buildApiUrl } from "@/api/endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "@/api/endpoints/constants";
-import { getCategories } from "@/api/catalog/products.service";
+import { getCategories } from "@/api/catalog/categories.service";
 import { HeaderConfig } from "@/types/admin";
 import CategoryModal from "@components/features/admin/CategoryModal";
 import LoadingRow from "@components/features/admin/LoadingRow";
