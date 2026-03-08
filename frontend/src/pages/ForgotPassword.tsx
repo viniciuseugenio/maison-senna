@@ -1,4 +1,4 @@
-import { requestPasswordReset } from "@/api/endpoints/auth";
+import { requestPasswordReset } from "@/api/auth/auth.service";
 import { toast } from "@/utils/customToast";
 import Button from "@components/ui/Button";
 import FloatingInput from "@components/ui/FloatingInput";

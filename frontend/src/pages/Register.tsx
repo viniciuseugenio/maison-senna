@@ -1,4 +1,4 @@
-import { registerUser } from "@/api/endpoints/auth";
+import { registerUser } from "@/api/auth/auth.service";
 import RegisterPasswordInputs from "@/components/features/auth/RegisterPasswordInputs";
 import SocialLogin from "@/components/features/auth/SocialLogin";
 import Button from "@/components/ui/Button";

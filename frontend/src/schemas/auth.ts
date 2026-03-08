@@ -1,4 +1,4 @@
-import { checkEmailAvailability } from "@/api/endpoints/auth";
+import { checkEmailAvailability } from "@/api/auth/auth.service";
 import { z } from "zod";
 import { registerFormErrors } from "@/constants/auth";
 
