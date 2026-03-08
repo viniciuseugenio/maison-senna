@@ -1,7 +1,5 @@
 import { getDashboardStatistics } from "@/api/catalog/products.service";
-import BigBox from "@components/features/admin/BigBox";
-import PageTitle from "@components/features/admin/PageTitle";
-import SmallBox from "@components/features/admin/SmallBox";
+import { BigBox, PageTitle, SmallBox } from "@components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 import {
   DollarSign,

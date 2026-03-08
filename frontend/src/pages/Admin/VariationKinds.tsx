@@ -1,14 +1,16 @@
+import { getVariationKinds } from "@/api/catalog/variations.service";
 import { buildApiUrl } from "@/api/endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "@/api/endpoints/constants";
-import { getVariationKinds } from "@/api/catalog/variations.service";
 import { HeaderConfig } from "@/types/admin";
-import LoadingRow from "@components/features/admin/LoadingRow";
-import PageLayout from "@components/features/admin/PageLayout";
-import TableActions from "@components/features/admin/RowActions";
-import TableData from "@components/features/admin/TableData";
-import TableRow from "@components/features/admin/TableRow";
-import VariationKindsCreate from "@components/features/admin/VariationKindsCreate";
-import VariationKindsEdit from "@components/features/admin/VariationKindsEdit";
+import {
+  LoadingRow,
+  PageLayout,
+  TableActions,
+  TableData,
+  TableRow,
+  VariationKindsCreate,
+  VariationKindsEdit,
+} from "@components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
 import { useMatch } from "react-router";
