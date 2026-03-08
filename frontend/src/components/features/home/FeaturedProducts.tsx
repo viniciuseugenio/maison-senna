@@ -1,5 +1,5 @@
 import { getFeaturedProducts } from "@/api/catalog/products.service";
-import ProductCard from "@/components/ui/ProductCard";
+import { ProductCard } from "@components/ui";
 import Button from "@components/ui/Button";
 import HorizontalDivider from "@components/ui/HorizontalDivider";
 import { useQuery } from "@tanstack/react-query";

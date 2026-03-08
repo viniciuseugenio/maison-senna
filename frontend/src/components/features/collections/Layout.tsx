@@ -1,4 +1,4 @@
-import HorizontalDivider from "@/components/ui/HorizontalDivider";
+import { HorizontalDivider } from "@components/ui";
 import { PropsWithChildren } from "react";
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {

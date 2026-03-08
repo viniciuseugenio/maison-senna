@@ -2,7 +2,7 @@ import {
   deleteWishlistItem,
   getWishlistItems,
 } from "@/api/catalog/wishlist.service";
-import HorizontalDivider from "@/components/ui/HorizontalDivider";
+import { HorizontalDivider } from "@components/ui";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { ProductList } from "@/types/catalog";
 import NavbarButton from "@components/layout/NavbarButton";

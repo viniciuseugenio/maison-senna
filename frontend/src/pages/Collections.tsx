@@ -3,7 +3,7 @@ import Card from "@/components/features/collections/Card";
 import CardSkeleton from "@/components/features/collections/CardSkeleton";
 import Layout from "@/components/features/collections/Layout";
 import SystemInfo from "@/components/features/collections/SystemInfo";
-import Button from "@/components/ui/Button";
+import { Button } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 

@@ -2,8 +2,7 @@ import {
   deleteWishlistItem,
   getWishlistItems,
 } from "@/api/catalog/wishlist.service";
-import Button from "@/components/ui/Button";
-import Pagination from "@/components/ui/Pagination";
+import { Button, Pagination } from "@components/ui";
 import {
   keepPreviousData,
   useMutation,

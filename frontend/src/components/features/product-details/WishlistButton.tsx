@@ -2,7 +2,7 @@ import {
   createWishlistItem,
   deleteWishlistItemByProduct,
 } from "@/api/catalog/wishlist.service";
-import Button from "@/components/ui/Button";
+import { Button } from "@components/ui";
 import { useIsAuthenticated } from "@/hooks/auth";
 import { toast } from "@/utils/customToast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

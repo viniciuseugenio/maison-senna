@@ -7,7 +7,7 @@ import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Option } from "./types";
-import Button from "@/components/ui/Button";
+import { Button } from "@components/ui";
 
 interface VariationOptionItemProps {
   onUpdate: (updater: (prev: Option[]) => Option[]) => void;
