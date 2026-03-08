@@ -1,7 +1,7 @@
 import {
   createWishlistItem,
   deleteWishlistItemByProduct,
-} from "@/api/catalog/products.service";
+} from "@/api/catalog/wishlist.service";
 import Button from "@/components/ui/Button";
 import { useIsAuthenticated } from "@/hooks/auth";
 import { toast } from "@/utils/customToast";
