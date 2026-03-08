@@ -1,4 +1,4 @@
-import ProductCard from "@/components/ui/ProductCard";
+import { ProductCard } from "@components/ui";
 import { CategoryWithProducts } from "@/types/catalog";
 
 type ProductGridProps = {
