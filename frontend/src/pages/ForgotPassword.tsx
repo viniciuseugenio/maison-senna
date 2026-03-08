@@ -1,8 +1,6 @@
 import { requestPasswordReset } from "@/api/auth/auth.service";
 import { toast } from "@/utils/customToast";
-import Button from "@components/ui/Button";
-import FloatingInput from "@components/ui/FloatingInput";
-import HorizontalDivider from "@components/ui/HorizontalDivider";
+import { Button, FloatingInput, HorizontalDivider } from "@components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Mail } from "lucide-react";

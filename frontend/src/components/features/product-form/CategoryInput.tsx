@@ -1,6 +1,6 @@
 import { getCategories } from "@/api/catalog/categories.service";
 import { Category } from "@/types/catalog";
-import SelectInput from "@components/ui/SelectInput";
+import { SelectInput } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Tag } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";

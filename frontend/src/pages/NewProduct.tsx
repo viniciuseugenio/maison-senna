@@ -7,7 +7,7 @@ import { toast } from "@/utils/customToast";
 import { setServerErrors } from "@/utils/setServerErrors";
 import { BackButton } from "@components/features/admin";
 import ProductForm from "@components/features/product-form/ProductForm";
-import HorizontalDivider from "@components/ui/HorizontalDivider";
+import { HorizontalDivider } from "@components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";

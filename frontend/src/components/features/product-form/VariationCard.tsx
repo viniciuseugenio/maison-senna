@@ -1,7 +1,6 @@
 import { getVariationKinds } from "@/api/catalog/variations.service";
 import { NewProductForm } from "@/types/forms";
-import InputError from "@components/ui/InputError";
-import SelectInput from "@components/ui/SelectInput";
+import { InputError, SelectInput } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Layers, Plus, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
@@ -149,7 +148,7 @@ const VariationCard: React.FC<VariationCardProps> = ({
                 className={twMerge(
                   inputStyle,
                   getOptionError(index) &&
-                  "border-red-500 ring-red-200 focus:border-red-600",
+                    "border-red-500 ring-red-200 focus:border-red-600",
                 )}
               />
             </div>

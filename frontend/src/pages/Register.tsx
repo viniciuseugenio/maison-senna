@@ -1,11 +1,10 @@
 import { registerUser } from "@/api/auth/auth.service";
-import RegisterPasswordInputs from "@/components/features/auth/RegisterPasswordInputs";
-import SocialLogin from "@/components/features/auth/SocialLogin";
 import { registerFormErrors } from "@/constants/auth";
 import { registerSchema } from "@/schemas/auth";
 import { RegisterForm } from "@/types/auth";
 import { toast } from "@/utils/customToast";
 import { transformKeys } from "@/utils/transformKeys";
+import { RegisterPasswordInputs, SocialLogin } from "@components/features/auth";
 import { Button, FloatingInput, HorizontalDivider } from "@components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";

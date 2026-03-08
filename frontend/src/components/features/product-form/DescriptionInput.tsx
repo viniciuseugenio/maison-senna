@@ -1,5 +1,5 @@
 import ConnectForm from "@components/shared/ConnectForm";
-import InputError from "@components/ui/InputError";
+import { InputError } from "@components/ui";
 import { twMerge } from "tailwind-merge";
 
 const DescriptionInput: React.FC<{ value?: string; error?: string }> = ({

@@ -1,6 +1,6 @@
 import { useAuth } from "@/store/useAuth";
 import { UiStateType } from "@/types/navbar";
-import AuthButtons from "@components/features/auth/AuthButtons";
+import { AuthButtons } from "@components/features/auth";
 import UserDropdown from "@components/user/UserDropdown";
 import { Search, ShoppingBag } from "lucide-react";
 import NavbarButton from "./NavbarButton";

@@ -1,4 +1,4 @@
-import HorizontalDivider from "@components/ui/HorizontalDivider";
+import { HorizontalDivider } from "@components/ui";
 import { X } from "lucide-react";
 import { motion } from "motion/react";
 import { createPortal } from "react-dom";
