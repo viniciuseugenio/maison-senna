@@ -1,5 +1,5 @@
 import { useSpecInput } from "@/hooks/useSpecInput";
-import InputError from "@components/ui/InputError";
+import { InputError } from "@components/ui";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";

@@ -3,7 +3,7 @@ import WishlistButton from "@/components/features/product-details/WishlistButton
 import DetailsTabs from "@components/features/product-details/DetailsTabs";
 import ProductReviews from "@components/features/product-details/ProductReviews";
 import ProductVariations from "@components/features/product-details/ProductVariations";
-import Button from "@components/ui/Button";
+import { Button } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Share2, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useState } from "react";

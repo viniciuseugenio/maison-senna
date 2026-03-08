@@ -2,7 +2,7 @@ import { useAuth } from "@/store/useAuth.ts";
 import { UiStateType } from "@/types/navbar.ts";
 import ShoppingCart from "@components/features/cart/ShoppingCart.tsx";
 import SearchOverlay from "@components/features/search/SearchOverlay.tsx";
-import Modal from "@components/ui/Modal.tsx";
+import { Modal } from "@components/ui";
 import { LogOut, Menu } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useCallback, useState } from "react";

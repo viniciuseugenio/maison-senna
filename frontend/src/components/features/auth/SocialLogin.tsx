@@ -1,5 +1,5 @@
 import googleIcon from "@assets/google-logo.svg";
-import Button from "@components/ui/Button";
+import { Button } from "@components/ui";
 import { useGoogleOAuth } from "@hooks/auth";
 import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";

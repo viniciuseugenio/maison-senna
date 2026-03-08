@@ -1,12 +1,11 @@
+import { CheckboxInput, FloatingInput } from "@components/ui";
 import { DollarSign, Tag } from "lucide-react";
 import { useFormContext } from "react-hook-form";
-import FloatingInput from "@components/ui/FloatingInput";
-import CheckboxInput from "@components/ui/CheckboxInput";
+import { ProductDetails } from "@/types/catalog";
 import CategoryInput from "./CategoryInput";
 import DescriptionInput from "./DescriptionInput";
 import ImageInput from "./ImageInput";
 import ProductSpecs from "./ProductSpecs";
-import { ProductDetails } from "../../types/catalog";
 
 type BasicInfoProps = {
   getErrorMessage: (error: any) => string | undefined;

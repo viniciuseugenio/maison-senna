@@ -2,10 +2,11 @@ import { resetPassword } from "@/api/auth/auth.service";
 import { errorNotifications } from "@/constants/auth";
 import { toast } from "@/utils/customToast";
 import { validatePassword } from "@/utils/validatePassword";
-import FloatingInputPassword from "@components/features/auth/FloatingInputPassword";
-import PasswordRequirement from "@components/features/auth/PasswordRequirement";
-import Button from "@components/ui/Button";
-import HorizontalDivider from "@components/ui/HorizontalDivider";
+import {
+  FloatingInputPassword,
+  PasswordRequirement,
+} from "@components/features/auth";
+import { Button, HorizontalDivider } from "@components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";

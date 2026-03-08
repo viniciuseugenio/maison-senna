@@ -1,4 +1,4 @@
-import HorizontalDivider from "@components/ui/HorizontalDivider";
+import { HorizontalDivider } from "@components/ui";
 import { Star } from "lucide-react";
 import { FunctionComponent } from "react";
 import ProductReviewItem from "./ProductReviewItem";
