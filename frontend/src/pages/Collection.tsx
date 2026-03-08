@@ -1,8 +1,10 @@
 import { getCategory } from "@/api/catalog/categories.service";
-import CategoryContent from "@/components/features/collections/CategoryContent";
-import CollectionSkeleton from "@/components/features/collections/CollectionSkeleton";
-import GeneralError from "@/components/features/collections/GeneralError";
-import NotFoundError from "@/components/features/collections/NotFoundError";
+import {
+  CategoryContent,
+  CollectionSkeleton,
+  GeneralError,
+  NotFoundError,
+} from "@components/features/collections";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
