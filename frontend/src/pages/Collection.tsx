@@ -1,4 +1,4 @@
-import { getCategory } from "@/api/catalog/products.service";
+import { getCategory } from "@/api/catalog/categories.service";
 import CategoryContent from "@/components/features/collections/CategoryContent";
 import CollectionSkeleton from "@/components/features/collections/CollectionSkeleton";
 import GeneralError from "@/components/features/collections/GeneralError";

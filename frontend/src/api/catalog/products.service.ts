@@ -1,7 +1,5 @@
 import { Statistics } from "@/types/admin";
 import {
-  Category,
-  CategoryWithProducts,
   PaginationResults,
   ProductDetails,
   ProductList,
@@ -71,26 +69,6 @@ export async function genericDeleteModel<T>(endpoint: string) {
 export async function getProduct(slug: string): Promise<ProductDetails> {
   const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, { slug });
   return await customFetch<ProductDetails>(url);
-}
-
-export async function addCategory(data: { name: string }) {
-  return await customFetch<Category>(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES, {
-    body: JSON.stringify(data),
-    method: "POST",
-    returnBadRequest: true,
-    requiresAuth: true,
-  });
-}
-
-export async function getCategories() {
-  return await customFetch<Category[]>(
-    CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
-  );
-}
-
-export async function getCategory(slug: string) {
-  const url = buildApiUrl(CATALOG_ENDPOINTS.CATEGORY_DETAILS, { slug });
-  return await customFetch<CategoryWithProducts>(`${url}?products=True`);
 }
 
 export async function getDashboardStatistics() {
