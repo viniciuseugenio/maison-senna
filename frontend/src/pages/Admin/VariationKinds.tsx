@@ -1,5 +1,5 @@
 import { getVariationKinds } from "@api/services";
-import { buildApiUrl } from "@/api/endpoints/buildApiUrl";
+import { buildApiUrl } from "@/api/client/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "@/api/endpoints/constants";
 import { HeaderConfig } from "@/types/admin";
 import {

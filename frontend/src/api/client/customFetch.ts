@@ -1,5 +1,5 @@
 import { toastMessages } from "@/constants/auth";
-import { AUTH_ENDPOINTS } from "./constants";
+import { AUTH_ENDPOINTS } from "../endpoints/constants";
 
 export class FetchError extends Error {
   public readonly status: number;
