@@ -1,4 +1,4 @@
-import { getDashboardStatistics } from "@/api/catalog/products.service";
+import { getDashboardStatistics } from "@api/services";
 import { BigBox, PageTitle, SmallBox } from "@components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 import {

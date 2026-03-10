@@ -1,4 +1,4 @@
-import { getProducts } from "@/api/catalog/products.service";
+import { getProducts } from "@api/services";
 import { HeaderConfig } from "@/types/admin";
 import {
   AdminPageLayout,

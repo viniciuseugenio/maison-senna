@@ -1,4 +1,4 @@
-import { getFeaturedProducts } from "@/api/catalog/products.service";
+import { getFeaturedProducts } from "@api/services";
 import { Button, HorizontalDivider, ProductCard } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";

@@ -1,7 +1,4 @@
-import {
-  deleteWishlistItem,
-  getWishlistItems,
-} from "@/api/catalog/wishlist.service";
+import { deleteWishlistItem, getWishlistItems } from "@api/services";
 import { Button, Pagination } from "@components/ui";
 import {
   keepPreviousData,

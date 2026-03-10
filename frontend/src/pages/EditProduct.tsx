@@ -1,4 +1,4 @@
-import { getProduct, updateProduct } from "@/api/catalog/products.service";
+import { getProduct, updateProduct } from "@api/services";
 import newProduct from "@/schemas/newProduct";
 import { NewProductForm } from "@/types/forms";
 import { toast } from "@/utils/customToast";

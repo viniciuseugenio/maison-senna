@@ -1,4 +1,4 @@
-import { registerUser } from "@/api/auth/auth.service";
+import { registerUser } from "@api/services";
 import { registerFormErrors } from "@/constants/auth";
 import { registerSchema } from "@/schemas/auth";
 import { RegisterForm } from "@/types/auth";

@@ -1,4 +1,4 @@
-import { requestPasswordReset } from "@/api/auth/auth.service";
+import { requestPasswordReset } from "@api/services";
 import { toast } from "@/utils/customToast";
 import { Button, FloatingInput, HorizontalDivider } from "@components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";

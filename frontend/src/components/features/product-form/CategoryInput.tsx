@@ -1,4 +1,4 @@
-import { getCategories } from "@/api/catalog/categories.service";
+import { getCategories } from "@api/services";
 import { Category } from "@/types/catalog";
 import { SelectInput } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";

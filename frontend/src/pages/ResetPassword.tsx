@@ -1,4 +1,4 @@
-import { resetPassword } from "@/api/auth/auth.service";
+import { resetPassword } from "@api/services";
 import { errorNotifications } from "@/constants/auth";
 import { toast } from "@/utils/customToast";
 import { validatePassword } from "@/utils/validatePassword";

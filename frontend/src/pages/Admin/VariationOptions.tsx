@@ -1,4 +1,4 @@
-import { getVariationOptions } from "@/api/catalog/variations.service";
+import { getVariationOptions } from "@api/services";
 import { HeaderConfig } from "@/types/admin";
 import { VariationOptionList } from "@/types/catalog";
 import {

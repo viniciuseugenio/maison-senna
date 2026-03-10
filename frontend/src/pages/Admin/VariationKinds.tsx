@@ -1,4 +1,4 @@
-import { getVariationKinds } from "@/api/catalog/variations.service";
+import { getVariationKinds } from "@api/services";
 import { buildApiUrl } from "@/api/endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "@/api/endpoints/constants";
 import { HeaderConfig } from "@/types/admin";

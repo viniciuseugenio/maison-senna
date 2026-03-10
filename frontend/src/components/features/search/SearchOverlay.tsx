@@ -1,7 +1,7 @@
 import {
   getFeaturedProducts,
   searchProduts,
-} from "@/api/catalog/products.service";
+} from "@api/services";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Loader2, Search, X } from "lucide-react";
