@@ -1,9 +1,9 @@
 import { loginSchema } from "@/schemas/auth";
 import { useAuth } from "@/store/useAuth";
-import { LoginForm } from "@types";
+import { LoginForm } from "@/types";
 import { toast } from "@/utils/customToast";
-import { LoginPasswordInput, SocialLogin } from "@components/features/auth";
-import { Button, FloatingInput, HorizontalDivider } from "@components/ui";
+import { LoginPasswordInput, SocialLogin } from "@/components/features/auth";
+import { Button, FloatingInput, HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LogIn, Mail } from "lucide-react";

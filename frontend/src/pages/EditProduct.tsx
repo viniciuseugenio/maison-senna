@@ -1,12 +1,12 @@
-import { getProduct, updateProduct } from "@api/services";
+import { getProduct, updateProduct } from "@/api/services";
 import newProduct from "@/schemas/newProduct";
-import { NewProductForm } from "@types";
+import { NewProductForm } from "@/types";
 import { toast } from "@/utils/customToast";
 import { getUpdatedFields, partialFormData } from "@/utils/products/helpers";
 import { setServerErrors } from "@/utils/setServerErrors";
-import { BackButton } from "@components/features/admin";
-import { ProductForm } from "@components/features/product-form";
-import { HorizontalDivider } from "@components/ui";
+import { BackButton } from "@/components/features/admin";
+import { ProductForm } from "@/components/features/product-form";
+import { HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";

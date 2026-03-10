@@ -1,10 +1,10 @@
 import {
   getVariationKind,
   updateVariationKind,
-} from "@api/services";
+} from "@/api/services";
 import { toastMessages } from "@/constants/auth";
 import { variationKindsSchema } from "@/schemas/variations";
-import { VariationKindsForm } from "@types";
+import { VariationKindsForm } from "@/types";
 import { toast } from "@/utils/customToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

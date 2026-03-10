@@ -1,7 +1,7 @@
-import { VariationOption } from "@types";
+import { VariationOption } from "@/types";
 import { groupOptions } from "@/utils/groupOptions";
-import { VariationCard } from "@components/features/product-form";
-import { Button } from "@components/ui";
+import { VariationCard } from "@/components/features/product-form";
+import { Button } from "@/components/ui";
 import { Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";

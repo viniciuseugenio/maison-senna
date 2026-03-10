@@ -6,7 +6,7 @@ import {
   X,
 } from "lucide-react";
 import { toast as sonnerToast } from "sonner";
-import { ToastProps } from "@types";
+import { ToastProps } from "@/types";
 
 export default function CustomToast(props: ToastProps) {
   const { id, title, description, variant, Icon } = props;

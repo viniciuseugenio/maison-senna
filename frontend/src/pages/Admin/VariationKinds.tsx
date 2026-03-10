@@ -1,7 +1,7 @@
-import { HeaderConfig } from "@types";
-import { buildApiUrl } from "@api/client";
-import { CATALOG_ENDPOINTS } from "@api/constants";
-import { getVariationKinds } from "@api/services";
+import { HeaderConfig } from "@/types";
+import { buildApiUrl } from "@/api/client";
+import { CATALOG_ENDPOINTS } from "@/api/constants";
+import { getVariationKinds } from "@/api/services";
 import {
   LoadingRow,
   PageLayout,
@@ -10,7 +10,7 @@ import {
   TableRow,
   VariationKindsCreate,
   VariationKindsEdit,
-} from "@components/features/admin";
+} from "@/components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
 import { useMatch } from "react-router";

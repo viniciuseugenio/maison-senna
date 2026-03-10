@@ -1,12 +1,12 @@
-import { getProductVariations } from "@api/services";
-import { HeaderConfig } from "@types";
+import { getProductVariations } from "@/api/services";
+import { HeaderConfig } from "@/types";
 import {
   LoadingRow,
   PageLayout,
   TableActions,
   TableData,
   TableRow,
-} from "@components/features/admin";
+} from "@/components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 
 const ProductVariations: React.FC = () => {

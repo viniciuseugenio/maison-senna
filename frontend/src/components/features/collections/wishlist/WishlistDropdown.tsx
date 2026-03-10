@@ -1,11 +1,11 @@
 import {
   deleteWishlistItem,
   getWishlistItems,
-} from "@api/services";
-import { HorizontalDivider } from "@components/ui";
+} from "@/api/services";
+import { HorizontalDivider } from "@/components/ui";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { ProductList } from "@types";
-import NavbarButton from "@components/layout/NavbarButton";
+import { ProductList } from "@/types";
+import NavbarButton from "@/components/layout/NavbarButton";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Heart, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";

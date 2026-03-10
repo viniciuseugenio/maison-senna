@@ -1,4 +1,4 @@
-import { NavbarButtonProps } from "@types";
+import { NavbarButtonProps } from "@/types";
 
 /**
  * A reusable button component for the navigation bar that supports both icon-only and regular content modes.

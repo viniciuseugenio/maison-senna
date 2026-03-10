@@ -1,6 +1,6 @@
-import sennaImg from "@assets/senna.jpg";
-import { Button } from "@components/ui";
-import snookerImg from "@assets/snooker.jpg";
+import sennaImg from "@/assets/senna.jpg";
+import { Button } from "@/components/ui";
+import snookerImg from "@/assets/snooker.jpg";
 
 export default function Hero() {
   return (

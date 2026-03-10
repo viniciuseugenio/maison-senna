@@ -1,5 +1,5 @@
-import { getProducts } from "@api/services";
-import { FormModal } from "@components/features/admin";
+import { getProducts } from "@/api/services";
+import { FormModal } from "@/components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router";
 

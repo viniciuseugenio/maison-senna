@@ -1,11 +1,11 @@
-import { buildApiUrl, customFetch } from "@api/client";
-import { CATALOG_ENDPOINTS } from "@api/constants";
+import { buildApiUrl, customFetch } from "@/api/client";
+import { CATALOG_ENDPOINTS } from "@/api/constants";
 import {
   PaginationResults,
   ProductDetails,
   ProductList,
   Statistics,
-} from "@types";
+} from "@/types";
 
 export async function getProducts() {
   return await customFetch<PaginationResults<ProductList>>(

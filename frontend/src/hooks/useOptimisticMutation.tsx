@@ -1,4 +1,4 @@
-import { FetchErrorType } from "@types";
+import { FetchErrorType } from "@/types";
 import { toast } from "@/utils/customToast";
 import { useMutation } from "@tanstack/react-query";
 

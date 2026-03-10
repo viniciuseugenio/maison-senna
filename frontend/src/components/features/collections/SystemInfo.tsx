@@ -1,4 +1,4 @@
-import { HorizontalDivider } from "@components/ui";
+import { HorizontalDivider } from "@/components/ui";
 
 type SystemInfoProps = {
   messageCategory: string;

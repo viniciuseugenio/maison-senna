@@ -1,4 +1,4 @@
-import NavbarButton from "@components/layout/NavbarButton";
+import NavbarButton from "@/components/layout/NavbarButton";
 import { Link } from "react-router";
 
 /**

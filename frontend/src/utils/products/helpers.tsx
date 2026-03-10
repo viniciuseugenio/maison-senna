@@ -1,4 +1,4 @@
-import { NewProductForm, ProductDetails } from "@types";
+import { NewProductForm, ProductDetails } from "@/types";
 import { snakeCase } from "change-case";
 
 export function getUpdatedFields(

@@ -1,14 +1,14 @@
-import { getVariationOptions } from "@api/services";
+import { getVariationOptions } from "@/api/services";
 import {
   LoadingRow,
   PageLayout,
   TableActions,
   TableData,
   TableRow,
-} from "@components/features/admin";
-import useLastSegment from "@hooks/lastSegment";
+} from "@/components/features/admin";
+import useLastSegment from "@/hooks/lastSegment";
 import { useQuery } from "@tanstack/react-query";
-import { HeaderConfig, VariationOptionList } from "@types";
+import { HeaderConfig, VariationOptionList } from "@/types";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import VariationOptionModal from "./VariationOptionModal";

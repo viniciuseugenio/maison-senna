@@ -1,5 +1,5 @@
-import { User } from "@types";
-import { useLogin } from "@hooks/auth";
+import { User } from "@/types";
+import { useLogin } from "@/hooks/auth";
 import { createContext } from "react";
 
 export interface AuthContextType {

@@ -1,6 +1,6 @@
-import { customFetch } from "@api/client";
-import { AUTH_ENDPOINTS } from "@api/constants";
-import { LoginForm, RegisterForm } from "@types";
+import { customFetch } from "@/api/client";
+import { AUTH_ENDPOINTS } from "@/api/constants";
+import { LoginForm, RegisterForm } from "@/types";
 
 export async function loginUser(data: LoginForm) {
   return await customFetch<{ detail: string; description: string; user: any }>(

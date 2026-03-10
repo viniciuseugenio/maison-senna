@@ -1,9 +1,9 @@
-import { genericDeleteModel } from "@api/services";
+import { genericDeleteModel } from "@/api/services";
 import { toastMessages } from "@/constants/auth";
 import { ERROR_NOTIFICATIONS } from "@/constants/notifications";
 import capitalizeWord from "@/utils/capitalizeWord";
 import { toast } from "@/utils/customToast";
-import { Modal } from "@components/ui";
+import { Modal } from "@/components/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router";

@@ -1,4 +1,4 @@
-import { Button } from "@components/ui";
+import { Button } from "@/components/ui";
 
 const EmptyState: React.FC = () => {
   return (

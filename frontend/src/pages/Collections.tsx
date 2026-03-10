@@ -1,11 +1,11 @@
-import { getCategories } from "@api/services";
+import { getCategories } from "@/api/services";
 import {
   Card,
   CardSkeleton,
   Layout,
   SystemInfo,
-} from "@components/features/collections";
-import { Button } from "@components/ui";
+} from "@/components/features/collections";
+import { Button } from "@/components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 

@@ -1,12 +1,12 @@
-import { resetPassword } from "@api/services";
+import { resetPassword } from "@/api/services";
 import { errorNotifications } from "@/constants/auth";
 import { toast } from "@/utils/customToast";
 import { validatePassword } from "@/utils/validatePassword";
 import {
   FloatingInputPassword,
   PasswordRequirement,
-} from "@components/features/auth";
-import { Button, HorizontalDivider } from "@components/ui";
+} from "@/components/features/auth";
+import { Button, HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
