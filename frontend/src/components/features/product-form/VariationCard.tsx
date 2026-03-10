@@ -1,12 +1,11 @@
 import { getVariationKinds } from "@/api/services";
-import { NewProductForm } from "@/types";
 import { InputError, SelectInput } from "@/components/ui";
+import { FormVariationOption, NewProductForm, Option } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { Layers, Plus, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { FieldErrors, useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { FormVariationOption, Option } from "./types";
 import VariationOptionItem from "./VariationOptionItem";
 
 type VariationCardProps = {

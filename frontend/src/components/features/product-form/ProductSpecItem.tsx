@@ -1,7 +1,7 @@
+import { SpecItem } from "@/types";
 import { useState } from "react";
 import SpecItemDisplay from "./SpecItemDisplay";
 import SpecItemEdit from "./SpecItemEdit";
-import { SpecItem } from "./types";
 
 type ProductSpecItemProps = {
   idx: string;

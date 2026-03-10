@@ -1,11 +1,11 @@
-import { useSpecInput } from "@/hooks/useSpecInput";
 import { InputError } from "@/components/ui";
+import { useSpecInput } from "@/hooks/useSpecInput";
+import { SpecItem } from "@/types";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import ProductSpecItem from "./ProductSpecItem";
-import { SpecItem } from "./types";
 
 type ProductSpecsProps = {
   name: string;

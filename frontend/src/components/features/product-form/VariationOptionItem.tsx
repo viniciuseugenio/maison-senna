@@ -1,13 +1,10 @@
-import {
-  deleteVariationOption,
-  updateVariationOption,
-} from "@/api/services";
+import { deleteVariationOption, updateVariationOption } from "@/api/services";
+import { Button } from "@/components/ui";
 import { useOptimisticMutation } from "@/hooks/useOptimisticMutation";
+import { Option } from "@/types";
 import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { Option } from "./types";
-import { Button } from "@/components/ui";
 
 interface VariationOptionItemProps {
   onUpdate: (updater: (prev: Option[]) => Option[]) => void;
