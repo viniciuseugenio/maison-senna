@@ -1,4 +1,4 @@
-import ConnectForm from "@components/shared/ConnectForm";
+import ConnectForm from "@/components/shared/ConnectForm";
 import { Upload, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";

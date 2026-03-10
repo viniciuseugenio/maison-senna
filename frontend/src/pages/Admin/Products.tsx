@@ -1,10 +1,10 @@
-import { getProducts } from "@api/services";
-import { HeaderConfig } from "@types";
+import { getProducts } from "@/api/services";
+import { HeaderConfig } from "@/types";
 import {
   AdminPageLayout,
   LoadingRow,
   ProductRow,
-} from "@components/features/admin";
+} from "@/components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 
 const AdminProducts: React.FC = () => {

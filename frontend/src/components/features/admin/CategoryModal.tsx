@@ -1,9 +1,9 @@
-import { addCategory } from "@api/services";
+import { addCategory } from "@/api/services";
 import { toastMessages } from "@/constants/auth";
 import { categorySchema } from "@/schemas/category";
-import { CategoryForm } from "@types";
+import { CategoryForm } from "@/types";
 import { toast } from "@/utils/customToast";
-import { Button, FloatingInput } from "@components/ui";
+import { Button, FloatingInput } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, Tag } from "lucide-react";

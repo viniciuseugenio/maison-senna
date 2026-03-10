@@ -1,4 +1,4 @@
-import { SpecItem } from "@components/features/product-form/types";
+import { SpecItem } from "@/components/features/product-form/types";
 import { useRef } from "react";
 
 export const useSpecInput = (

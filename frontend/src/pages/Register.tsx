@@ -1,11 +1,11 @@
-import { registerUser } from "@api/services";
+import { registerUser } from "@/api/services";
 import { registerFormErrors } from "@/constants/auth";
 import { registerSchema } from "@/schemas/auth";
-import { RegisterForm } from "@types";
+import { RegisterForm } from "@/types";
 import { toast } from "@/utils/customToast";
 import { transformKeys } from "@/utils/transformKeys";
-import { RegisterPasswordInputs, SocialLogin } from "@components/features/auth";
-import { Button, FloatingInput, HorizontalDivider } from "@components/ui";
+import { RegisterPasswordInputs, SocialLogin } from "@/components/features/auth";
+import { Button, FloatingInput, HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useMutation } from "@tanstack/react-query";

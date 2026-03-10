@@ -1,7 +1,7 @@
-import { HeaderConfig } from "@types";
-import { buildApiUrl } from "@api/client";
-import { CATALOG_ENDPOINTS } from "@api/constants";
-import { getCategories } from "@api/services";
+import { HeaderConfig } from "@/types";
+import { buildApiUrl } from "@/api/client";
+import { CATALOG_ENDPOINTS } from "@/api/constants";
+import { getCategories } from "@/api/services";
 import {
   AdminPageLayout,
   CategoryModal,
@@ -9,8 +9,8 @@ import {
   TableActions,
   TableData,
   TableRow,
-} from "@components/features/admin";
-import useLastSegment from "@hooks/lastSegment";
+} from "@/components/features/admin";
+import useLastSegment from "@/hooks/lastSegment";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
 

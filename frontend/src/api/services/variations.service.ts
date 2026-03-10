@@ -1,11 +1,11 @@
-import { buildApiUrl, customFetch } from "@api/client";
-import { CATALOG_ENDPOINTS } from "@api/constants";
+import { buildApiUrl, customFetch } from "@/api/client";
+import { CATALOG_ENDPOINTS } from "@/api/constants";
 import {
   PaginationResults,
   ProductVariation,
   VariationKind,
   VariationOptionList,
-} from "@types";
+} from "@/types";
 import { genericDeleteModel } from "./products.service";
 
 export async function getVariationKinds() {

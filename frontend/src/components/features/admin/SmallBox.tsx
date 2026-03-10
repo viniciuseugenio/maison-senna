@@ -1,4 +1,4 @@
-import { SmallBoxProps } from "@types";
+import { SmallBoxProps } from "@/types";
 
 const SmallBox: React.FC<SmallBoxProps> = ({ Icon, title, data = 0 }) => {
   return (

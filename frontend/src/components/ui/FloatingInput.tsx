@@ -1,4 +1,4 @@
-import ConnectForm from "@components/shared/ConnectForm";
+import ConnectForm from "@/components/shared/ConnectForm";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import InputError from "./InputError";

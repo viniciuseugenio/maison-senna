@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState } from "react";
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
-import NavbarButton from "@components/layout/NavbarButton";
+import NavbarButton from "@/components/layout/NavbarButton";
 import { useAuth } from "@/store/useAuth";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 

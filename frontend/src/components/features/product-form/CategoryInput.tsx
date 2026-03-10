@@ -1,6 +1,6 @@
-import { getCategories } from "@api/services";
-import { Category } from "@types";
-import { SelectInput } from "@components/ui";
+import { getCategories } from "@/api/services";
+import { Category } from "@/types";
+import { SelectInput } from "@/components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Tag } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";

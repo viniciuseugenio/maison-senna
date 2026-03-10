@@ -1,4 +1,4 @@
-import { Button } from "@components/ui";
+import { Button } from "@/components/ui";
 import { ShoppingBag, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef } from "react";

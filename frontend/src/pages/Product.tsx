@@ -1,11 +1,11 @@
-import { getProduct } from "@api/services";
+import { getProduct } from "@/api/services";
 import {
   DetailsTabs,
   ProductReviews,
   ProductVariations,
   WishlistButton,
-} from "@components/features/product-details";
-import { Button } from "@components/ui";
+} from "@/components/features/product-details";
+import { Button } from "@/components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Share2, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useState } from "react";

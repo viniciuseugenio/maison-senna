@@ -27,36 +27,6 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@assets/*": [
-        "./src/assets/*"
-      ],
-      "@api/*": [
-        "./src/api/*"
-      ],
-      "@types": [
-        "./src/types/index"
-      ],
-      "@types/*": [
-        "./src/types/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-      "@schemas/*": [
-        "./src/schemas/*"
-      ],
-      "@constants/*": [
-        "./src/constants/*"
-      ],
-      "@store/*": [
-        "./src/store/*"
       ]
     }
   },

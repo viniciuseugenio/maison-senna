@@ -1,4 +1,4 @@
-import { FloatingInput } from "@components/ui";
+import { FloatingInput } from "@/components/ui";
 import { Eye, EyeOff, Lock } from "lucide-react";
 
 type FloatingInputPasswordProps = {

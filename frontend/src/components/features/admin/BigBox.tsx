@@ -1,4 +1,4 @@
-import { BigBoxProps } from "@types";
+import { BigBoxProps } from "@/types";
 import { Link } from "react-router";
 
 const BigBox: React.FC<BigBoxProps> = ({

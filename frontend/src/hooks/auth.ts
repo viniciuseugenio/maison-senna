@@ -1,11 +1,11 @@
 import { errorNotifications, toastMessages } from "@/constants/auth";
 import { toast } from "@/utils/customToast";
-import { customFetch } from "@api/client";
-import { AUTH_ENDPOINTS } from "@api/constants";
-import { checkUserAuthenticity, loginUser, logoutUser } from "@api/services";
+import { customFetch } from "@/api/client";
+import { AUTH_ENDPOINTS } from "@/api/constants";
+import { checkUserAuthenticity, loginUser, logoutUser } from "@/api/services";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ApiResponseType, User as UserType } from "@types";
+import { ApiResponseType, User as UserType } from "@/types";
 import { useNavigate } from "react-router";
 
 export function useAuthUser() {

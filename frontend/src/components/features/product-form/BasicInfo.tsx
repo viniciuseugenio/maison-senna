@@ -1,7 +1,7 @@
-import { CheckboxInput, FloatingInput } from "@components/ui";
+import { CheckboxInput, FloatingInput } from "@/components/ui";
 import { DollarSign, Tag } from "lucide-react";
 import { useFormContext } from "react-hook-form";
-import { ProductDetails } from "@types";
+import { ProductDetails } from "@/types";
 import CategoryInput from "./CategoryInput";
 import DescriptionInput from "./DescriptionInput";
 import ImageInput from "./ImageInput";

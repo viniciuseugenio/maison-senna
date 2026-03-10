@@ -1,5 +1,5 @@
-import sennaImg from "@assets/senna-music.jpg";
-import { Button, HorizontalDivider, VerticalDivider } from "@components/ui";
+import sennaImg from "@/assets/senna-music.jpg";
+import { Button, HorizontalDivider, VerticalDivider } from "@/components/ui";
 import { Github, Linkedin } from "lucide-react";
 import ProjectTool from "./ProjectTool";
 

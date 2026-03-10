@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
-import { NavbarLinkProps } from "@types";
+import { NavbarLinkProps } from "@/types";
 
 const NavbarLink: React.FC<NavbarLinkProps> = ({
   label,

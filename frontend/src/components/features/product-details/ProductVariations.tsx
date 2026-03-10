@@ -1,4 +1,4 @@
-import { VariationOption } from "@types";
+import { VariationOption } from "@/types";
 import { groupOptions } from "@/utils/groupOptions";
 import VariantButton from "./VariantButton";
 
