@@ -1,4 +1,4 @@
-import { getProducts } from "@/api/catalog/products.service";
+import { getProducts } from "@api/services";
 import { ProductList } from "@/types/catalog";
 import { SelectInput } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";

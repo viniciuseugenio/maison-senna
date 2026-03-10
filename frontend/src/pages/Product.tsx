@@ -1,4 +1,4 @@
-import { getProduct } from "@/api/catalog/products.service";
+import { getProduct } from "@api/services";
 import {
   DetailsTabs,
   ProductReviews,

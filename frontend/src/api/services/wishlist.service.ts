@@ -2,7 +2,7 @@ import { PaginationResults, WishlistItem } from "@/types/catalog";
 import { buildApiUrl } from "../endpoints/buildApiUrl";
 import { CATALOG_ENDPOINTS } from "../endpoints/constants";
 import { customFetch } from "../endpoints/customFetch";
-import { genericDeleteModel } from "./products.service";
+import { genericDeleteModel } from "../services/products.service";
 
 export async function getWishlistItems({
   limit,

@@ -2,7 +2,7 @@ import {
   checkUserAuthenticity,
   loginUser,
   logoutUser,
-} from "@/api/auth/auth.service";
+} from "@api/services";
 import { AUTH_ENDPOINTS } from "@/api/endpoints/constants";
 import { customFetch } from "@/api/endpoints/customFetch";
 import { errorNotifications, toastMessages } from "@/constants/auth";

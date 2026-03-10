@@ -1,4 +1,4 @@
-import { getCategory } from "@/api/catalog/categories.service";
+import { getCategory } from "@api/services";
 import {
   CategoryContent,
   CollectionSkeleton,

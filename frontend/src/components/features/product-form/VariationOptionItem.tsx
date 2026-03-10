@@ -1,7 +1,7 @@
 import {
   deleteVariationOption,
   updateVariationOption,
-} from "@/api/catalog/variations.service";
+} from "@api/services";
 import { useOptimisticMutation } from "@/hooks/useOptimisticMutation";
 import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";

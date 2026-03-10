@@ -1,4 +1,4 @@
-import { getVariationKinds } from "@/api/catalog/variations.service";
+import { getVariationKinds } from "@api/services";
 import { NewProductForm } from "@/types/forms";
 import { InputError, SelectInput } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";

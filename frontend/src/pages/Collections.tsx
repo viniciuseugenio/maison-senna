@@ -1,4 +1,4 @@
-import { getCategories } from "@/api/catalog/categories.service";
+import { getCategories } from "@api/services";
 import {
   Card,
   CardSkeleton,
