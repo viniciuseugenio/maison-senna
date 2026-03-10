@@ -2,7 +2,7 @@ import { errorNotifications, toastMessages } from "@/constants/auth";
 import { ApiResponseType } from "@/types/api";
 import { User as UserType } from "@/types/auth";
 import { toast } from "@/utils/customToast";
-import { customFetch } from "@api/client/customFetch";
+import { customFetch } from "@api/client";
 import { AUTH_ENDPOINTS } from "@api/constants";
 import { checkUserAuthenticity, loginUser, logoutUser } from "@api/services";
 import { useGoogleLogin } from "@react-oauth/google";

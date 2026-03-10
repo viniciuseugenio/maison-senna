@@ -4,9 +4,8 @@ import {
   VariationKind,
   VariationOptionList,
 } from "@/types/catalog";
-import { buildApiUrl } from "@api/client/buildApiUrl";
+import { buildApiUrl, customFetch } from "@api/client";
 import { CATALOG_ENDPOINTS } from "@api/constants";
-import { customFetch } from "@api/client/customFetch";
 import { genericDeleteModel } from "./products.service";
 
 export async function getVariationKinds() {
