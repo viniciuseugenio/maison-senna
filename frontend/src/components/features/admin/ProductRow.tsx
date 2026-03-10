@@ -1,6 +1,6 @@
-import { buildApiUrl } from "@/api/client/buildApiUrl";
-import { CATALOG_ENDPOINTS } from "@api/constants";
 import { ProductList } from "@/types/catalog";
+import { buildApiUrl } from "@api/client";
+import { CATALOG_ENDPOINTS } from "@api/constants";
 import TableActions from "./RowActions";
 import TableData from "./TableData";
 import TableRow from "./TableRow";

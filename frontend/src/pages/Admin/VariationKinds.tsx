@@ -1,7 +1,7 @@
-import { getVariationKinds } from "@api/services";
-import { buildApiUrl } from "@/api/client/buildApiUrl";
-import { CATALOG_ENDPOINTS } from "@api/constants";
 import { HeaderConfig } from "@/types/admin";
+import { buildApiUrl } from "@api/client";
+import { CATALOG_ENDPOINTS } from "@api/constants";
+import { getVariationKinds } from "@api/services";
 import {
   LoadingRow,
   PageLayout,
