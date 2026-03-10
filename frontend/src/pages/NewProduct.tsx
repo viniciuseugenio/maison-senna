@@ -6,7 +6,7 @@ import { NewProductForm } from "@/types/forms";
 import { toast } from "@/utils/customToast";
 import { setServerErrors } from "@/utils/setServerErrors";
 import { BackButton } from "@components/features/admin";
-import ProductForm from "@components/features/product-form/ProductForm";
+import { ProductForm } from "@components/features/product-form";
 import { HorizontalDivider } from "@components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
