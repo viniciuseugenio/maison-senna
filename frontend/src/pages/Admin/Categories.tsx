@@ -1,6 +1,6 @@
 import { getCategories } from "@api/services";
 import { buildApiUrl } from "@/api/client/buildApiUrl";
-import { CATALOG_ENDPOINTS } from "@/api/endpoints/constants";
+import { CATALOG_ENDPOINTS } from "@api/constants";
 import { HeaderConfig } from "@/types/admin";
 import {
   AdminPageLayout,
