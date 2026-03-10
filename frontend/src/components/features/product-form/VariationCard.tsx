@@ -1,5 +1,5 @@
 import { getVariationKinds } from "@api/services";
-import { NewProductForm } from "@/types/forms";
+import { NewProductForm } from "@types";
 import { InputError, SelectInput } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Layers, Plus, Trash2 } from "lucide-react";

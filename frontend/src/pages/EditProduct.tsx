@@ -1,6 +1,6 @@
 import { getProduct, updateProduct } from "@api/services";
 import newProduct from "@/schemas/newProduct";
-import { NewProductForm } from "@/types/forms";
+import { NewProductForm } from "@types";
 import { toast } from "@/utils/customToast";
 import { getUpdatedFields, partialFormData } from "@/utils/products/helpers";
 import { setServerErrors } from "@/utils/setServerErrors";

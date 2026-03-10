@@ -1,4 +1,4 @@
-import { HeaderConfig } from "@/types/admin";
+import { HeaderConfig } from "@types";
 import { buildApiUrl } from "@api/client";
 import { CATALOG_ENDPOINTS } from "@api/constants";
 import { getVariationKinds } from "@api/services";

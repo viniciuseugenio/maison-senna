@@ -1,5 +1,5 @@
 import { useAuth } from "@/store/useAuth.ts";
-import { UiStateType } from "@/types/navbar.ts";
+import { UiStateType } from "@types";
 import ShoppingCart from "@components/features/cart/ShoppingCart.tsx";
 import SearchOverlay from "@components/features/search/SearchOverlay.tsx";
 import { Modal } from "@components/ui";

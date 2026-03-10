@@ -1,6 +1,6 @@
 import { loginSchema } from "@/schemas/auth";
 import { useAuth } from "@/store/useAuth";
-import { LoginForm } from "@/types/auth";
+import { LoginForm } from "@types";
 import { toast } from "@/utils/customToast";
 import { LoginPasswordInput, SocialLogin } from "@components/features/auth";
 import { Button, FloatingInput, HorizontalDivider } from "@components/ui";

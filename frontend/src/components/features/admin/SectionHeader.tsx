@@ -1,4 +1,4 @@
-import { SectionHeaderProps } from "@/types/admin";
+import { SectionHeaderProps } from "@types";
 import { twMerge } from "tailwind-merge";
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({

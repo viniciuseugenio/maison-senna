@@ -1,4 +1,4 @@
-import { PageLayoutProps } from "@/types/admin";
+import { PageLayoutProps } from "@types";
 import { HorizontalDivider } from "@components/ui";
 import { Plus, Search } from "lucide-react";
 import { useRef } from "react";
