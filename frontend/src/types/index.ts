@@ -5,3 +5,4 @@ export * from "./catalog";
 export * from "./customToast";
 export * from "./forms";
 export * from "./navbar";
+export * from "./product-form";
