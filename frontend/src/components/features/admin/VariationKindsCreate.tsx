@@ -1,7 +1,7 @@
 import { addVariationKind } from "@api/services";
 import { toastMessages } from "@/constants/auth";
 import { variationKindsSchema } from "@/schemas/variations";
-import { VariationKindsForm } from "@/types/forms";
+import { VariationKindsForm } from "@types";
 import { toast } from "@/utils/customToast";
 import { Button, FloatingInput } from "@components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";

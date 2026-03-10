@@ -1,7 +1,6 @@
-import { ProductDetails } from "@/types/catalog";
-import { NewProductForm } from "@/types/forms";
 import CancelLink from "@components/shared/CancelLink";
 import { Button } from "@components/ui";
+import { NewProductForm, ProductDetails } from "@types";
 import { ArrowLeft, Check, Package, Palette } from "lucide-react";
 import { useState } from "react";
 import {

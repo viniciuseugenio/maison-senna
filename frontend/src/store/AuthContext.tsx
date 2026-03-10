@@ -1,4 +1,4 @@
-import { User } from "@/types/auth";
+import { User } from "@types";
 import { useLogin } from "@hooks/auth";
 import { createContext } from "react";
 

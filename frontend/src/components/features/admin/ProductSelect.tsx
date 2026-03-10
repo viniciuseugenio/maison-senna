@@ -1,5 +1,5 @@
 import { getProducts } from "@api/services";
-import { ProductList } from "@/types/catalog";
+import { ProductList } from "@types";
 import { SelectInput } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingBagIcon } from "lucide-react";

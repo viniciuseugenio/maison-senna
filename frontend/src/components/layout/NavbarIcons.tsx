@@ -1,5 +1,5 @@
 import { useAuth } from "@/store/useAuth";
-import { UiStateType } from "@/types/navbar";
+import { UiStateType } from "@types";
 import { AuthButtons } from "@components/features/auth";
 import UserDropdown from "@components/user/UserDropdown";
 import { Search, ShoppingBag } from "lucide-react";

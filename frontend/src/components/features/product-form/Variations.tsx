@@ -1,4 +1,4 @@
-import { VariationOption } from "@/types/catalog";
+import { VariationOption } from "@types";
 import { groupOptions } from "@/utils/groupOptions";
 import { VariationCard } from "@components/features/product-form";
 import { Button } from "@components/ui";

@@ -1,5 +1,5 @@
 import { getVariationKinds } from "@api/services";
-import { VariationKind } from "@/types/catalog";
+import { VariationKind } from "@types";
 import { SelectInput } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Layers } from "lucide-react";

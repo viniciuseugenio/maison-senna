@@ -1,4 +1,4 @@
-import { CategoryWithProducts } from "@/types/catalog";
+import { CategoryWithProducts } from "@types";
 import ProductGrid from "./ProductGrid";
 import EmptyState from "./EmptyState";
 

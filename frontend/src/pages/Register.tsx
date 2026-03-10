@@ -1,7 +1,7 @@
 import { registerUser } from "@api/services";
 import { registerFormErrors } from "@/constants/auth";
 import { registerSchema } from "@/schemas/auth";
-import { RegisterForm } from "@/types/auth";
+import { RegisterForm } from "@types";
 import { toast } from "@/utils/customToast";
 import { transformKeys } from "@/utils/transformKeys";
 import { RegisterPasswordInputs, SocialLogin } from "@components/features/auth";

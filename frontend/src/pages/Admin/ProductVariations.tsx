@@ -1,5 +1,5 @@
 import { getProductVariations } from "@api/services";
-import { HeaderConfig } from "@/types/admin";
+import { HeaderConfig } from "@types";
 import {
   LoadingRow,
   PageLayout,

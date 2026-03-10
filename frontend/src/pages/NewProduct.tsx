@@ -2,7 +2,7 @@ import { createProduct } from "@api/services";
 import { toastMessages } from "@/constants/auth";
 import { convertToFormData } from "@/lib/convertToFormData";
 import newProductSchema from "@/schemas/newProduct";
-import { NewProductForm } from "@/types/forms";
+import { NewProductForm } from "@types";
 import { toast } from "@/utils/customToast";
 import { setServerErrors } from "@/utils/setServerErrors";
 import { BackButton } from "@components/features/admin";

@@ -4,7 +4,7 @@ import {
 } from "@api/services";
 import { HorizontalDivider } from "@components/ui";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { ProductList } from "@/types/catalog";
+import { ProductList } from "@types";
 import NavbarButton from "@components/layout/NavbarButton";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Heart, Sparkles } from "lucide-react";

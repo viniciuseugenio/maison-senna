@@ -1,5 +1,5 @@
 import { ProductCard } from "@components/ui";
-import { CategoryWithProducts } from "@/types/catalog";
+import { CategoryWithProducts } from "@types";
 
 type ProductGridProps = {
   category: CategoryWithProducts | undefined;

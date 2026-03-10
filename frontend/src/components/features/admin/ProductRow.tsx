@@ -1,4 +1,4 @@
-import { ProductList } from "@/types/catalog";
+import { ProductList } from "@types";
 import { buildApiUrl } from "@api/client";
 import { CATALOG_ENDPOINTS } from "@api/constants";
 import TableActions from "./RowActions";

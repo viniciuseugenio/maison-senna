@@ -1,5 +1,5 @@
 import { FormVariationOption } from "@components/features/product-form/types";
-import { NewProductForm } from "@/types/forms";
+import { NewProductForm } from "@types";
 
 function formatVariations(variations: FormVariationOption[]) {
   const newVariations = variations.map((variation) => ({
