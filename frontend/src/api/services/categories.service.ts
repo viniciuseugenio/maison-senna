@@ -1,7 +1,7 @@
 import { Category, CategoryWithProducts } from "@/types/catalog";
 import { CATALOG_ENDPOINTS } from "../endpoints/constants";
-import { customFetch } from "../endpoints/customFetch";
-import { buildApiUrl } from "../endpoints/buildApiUrl";
+import { customFetch } from "../client/customFetch";
+import { buildApiUrl } from "../client/buildApiUrl";
 
 export async function addCategory(data: { name: string }) {
   return await customFetch<Category>(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES, {
