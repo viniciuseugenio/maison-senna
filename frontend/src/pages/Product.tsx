@@ -1,8 +1,10 @@
 import { getProduct } from "@/api/catalog/products.service";
-import WishlistButton from "@/components/features/product-details/WishlistButton";
-import DetailsTabs from "@components/features/product-details/DetailsTabs";
-import ProductReviews from "@components/features/product-details/ProductReviews";
-import ProductVariations from "@components/features/product-details/ProductVariations";
+import {
+  DetailsTabs,
+  ProductReviews,
+  ProductVariations,
+  WishlistButton,
+} from "@components/features/product-details";
 import { Button } from "@components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Share2, ShoppingBag, Star } from "lucide-react";
