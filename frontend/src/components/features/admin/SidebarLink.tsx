@@ -1,4 +1,4 @@
-import { NavLink, NavLinkProps } from "react-router";
+import { NavLink, NavLinkProps } from "@tanstack/react-router";
 import { twMerge } from "tailwind-merge";
 
 const SidebarLink: React.FC<NavLinkProps> = ({ to, end, children }) => {

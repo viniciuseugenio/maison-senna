@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, Tag } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate } from "@tanstack/react-router";
 import FormModal from "./FormModal";
 
 const VariationKindsCreate: React.FC = () => {

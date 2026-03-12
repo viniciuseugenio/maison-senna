@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { snakeCase } from "change-case";
 import { Mail, User, UserPlus } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 

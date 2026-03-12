@@ -9,7 +9,7 @@ import { Button } from "@/components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { Share2, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import ProductLoading from "./ProductLoading";
 
 const Product: React.FC = () => {

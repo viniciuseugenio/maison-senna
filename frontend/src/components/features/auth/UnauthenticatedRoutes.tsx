@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/store/useAuth";
 
 const UnauthenticatedRoutes: React.FC = () => {

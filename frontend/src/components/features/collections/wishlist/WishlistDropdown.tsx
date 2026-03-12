@@ -11,7 +11,7 @@ import { Heart, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 
 const CardSkeleton: React.FC = () => {
   return (

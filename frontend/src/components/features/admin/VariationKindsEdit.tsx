@@ -9,7 +9,7 @@ import { toast } from "@/utils/customToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import FormModal from "./FormModal";
 
 const VariationKindsEdit: React.FC = () => {

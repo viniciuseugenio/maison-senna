@@ -7,7 +7,7 @@ import {
 } from "@/components/features/collections";
 import { Button } from "@/components/ui";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 
 const Collections: React.FC = () => {
   const {

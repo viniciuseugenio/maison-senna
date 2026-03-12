@@ -1,10 +1,10 @@
 import { getFeaturedProducts } from "@/api/services";
 import { Button, HorizontalDivider, ProductCard } from "@/components/ui";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 
 export default function FeaturedProducts() {
-  const { data: featuredProducts } = useQuery({
+  const { data: featuredProducts } = useSuspenseQuery({
     queryFn: getFeaturedProducts,
     queryKey: ["featuredProducts"],
   });

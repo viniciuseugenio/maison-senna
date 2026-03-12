@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 import { Instagram, Twitter, Facebook } from "lucide-react";
 import FooterSocialLink from "./FooterSocialLink";
 import FooterLi from "./FooterLi";

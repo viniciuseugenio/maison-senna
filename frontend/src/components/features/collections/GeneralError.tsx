@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui";
 import { RefetchOptions } from "@tanstack/react-query";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 
 type GeneralErrorProps = {
   refetch: any;

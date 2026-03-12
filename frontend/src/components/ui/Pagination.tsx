@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect } from "react";
-import { useSearchParams } from "react-router";
+import { useSearch } from "@tanstack/react-router";
 import { twMerge } from "tailwind-merge";
 
 type PageButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -79,7 +79,7 @@ const Pagination: React.FC<{ qtyPages: number; windowSize?: number }> = ({
   qtyPages,
   windowSize,
 }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearch();
   const currentPage = Number(searchParams.get("page") ?? 1);
 
   const setCurrentPage = useCallback(

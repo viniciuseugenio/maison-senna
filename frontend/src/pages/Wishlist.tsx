@@ -7,13 +7,13 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { X } from "lucide-react";
-import { Link, useSearchParams } from "react-router";
+import { Link, useSearch } from "@tanstack/react-router";
 
 const Wishlist: React.FC = () => {
   const queryClient = useQueryClient();
 
   const itemsPerPage = 12;
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearch();
   const page = Number(searchParams.get("page") ?? "1");
 
   const { data: wishlist } = useQuery({

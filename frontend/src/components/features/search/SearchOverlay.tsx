@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Loader2, Search, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 
 interface SearchOverlayProps {
   isOpen: boolean;

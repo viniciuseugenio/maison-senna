@@ -1,4 +1,4 @@
-import { useLocation } from "react-router";
+import { useLocation } from "@tanstack/react-router";
 
 export default function useLastSegment() {
   const location = useLocation();

@@ -1,5 +1,5 @@
 import NavbarButton from "@/components/layout/NavbarButton";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 
 /**
  * `AuthButtons` is a presentational React component that renders

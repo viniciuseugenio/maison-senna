@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 import { z } from "zod";
 
 const forgotPasswordSchema = z.object({

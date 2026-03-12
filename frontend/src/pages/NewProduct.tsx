@@ -11,7 +11,7 @@ import { HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 const NewProduct: React.FC = () => {
   const methods = useForm<NewProductForm>({

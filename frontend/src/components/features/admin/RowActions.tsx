@@ -6,7 +6,7 @@ import { toast } from "@/utils/customToast";
 import { Modal } from "@/components/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 import TableData from "./TableData";
 
 type TableActionsProps = {

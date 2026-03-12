@@ -8,13 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
 export default function Login() {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearch();
   const next = searchParams.get("next") ?? "/";
 
   const methods = useForm({

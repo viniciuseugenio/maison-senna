@@ -2,7 +2,7 @@ import { PageLayoutProps } from "@/types";
 import { HorizontalDivider } from "@/components/ui";
 import { Plus, Search } from "lucide-react";
 import { useRef } from "react";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 import BackButton from "./BackButton";
 import PageTitle from "./PageTitle";
 import TableHead from "./TableHead";

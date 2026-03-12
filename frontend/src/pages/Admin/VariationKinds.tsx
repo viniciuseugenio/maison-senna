@@ -13,7 +13,7 @@ import {
 } from "@/components/features/admin";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
-import { useMatch } from "react-router";
+import { useMatch } from "@tanstack/react-router";
 
 const VariationKinds: React.FC = () => {
   const matchNew = useMatch("/admin/variation-kinds/new");

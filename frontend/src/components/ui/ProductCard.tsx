@@ -1,5 +1,5 @@
 import { ProductList } from "@/types";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 
 type ProductCardProps = {
   product: ProductList;

@@ -6,7 +6,7 @@ import { checkUserAuthenticity, loginUser, logoutUser } from "@/api/services";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiResponseType, User as UserType } from "@/types";
-import { useNavigate } from "react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 export function useAuthUser() {
   return useQuery<{ authenticated: boolean; user: any }>({

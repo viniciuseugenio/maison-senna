@@ -9,7 +9,7 @@ import {
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form";
-import { useSearchParams } from "react-router";
+import { useSearch } from "@tanstack/react-router";
 import BasicInfo from "./BasicInfo";
 import StepInfo from "./StepInfo";
 import Variations from "./Variations";
@@ -63,7 +63,7 @@ function ProductForm<T extends FieldValues>({
   ];
 
   const qtySteps = steps.length - 1;
-  const [searchParams, _] = useSearchParams();
+  const [searchParams, _] = useSearch();
   let step = Number(searchParams.get("step"));
   step = step > qtySteps ? qtySteps : step;
   const [currentStep, setCurrentStep] = useState(step ?? 0);

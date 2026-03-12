@@ -1,5 +1,5 @@
 import { Grid, Home, Layers, Settings, ShoppingBag, Tag } from "lucide-react";
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet } from "@tanstack/react-router";
 import SectionHeader from "./SectionHeader";
 import SidebarLink from "./SidebarLink";
 

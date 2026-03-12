@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from "react-router";
+import { Navigate, Outlet, useLocation } from "@tanstack/react-router";
 import { useAuth } from "@/store/useAuth";
 
 type ProtectedRouteProps = {

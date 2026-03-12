@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 
 const BackButton: React.FC<{ link?: string; label?: string }> = ({
   link = "/admin",

@@ -1,7 +1,7 @@
 import { LogOut, User } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 import { twMerge } from "tailwind-merge";
 import NavbarButton from "@/components/layout/NavbarButton";
 import { useAuth } from "@/store/useAuth";

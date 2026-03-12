@@ -6,7 +6,7 @@ import { Modal } from "@/components/ui";
 import { LogOut, Menu } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useCallback, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 import MobileNavigation from "./MobileNavigation.tsx";
 import NavbarButton from "./NavbarButton.tsx";
 import NavbarIcons from "./NavbarIcons.tsx";

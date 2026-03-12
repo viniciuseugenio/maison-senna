@@ -1,11 +1,12 @@
-import { Outlet } from "react-router";
 import { Toaster } from "sonner";
 
-const ToasterWrapper: React.FC = () => {
+const ToasterWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <>
       <Toaster position="top-right" />
-      <Outlet />
+      {children}
     </>
   );
 };

@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { z } from "zod";
 
 const resetPasswordSchema = z.object({
@@ -22,7 +22,7 @@ const resetPasswordSchema = z.object({
 type ResetPasswordForm = z.infer<typeof resetPasswordSchema>;
 
 const ResetPassword: React.FC = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearch();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 

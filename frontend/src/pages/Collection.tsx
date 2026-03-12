@@ -7,7 +7,7 @@ import {
 } from "@/components/features/collections";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 
 const Collection: React.FC = () => {
   const params = useParams();
