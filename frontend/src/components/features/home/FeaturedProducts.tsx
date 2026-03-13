@@ -2,13 +2,10 @@ import { getFeaturedProducts } from "@/api/services";
 import { Button, HorizontalDivider, ProductCard } from "@/components/ui";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { Suspense } from "react";
+import Skeleton from "react-loading-skeleton";
 
-export default function FeaturedProducts() {
-  const { data: featuredProducts } = useSuspenseQuery({
-    queryFn: getFeaturedProducts,
-    queryKey: ["featuredProducts"],
-  });
-
+const FeaturedProducts: React.FC = () => {
   return (
     <section className="py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,12 +20,9 @@ export default function FeaturedProducts() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredProducts &&
-            featuredProducts.map((product) => (
-              <ProductCard product={product} key={product.id} />
-            ))}
-        </div>
+        <Suspense fallback={<FeaturedProductsSkeleton />}>
+          <FeaturedProductsGrid />
+        </Suspense>
 
         <div className="mt-16 flex items-center justify-center">
           <Link to="/collections">
@@ -37,5 +31,36 @@ export default function FeaturedProducts() {
         </div>
       </div>
     </section>
+  );
+};
+export default FeaturedProducts;
+
+function FeaturedProductsGrid() {
+  const { data: featuredProducts } = useSuspenseQuery({
+    queryFn: getFeaturedProducts,
+    queryKey: ["featuredProducts"],
+  });
+  return (
+    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {featuredProducts &&
+        featuredProducts.map((product) => (
+          <ProductCard product={product} key={product.id} />
+        ))}
+    </div>
+  );
+}
+
+function FeaturedProductsSkeleton() {
+  return (
+    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="text-center">
+          <Skeleton width={345} height={345} />
+          <Skeleton width={60} height={16} className="mt-6" />
+          <Skeleton width={180} height={28} className="mt-2" />
+          <Skeleton width={60} height={16} className="mt-2" />
+        </div>
+      ))}
+    </div>
   );
 }
