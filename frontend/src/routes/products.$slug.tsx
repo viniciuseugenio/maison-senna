@@ -6,41 +6,40 @@ import {
   WishlistButton,
 } from "@/components/features/product-details";
 import { Button } from "@/components/ui";
-import { useQuery } from "@tanstack/react-query";
+import ProductLoading from "@/pages/ProductLoading";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { Share2, ShoppingBag, Star } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "@tanstack/react-router";
-import ProductLoading from "./ProductLoading";
+import { useState } from "react";
 
-const Product: React.FC = () => {
+const productQueryOptions = (slug: string) =>
+  queryOptions({
+    queryKey: ["products", slug],
+    queryFn: () => getProduct(slug),
+  });
+
+export const Route = createFileRoute("/products/$slug")({
+  loader: ({ context: { queryClient }, params }) => {
+    queryClient.ensureQueryData(productQueryOptions(params.slug));
+  },
+  component: Product,
+  pendingComponent: ProductLoading,
+});
+
+function Product() {
   const MIN_QTY = 1;
   const MAX_QTY = 10;
 
   const [quantity, setQuantity] = useState(MIN_QTY);
-  const { slug } = useParams();
-  const navigate = useNavigate();
+  const { slug } = Route.useParams();
 
-  useEffect(() => {
-    if (!slug) {
-      navigate("/", { replace: true });
-    }
-  }, [navigate, slug]);
+  const { data: product } = useSuspenseQuery(productQueryOptions(slug));
 
   const handleQuantityChange = (value: number) => {
     if (value >= MIN_QTY && value <= MAX_QTY) {
       setQuantity(value);
     }
   };
-
-  const { data: product, isPending } = useQuery({
-    queryFn: () => getProduct(slug as string),
-    queryKey: ["products", slug],
-    enabled: !!slug,
-  });
-
-  if (isPending || !product) {
-    return <ProductLoading />;
-  }
 
   return (
     <>
@@ -147,6 +146,6 @@ const Product: React.FC = () => {
       </section>
     </>
   );
-};
+}
 
 export default Product;

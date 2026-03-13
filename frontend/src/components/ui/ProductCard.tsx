@@ -11,7 +11,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   return (
     <div key={product.slug} className="group">
-      <Link to={`/products/${product.slug}`}>
+      <Link to="/products/$slug" params={{ slug: product.slug }}>
         <div className="relative aspect-square overflow-hidden">
           <img
             src={product.referenceImage}
