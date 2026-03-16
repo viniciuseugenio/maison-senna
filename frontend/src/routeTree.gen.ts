@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppWishlistRouteImport } from './routes/_app/wishlist'
 import { Route as AppCollectionsRouteImport } from './routes/_app/collections'
 import { Route as AppProductsSlugRouteImport } from './routes/_app/products.$slug'
 import { Route as AppCollectionsSlugRouteImport } from './routes/_app/collections_.$slug'
@@ -22,6 +23,11 @@ const AppRoute = AppRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppWishlistRoute = AppWishlistRouteImport.update({
+  id: '/wishlist',
+  path: '/wishlist',
   getParentRoute: () => AppRoute,
 } as any)
 const AppCollectionsRoute = AppCollectionsRouteImport.update({
@@ -43,11 +49,13 @@ const AppCollectionsSlugRoute = AppCollectionsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/collections': typeof AppCollectionsRoute
+  '/wishlist': typeof AppWishlistRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
   '/products/$slug': typeof AppProductsSlugRoute
 }
 export interface FileRoutesByTo {
   '/collections': typeof AppCollectionsRoute
+  '/wishlist': typeof AppWishlistRoute
   '/': typeof AppIndexRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
   '/products/$slug': typeof AppProductsSlugRoute
@@ -56,19 +64,31 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/_app/collections': typeof AppCollectionsRoute
+  '/_app/wishlist': typeof AppWishlistRoute
   '/_app/': typeof AppIndexRoute
   '/_app/collections_/$slug': typeof AppCollectionsSlugRoute
   '/_app/products/$slug': typeof AppProductsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/collections' | '/collections/$slug' | '/products/$slug'
+  fullPaths:
+    | '/'
+    | '/collections'
+    | '/wishlist'
+    | '/collections/$slug'
+    | '/products/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/collections' | '/' | '/collections/$slug' | '/products/$slug'
+  to:
+    | '/collections'
+    | '/wishlist'
+    | '/'
+    | '/collections/$slug'
+    | '/products/$slug'
   id:
     | '__root__'
     | '/_app'
     | '/_app/collections'
+    | '/_app/wishlist'
     | '/_app/'
     | '/_app/collections_/$slug'
     | '/_app/products/$slug'
@@ -92,6 +112,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/wishlist': {
+      id: '/_app/wishlist'
+      path: '/wishlist'
+      fullPath: '/wishlist'
+      preLoaderRoute: typeof AppWishlistRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/collections': {
@@ -120,6 +147,7 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppCollectionsRoute: typeof AppCollectionsRoute
+  AppWishlistRoute: typeof AppWishlistRoute
   AppIndexRoute: typeof AppIndexRoute
   AppCollectionsSlugRoute: typeof AppCollectionsSlugRoute
   AppProductsSlugRoute: typeof AppProductsSlugRoute
@@ -127,6 +155,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppCollectionsRoute: AppCollectionsRoute,
+  AppWishlistRoute: AppWishlistRoute,
   AppIndexRoute: AppIndexRoute,
   AppCollectionsSlugRoute: AppCollectionsSlugRoute,
   AppProductsSlugRoute: AppProductsSlugRoute,
