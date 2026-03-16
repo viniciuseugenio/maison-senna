@@ -1,22 +1,26 @@
-import { NavLink, NavLinkProps } from "@tanstack/react-router";
 import { twMerge } from "tailwind-merge";
+import { Link, LinkComponentProps } from "@tanstack/react-router";
 
-const SidebarLink: React.FC<NavLinkProps> = ({ to, end, children }) => {
-  const activeStyling = "bg-oyster/10 text-oyster border-r-oyster border-r-2";
-  const inactiveStyling = "hover:bg-oyster/10 hover:text-mine-shaft";
-
+const SidebarLink: React.FC<LinkComponentProps> = ({
+  to,
+  children,
+  ...props
+}) => {
   return (
-    <NavLink
-      className={({ isActive }) =>
-        twMerge(
-          `text-mine-shaft/80 flex w-full items-center gap-2 px-6 py-3 text-sm transition-colors duration-300 ${isActive ? activeStyling : inactiveStyling}`,
-        )
-      }
+    <Link
+      activeOptions={{ exact: true }}
+      activeProps={{
+        className: "bg-oyster/10 text-oyster border-r-oyster border-r-2",
+      }}
+      className={twMerge(
+        "text-mine-shaft/80 hover:bg-oyster/10 hover:text-mine-shaft flex w-full items-center gap-2 px-6 py-3 text-sm transition-colors duration-300",
+        "hover:bg-oyster/10 hover:text-mine-shaft",
+      )}
       to={to}
-      end={end}
+      {...props}
     >
       {children}
-    </NavLink>
+    </Link>
   );
 };
 
