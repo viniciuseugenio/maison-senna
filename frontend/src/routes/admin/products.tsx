@@ -1,17 +1,27 @@
 import { getProducts } from "@/api/services";
-import { HeaderConfig } from "@/types";
 import {
   AdminPageLayout,
   LoadingRow,
   ProductRow,
 } from "@/components/features/admin";
-import { useQuery } from "@tanstack/react-query";
+import { HeaderConfig } from "@/types";
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 
-const AdminProducts: React.FC = () => {
-  const { data: products, isLoading } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
-  });
+const adminProductsOptions = queryOptions({
+  queryKey: ["products"],
+  queryFn: getProducts,
+});
+
+export const Route = createFileRoute("/admin/products")({
+  loader: ({ context: { queryClient } }) => {
+    queryClient.ensureQueryData(adminProductsOptions);
+  },
+  component: AdminProducts,
+});
+
+function AdminProducts() {
+  const { data: products, isLoading } = useQuery(adminProductsOptions);
   const results = products?.results;
 
   const headers: HeaderConfig[] = [
@@ -43,6 +53,4 @@ const AdminProducts: React.FC = () => {
       )}
     </AdminPageLayout>
   );
-};
-
-export default AdminProducts;
+}
