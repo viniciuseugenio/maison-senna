@@ -12,7 +12,7 @@ const collectionQueryOptions = (slug: string) =>
     queryFn: () => getCategory(slug),
   });
 
-export const Route = createFileRoute("/collections_/$slug")({
+export const Route = createFileRoute("/_app/collections_/$slug")({
   loader: ({ context: { queryClient }, params }) => {
     queryClient.ensureQueryData(collectionQueryOptions(params.slug));
   },

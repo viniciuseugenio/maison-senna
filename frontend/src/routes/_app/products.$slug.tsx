@@ -18,7 +18,7 @@ const productQueryOptions = (slug: string) =>
     queryFn: () => getProduct(slug),
   });
 
-export const Route = createFileRoute("/products/$slug")({
+export const Route = createFileRoute("/_app/products/$slug")({
   loader: ({ context: { queryClient }, params }) => {
     queryClient.ensureQueryData(productQueryOptions(params.slug));
   },

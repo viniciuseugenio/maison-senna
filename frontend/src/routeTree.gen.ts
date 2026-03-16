@@ -9,109 +9,133 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as CollectionsRouteImport } from './routes/collections'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
-import { Route as CollectionsSlugRouteImport } from './routes/collections_.$slug'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppCollectionsRouteImport } from './routes/_app/collections'
+import { Route as AppProductsSlugRouteImport } from './routes/_app/products.$slug'
+import { Route as AppCollectionsSlugRouteImport } from './routes/_app/collections_.$slug'
 
-const CollectionsRoute = CollectionsRouteImport.update({
-  id: '/collections',
-  path: '/collections',
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const ProductsSlugRoute = ProductsSlugRouteImport.update({
+const AppCollectionsRoute = AppCollectionsRouteImport.update({
+  id: '/collections',
+  path: '/collections',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProductsSlugRoute = AppProductsSlugRouteImport.update({
   id: '/products/$slug',
   path: '/products/$slug',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
+const AppCollectionsSlugRoute = AppCollectionsSlugRouteImport.update({
   id: '/collections_/$slug',
   path: '/collections/$slug',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/collections': typeof CollectionsRoute
-  '/collections/$slug': typeof CollectionsSlugRoute
-  '/products/$slug': typeof ProductsSlugRoute
+  '/': typeof AppIndexRoute
+  '/collections': typeof AppCollectionsRoute
+  '/collections/$slug': typeof AppCollectionsSlugRoute
+  '/products/$slug': typeof AppProductsSlugRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/collections': typeof CollectionsRoute
-  '/collections/$slug': typeof CollectionsSlugRoute
-  '/products/$slug': typeof ProductsSlugRoute
+  '/collections': typeof AppCollectionsRoute
+  '/': typeof AppIndexRoute
+  '/collections/$slug': typeof AppCollectionsSlugRoute
+  '/products/$slug': typeof AppProductsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/collections': typeof CollectionsRoute
-  '/collections_/$slug': typeof CollectionsSlugRoute
-  '/products/$slug': typeof ProductsSlugRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/collections': typeof AppCollectionsRoute
+  '/_app/': typeof AppIndexRoute
+  '/_app/collections_/$slug': typeof AppCollectionsSlugRoute
+  '/_app/products/$slug': typeof AppProductsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/collections' | '/collections/$slug' | '/products/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/collections' | '/collections/$slug' | '/products/$slug'
+  to: '/collections' | '/' | '/collections/$slug' | '/products/$slug'
   id:
     | '__root__'
-    | '/'
-    | '/collections'
-    | '/collections_/$slug'
-    | '/products/$slug'
+    | '/_app'
+    | '/_app/collections'
+    | '/_app/'
+    | '/_app/collections_/$slug'
+    | '/_app/products/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  CollectionsRoute: typeof CollectionsRoute
-  CollectionsSlugRoute: typeof CollectionsSlugRoute
-  ProductsSlugRoute: typeof ProductsSlugRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/collections': {
-      id: '/collections'
-      path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof CollectionsRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/products/$slug': {
-      id: '/products/$slug'
+    '/_app/collections': {
+      id: '/_app/collections'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof AppCollectionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/products/$slug': {
+      id: '/_app/products/$slug'
       path: '/products/$slug'
       fullPath: '/products/$slug'
-      preLoaderRoute: typeof ProductsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppProductsSlugRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/collections_/$slug': {
-      id: '/collections_/$slug'
+    '/_app/collections_/$slug': {
+      id: '/_app/collections_/$slug'
       path: '/collections/$slug'
       fullPath: '/collections/$slug'
-      preLoaderRoute: typeof CollectionsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppCollectionsSlugRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
 
+interface AppRouteChildren {
+  AppCollectionsRoute: typeof AppCollectionsRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppCollectionsSlugRoute: typeof AppCollectionsSlugRoute
+  AppProductsSlugRoute: typeof AppProductsSlugRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppCollectionsRoute: AppCollectionsRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppCollectionsSlugRoute: AppCollectionsSlugRoute,
+  AppProductsSlugRoute: AppProductsSlugRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  CollectionsRoute: CollectionsRoute,
-  CollectionsSlugRoute: CollectionsSlugRoute,
-  ProductsSlugRoute: ProductsSlugRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

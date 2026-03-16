@@ -12,7 +12,7 @@ const featuredPostsQuery = queryOptions({
   queryFn: getFeaturedProducts,
 });
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_app/")({
   loader: ({ context }) => {
     context.queryClient.ensureQueryData(featuredPostsQuery);
   },

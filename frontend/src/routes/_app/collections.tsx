@@ -15,7 +15,7 @@ const collectionsQueryOptions = queryOptions({
   queryFn: getCategories,
 });
 
-export const Route = createFileRoute("/collections")({
+export const Route = createFileRoute("/_app/collections")({
   loader: ({ context }) => {
     context.queryClient.ensureQueryData(collectionsQueryOptions);
   },
