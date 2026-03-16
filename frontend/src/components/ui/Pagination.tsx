@@ -1,34 +1,10 @@
+import { Link, useRouter, useSearch } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useCallback, useEffect } from "react";
-import { useSearch } from "@tanstack/react-router";
+import { useCallback } from "react";
 import { twMerge } from "tailwind-merge";
-
-type PageButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  isActive?: boolean;
-  children: React.ReactNode;
-};
-
-const PageButton: React.FC<PageButtonProps> = ({
-  isActive,
-  children,
-  ...props
-}) => {
-  return (
-    <button
-      className={twMerge(
-        "hover:text-mine-shaft cursor-pointer duration-300",
-        isActive && "text-mine-shaft underline underline-offset-8",
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
 
 type PageListProps = {
   currentPage: number;
-  setCurrentPage: (page: number) => void;
   qtyPages: number;
   /**
    * Number of visible page buttons (e.g., 7, 9, 11).
@@ -39,7 +15,6 @@ type PageListProps = {
 
 const PageList: React.FC<PageListProps> = ({
   currentPage,
-  setCurrentPage,
   qtyPages,
   windowSize = 7,
 }) => {
@@ -63,13 +38,17 @@ const PageList: React.FC<PageListProps> = ({
   return (
     <div className="flex items-center gap-6 font-serif text-lg">
       {trimmedPages.map((pageNum) => (
-        <PageButton
-          key={pageNum}
-          onClick={() => setCurrentPage(pageNum)}
-          isActive={currentPage === pageNum}
+        <Link
+          className={twMerge(
+            "hover:text-mine-shaft cursor-pointer duration-300",
+            currentPage === pageNum &&
+              "text-mine-shaft underline underline-offset-8",
+          )}
+          to="."
+          search={(prev) => ({ ...prev, page: pageNum })}
         >
           {pageNum}
-        </PageButton>
+        </Link>
       ))}
     </div>
   );
@@ -79,64 +58,45 @@ const Pagination: React.FC<{ qtyPages: number; windowSize?: number }> = ({
   qtyPages,
   windowSize,
 }) => {
-  const [searchParams, setSearchParams] = useSearch();
-  const currentPage = Number(searchParams.get("page") ?? 1);
-
-  const setCurrentPage = useCallback(
-    (page: number) =>
-      setSearchParams((prev) => {
-        const currentParams = new URLSearchParams(prev);
-        currentParams.set("page", `${page}`);
-        return currentParams;
-      }),
-    [setSearchParams],
-  );
-
-  const handleChangeCurrentPage = useCallback(
-    (newValue: number) => {
-      if (newValue < 1 || newValue > qtyPages) return;
-      setCurrentPage(newValue);
-    },
-    [qtyPages, setCurrentPage],
-  );
-
-  useEffect(() => {
-    if (currentPage < 1) {
-      handleChangeCurrentPage(1);
-    } else if (currentPage > qtyPages) {
-      handleChangeCurrentPage(qtyPages);
-    }
-  }, [currentPage, qtyPages, handleChangeCurrentPage]);
+  const { page: currentPage = 1 } = useSearch({ strict: false });
 
   const prevNextStyling =
     "flex items-center gap-2 disabled:opacity-40 hover:text-mine-shaft cursor-pointer text-xs group uppercase";
 
   return (
     <div className="text-mine-shaft/80 mt-12 flex items-center justify-center gap-10">
-      <button
+      <Link
         className={prevNextStyling}
-        onClick={() => handleChangeCurrentPage(currentPage - 1)}
+        to="."
+        search={(prev) => ({
+          ...prev,
+          page: prev.page && prev.page > 1 ? prev.page - 1 : 1,
+        })}
         disabled={currentPage === 1}
       >
         <ChevronLeft className="h-4 w-4 duration-300 group-hover:-translate-x-2" />
         <span className="tracking-[0.25em]">Prev</span>
-      </button>
+      </Link>
 
       <PageList
         currentPage={currentPage}
         qtyPages={qtyPages}
-        setCurrentPage={setCurrentPage}
         windowSize={windowSize}
       />
 
-      <button
+      <Link
+        to="."
         className={prevNextStyling}
-        onClick={() => handleChangeCurrentPage(currentPage + 1)}
         disabled={currentPage === qtyPages}
+        aria-disabled={currentPage === qtyPages}
+        search={(prev) => ({
+          ...prev,
+          page: prev.page && prev.page < qtyPages ? prev.page + 1 : qtyPages,
+        })}
       >
         <span className="tracking-[0.25em]">Next</span>
         <ChevronRight className="h-4 w-4 duration-300 group-hover:translate-x-2" />
-      </button>
+      </Link>
     </div>
   );
 };
