@@ -1,9 +1,9 @@
+import { useLocation } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Outlet, useLocation } from "@tanstack/react-router";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -17,4 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Footer />
     </div>
   );
-}
+};
+
+export default Layout;
