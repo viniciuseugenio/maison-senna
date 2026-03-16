@@ -1,6 +1,11 @@
 import { getDashboardStatistics } from "@/api/services";
 import { BigBox, PageTitle, SmallBox } from "@/components/features/admin";
-import { useQuery } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useQuery,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import {
   DollarSign,
   Grid,
@@ -11,22 +16,40 @@ import {
   Users,
 } from "lucide-react";
 
-const AdminDashboard: React.FC = () => {
-  const { data: statistics } = useQuery({
-    queryFn: getDashboardStatistics,
-    queryKey: ["adminStatistics"],
-  });
+const dashboardQueryOptions = queryOptions({
+  queryFn: getDashboardStatistics,
+  queryKey: ["adminStatistics"],
+});
+
+export const Route = createFileRoute("/admin/")({
+  loader: ({ context: { queryClient } }) => {
+    queryClient.ensureQueryData(dashboardQueryOptions);
+  },
+  component: AdminDashboard,
+  pendingComponent: AdminDashboard,
+});
+
+function AdminDashboard() {
+  const { data: statistics, isLoading } = useQuery(dashboardQueryOptions);
 
   return (
     <div>
       <PageTitle>Admin Dashboard</PageTitle>
       <div className="mt-8 mb-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <SmallBox Icon={DollarSign} title="Total Revenue" data="$24,500" />
-        <SmallBox Icon={ShoppingBag} title="Total Orders" data="156" />
+        <SmallBox
+          Icon={DollarSign}
+          title="Total Revenue"
+          data={isLoading ? "$0" : "$24,500"}
+        />
+        <SmallBox
+          Icon={ShoppingBag}
+          title="Total Orders"
+          data={isLoading ? "0" : "156"}
+        />
         <SmallBox
           Icon={Users}
           title="Total Customers"
-          data={statistics?.totalCustomers}
+          data={statistics?.totalCustomers ?? 0}
         />
       </div>
 
@@ -73,6 +96,4 @@ const AdminDashboard: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default AdminDashboard;
+}
