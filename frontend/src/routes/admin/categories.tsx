@@ -1,4 +1,3 @@
-import { HeaderConfig } from "@/types";
 import { buildApiUrl } from "@/api/client";
 import { CATALOG_ENDPOINTS } from "@/api/constants";
 import { getCategories } from "@/api/services";
@@ -11,17 +10,28 @@ import {
   TableRow,
 } from "@/components/features/admin";
 import useLastSegment from "@/hooks/lastSegment";
-import { useQuery } from "@tanstack/react-query";
+import { HeaderConfig } from "@/types";
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence } from "motion/react";
 
-const AdminCategories: React.FC = () => {
+const categoriesQueryOptions = queryOptions({
+  queryFn: getCategories,
+  queryKey: ["categories"],
+});
+
+export const Route = createFileRoute("/admin/categories")({
+  loader: ({ context: { queryClient } }) => {
+    queryClient.ensureQueryData(categoriesQueryOptions);
+  },
+  component: AdminCategories,
+});
+
+function AdminCategories() {
   const lastSegment = useLastSegment();
   const isModalOpen = lastSegment === "new";
 
-  const { data: categories, isLoading } = useQuery({
-    queryFn: getCategories,
-    queryKey: ["categories"],
-  });
+  const { data: categories, isLoading } = useQuery(categoriesQueryOptions);
 
   const createDeleteLink = (slug: string) => {
     return buildApiUrl(CATALOG_ENDPOINTS.CATEGORY_DETAILS, { slug });
@@ -68,6 +78,6 @@ const AdminCategories: React.FC = () => {
       </AdminPageLayout>
     </>
   );
-};
+}
 
 export default AdminCategories;

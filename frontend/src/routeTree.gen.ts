@@ -14,6 +14,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AdminProductsRouteImport } from './routes/admin/products'
+import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AppWishlistRouteImport } from './routes/_app/wishlist'
 import { Route as AppCollectionsRouteImport } from './routes/_app/collections'
 import { Route as AppProductsSlugRouteImport } from './routes/_app/products.$slug'
@@ -43,6 +44,11 @@ const AdminProductsRoute = AdminProductsRouteImport.update({
   path: '/products',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AppWishlistRoute = AppWishlistRouteImport.update({
   id: '/wishlist',
   path: '/wishlist',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/collections': typeof AppCollectionsRoute
   '/wishlist': typeof AppWishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/': typeof AdminIndexRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
@@ -77,6 +84,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/collections': typeof AppCollectionsRoute
   '/wishlist': typeof AppWishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/products': typeof AdminProductsRoute
   '/': typeof AppIndexRoute
   '/admin': typeof AdminIndexRoute
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/_app/collections': typeof AppCollectionsRoute
   '/_app/wishlist': typeof AppWishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/products': typeof AdminProductsRoute
   '/_app/': typeof AppIndexRoute
   '/admin/': typeof AdminIndexRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/collections'
     | '/wishlist'
+    | '/admin/categories'
     | '/admin/products'
     | '/admin/'
     | '/collections/$slug'
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
   to:
     | '/collections'
     | '/wishlist'
+    | '/admin/categories'
     | '/admin/products'
     | '/'
     | '/admin'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/_app/collections'
     | '/_app/wishlist'
+    | '/admin/categories'
     | '/admin/products'
     | '/_app/'
     | '/admin/'
@@ -168,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/admin/products'
       preLoaderRoute: typeof AdminProductsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/_app/wishlist': {
@@ -220,11 +239,13 @@ const AppRouteChildren: AppRouteChildren = {
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface AdminRouteChildren {
+  AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCategoriesRoute: AdminCategoriesRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
