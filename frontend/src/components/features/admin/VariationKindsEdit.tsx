@@ -1,32 +1,37 @@
-import {
-  getVariationKind,
-  updateVariationKind,
-} from "@/api/services";
+import { getVariationKind, updateVariationKind } from "@/api/services";
+import { FormModal } from "@/components/features/admin";
+import { Button, FloatingInput } from "@/components/ui";
 import { toastMessages } from "@/constants/auth";
 import { variationKindsSchema } from "@/schemas/variations";
 import { VariationKindsForm } from "@/types";
 import { toast } from "@/utils/customToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "@tanstack/react-router";
-import FormModal from "./FormModal";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Pen, Tag } from "lucide-react";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-const VariationKindsEdit: React.FC = () => {
+function VariationKindsEdit() {
   const navigate = useNavigate();
-  const { id: stringId } = useParams();
-  const id = Number(stringId);
+  const { id } = useSearch({ from: "/admin/variation-kinds" });
   const queryClient = useQueryClient();
 
   const onClose = () => {
-    navigate(-1);
+    navigate({
+      to: ".",
+      search: (prev) => ({
+        ...prev,
+        modal: undefined,
+        id: undefined,
+      }),
+    });
   };
 
   const methods = useForm({
     resolver: zodResolver(variationKindsSchema.partial()),
   });
 
-  const { setError } = methods;
+  const { handleSubmit, setError } = methods;
 
   const { data: variationKind } = useQuery({
     queryFn: () => getVariationKind(id),
@@ -41,7 +46,7 @@ const VariationKindsEdit: React.FC = () => {
         title: toastMessages.admin.variationKindUpdated.title,
       });
       queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
-      navigate(-1);
+      onClose();
     },
     onError: (error) => {
       if (error.errors) {
@@ -65,15 +70,30 @@ const VariationKindsEdit: React.FC = () => {
 
   return (
     <FormModal
-      methods={methods}
-      defaultValue={variationKind?.name}
-      modelName="Variation Kind"
-      onSubmit={onSubmit}
+      title="Edit Variation Kind"
       onClose={onClose}
       isPending={isPending}
-      isEdit
-    />
+    >
+      <FormProvider {...methods}>
+        <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
+          <FloatingInput
+            icon={<Tag className="h-4 w-4" />}
+            name="name"
+            label="Name"
+            defaultValue={variationKind?.name}
+          />
+          <Button
+            isLoading={isPending}
+            loadingLabel="Creating..."
+            className="mt-4 w-full gap-2"
+          >
+            <Pen className="h-4 w-4" />
+            Edit
+          </Button>
+        </form>
+      </FormProvider>
+    </FormModal>
   );
-};
+}
 
 export default VariationKindsEdit;

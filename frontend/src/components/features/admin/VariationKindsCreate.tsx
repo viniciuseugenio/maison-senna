@@ -16,14 +16,20 @@ const VariationKindsCreate: React.FC = () => {
   const queryClient = useQueryClient();
 
   const onClose = () => {
-    navigate(-1);
+    navigate({
+      to: ".",
+      search: (prev) => ({
+        ...prev,
+        modal: undefined,
+      }),
+    });
   };
 
   const { mutate, isPending } = useMutation({
     mutationFn: addVariationKind,
     mutationKey: ["createVariationKind"],
     onSuccess: () => {
-      navigate(-1);
+      onClose();
       queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
       toast.success({ title: toastMessages.admin.variationKindCreated.title });
     },
