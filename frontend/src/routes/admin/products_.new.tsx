@@ -1,19 +1,29 @@
 import { createProduct } from "@/api/services";
+import { BackButton } from "@/components/features/admin";
+import { ProductForm } from "@/components/features/product-form";
+import { HorizontalDivider } from "@/components/ui";
 import { toastMessages } from "@/constants/auth";
 import { convertToFormData } from "@/lib/convertToFormData";
 import newProductSchema from "@/schemas/newProduct";
 import { NewProductForm } from "@/types";
 import { toast } from "@/utils/customToast";
 import { setServerErrors } from "@/utils/setServerErrors";
-import { BackButton } from "@/components/features/admin";
-import { ProductForm } from "@/components/features/product-form";
-import { HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
 
-const NewProduct: React.FC = () => {
+const searchSchema = z.object({
+  step: z.coerce.number().int().min(0).default(0),
+});
+
+export const Route = createFileRoute("/admin/products_/new")({
+  validateSearch: (search) => searchSchema.parse(search),
+  component: NewProduct,
+});
+
+function NewProduct() {
   const methods = useForm<NewProductForm>({
     resolver: zodResolver(newProductSchema),
     mode: "onBlur",
@@ -38,7 +48,7 @@ const NewProduct: React.FC = () => {
         title: data.detail,
         description: data.description,
       });
-      navigate("/admin/products/");
+      navigate({ to: "/admin/products" });
     },
     onError: (error) => {
       if (error.errors) {
@@ -81,6 +91,6 @@ const NewProduct: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default NewProduct;
