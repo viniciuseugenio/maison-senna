@@ -26,7 +26,7 @@ const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
       <TableData>{product.basePrice}</TableData>
       <TableData>{product.slug}</TableData>
       <TableActions
-        editLink={`edit/${product.slug}`}
+        editLink={`${product.slug}/edit`}
         deleteLink={deleteLink}
         resourceType="Product"
         queryKey={["products"]}

@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { CircleCheckBig, LucideIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
@@ -6,9 +7,9 @@ type StepInfoProps = {
   label: string;
   description: string;
   isLast: boolean;
-  onClick?: () => void;
   isCurrentStep: boolean;
   isComplete?: boolean;
+  step: number;
 };
 
 const StepInfo: React.FC<StepInfoProps> = ({
@@ -16,19 +17,20 @@ const StepInfo: React.FC<StepInfoProps> = ({
   label,
   description,
   isLast,
-  onClick,
   isCurrentStep,
   isComplete = false,
+  step,
 }) => {
   const DisplayIcon = isComplete ? CircleCheckBig : Icon;
 
   return (
     <>
       <div className="flex flex-col items-center justify-center">
-        <div
+        <Link
+          to="."
+          search={{ step }}
           tabIndex={0}
           role="button"
-          onClick={onClick}
           className={twMerge(
             "border-oyster text-oyster inline-block cursor-pointer rounded-full border-2 bg-white p-3 shadow-md transition-all duration-300 hover:shadow-xl",
             !isCurrentStep && "border-oyster/40 text-mine-shaft/50",
@@ -36,7 +38,7 @@ const StepInfo: React.FC<StepInfoProps> = ({
           )}
         >
           <DisplayIcon className="h-5 w-5" />
-        </div>
+        </Link>
         <div className="mt-2 text-center transition-all duration-300">
           <p
             className={twMerge(

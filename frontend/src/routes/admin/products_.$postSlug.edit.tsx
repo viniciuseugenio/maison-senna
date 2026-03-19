@@ -1,25 +1,46 @@
 import { getProduct, updateProduct } from "@/api/services";
+import { BackButton } from "@/components/features/admin";
+import { ProductForm } from "@/components/features/product-form";
+import { HorizontalDivider } from "@/components/ui";
 import newProduct from "@/schemas/newProduct";
 import { NewProductForm } from "@/types";
 import { toast } from "@/utils/customToast";
 import { getUpdatedFields, partialFormData } from "@/utils/products/helpers";
 import { setServerErrors } from "@/utils/setServerErrors";
-import { BackButton } from "@/components/features/admin";
-import { ProductForm } from "@/components/features/product-form";
-import { HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useParams } from "@tanstack/react-router";
+import { z } from "zod";
 
-const EditProduct: React.FC = () => {
-  const { slug } = useParams();
-  const queryClient = useQueryClient();
+const searchSchema = z.object({
+  step: z.coerce.number().int().min(0).default(0),
+});
 
-  const { data: product, isLoading } = useQuery({
+const productQueryOptions = (slug: string) =>
+  queryOptions({
     queryFn: () => getProduct(slug as string),
     queryKey: ["products", slug],
   });
+
+export const Route = createFileRoute("/admin/products_/$postSlug/edit")({
+  validateSearch: (search) => searchSchema.parse(search),
+  loader: ({ context: { queryClient }, params }) => {
+    queryClient.ensureQueryData(productQueryOptions(params.postSlug));
+  },
+  component: EditProduct,
+});
+
+function EditProduct() {
+  const { postSlug: slug } = Route.useParams();
+  const queryClient = useQueryClient();
+
+  const { data: product } = useSuspenseQuery(productQueryOptions(slug));
 
   const methods = useForm({
     resolver: zodResolver(newProduct.partial()),
@@ -61,10 +82,6 @@ const EditProduct: React.FC = () => {
     mutate(formData);
   };
 
-  if (isLoading) {
-    return null;
-  }
-
   return (
     <section>
       <BackButton label="Products" link="/admin/products" />
@@ -86,6 +103,6 @@ const EditProduct: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default EditProduct;

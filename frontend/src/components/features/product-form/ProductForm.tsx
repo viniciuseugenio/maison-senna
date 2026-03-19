@@ -1,15 +1,14 @@
 import CancelLink from "@/components/shared/CancelLink";
 import { Button } from "@/components/ui";
 import { NewProductForm, ProductDetails } from "@/types";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { ArrowLeft, Check, Package, Palette } from "lucide-react";
-import { useState } from "react";
 import {
   FieldValues,
   FormProvider,
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form";
-import { useSearch } from "@tanstack/react-router";
 import BasicInfo from "./BasicInfo";
 import StepInfo from "./StepInfo";
 import Variations from "./Variations";
@@ -29,6 +28,7 @@ function ProductForm<T extends FieldValues>({
   onSubmit,
   buttonLabel,
 }: ProductFormProps<T>) {
+  const navigate = useNavigate();
   const { handleSubmit, trigger } = methods;
 
   const getErrorMessage = (error: any) => {
@@ -62,31 +62,27 @@ function ProductForm<T extends FieldValues>({
     },
   ];
 
-  const qtySteps = steps.length - 1;
-  const [searchParams, _] = useSearch();
-  let step = Number(searchParams.get("step"));
-  step = step > qtySteps ? qtySteps : step;
-  const [currentStep, setCurrentStep] = useState(step ?? 0);
-
-  const isLastStep = steps.length - 1 === currentStep;
-
+  const totalSteps = steps.length - 1;
+  const search = useSearch({ strict: false });
+  const stepNumber = Math.min(search.step ?? 0, steps.length - 1) as number;
+  const isLastStep = totalSteps === stepNumber;
   type FieldName = keyof NewProductForm;
 
   const nextStep = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const fields = steps[currentStep].fields;
+    const fields = steps[stepNumber].fields;
     const output = await trigger(fields as FieldName[], { shouldFocus: true });
 
     if (!output) return;
 
-    setCurrentStep((prev) => (prev == steps.length - 1 ? prev : prev + 1));
-  };
-
-  const prevStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
+    navigate({
+      to: ".",
+      search: (prev) => ({
+        ...prev,
+        step: stepNumber + 1,
+      }),
+    });
   };
 
   return (
@@ -98,30 +94,38 @@ function ProductForm<T extends FieldValues>({
             Icon={step.icon}
             label={step.label}
             description={step.description}
-            isLast={i === steps.length - 1}
-            isComplete={currentStep > i}
-            isCurrentStep={currentStep === i}
-            onClick={() => setCurrentStep(i)}
+            isLast={i === totalSteps}
+            isComplete={stepNumber > i}
+            isCurrentStep={stepNumber === i}
+            step={i}
           />
         ))}
       </div>
 
       <FormProvider {...methods}>
         <form className="space-y-12" onSubmit={handleSubmit(onSubmit)}>
-          {currentStep === 0 && (
+          {stepNumber === 0 && (
             <BasicInfo data={data} getErrorMessage={getErrorMessage} />
           )}
 
-          {currentStep === 1 && <Variations data={data?.variationOptions} />}
+          {stepNumber === 1 && <Variations data={data?.variationOptions} />}
 
           <div className="flex justify-between">
             <div>
-              {currentStep !== 0 && (
+              {stepNumber !== 0 && (
                 <Button
-                  onClick={prevStep}
                   color="brown"
                   type="button"
                   className="text-oyster border-oyster/40 hover:bg-oyster gap-1 border bg-transparent hover:text-white"
+                  onClick={() =>
+                    navigate({
+                      to: ".",
+                      search: (prev) => ({
+                        ...prev,
+                        step: stepNumber - 1,
+                      }),
+                    })
+                  }
                 >
                   <ArrowLeft className="h-4 w-4" />
                   Previous step
