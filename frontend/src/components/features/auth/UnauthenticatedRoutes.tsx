@@ -1,16 +1,12 @@
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/store/useAuth";
+import { Navigate, Outlet } from "@tanstack/react-router";
 
 const UnauthenticatedRoutes: React.FC = () => {
   const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return <Outlet />;
 };
