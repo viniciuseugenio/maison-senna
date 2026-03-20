@@ -1,22 +1,29 @@
 import { registerUser } from "@/api/services";
+import {
+  RegisterPasswordInputs,
+  SocialLogin,
+} from "@/components/features/auth";
+import { Button, FloatingInput, HorizontalDivider } from "@/components/ui";
 import { registerFormErrors } from "@/constants/auth";
 import { registerSchema } from "@/schemas/auth";
 import { RegisterForm } from "@/types";
 import { toast } from "@/utils/customToast";
 import { transformKeys } from "@/utils/transformKeys";
-import { RegisterPasswordInputs, SocialLogin } from "@/components/features/auth";
-import { Button, FloatingInput, HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { snakeCase } from "change-case";
 import { Mail, User, UserPlus } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/_app/_auth/register")({
+  component: Register,
+});
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
-export default function Register() {
+function Register() {
   const navigate = useNavigate();
 
   const methods = useForm<RegisterForm>({

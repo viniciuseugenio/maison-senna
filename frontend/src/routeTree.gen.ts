@@ -22,6 +22,7 @@ import { Route as AppAuthRouteImport } from './routes/_app/_auth'
 import { Route as AdminProductsNewRouteImport } from './routes/admin/products_.new'
 import { Route as AppProductsSlugRouteImport } from './routes/_app/products.$slug'
 import { Route as AppCollectionsSlugRouteImport } from './routes/_app/collections_.$slug'
+import { Route as AppAuthRegisterRouteImport } from './routes/_app/_auth/register'
 import { Route as AppAuthLoginRouteImport } from './routes/_app/_auth/login'
 import { Route as AdminProductsPostSlugEditRouteImport } from './routes/admin/products_.$postSlug.edit'
 
@@ -88,6 +89,11 @@ const AppCollectionsSlugRoute = AppCollectionsSlugRouteImport.update({
   path: '/collections/$slug',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAuthRegisterRoute = AppAuthRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AppAuthRoute,
+} as any)
 const AppAuthLoginRoute = AppAuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/admin/': typeof AdminIndexRoute
   '/login': typeof AppAuthLoginRoute
+  '/register': typeof AppAuthRegisterRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
   '/products/$slug': typeof AppProductsSlugRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/admin': typeof AdminIndexRoute
   '/login': typeof AppAuthLoginRoute
+  '/register': typeof AppAuthRegisterRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
   '/products/$slug': typeof AppProductsSlugRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/_app/': typeof AppIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/_app/_auth/login': typeof AppAuthLoginRoute
+  '/_app/_auth/register': typeof AppAuthRegisterRoute
   '/_app/collections_/$slug': typeof AppCollectionsSlugRoute
   '/_app/products/$slug': typeof AppProductsSlugRoute
   '/admin/products_/new': typeof AdminProductsNewRoute
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/admin/variation-kinds'
     | '/admin/'
     | '/login'
+    | '/register'
     | '/collections/$slug'
     | '/products/$slug'
     | '/admin/products/new'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/admin/variation-kinds'
     | '/admin'
     | '/login'
+    | '/register'
     | '/collections/$slug'
     | '/products/$slug'
     | '/admin/products/new'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/_app/'
     | '/admin/'
     | '/_app/_auth/login'
+    | '/_app/_auth/register'
     | '/_app/collections_/$slug'
     | '/_app/products/$slug'
     | '/admin/products_/new'
@@ -294,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCollectionsSlugRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/_auth/register': {
+      id: '/_app/_auth/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AppAuthRegisterRouteImport
+      parentRoute: typeof AppAuthRoute
+    }
     '/_app/_auth/login': {
       id: '/_app/_auth/login'
       path: '/login'
@@ -313,10 +332,12 @@ declare module '@tanstack/react-router' {
 
 interface AppAuthRouteChildren {
   AppAuthLoginRoute: typeof AppAuthLoginRoute
+  AppAuthRegisterRoute: typeof AppAuthRegisterRoute
 }
 
 const AppAuthRouteChildren: AppAuthRouteChildren = {
   AppAuthLoginRoute: AppAuthLoginRoute,
+  AppAuthRegisterRoute: AppAuthRegisterRoute,
 }
 
 const AppAuthRouteWithChildren =
