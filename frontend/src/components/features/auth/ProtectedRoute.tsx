@@ -11,14 +11,15 @@ export default function ProtectedRoute({
   requireAdmin = false,
 }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading, user } = useAuth();
-  const { pathname } = useLocation();
 
   if (isLoading) {
     return null;
   }
 
   if (!isAuthenticated) {
-    return <Navigate to={`/login?next=${pathname}`} replace />;
+    return (
+      <Navigate to="/login" search={{ next: location.pathname }} replace />
+    );
   }
 
   if (requireAdmin && user && !user.isAdmin) {
