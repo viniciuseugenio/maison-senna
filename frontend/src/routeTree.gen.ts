@@ -18,9 +18,11 @@ import { Route as AdminProductsRouteImport } from './routes/admin/products'
 import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AppWishlistRouteImport } from './routes/_app/wishlist'
 import { Route as AppCollectionsRouteImport } from './routes/_app/collections'
+import { Route as AppAuthRouteImport } from './routes/_app/_auth'
 import { Route as AdminProductsNewRouteImport } from './routes/admin/products_.new'
 import { Route as AppProductsSlugRouteImport } from './routes/_app/products.$slug'
 import { Route as AppCollectionsSlugRouteImport } from './routes/_app/collections_.$slug'
+import { Route as AppAuthLoginRouteImport } from './routes/_app/_auth/login'
 import { Route as AdminProductsPostSlugEditRouteImport } from './routes/admin/products_.$postSlug.edit'
 
 const AdminRoute = AdminRouteImport.update({
@@ -67,6 +69,10 @@ const AppCollectionsRoute = AppCollectionsRouteImport.update({
   path: '/collections',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAuthRoute = AppAuthRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => AppRoute,
+} as any)
 const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
   id: '/products_/new',
   path: '/products/new',
@@ -81,6 +87,11 @@ const AppCollectionsSlugRoute = AppCollectionsSlugRouteImport.update({
   id: '/collections_/$slug',
   path: '/collections/$slug',
   getParentRoute: () => AppRoute,
+} as any)
+const AppAuthLoginRoute = AppAuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AppAuthRoute,
 } as any)
 const AdminProductsPostSlugEditRoute =
   AdminProductsPostSlugEditRouteImport.update({
@@ -98,19 +109,21 @@ export interface FileRoutesByFullPath {
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/admin/': typeof AdminIndexRoute
+  '/login': typeof AppAuthLoginRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
   '/products/$slug': typeof AppProductsSlugRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/products/$postSlug/edit': typeof AdminProductsPostSlugEditRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AppIndexRoute
   '/collections': typeof AppCollectionsRoute
   '/wishlist': typeof AppWishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
-  '/': typeof AppIndexRoute
   '/admin': typeof AdminIndexRoute
+  '/login': typeof AppAuthLoginRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
   '/products/$slug': typeof AppProductsSlugRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -120,6 +133,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
+  '/_app/_auth': typeof AppAuthRouteWithChildren
   '/_app/collections': typeof AppCollectionsRoute
   '/_app/wishlist': typeof AppWishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -127,6 +141,7 @@ export interface FileRoutesById {
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/_app/': typeof AppIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/_app/_auth/login': typeof AppAuthLoginRoute
   '/_app/collections_/$slug': typeof AppCollectionsSlugRoute
   '/_app/products/$slug': typeof AppProductsSlugRoute
   '/admin/products_/new': typeof AdminProductsNewRoute
@@ -143,19 +158,21 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/admin/variation-kinds'
     | '/admin/'
+    | '/login'
     | '/collections/$slug'
     | '/products/$slug'
     | '/admin/products/new'
     | '/admin/products/$postSlug/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/collections'
     | '/wishlist'
     | '/admin/categories'
     | '/admin/products'
     | '/admin/variation-kinds'
-    | '/'
     | '/admin'
+    | '/login'
     | '/collections/$slug'
     | '/products/$slug'
     | '/admin/products/new'
@@ -164,6 +181,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_app'
     | '/admin'
+    | '/_app/_auth'
     | '/_app/collections'
     | '/_app/wishlist'
     | '/admin/categories'
@@ -171,6 +189,7 @@ export interface FileRouteTypes {
     | '/admin/variation-kinds'
     | '/_app/'
     | '/admin/'
+    | '/_app/_auth/login'
     | '/_app/collections_/$slug'
     | '/_app/products/$slug'
     | '/admin/products_/new'
@@ -247,6 +266,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCollectionsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/_auth': {
+      id: '/_app/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppAuthRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/admin/products_/new': {
       id: '/admin/products_/new'
       path: '/products/new'
@@ -268,6 +294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCollectionsSlugRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/_auth/login': {
+      id: '/_app/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AppAuthLoginRouteImport
+      parentRoute: typeof AppAuthRoute
+    }
     '/admin/products_/$postSlug/edit': {
       id: '/admin/products_/$postSlug/edit'
       path: '/products/$postSlug/edit'
@@ -278,7 +311,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppAuthRouteChildren {
+  AppAuthLoginRoute: typeof AppAuthLoginRoute
+}
+
+const AppAuthRouteChildren: AppAuthRouteChildren = {
+  AppAuthLoginRoute: AppAuthLoginRoute,
+}
+
+const AppAuthRouteWithChildren =
+  AppAuthRoute._addFileChildren(AppAuthRouteChildren)
+
 interface AppRouteChildren {
+  AppAuthRoute: typeof AppAuthRouteWithChildren
   AppCollectionsRoute: typeof AppCollectionsRoute
   AppWishlistRoute: typeof AppWishlistRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -287,6 +332,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAuthRoute: AppAuthRouteWithChildren,
   AppCollectionsRoute: AppCollectionsRoute,
   AppWishlistRoute: AppWishlistRoute,
   AppIndexRoute: AppIndexRoute,

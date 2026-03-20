@@ -1,21 +1,31 @@
+import { LoginPasswordInput, SocialLogin } from "@/components/features/auth";
+import { Button, FloatingInput, HorizontalDivider } from "@/components/ui";
 import { loginSchema } from "@/schemas/auth";
 import { useAuth } from "@/store/useAuth";
 import { LoginForm } from "@/types";
 import { toast } from "@/utils/customToast";
-import { LoginPasswordInput, SocialLogin } from "@/components/features/auth";
-import { Button, FloatingInput, HorizontalDivider } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { z } from "zod";
 
 const { VITE_GOOGLE_CLIENTID } = import.meta.env;
 
-export default function Login() {
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearch();
-  const next = searchParams.get("next") ?? "/";
+const searchParams = z.object({
+  next: z.string().optional(),
+});
+
+export const Route = createFileRoute("/_app/_auth/login")({
+  validateSearch: (search) => searchParams.parse(search),
+  component: Login,
+});
+
+function Login() {
+  const navigate = Route.useNavigate();
+  const search = Route.useSearch();
+  const next = search.next ?? "/";
 
   const methods = useForm({
     resolver: zodResolver(loginSchema),
@@ -29,7 +39,7 @@ export default function Login() {
       onSuccess: (data) => {
         toast.success({ title: data.detail, description: data.description });
         setTimeout(() => {
-          navigate(next, { replace: true });
+          navigate({ to: next, replace: true });
         }, 200);
       },
     });
