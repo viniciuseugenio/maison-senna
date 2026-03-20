@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-router";
 import { SkeletonTheme } from "react-loading-skeleton";
 
-interface RouterContext {
+export interface RouterContext {
   queryClient: QueryClient;
   auth: AuthContextType;
 }
