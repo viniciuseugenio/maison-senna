@@ -16,15 +16,6 @@ export type HeaderConfig = {
   onClick?: () => void;
 };
 
-export type PageLayoutProps = {
-  title: string;
-  actionLabel: string;
-  actionLink: string;
-  onSearch: (query: string) => void;
-  headers: HeaderConfig[];
-  children: React.ReactNode;
-};
-
 export type BigBoxProps = {
   to: string;
   title: string;

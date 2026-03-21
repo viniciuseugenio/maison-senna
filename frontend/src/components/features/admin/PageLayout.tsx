@@ -1,14 +1,25 @@
-import { PageLayoutProps } from "@/types";
 import { HorizontalDivider } from "@/components/ui";
+import { HeaderConfig } from "@/types";
+import { Link, LinkProps } from "@tanstack/react-router";
 import { Plus, Search } from "lucide-react";
 import { useRef } from "react";
-import { Link } from "@tanstack/react-router";
 import BackButton from "./BackButton";
 import PageTitle from "./PageTitle";
 import TableHead from "./TableHead";
 
+type PageLayoutProps = {
+  title: string;
+  actionLabel: string;
+  onSearch: (query: string) => void;
+  headers: HeaderConfig[];
+  children: React.ReactNode;
+  actionLink: LinkProps["to"];
+  linkSearch?: LinkProps["search"];
+};
+
 const PageLayout: React.FC<PageLayoutProps> = ({
   title,
+  linkSearch,
   actionLabel,
   actionLink,
   onSearch,
@@ -39,6 +50,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
           </h2>
           <Link
             to={actionLink}
+            search={linkSearch}
             className="bg-oyster/90 hover:bg-oyster flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 text-white transition-colors duration-300"
           >
             <Plus className="h-4 w-4" />

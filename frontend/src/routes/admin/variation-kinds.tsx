@@ -63,7 +63,8 @@ function VariationKinds() {
         title="Variation Kinds"
         headers={headers}
         actionLabel="New Variation Kind"
-        actionLink="?modal=new"
+        actionLink="."
+        linkSearch={{ modal: "new" }}
         onSearch={(query) => console.log(query)}
       >
         {!variationKinds || isLoading ? (
