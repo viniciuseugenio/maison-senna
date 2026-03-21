@@ -1,5 +1,6 @@
 import { deleteWishlistItem, getWishlistItems } from "@/api/services";
 import { Button, Pagination } from "@/components/ui";
+import { requiredAuthenticated } from "@/lib/route-guards";
 import {
   keepPreviousData,
   queryOptions,
@@ -25,6 +26,7 @@ const wishlistQueryOptions = (page: number) =>
   });
 
 export const Route = createFileRoute("/_app/wishlist")({
+  beforeLoad: requiredAuthenticated,
   loaderDeps: ({ search: { page } }) => ({ page }),
   loader: ({ context: { queryClient }, deps: { page } }) => {
     queryClient.ensureQueryData(wishlistQueryOptions(page));
