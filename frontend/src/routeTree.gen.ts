@@ -22,6 +22,7 @@ import { Route as AppAuthRouteImport } from './routes/_app/_auth'
 import { Route as AdminProductsNewRouteImport } from './routes/admin/products_.new'
 import { Route as AppProductsSlugRouteImport } from './routes/_app/products.$slug'
 import { Route as AppCollectionsSlugRouteImport } from './routes/_app/collections_.$slug'
+import { Route as AppAuthResetPasswordRouteImport } from './routes/_app/_auth/reset-password'
 import { Route as AppAuthRegisterRouteImport } from './routes/_app/_auth/register'
 import { Route as AppAuthLoginRouteImport } from './routes/_app/_auth/login'
 import { Route as AppAuthForgotPasswordRouteImport } from './routes/_app/_auth/forgot-password'
@@ -90,6 +91,11 @@ const AppCollectionsSlugRoute = AppCollectionsSlugRouteImport.update({
   path: '/collections/$slug',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAuthResetPasswordRoute = AppAuthResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => AppAuthRoute,
+} as any)
 const AppAuthRegisterRoute = AppAuthRegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof AppAuthForgotPasswordRoute
   '/login': typeof AppAuthLoginRoute
   '/register': typeof AppAuthRegisterRoute
+  '/reset-password': typeof AppAuthResetPasswordRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
   '/products/$slug': typeof AppProductsSlugRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof AppAuthForgotPasswordRoute
   '/login': typeof AppAuthLoginRoute
   '/register': typeof AppAuthRegisterRoute
+  '/reset-password': typeof AppAuthResetPasswordRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
   '/products/$slug': typeof AppProductsSlugRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/_app/_auth/forgot-password': typeof AppAuthForgotPasswordRoute
   '/_app/_auth/login': typeof AppAuthLoginRoute
   '/_app/_auth/register': typeof AppAuthRegisterRoute
+  '/_app/_auth/reset-password': typeof AppAuthResetPasswordRoute
   '/_app/collections_/$slug': typeof AppCollectionsSlugRoute
   '/_app/products/$slug': typeof AppProductsSlugRoute
   '/admin/products_/new': typeof AdminProductsNewRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/collections/$slug'
     | '/products/$slug'
     | '/admin/products/new'
@@ -195,6 +205,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/collections/$slug'
     | '/products/$slug'
     | '/admin/products/new'
@@ -214,6 +225,7 @@ export interface FileRouteTypes {
     | '/_app/_auth/forgot-password'
     | '/_app/_auth/login'
     | '/_app/_auth/register'
+    | '/_app/_auth/reset-password'
     | '/_app/collections_/$slug'
     | '/_app/products/$slug'
     | '/admin/products_/new'
@@ -318,6 +330,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCollectionsSlugRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/_auth/reset-password': {
+      id: '/_app/_auth/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof AppAuthResetPasswordRouteImport
+      parentRoute: typeof AppAuthRoute
+    }
     '/_app/_auth/register': {
       id: '/_app/_auth/register'
       path: '/register'
@@ -353,12 +372,14 @@ interface AppAuthRouteChildren {
   AppAuthForgotPasswordRoute: typeof AppAuthForgotPasswordRoute
   AppAuthLoginRoute: typeof AppAuthLoginRoute
   AppAuthRegisterRoute: typeof AppAuthRegisterRoute
+  AppAuthResetPasswordRoute: typeof AppAuthResetPasswordRoute
 }
 
 const AppAuthRouteChildren: AppAuthRouteChildren = {
   AppAuthForgotPasswordRoute: AppAuthForgotPasswordRoute,
   AppAuthLoginRoute: AppAuthLoginRoute,
   AppAuthRegisterRoute: AppAuthRegisterRoute,
+  AppAuthResetPasswordRoute: AppAuthResetPasswordRoute,
 }
 
 const AppAuthRouteWithChildren =

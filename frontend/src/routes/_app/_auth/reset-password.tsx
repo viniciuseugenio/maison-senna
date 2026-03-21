@@ -1,18 +1,28 @@
 import { resetPassword } from "@/api/services";
-import { errorNotifications } from "@/constants/auth";
-import { toast } from "@/utils/customToast";
-import { validatePassword } from "@/utils/validatePassword";
 import {
   FloatingInputPassword,
   PasswordRequirement,
 } from "@/components/features/auth";
 import { Button, HorizontalDivider } from "@/components/ui";
+import { errorNotifications } from "@/constants/auth";
+import { toast } from "@/utils/customToast";
+import { validatePassword } from "@/utils/validatePassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { z } from "zod";
+
+const searchSchema = z.object({
+  uid: z.string(),
+  token: z.string(),
+});
+
+export const Route = createFileRoute("/_app/_auth/reset-password")({
+  validateSearch: (search) => searchSchema.parse(search),
+  component: ResetPassword,
+});
 
 const resetPasswordSchema = z.object({
   password: z.string(),
@@ -21,13 +31,10 @@ const resetPasswordSchema = z.object({
 
 type ResetPasswordForm = z.infer<typeof resetPasswordSchema>;
 
-const ResetPassword: React.FC = () => {
-  const [searchParams] = useSearch();
+function ResetPassword() {
+  const { uid, token } = Route.useSearch();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-  const uid: string = searchParams.get("uid");
-  const token: string = searchParams.get("token");
 
   useEffect(() => {
     if (!uid || !token) {
@@ -36,7 +43,7 @@ const ResetPassword: React.FC = () => {
         description: errorNotifications.resetPasswordTokens.description,
         customId: "missing-tokens",
       });
-      navigate("/forgot-password");
+      navigate({ to: "/forgot-password" });
     }
   }, [uid, token, navigate]);
 
@@ -60,7 +67,7 @@ const ResetPassword: React.FC = () => {
         title: data.detail,
         description: data.description,
       });
-      navigate("/login");
+      navigate({ to: "/login" });
     },
     onError: (error) => {
       toast.error({
@@ -88,7 +95,7 @@ const ResetPassword: React.FC = () => {
         <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
           Reset Password
         </h1>
-        <HorizontalDivider className="mt-4" />
+        <HorizontalDivider className="mx-auto mt-4" />
         <p className="text-mine-shaft/80 mt-4 text-sm">
           Create a new password for your account
         </p>
@@ -146,6 +153,6 @@ const ResetPassword: React.FC = () => {
       </form>
     </FormProvider>
   );
-};
+}
 
 export default ResetPassword;
