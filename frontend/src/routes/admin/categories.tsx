@@ -9,11 +9,15 @@ import {
   TableData,
   TableRow,
 } from "@/components/features/admin";
-import useLastSegment from "@/hooks/lastSegment";
 import { HeaderConfig } from "@/types";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence } from "motion/react";
+import { z } from "zod";
+
+const searchSchema = z.object({
+  modal: z.literal("new").optional(),
+});
 
 const categoriesQueryOptions = queryOptions({
   queryFn: getCategories,
@@ -21,6 +25,7 @@ const categoriesQueryOptions = queryOptions({
 });
 
 export const Route = createFileRoute("/admin/categories")({
+  validateSearch: (search) => searchSchema.parse(search),
   loader: ({ context: { queryClient } }) => {
     queryClient.ensureQueryData(categoriesQueryOptions);
   },
@@ -28,8 +33,8 @@ export const Route = createFileRoute("/admin/categories")({
 });
 
 function AdminCategories() {
-  const lastSegment = useLastSegment();
-  const isModalOpen = lastSegment === "new";
+  const search = Route.useSearch();
+  const modal = search.modal;
 
   const { data: categories, isLoading } = useQuery(categoriesQueryOptions);
 
@@ -47,10 +52,11 @@ function AdminCategories() {
 
   return (
     <>
-      <AnimatePresence>{isModalOpen && <CategoryModal />}</AnimatePresence>
+      <AnimatePresence>{modal && <CategoryModal />}</AnimatePresence>
       <AdminPageLayout
         title="Categories"
-        actionLink="new"
+        actionLink="."
+        linkSearch={{ modal: "new" }}
         actionLabel="New Category"
         headers={headers}
         onSearch={(query) => console.log(query)}
@@ -60,7 +66,7 @@ function AdminCategories() {
         ) : (
           <>
             {categories.map((category) => (
-              <TableRow>
+              <TableRow key={category.id}>
                 <TableData>{category.id}</TableData>
                 <TableData>{category.name}</TableData>
                 <TableData>{category.slug}</TableData>
