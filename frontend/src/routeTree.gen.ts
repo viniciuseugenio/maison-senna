@@ -24,6 +24,7 @@ import { Route as AppProductsSlugRouteImport } from './routes/_app/products.$slu
 import { Route as AppCollectionsSlugRouteImport } from './routes/_app/collections_.$slug'
 import { Route as AppAuthRegisterRouteImport } from './routes/_app/_auth/register'
 import { Route as AppAuthLoginRouteImport } from './routes/_app/_auth/login'
+import { Route as AppAuthForgotPasswordRouteImport } from './routes/_app/_auth/forgot-password'
 import { Route as AdminProductsPostSlugEditRouteImport } from './routes/admin/products_.$postSlug.edit'
 
 const AdminRoute = AdminRouteImport.update({
@@ -99,6 +100,11 @@ const AppAuthLoginRoute = AppAuthLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AppAuthRoute,
 } as any)
+const AppAuthForgotPasswordRoute = AppAuthForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => AppAuthRoute,
+} as any)
 const AdminProductsPostSlugEditRoute =
   AdminProductsPostSlugEditRouteImport.update({
     id: '/products_/$postSlug/edit',
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/admin/': typeof AdminIndexRoute
+  '/forgot-password': typeof AppAuthForgotPasswordRoute
   '/login': typeof AppAuthLoginRoute
   '/register': typeof AppAuthRegisterRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/admin': typeof AdminIndexRoute
+  '/forgot-password': typeof AppAuthForgotPasswordRoute
   '/login': typeof AppAuthLoginRoute
   '/register': typeof AppAuthRegisterRoute
   '/collections/$slug': typeof AppCollectionsSlugRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/_app/': typeof AppIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/_app/_auth/forgot-password': typeof AppAuthForgotPasswordRoute
   '/_app/_auth/login': typeof AppAuthLoginRoute
   '/_app/_auth/register': typeof AppAuthRegisterRoute
   '/_app/collections_/$slug': typeof AppCollectionsSlugRoute
@@ -167,6 +176,7 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/admin/variation-kinds'
     | '/admin/'
+    | '/forgot-password'
     | '/login'
     | '/register'
     | '/collections/$slug'
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/admin/variation-kinds'
     | '/admin'
+    | '/forgot-password'
     | '/login'
     | '/register'
     | '/collections/$slug'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/admin/variation-kinds'
     | '/_app/'
     | '/admin/'
+    | '/_app/_auth/forgot-password'
     | '/_app/_auth/login'
     | '/_app/_auth/register'
     | '/_app/collections_/$slug'
@@ -320,6 +332,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuthLoginRouteImport
       parentRoute: typeof AppAuthRoute
     }
+    '/_app/_auth/forgot-password': {
+      id: '/_app/_auth/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof AppAuthForgotPasswordRouteImport
+      parentRoute: typeof AppAuthRoute
+    }
     '/admin/products_/$postSlug/edit': {
       id: '/admin/products_/$postSlug/edit'
       path: '/products/$postSlug/edit'
@@ -331,11 +350,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppAuthRouteChildren {
+  AppAuthForgotPasswordRoute: typeof AppAuthForgotPasswordRoute
   AppAuthLoginRoute: typeof AppAuthLoginRoute
   AppAuthRegisterRoute: typeof AppAuthRegisterRoute
 }
 
 const AppAuthRouteChildren: AppAuthRouteChildren = {
+  AppAuthForgotPasswordRoute: AppAuthForgotPasswordRoute,
   AppAuthLoginRoute: AppAuthLoginRoute,
   AppAuthRegisterRoute: AppAuthRegisterRoute,
 }

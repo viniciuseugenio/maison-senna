@@ -1,3 +1,4 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { requestPasswordReset } from "@/api/services";
 import { toast } from "@/utils/customToast";
 import { Button, FloatingInput, HorizontalDivider } from "@/components/ui";
@@ -8,13 +9,17 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "@tanstack/react-router";
 import { z } from "zod";
 
+export const Route = createFileRoute("/_app/_auth/forgot-password")({
+  component: ForgotPassword,
+});
+
 const forgotPasswordSchema = z.object({
   email: z.string().email(),
 });
 
 type ForgotPasswordType = z.infer<typeof forgotPasswordSchema>;
 
-export default function ForgotPassword() {
+function ForgotPassword() {
   const methods = useForm({
     resolver: zodResolver(forgotPasswordSchema),
   });
@@ -41,7 +46,7 @@ export default function ForgotPassword() {
         <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
           Reset Password
         </h1>
-        <HorizontalDivider className="mt-4" />
+        <HorizontalDivider className="mx-auto mt-4" />
         <p className="text-mine-shaft/80 mt-4">
           {!isSuccess ? (
             <span>Enter your email to receive reset instructions</span>
