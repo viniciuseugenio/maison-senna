@@ -1,7 +1,4 @@
-import {
-  deleteWishlistItem,
-  getWishlistItems,
-} from "@/api/services";
+import { deleteWishlistItem, getWishlistItems } from "@/api/services";
 import { HorizontalDivider } from "@/components/ui";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { ProductList } from "@/types";
@@ -79,8 +76,8 @@ const WishlistDropdown: React.FC = () => {
   useOutsideClick(isOpen, setIsOpen, dropdownRef);
 
   const { data: wishlist, isLoading } = useQuery({
-    queryFn: () => getWishlistItems({ limit: LIMIT_QUERYSET }),
-    queryKey: ["wishlist", { limit: LIMIT_QUERYSET }],
+    queryFn: () => getWishlistItems({ max_results: LIMIT_QUERYSET }),
+    queryKey: ["wishlist", { max_results: LIMIT_QUERYSET }],
     enabled: isOpen,
   });
   const results = wishlist?.results;

@@ -241,7 +241,6 @@ class WishlistViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
-        queryset = limit_queryset(self.request, queryset)
         return queryset
 
     def get_serializer_class(self):

@@ -4,15 +4,15 @@ import { genericDeleteModel } from "@/api/services/products.service";
 import { PaginationResults, WishlistItem } from "@/types";
 
 export async function getWishlistItems({
-  limit,
+  max_results,
   page,
 }: {
-  limit?: number;
+  max_results?: number;
   page?: number;
 }) {
   const search = new URLSearchParams();
 
-  if (limit != null) search.set("limit", String(limit));
+  if (max_results != null) search.set("max_results", String(max_results));
   if (page != null) search.set("page", String(page));
 
   const query = search.toString();
