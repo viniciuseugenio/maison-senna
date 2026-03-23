@@ -12,8 +12,8 @@ export async function getWishlistItems({
 }) {
   const search = new URLSearchParams();
 
-  if (max_results != null) search.set("max_results", String(max_results));
-  if (page != null) search.set("page", String(page));
+  if (max_results !== undefined) search.set("max_results", String(max_results));
+  if (page !== undefined) search.set("page", String(page));
 
   const query = search.toString();
   const url = `${CATALOG_ENDPOINTS.WISHLIST}${query ? `?${query}` : ""}`;
