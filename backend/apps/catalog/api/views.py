@@ -18,6 +18,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from apps.catalog.api.serializers.category import CategoryWProductsSerializer
+from utils.queryset_utils import limit_queryset
 
 from .. import models
 from . import serializers
@@ -240,15 +241,7 @@ class WishlistViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
-
-        limit = self.request.GET.get("limit")
-        if limit:
-            try:
-                limit = int(limit)
-                queryset = queryset[0:limit]
-            except ValueError:
-                pass
-
+        queryset = limit_queryset(self.request, queryset)
         return queryset
 
     def get_serializer_class(self):
