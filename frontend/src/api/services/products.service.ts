@@ -7,9 +7,21 @@ import {
   Statistics,
 } from "@/types";
 
-export async function getProducts() {
+export async function getProducts({
+  limit,
+  page,
+}: {
+  page?: number;
+  limit?: number;
+}) {
   return await customFetch<PaginationResults<ProductList>>(
     CATALOG_ENDPOINTS.PRODUCTS,
+    {
+      queryParams: {
+        page,
+        limit,
+      },
+    },
   );
 }
 

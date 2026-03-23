@@ -10,17 +10,16 @@ export async function getWishlistItems({
   max_results?: number;
   page?: number;
 }) {
-  const search = new URLSearchParams();
-
-  if (max_results !== undefined) search.set("max_results", String(max_results));
-  if (page !== undefined) search.set("page", String(page));
-
-  const query = search.toString();
-  const url = `${CATALOG_ENDPOINTS.WISHLIST}${query ? `?${query}` : ""}`;
-
-  return await customFetch<PaginationResults<WishlistItem>>(url, {
-    requiresAuth: true,
-  });
+  return await customFetch<PaginationResults<WishlistItem>>(
+    CATALOG_ENDPOINTS.WISHLIST,
+    {
+      requiresAuth: true,
+      queryParams: {
+        max_results,
+        page,
+      },
+    },
+  );
 }
 
 export async function createWishlistItem(productId: number) {
