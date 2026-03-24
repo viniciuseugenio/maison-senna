@@ -10,3 +10,10 @@ export type FetchErrorType = {
   status: number;
   errors?: Record<string, string[]>;
 };
+
+export interface QuerySetOptions {
+  limit?: number;
+  max_results?: number;
+  page?: number;
+  search?: string;
+}

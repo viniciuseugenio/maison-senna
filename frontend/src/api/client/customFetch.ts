@@ -46,10 +46,12 @@ export async function customFetch<T>(
   const page = queryParams?.page;
   const max_results = queryParams?.max_results;
   const limit = queryParams?.limit;
+  const q = queryParams?.search;
 
   if (page !== undefined) search.set("page", String(page));
   if (max_results !== undefined) search.set("max_results", String(max_results));
   if (limit !== undefined) search.set("limit", String(limit));
+  if (q !== undefined) search.set("q", String(q));
   const query = search.toString();
   const urlWithQuery = query ? `${url}?${query}` : url;
 
