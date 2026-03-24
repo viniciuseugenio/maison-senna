@@ -13,6 +13,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AdminVariationOptionsRouteImport } from './routes/admin/variation-options'
 import { Route as AdminVariationKindsRouteImport } from './routes/admin/variation-kinds'
 import { Route as AdminProductsRouteImport } from './routes/admin/products'
 import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
@@ -46,6 +47,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const AdminVariationOptionsRoute = AdminVariationOptionsRouteImport.update({
+  id: '/variation-options',
+  path: '/variation-options',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminVariationKindsRoute = AdminVariationKindsRouteImport.update({
   id: '/variation-kinds',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
+  '/admin/variation-options': typeof AdminVariationOptionsRoute
   '/admin/': typeof AdminIndexRoute
   '/forgot-password': typeof AppAuthForgotPasswordRoute
   '/login': typeof AppAuthLoginRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
+  '/admin/variation-options': typeof AdminVariationOptionsRoute
   '/admin': typeof AdminIndexRoute
   '/forgot-password': typeof AppAuthForgotPasswordRoute
   '/login': typeof AppAuthLoginRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
+  '/admin/variation-options': typeof AdminVariationOptionsRoute
   '/_app/': typeof AppIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/_app/_auth/forgot-password': typeof AppAuthForgotPasswordRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/products'
     | '/admin/variation-kinds'
+    | '/admin/variation-options'
     | '/admin/'
     | '/forgot-password'
     | '/login'
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/products'
     | '/admin/variation-kinds'
+    | '/admin/variation-options'
     | '/admin'
     | '/forgot-password'
     | '/login'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/products'
     | '/admin/variation-kinds'
+    | '/admin/variation-options'
     | '/_app/'
     | '/admin/'
     | '/_app/_auth/forgot-password'
@@ -266,6 +278,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/admin/variation-options': {
+      id: '/admin/variation-options'
+      path: '/variation-options'
+      fullPath: '/admin/variation-options'
+      preLoaderRoute: typeof AdminVariationOptionsRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/admin/variation-kinds': {
       id: '/admin/variation-kinds'
@@ -409,6 +428,7 @@ interface AdminRouteChildren {
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminVariationKindsRoute: typeof AdminVariationKindsRoute
+  AdminVariationOptionsRoute: typeof AdminVariationOptionsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminProductsNewRoute: typeof AdminProductsNewRoute
   AdminProductsPostSlugEditRoute: typeof AdminProductsPostSlugEditRoute
@@ -418,6 +438,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminVariationKindsRoute: AdminVariationKindsRoute,
+  AdminVariationOptionsRoute: AdminVariationOptionsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminProductsNewRoute: AdminProductsNewRoute,
   AdminProductsPostSlugEditRoute: AdminProductsPostSlugEditRoute,
