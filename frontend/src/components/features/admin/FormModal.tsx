@@ -9,6 +9,7 @@ type FormModalProps<T> = {
   isEdit?: boolean;
   children: React.ReactNode;
   title: string;
+  maxWidth?: string;
 };
 
 export default function FormModal<T>({
@@ -16,6 +17,7 @@ export default function FormModal<T>({
   onClose,
   isPending,
   children,
+  maxWidth = "max-w-lg",
 }: FormModalProps<T>) {
   return createPortal(
     <div
@@ -36,7 +38,7 @@ export default function FormModal<T>({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 10 }}
         transition={{ type: "spring", damping: 20, stiffness: 300 }}
-        className="border-oyster/70 relative z-20 max-w-xl min-w-md rounded-md border bg-white p-6 shadow-lg"
+        className={`border-oyster/70 z-20 w-full rounded-md border bg-white p-6 shadow-lg ${maxWidth}`}
       >
         <div className="flex justify-between">
           <h2 className="text-mine-shaft text-center font-serif text-3xl font-light">
