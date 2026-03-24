@@ -21,6 +21,7 @@ REST_FRAMEWORK = {
         "apps.accounts.api.middlewares.CustomJWTAuthentication",
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "SEARCH_PARAM": "q",
 }
 
 INTERNAL_IPS = {

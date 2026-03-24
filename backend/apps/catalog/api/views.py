@@ -1,3 +1,5 @@
+import time
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
@@ -51,16 +53,17 @@ class OrderedListMixin:
 class ProductViewSet(ModelViewSet):
     queryset = models.Product.objects.select_related("category")
     lookup_field = "slug"
-    filter_backends = [filters.OrderingFilter]
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    search_fields = ["name", "description", "category__name"]
     ordering = ["-id"]
 
     def get_queryset(self):
-        if self.action == "retrieve":
-            return models.Product.objects.select_related("category").prefetch_related(
-                "variation_options__kind"
-            )
+        queryset = super().get_queryset()
 
-        return super().get_queryset()
+        if self.action == "retrieve":
+            return queryset.prefetch_related("variation_options__kind")
+
+        return queryset
 
     def get_serializer_class(self):
         if self.action == "retrieve":
