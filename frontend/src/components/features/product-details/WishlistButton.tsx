@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { queryKeys } from "@/api/queryKeys";
 
 type WishlistButtonProps = {
   isWishlisted: boolean;
@@ -40,7 +41,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({
       toast.info({
         title: "This product was added to your wishlist.",
       });
-      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.wishlist.all });
     },
     onError: () => {
       toast.error({
@@ -56,7 +57,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({
     onMutate: () => setWishlistedState(false),
     onSuccess: () => {
       toast.info({ title: "This product was removed from your wishlist." });
-      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.wishlist.all });
     },
     onError: () => {
       toast.error({ title: "There was an error. Please, try again." });

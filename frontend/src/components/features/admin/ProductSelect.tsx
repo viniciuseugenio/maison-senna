@@ -5,11 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { ShoppingBagIcon } from "lucide-react";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { queryKeys } from "@/api/queryKeys";
 
 const ProductSelect: React.FC<{ className?: string }> = ({ className }) => {
   const { data: products } = useQuery({
     queryFn: getProducts,
-    queryKey: ["products"],
+    queryKey: queryKeys.products.all,
   });
 
   const [isOpen, setIsOpen] = useState(false);

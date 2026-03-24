@@ -4,6 +4,7 @@ import { CATALOG_ENDPOINTS } from "@/api/constants";
 import TableActions from "./RowActions";
 import TableData from "./TableData";
 import TableRow from "./TableRow";
+import { queryKeys } from "@/api/queryKeys";
 
 const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
   const deleteLink = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, {
@@ -29,7 +30,7 @@ const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
         editLink={`${product.slug}/edit`}
         deleteLink={deleteLink}
         resourceType="Product"
-        queryKey={["products"]}
+        queryKey={queryKeys.products.all}
       />
     </TableRow>
   );

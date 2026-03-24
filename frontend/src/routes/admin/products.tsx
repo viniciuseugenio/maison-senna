@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getProducts } from "@/api/services";
 import {
   AdminPageLayout,
@@ -9,7 +10,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 const adminProductsOptions = queryOptions({
-  queryKey: ["products"],
+  queryKey: queryKeys.products.all,
   queryFn: getProducts,
 });
 

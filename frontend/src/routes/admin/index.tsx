@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getDashboardStatistics } from "@/api/services";
 import { BigBox, PageTitle, SmallBox } from "@/components/features/admin";
 import {
@@ -18,7 +19,7 @@ import {
 
 const dashboardQueryOptions = queryOptions({
   queryFn: getDashboardStatistics,
-  queryKey: ["adminStatistics"],
+  queryKey: queryKeys.admin.statistics,
 });
 
 export const Route = createFileRoute("/admin/")({

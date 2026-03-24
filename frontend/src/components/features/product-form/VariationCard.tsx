@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { FieldErrors, useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import VariationOptionItem from "./VariationOptionItem";
+import { queryKeys } from "@/api/queryKeys";
 
 type VariationCardProps = {
   index: number;
@@ -30,7 +31,7 @@ const VariationCard: React.FC<VariationCardProps> = ({
 }) => {
   const { data: variationKinds } = useQuery({
     queryFn: getVariationKinds,
-    queryKey: ["variationKinds"],
+    queryKey: queryKeys.variationKinds.all,
   });
 
   const [isKindOpen, setIsKindOpen] = useState(false);

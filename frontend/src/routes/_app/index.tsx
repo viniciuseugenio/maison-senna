@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getFeaturedProducts } from "@/api/services";
 import {
   FeaturedProducts,
@@ -8,7 +9,7 @@ import { queryOptions } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 const featuredPostsQuery = queryOptions({
-  queryKey: ["featuredProducts"],
+  queryKey: queryKeys.products.featured,
   queryFn: getFeaturedProducts,
 });
 

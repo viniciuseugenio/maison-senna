@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getVariationKind, updateVariationKind } from "@/api/services";
 import { FormModal } from "@/components/features/admin";
 import { Button, FloatingInput } from "@/components/ui";
@@ -35,7 +36,7 @@ function VariationKindsEdit() {
 
   const { data: variationKind } = useQuery({
     queryFn: () => getVariationKind(id),
-    queryKey: ["variationKinds", id],
+    queryKey: queryKeys.variationKinds.detail(id),
     enabled: !!id,
   });
 
@@ -45,7 +46,7 @@ function VariationKindsEdit() {
       toast.success({
         title: toastMessages.admin.variationKindUpdated.title,
       });
-      queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.variationKinds.all });
       onClose();
     },
     onError: (error) => {

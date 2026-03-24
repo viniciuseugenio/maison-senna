@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "@tanstack/react-router";
+import { queryKeys } from "@/api/queryKeys";
 
 const CardSkeleton: React.FC = () => {
   return (
@@ -33,7 +34,7 @@ const ProductCard: React.FC<{ itemId: number; product: ProductList }> = ({
     mutationFn: deleteWishlistItem,
     mutationKey: ["deleteWishlistItem"],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.wishlist.all });
     },
   });
 
@@ -77,7 +78,7 @@ const WishlistDropdown: React.FC = () => {
 
   const { data: wishlist, isLoading } = useQuery({
     queryFn: () => getWishlistItems({ max_results: LIMIT_QUERYSET }),
-    queryKey: ["wishlist", { max_results: LIMIT_QUERYSET }],
+    queryKey: queryKeys.wishlist.limited(LIMIT_QUERYSET),
     enabled: isOpen,
   });
   const results = wishlist?.results;

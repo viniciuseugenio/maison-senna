@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { deleteWishlistItem, getWishlistItems } from "@/api/services";
 import { Button, Pagination } from "@/components/ui";
 import { requiredAuthenticated } from "@/lib/route-guards";
@@ -20,7 +21,7 @@ const productSearchSchema = z.object({
 
 const wishlistQueryOptions = (page: number) =>
   queryOptions({
-    queryKey: ["wishlist", page],
+    queryKey: queryKeys.wishlist.paginated(page),
     queryFn: () => getWishlistItems({ page }),
     placeholderData: keepPreviousData,
   });
@@ -65,7 +66,7 @@ const WishlistItems: React.FC = () => {
   const { mutate: mutateDeleteItem } = useMutation({
     mutationFn: (id: number) => deleteWishlistItem(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.wishlist.all });
     },
   });
 

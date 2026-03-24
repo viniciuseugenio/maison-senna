@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Tag } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { queryKeys } from "@/api/queryKeys";
 
 type CategoryInputProps = {
   value?: Category | null;
@@ -19,7 +20,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
 
   const { data: categories = [] } = useQuery({
     queryFn: getCategories,
-    queryKey: ["categories"],
+    queryKey: queryKeys.categories.all,
   });
 
   const handleCategorySelect = useCallback(

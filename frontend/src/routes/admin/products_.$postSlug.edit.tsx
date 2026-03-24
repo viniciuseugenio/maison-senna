@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getProduct, updateProduct } from "@/api/services";
 import { BackButton } from "@/components/features/admin";
 import { ProductForm } from "@/components/features/product-form";
@@ -25,7 +26,7 @@ const searchSchema = z.object({
 const productQueryOptions = (slug: string) =>
   queryOptions({
     queryFn: () => getProduct(slug as string),
-    queryKey: ["products", slug],
+    queryKey: queryKeys.products.detail(slug),
   });
 
 export const Route = createFileRoute("/admin/products_/$postSlug/edit")({
@@ -56,7 +57,7 @@ function EditProduct() {
         title: data.detail,
         description: data.description,
       });
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
     },
     onError: (error) => {
       if (error.errors) {

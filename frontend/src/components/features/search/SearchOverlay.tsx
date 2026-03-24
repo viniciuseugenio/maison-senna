@@ -1,13 +1,11 @@
-import {
-  getFeaturedProducts,
-  searchProduts,
-} from "@/api/services";
+import { getFeaturedProducts, searchProduts } from "@/api/services";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Loader2, Search, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { queryKeys } from "@/api/queryKeys";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -21,7 +19,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
   const { data: featuredProducts } = useQuery({
     queryFn: getFeaturedProducts,
-    queryKey: ["featuredProducts"],
+    queryKey: queryKeys.products.featured,
     enabled: isOpen,
   });
 
@@ -31,7 +29,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     isError,
   } = useQuery({
     queryFn: () => searchProduts(debouncedSearchQuery),
-    queryKey: ["searchProduts", debouncedSearchQuery],
+    queryKey: queryKeys.products.list({ search: debouncedSearchQuery }),
     enabled: isOpen && debouncedSearchQuery.length > 0,
   });
 

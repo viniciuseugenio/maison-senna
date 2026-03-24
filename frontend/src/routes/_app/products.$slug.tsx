@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getProduct } from "@/api/services";
 import {
   DetailsTabs,
@@ -14,7 +15,7 @@ import { useState } from "react";
 
 const productQueryOptions = (slug: string) =>
   queryOptions({
-    queryKey: ["products", slug],
+    queryKey: queryKeys.products.detail(slug),
     queryFn: () => getProduct(slug),
   });
 

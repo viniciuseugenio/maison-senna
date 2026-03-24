@@ -22,7 +22,7 @@ type TableActionsProps = {
    * The key of the query that is responsible for fetching the item.
    * Used to invalidate the query and display a fresh new one.
    */
-  queryKey: string[];
+  queryKey: readonly string[];
 };
 
 const TableActions: React.FC<TableActionsProps> = ({

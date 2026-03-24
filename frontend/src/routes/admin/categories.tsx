@@ -1,5 +1,6 @@
 import { buildApiUrl } from "@/api/client";
 import { CATALOG_ENDPOINTS } from "@/api/constants";
+import { queryKeys } from "@/api/queryKeys";
 import { getCategories } from "@/api/services";
 import {
   AdminPageLayout,
@@ -21,7 +22,7 @@ const searchSchema = z.object({
 
 const categoriesQueryOptions = queryOptions({
   queryFn: getCategories,
-  queryKey: ["categories"],
+  queryKey: queryKeys.categories.all,
 });
 
 export const Route = createFileRoute("/admin/categories")({
@@ -75,7 +76,7 @@ function AdminCategories() {
                   editLink="/"
                   deleteLink={createDeleteLink(category.slug)}
                   resourceType="Category"
-                  queryKey={["categories"]}
+                  queryKey={queryKeys.categories.all}
                 />
               </TableRow>
             ))}

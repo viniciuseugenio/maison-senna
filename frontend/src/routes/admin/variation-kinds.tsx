@@ -1,5 +1,6 @@
 import { buildApiUrl } from "@/api/client";
 import { CATALOG_ENDPOINTS } from "@/api/constants";
+import { queryKeys } from "@/api/queryKeys";
 import { getVariationKinds } from "@/api/services";
 import {
   LoadingRow,
@@ -24,7 +25,7 @@ const searchSchema = z
   .or(z.object({}).passthrough());
 
 const variationKindsQueryOptions = queryOptions({
-  queryKey: ["variationKinds"],
+  queryKey: queryKeys.variationKinds.all,
   queryFn: getVariationKinds,
 });
 
@@ -79,7 +80,7 @@ function VariationKinds() {
                   editLink={`/admin/variation-kinds?modal=edit&id=${variationKind.id}`}
                   deleteLink={buildDeleteLink(variationKind.id)}
                   resourceType="Variation Kind"
-                  queryKey={["variationKinds"]}
+                  queryKey={queryKeys.variationKinds.all}
                 />
               </TableRow>
             ))}

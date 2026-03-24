@@ -5,11 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Layers } from "lucide-react";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { queryKeys } from "@/api/queryKeys";
 
 const VariationKindSelect: React.FC = () => {
   const { data: variationKinds } = useQuery({
     queryFn: getVariationKinds,
-    queryKey: ["variationKinds"],
+    queryKey: queryKeys.variationKinds.all,
   });
 
   const [isOpen, setIsOpen] = useState(false);

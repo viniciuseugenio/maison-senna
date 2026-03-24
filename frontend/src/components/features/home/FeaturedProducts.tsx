@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getFeaturedProducts } from "@/api/services";
 import { Button, HorizontalDivider, ProductCard } from "@/components/ui";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -38,7 +39,7 @@ export default FeaturedProducts;
 function FeaturedProductsGrid() {
   const { data: featuredProducts } = useSuspenseQuery({
     queryFn: getFeaturedProducts,
-    queryKey: ["featuredProducts"],
+    queryKey: queryKeys.products.featured,
   });
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">

@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getCategory } from "@/api/services";
 import {
   CategoryContent,
@@ -8,7 +9,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 const collectionQueryOptions = (slug: string) =>
   queryOptions({
-    queryKey: ["categories", slug],
+    queryKey: queryKeys.categories.detail(slug),
     queryFn: () => getCategory(slug),
   });
 

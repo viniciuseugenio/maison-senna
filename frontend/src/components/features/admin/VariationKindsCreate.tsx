@@ -10,6 +10,7 @@ import { Plus, Tag } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/react-router";
 import FormModal from "./FormModal";
+import { queryKeys } from "@/api/queryKeys";
 
 const VariationKindsCreate: React.FC = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const VariationKindsCreate: React.FC = () => {
     mutationKey: ["createVariationKind"],
     onSuccess: () => {
       onClose();
-      queryClient.invalidateQueries({ queryKey: ["variationKinds"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.variationKinds.all });
       toast.success({ title: toastMessages.admin.variationKindCreated.title });
     },
     onError: (error) => {

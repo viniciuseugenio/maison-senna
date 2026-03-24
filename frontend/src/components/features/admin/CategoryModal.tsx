@@ -10,6 +10,7 @@ import { Plus, Tag } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/react-router";
 import FormModal from "./FormModal";
+import { queryKeys } from "@/api/queryKeys";
 
 const CategoryModal: React.FC = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const CategoryModal: React.FC = () => {
     mutationKey: ["createCategory"],
     onSuccess: () => {
       navigate(closeModalUrl);
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
       toast.success({ title: toastMessages.admin.categoryCreated.title });
     },
     onError: (error) => {

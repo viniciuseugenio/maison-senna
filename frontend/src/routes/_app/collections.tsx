@@ -1,3 +1,4 @@
+import { queryKeys } from "@/api/queryKeys";
 import { getCategories } from "@/api/services";
 import {
   Card,
@@ -11,7 +12,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Suspense } from "react";
 
 const collectionsQueryOptions = queryOptions({
-  queryKey: ["categories"],
+  queryKey: queryKeys.categories.all,
   queryFn: getCategories,
 });
 
