@@ -1,14 +1,15 @@
 import { twMerge } from "tailwind-merge";
 import { Link, LinkComponentProps } from "@tanstack/react-router";
 
-const SidebarLink: React.FC<LinkComponentProps> = ({
+const SidebarLink: React.FC<LinkComponentProps & { exact?: boolean }> = ({
   to,
   children,
+  exact = true,
   ...props
 }) => {
   return (
     <Link
-      activeOptions={{ exact: true }}
+      activeOptions={{ exact: exact }}
       activeProps={{
         className: "bg-oyster/10 text-oyster border-r-oyster border-r-2",
       }}

@@ -24,7 +24,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </SidebarLink>
 
           <SectionHeader className="mt-6">Catalog</SectionHeader>
-          <SidebarLink to="/admin/products">
+          <SidebarLink to="/admin/products" exact={false}>
             <ShoppingBag className="h-4 w-4" />
             Products
           </SidebarLink>
@@ -38,7 +38,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <Settings className="h-4 w-4" />
             Variation Kinds
           </SidebarLink>
-          <SidebarLink to="/admin/variation-options">
+          <SidebarLink exact={false} to="/admin/variation-options">
             <Grid className="h-4 w-4" />
             Variation Options
           </SidebarLink>
