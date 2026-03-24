@@ -38,20 +38,19 @@ export default function FormModal<T>({
         transition={{ type: "spring", damping: 20, stiffness: 300 }}
         className="border-oyster/70 relative z-20 max-w-xl min-w-md rounded-md border bg-white p-6 shadow-lg"
       >
-        <button
-          className="text-mine-shaft/60 absolute top-3 right-3 cursor-pointer duration-300 hover:text-red-600"
-          onClick={onClose}
-          disabled={isPending}
-          aria-label="Close Modal"
-          type="button"
-        >
-          <X className="h-5 w-5" />
-        </button>
-        <div className="flex flex-col items-center">
-          <h2 className="text-mine-shaft text-center font-serif text-2xl font-light">
+        <div className="flex justify-between">
+          <h2 className="text-mine-shaft text-center font-serif text-3xl font-light">
             {title}
           </h2>
-          <HorizontalDivider className="mx-auto mt-4" />
+          <button
+            className="text-mine-shaft/60 top-3 right-3 cursor-pointer duration-300 hover:text-red-600"
+            onClick={onClose}
+            disabled={isPending}
+            aria-label="Close Modal"
+            type="button"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
         {children}
       </motion.div>
