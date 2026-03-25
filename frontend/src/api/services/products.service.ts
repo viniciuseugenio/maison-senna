@@ -10,9 +10,11 @@ import {
 export async function getProducts({
   limit,
   page,
+  search,
 }: {
   page?: number;
   limit?: number;
+  search?: string;
 }) {
   return await customFetch<PaginationResults<ProductList>>(
     CATALOG_ENDPOINTS.PRODUCTS,
@@ -20,6 +22,7 @@ export async function getProducts({
       queryParams: {
         page,
         limit,
+        search,
       },
     },
   );
