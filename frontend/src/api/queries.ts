@@ -6,7 +6,7 @@ export const userQueryOptions = queryOptions<{
   authenticated: boolean;
   user: any;
 }>({
-  queryKey: queryKeys.user,
+  queryKey: queryKeys.users.current,
   queryFn: checkUserAuthenticity,
   retry: false,
   staleTime: 5 * 60 * 1000,

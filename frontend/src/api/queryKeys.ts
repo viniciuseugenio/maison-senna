@@ -1,6 +1,6 @@
 export const queryKeys = {
   // User
-  user: ["user"] as const,
+  users: { current: ["user"] as const },
 
   // Products
   products: {
