@@ -5,7 +5,7 @@ export const queryKeys = {
   // Products
   products: {
     all: ["products"] as const,
-    list: (filters?: { page?: number; search?: string }) =>
+    list: (filters?: { page?: number; search?: string; limit?: number }) =>
       ["products", "list", filters] as const,
     detail: (slug: string) => ["products", "details", slug] as const,
     featured: ["products", "list", "featured"] as const,
