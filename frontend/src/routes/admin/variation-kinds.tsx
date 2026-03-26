@@ -43,6 +43,7 @@ function VariationKinds() {
   const { data: variationKinds, isLoading } = useQuery(
     variationKindsQueryOptions,
   );
+  console.log("variations", variationKinds);
   const buildDeleteLink = (id: number) => {
     return buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
   };
@@ -50,6 +51,7 @@ function VariationKinds() {
   const headers: HeaderConfig[] = [
     { title: "ID" },
     { title: "Name" },
+    { title: "SKU Abbreviation" },
     { title: "ACTIONS", className: "text-right", isButton: false },
   ];
 
@@ -76,6 +78,7 @@ function VariationKinds() {
               <TableRow key={variationKind.id}>
                 <TableData>{variationKind.id}</TableData>
                 <TableData>{variationKind.name}</TableData>
+                <TableData>{variationKind.skuAbbr}</TableData>
                 <TableActions
                   editLink={`/admin/variation-kinds?modal=edit&id=${variationKind.id}`}
                   deleteLink={buildDeleteLink(variationKind.id)}

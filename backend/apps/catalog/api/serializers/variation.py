@@ -6,7 +6,7 @@ from apps.catalog import models
 class VariationKindSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.VariationKind
-        fields = ["id", "name"]
+        fields = ["id", "name", "sku_abbr"]
 
 
 class ProductBasicSerializer(serializers.ModelSerializer):

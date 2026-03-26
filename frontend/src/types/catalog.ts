@@ -41,6 +41,7 @@ export type VariationOption = {
 export type VariationKind = {
   id: number;
   name: string;
+  skuAbbr: string;
 };
 
 export type VariationOptionList = {

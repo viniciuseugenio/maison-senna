@@ -6,7 +6,7 @@ import { toast } from "@/utils/customToast";
 import { Button, FloatingInput } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Tag } from "lucide-react";
+import { Hash, Plus, Tag } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/react-router";
 import FormModal from "./FormModal";
@@ -66,12 +66,20 @@ const VariationKindsCreate: React.FC = () => {
     >
       <FormProvider {...methods}>
         <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
-          <FloatingInput
-            icon={<Tag className="h-4 w-4" />}
-            name="name"
-            label="Name"
-            error={errors?.name?.message}
-          />
+          <div className="flex flex-col gap-3">
+            <FloatingInput
+              icon={<Tag className="h-4 w-4" />}
+              name="name"
+              label="Name"
+              error={errors?.name?.message}
+            />
+            <FloatingInput
+              icon={<Hash className="h-4 w-4" />}
+              name="skuAbbr"
+              label="SKU Abbreviation"
+              error={errors?.name?.message}
+            />
+          </div>
           <Button
             isLoading={isPending}
             loadingLabel="Creating..."

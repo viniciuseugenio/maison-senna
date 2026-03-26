@@ -80,6 +80,17 @@ class Product(models.Model):
 
 class VariationKind(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    sku_abbr = models.CharField(max_length=3, null=True, unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.sku_abbr:
+            self.sku_abbr = self.name[:3]
+
+        if len(self.sku_abbr) > 3:
+            raise ValidationError("SKU abbreviation must be <= 3 chars")
+
+        self.sku_abbr = self.sku_abbr.upper()
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name}"

@@ -9,7 +9,8 @@ import { toast } from "@/utils/customToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Pen, Tag } from "lucide-react";
+import { Hash, Pen, Tag } from "lucide-react";
+import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 function VariationKindsEdit() {
@@ -39,6 +40,12 @@ function VariationKindsEdit() {
     queryKey: queryKeys.variationKinds.detail(id),
     enabled: !!id,
   });
+
+  useEffect(() => {
+    if (variationKind) {
+      methods.reset(variationKind);
+    }
+  }, [variationKind, methods]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateVariationKind,
@@ -77,12 +84,18 @@ function VariationKindsEdit() {
     >
       <FormProvider {...methods}>
         <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
-          <FloatingInput
-            icon={<Tag className="h-4 w-4" />}
-            name="name"
-            label="Name"
-            defaultValue={variationKind?.name}
-          />
+          <div className="flex flex-col gap-3">
+            <FloatingInput
+              icon={<Tag className="h-4 w-4" />}
+              name="name"
+              label="Name"
+            />
+            <FloatingInput
+              icon={<Hash className="h-4 w-4" />}
+              name="skuAbbr"
+              label="SKU Abbreviation"
+            />
+          </div>
           <Button
             isLoading={isPending}
             loadingLabel="Creating..."
