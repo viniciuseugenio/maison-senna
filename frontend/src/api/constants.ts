@@ -1,5 +1,7 @@
 const { VITE_BACKEND_URL } = import.meta.env;
 
+export const PAGE_SIZE = 12;
+
 export const UNEXPECTED_ERROR = "An unexpected error occurred.";
 
 export const AUTH_ENDPOINTS = {
