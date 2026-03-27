@@ -1,5 +1,5 @@
-import { toastMessages } from "@/constants/auth";
 import { AUTH_ENDPOINTS } from "@/api/constants";
+import { toastMessages } from "@/constants/auth";
 import { QuerySetOptions } from "@/types";
 
 export class FetchError extends Error {
@@ -43,15 +43,12 @@ export async function customFetch<T>(
     ...fetchOptions
   } = options;
 
-  const page = queryParams?.page;
-  const max_results = queryParams?.max_results;
-  const limit = queryParams?.limit;
-  const q = queryParams?.search;
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) search.set(key === "search" ? "q" : key, value);
+    }
+  }
 
-  if (page !== undefined) search.set("page", String(page));
-  if (max_results !== undefined) search.set("max_results", String(max_results));
-  if (limit !== undefined) search.set("limit", String(limit));
-  if (q !== undefined) search.set("q", String(q));
   const query = search.toString();
   const urlWithQuery = query ? `${url}?${query}` : url;
 
