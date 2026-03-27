@@ -1,6 +1,6 @@
 import { buildApiUrl, customFetch } from "@/api/client";
 import { CATALOG_ENDPOINTS } from "@/api/constants";
-import { Category, CategoryWithProducts } from "@/types";
+import { Category, CategoryWithProducts, PaginationResults } from "@/types";
 
 export async function addCategory(data: { name: string }) {
   return await customFetch<Category>(CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES, {
@@ -11,9 +11,25 @@ export async function addCategory(data: { name: string }) {
   });
 }
 
-export async function getCategories() {
+export async function getCategories({ page }: { page: number }) {
+  return await customFetch<PaginationResults<Category>>(
+    CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
+    {
+      queryParams: {
+        page,
+      },
+    },
+  );
+}
+
+export async function getUnpaginatedCategories() {
   return await customFetch<Category[]>(
     CATALOG_ENDPOINTS.LIST_CREATE_CATEGORIES,
+    {
+      queryParams: {
+        paginate: false,
+      },
+    },
   );
 }
 

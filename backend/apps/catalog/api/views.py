@@ -145,7 +145,12 @@ class CategoryListCreateView(
 ):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
-    pagination_class = None
+
+    def get_paginated_response(self, data):
+        if self.request.query_params.get("paginate") == "false":
+            return Response(data)
+
+        return super().get_paginated_response(data)
 
 
 class CategoryDetailsView(RetrieveUpdateDestroyAPIView):

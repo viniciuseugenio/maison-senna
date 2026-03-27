@@ -1,4 +1,4 @@
-import { getCategories } from "@/api/services";
+import { getCategories, getUnpaginatedCategories } from "@/api/services";
 import { Category } from "@/types";
 import { SelectInput } from "@/components/ui";
 import { useQuery } from "@tanstack/react-query";
@@ -19,7 +19,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ value, error }) => {
   const [category, setCategory] = useState<Category | null>(value || null);
 
   const { data: categories = [] } = useQuery({
-    queryFn: getCategories,
+    queryFn: getUnpaginatedCategories,
     queryKey: queryKeys.categories.all,
   });
 

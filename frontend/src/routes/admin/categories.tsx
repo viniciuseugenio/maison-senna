@@ -1,5 +1,5 @@
 import { buildApiUrl } from "@/api/client";
-import { CATALOG_ENDPOINTS } from "@/api/constants";
+import { CATALOG_ENDPOINTS, PAGE_SIZE } from "@/api/constants";
 import { queryKeys } from "@/api/queryKeys";
 import { getCategories } from "@/api/services";
 import {
@@ -18,26 +18,30 @@ import { z } from "zod";
 
 const searchSchema = z.object({
   modal: z.literal("new").optional(),
+  page: z.number().catch(1),
 });
 
-const categoriesQueryOptions = queryOptions({
-  queryFn: getCategories,
-  queryKey: queryKeys.categories.all,
-});
+const categoriesQueryOptions = (page: number) =>
+  queryOptions({
+    queryFn: () => getCategories({ page }),
+    queryKey: queryKeys.categories.list({ page }),
+  });
 
 export const Route = createFileRoute("/admin/categories")({
   validateSearch: (search) => searchSchema.parse(search),
-  loader: ({ context: { queryClient } }) => {
-    queryClient.ensureQueryData(categoriesQueryOptions);
+  loaderDeps: ({ search: { page } }) => ({ page }),
+  loader: ({ context: { queryClient }, deps: { page } }) => {
+    queryClient.ensureQueryData(categoriesQueryOptions(page));
   },
   component: AdminCategories,
 });
 
 function AdminCategories() {
-  const search = Route.useSearch();
-  const modal = search.modal;
+  const { page, modal } = Route.useSearch();
 
-  const { data: categories, isLoading } = useQuery(categoriesQueryOptions);
+  const { data, isLoading } = useQuery(categoriesQueryOptions(page));
+  const qtyPages = Math.ceil(data?.count / PAGE_SIZE);
+  const results = data?.results;
 
   const createDeleteLink = (slug: string) => {
     return buildApiUrl(CATALOG_ENDPOINTS.CATEGORY_DETAILS, { slug });
@@ -61,12 +65,15 @@ function AdminCategories() {
         actionLabel="New Category"
         headers={headers}
         onSearch={(query) => console.log(query)}
+        qtyPages={qtyPages}
+        resultsSize={results?.length}
+        dataCount={data?.count}
       >
-        {!categories || isLoading ? (
+        {!results || isLoading ? (
           <LoadingRow colSpan={headers.length} />
         ) : (
           <>
-            {categories.map((category) => (
+            {results.map((category) => (
               <TableRow key={category.id}>
                 <TableData>{category.id}</TableData>
                 <TableData>{category.name}</TableData>

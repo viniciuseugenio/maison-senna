@@ -16,4 +16,5 @@ export interface QuerySetOptions {
   max_results?: number;
   page?: number;
   search?: string;
+  paginate?: boolean;
 }

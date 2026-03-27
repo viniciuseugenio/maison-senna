@@ -13,6 +13,8 @@ export const queryKeys = {
 
   categories: {
     all: ["categories"] as const,
+    list: (filters?: { page?: number; search?: string }) =>
+      ["categories", filters] as const,
     detail: (slug: string) => ["categories", slug] as const,
   },
 

@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from "@/api/constants";
 import { queryKeys } from "@/api/queryKeys";
 import { getCategories } from "@/api/services";
 import {
@@ -6,19 +7,27 @@ import {
   Layout,
   SystemInfo,
 } from "@/components/features/collections";
-import { Button } from "@/components/ui";
+import { Button, Pagination } from "@/components/ui";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Suspense } from "react";
+import { z } from "zod";
 
-const collectionsQueryOptions = queryOptions({
-  queryKey: queryKeys.categories.all,
-  queryFn: getCategories,
+const searchSchema = z.object({
+  page: z.number().catch(1),
 });
 
+const collectionsQueryOptions = (page: number) =>
+  queryOptions({
+    queryKey: queryKeys.categories.all,
+    queryFn: () => getCategories({ page }),
+  });
+
 export const Route = createFileRoute("/_app/collections")({
-  loader: ({ context }) => {
-    context.queryClient.ensureQueryData(collectionsQueryOptions);
+  validateSearch: (search) => searchSchema.parse(search),
+  loaderDeps: ({ search: { page } }) => ({ page }),
+  loader: ({ context, deps: { page } }) => {
+    context.queryClient.ensureQueryData(collectionsQueryOptions(page));
   },
   component: Collections,
   errorComponent: ErrorComponent,
@@ -39,9 +48,13 @@ function Collections() {
 }
 
 function CollectionsComponent() {
-  const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
+  const { page } = Route.useSearch();
+  const {
+    data: { results, count },
+  } = useSuspenseQuery(collectionsQueryOptions(page));
+  const qtyPages = Math.ceil(count / PAGE_SIZE);
 
-  if (!collections || collections.length === 0) {
+  if (!results || results.length === 0) {
     return (
       <SystemInfo
         messageCategory="Coming Soon"
@@ -60,15 +73,22 @@ function CollectionsComponent() {
     );
   }
 
-  return collections.map((collection, i) => (
-    <Card
-      key={collection.id}
-      title={collection.name}
-      img={collection.cover}
-      slug={collection.slug}
-      className={i % 2 === 1 ? "mt-10" : ""}
-    />
-  ));
+  return (
+    <>
+      {results.map((collection, i) => (
+        <Card
+          key={collection.id}
+          title={collection.name}
+          img={collection.cover}
+          slug={collection.slug}
+          className={i % 2 === 1 ? "mt-10" : ""}
+        />
+      ))}
+      <div className="col-span-2">
+        <Pagination qtyPages={qtyPages} />
+      </div>
+    </>
+  );
 }
 
 function ErrorComponent() {
