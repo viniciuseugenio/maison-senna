@@ -54,17 +54,23 @@ const PageList: React.FC<PageListProps> = ({
   );
 };
 
-const Pagination: React.FC<{ qtyPages: number; windowSize?: number }> = ({
-  qtyPages,
-  windowSize,
-}) => {
+const Pagination: React.FC<{
+  qtyPages: number;
+  marginTop?: string;
+  windowSize?: number;
+}> = ({ qtyPages, windowSize, marginTop = "mt-12" }) => {
   const { page: currentPage = 1 } = useSearch({ strict: false });
 
   const prevNextStyling =
     "flex items-center gap-2 disabled:opacity-40 hover:text-mine-shaft cursor-pointer text-xs group uppercase";
 
   return (
-    <div className="text-mine-shaft/80 mt-12 flex items-center justify-center gap-10">
+    <div
+      className={twMerge(
+        "text-mine-shaft/80 flex items-center justify-center gap-10",
+        marginTop,
+      )}
+    >
       <Link
         className={prevNextStyling}
         to="."
