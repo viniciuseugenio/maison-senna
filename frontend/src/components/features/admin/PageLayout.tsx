@@ -1,4 +1,4 @@
-import { HorizontalDivider } from "@/components/ui";
+import { HorizontalDivider, Pagination } from "@/components/ui";
 import { HeaderConfig } from "@/types";
 import { Link, LinkProps } from "@tanstack/react-router";
 import { Plus, Search } from "lucide-react";
@@ -15,6 +15,9 @@ type PageLayoutProps = {
   children: React.ReactNode;
   actionLink: LinkProps["to"];
   linkSearch?: LinkProps["search"];
+  qtyPages?: number;
+  resultsSize?: number;
+  dataCount?: number;
 };
 
 const PageLayout: React.FC<PageLayoutProps> = ({
@@ -25,6 +28,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   onSearch,
   headers,
   children,
+  qtyPages = 1,
+  resultsSize,
+  dataCount,
 }) => {
   const timeoutRef = useRef<number | undefined>(undefined);
 
@@ -88,6 +94,12 @@ const PageLayout: React.FC<PageLayoutProps> = ({
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="mt-3 flex items-center justify-between">
+        <div className="text-mine-shaft/60 text-xs tracking-widest uppercase">
+          Showing {resultsSize} results out of {dataCount}
+        </div>
+        <Pagination marginTop="mt-0" qtyPages={qtyPages} />
       </div>
     </div>
   );
