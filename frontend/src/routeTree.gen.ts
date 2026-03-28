@@ -16,6 +16,7 @@ import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AdminVariationOptionsRouteImport } from './routes/admin/variation-options'
 import { Route as AdminVariationKindsRouteImport } from './routes/admin/variation-kinds'
 import { Route as AdminProductsRouteImport } from './routes/admin/products'
+import { Route as AdminProductVariationsRouteImport } from './routes/admin/product-variations'
 import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AppWishlistRouteImport } from './routes/_app/wishlist'
 import { Route as AppCollectionsRouteImport } from './routes/_app/collections'
@@ -61,6 +62,11 @@ const AdminVariationKindsRoute = AdminVariationKindsRouteImport.update({
 const AdminProductsRoute = AdminProductsRouteImport.update({
   id: '/products',
   path: '/products',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProductVariationsRoute = AdminProductVariationsRouteImport.update({
+  id: '/product-variations',
+  path: '/product-variations',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/collections': typeof AppCollectionsRoute
   '/wishlist': typeof AppWishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/product-variations': typeof AdminProductVariationsRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/admin/variation-options': typeof AdminVariationOptionsRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/collections': typeof AppCollectionsRoute
   '/wishlist': typeof AppWishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/product-variations': typeof AdminProductVariationsRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/admin/variation-options': typeof AdminVariationOptionsRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/_app/collections': typeof AppCollectionsRoute
   '/_app/wishlist': typeof AppWishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/product-variations': typeof AdminProductVariationsRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/variation-kinds': typeof AdminVariationKindsRoute
   '/admin/variation-options': typeof AdminVariationOptionsRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/wishlist'
     | '/admin/categories'
+    | '/admin/product-variations'
     | '/admin/products'
     | '/admin/variation-kinds'
     | '/admin/variation-options'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/wishlist'
     | '/admin/categories'
+    | '/admin/product-variations'
     | '/admin/products'
     | '/admin/variation-kinds'
     | '/admin/variation-options'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/_app/collections'
     | '/_app/wishlist'
     | '/admin/categories'
+    | '/admin/product-variations'
     | '/admin/products'
     | '/admin/variation-kinds'
     | '/admin/variation-options'
@@ -298,6 +310,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/admin/products'
       preLoaderRoute: typeof AdminProductsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/product-variations': {
+      id: '/admin/product-variations'
+      path: '/product-variations'
+      fullPath: '/admin/product-variations'
+      preLoaderRoute: typeof AdminProductVariationsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/categories': {
@@ -426,6 +445,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface AdminRouteChildren {
   AdminCategoriesRoute: typeof AdminCategoriesRoute
+  AdminProductVariationsRoute: typeof AdminProductVariationsRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminVariationKindsRoute: typeof AdminVariationKindsRoute
   AdminVariationOptionsRoute: typeof AdminVariationOptionsRoute
@@ -436,6 +456,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCategoriesRoute: AdminCategoriesRoute,
+  AdminProductVariationsRoute: AdminProductVariationsRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminVariationKindsRoute: AdminVariationKindsRoute,
   AdminVariationOptionsRoute: AdminVariationOptionsRoute,
