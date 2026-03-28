@@ -8,9 +8,25 @@ import {
 } from "@/types";
 import { genericDeleteModel } from "./products.service";
 
-export async function getVariationKinds() {
+export async function getVariationKinds({ page }: { page: number }) {
+  return await customFetch<PaginationResults<VariationKind>>(
+    CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
+    {
+      queryParams: {
+        page,
+      },
+    },
+  );
+}
+
+export async function getVariationKindsUnpaginated() {
   return await customFetch<VariationKind[]>(
     CATALOG_ENDPOINTS.LIST_CREATE_VARIATION_KINDS,
+    {
+      queryParams: {
+        paginate: false,
+      },
+    },
   );
 }
 
@@ -47,9 +63,12 @@ export async function updateVariationKind({
   });
 }
 
-export async function getVariationOptions() {
+export async function getVariationOptions({ page }: { page: number }) {
   return await customFetch<PaginationResults<VariationOptionList>>(
     CATALOG_ENDPOINTS.LIST_VARIATION_OPTIONS,
+    {
+      queryParams: { page },
+    },
   );
 }
 
@@ -78,8 +97,13 @@ export async function deleteVariationOption(id: number) {
   return await genericDeleteModel<{ detail: string }>(url);
 }
 
-export async function getProductVariations() {
+export async function getProductVariations({ page }: { page: number }) {
   return await customFetch<PaginationResults<ProductVariation>>(
     CATALOG_ENDPOINTS.LIST_PRODUCT_VARIATIONS,
+    {
+      queryParams: {
+        page,
+      },
+    },
   );
 }

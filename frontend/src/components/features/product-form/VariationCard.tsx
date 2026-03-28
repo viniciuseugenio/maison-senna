@@ -1,4 +1,7 @@
-import { getVariationKinds } from "@/api/services";
+import {
+  getVariationKinds,
+  getVariationKindsUnpaginated,
+} from "@/api/services";
 import { InputError, SelectInput } from "@/components/ui";
 import { FormVariationOption, NewProductForm, Option } from "@/types";
 import { useQuery } from "@tanstack/react-query";
@@ -30,7 +33,7 @@ const VariationCard: React.FC<VariationCardProps> = ({
   onDelete,
 }) => {
   const { data: variationKinds } = useQuery({
-    queryFn: getVariationKinds,
+    queryFn: getVariationKindsUnpaginated,
     queryKey: queryKeys.variationKinds.all,
   });
 

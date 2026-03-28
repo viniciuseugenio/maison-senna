@@ -1,15 +1,15 @@
-import { getVariationKinds } from "@/api/services";
-import { VariationKind } from "@/types";
+import { queryKeys } from "@/api/queryKeys";
+import { getVariationKindsUnpaginated } from "@/api/services";
 import { SelectInput } from "@/components/ui";
+import { VariationKind } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { Layers } from "lucide-react";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { queryKeys } from "@/api/queryKeys";
 
 const VariationKindSelect: React.FC = () => {
   const { data: variationKinds } = useQuery({
-    queryFn: getVariationKinds,
+    queryFn: getVariationKindsUnpaginated,
     queryKey: queryKeys.variationKinds.all,
   });
 

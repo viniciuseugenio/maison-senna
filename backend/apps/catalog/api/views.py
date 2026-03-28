@@ -20,7 +20,6 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from apps.catalog.api.serializers.category import CategoryWProductsSerializer
-from utils.queryset_utils import limit_queryset
 
 from .. import models
 from . import serializers
@@ -200,7 +199,12 @@ class VariationKindsList(OrderedListMixin, ListCreateAPIView):
     queryset = models.VariationKind.objects.all()
     permission_classes = [IsAuthenticatedUserAdmin]
     serializer_class = serializers.VariationKindSerializer
-    pagination_class = None
+
+    def get_paginated_response(self, data):
+        if self.request.query_params.get("paginate") == "false":
+            return Response(data)
+
+        return super().get_paginated_response(data)
 
 
 class VariationKindsDetailsView(RetrieveUpdateDestroyAPIView):

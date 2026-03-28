@@ -1,5 +1,5 @@
 import { buildApiUrl } from "@/api/client";
-import { CATALOG_ENDPOINTS } from "@/api/constants";
+import { CATALOG_ENDPOINTS, PAGE_SIZE } from "@/api/constants";
 import { queryKeys } from "@/api/queryKeys";
 import { getVariationKinds } from "@/api/services";
 import {
@@ -19,31 +19,44 @@ import { z } from "zod";
 
 const searchSchema = z
   .discriminatedUnion("modal", [
-    z.object({ modal: z.literal("new") }),
-    z.object({ modal: z.literal("edit"), id: z.coerce.number().positive() }),
+    z.object({ modal: z.literal("new"), page: z.number().catch(1) }),
+    z.object({
+      modal: z.literal("edit"),
+      id: z.coerce.number().positive(),
+      page: z.number().catch(1),
+    }),
   ])
-  .or(z.object({}).passthrough());
+  .or(
+    z
+      .object({
+        page: z.number().catch(1),
+      })
+      .passthrough(),
+  );
 
-const variationKindsQueryOptions = queryOptions({
-  queryKey: queryKeys.variationKinds.all,
-  queryFn: getVariationKinds,
-});
+const variationKindsQueryOptions = (page: number) =>
+  queryOptions({
+    queryKey: queryKeys.variationKinds.list(),
+    queryFn: () => getVariationKinds({ page }),
+  });
 
 export const Route = createFileRoute("/admin/variation-kinds")({
   validateSearch: (search) => searchSchema.parse(search),
-  loader: ({ context: { queryClient } }) => {
-    queryClient.ensureQueryData(variationKindsQueryOptions);
+  loaderDeps: ({ search: { page } }) => ({ page }),
+  loader: ({ context: { queryClient }, deps: { page } }) => {
+    queryClient.ensureQueryData(variationKindsQueryOptions(page));
   },
   component: VariationKinds,
 });
 
 function VariationKinds() {
   const search = Route.useSearch();
+  const { page } = search;
 
-  const { data: variationKinds, isLoading } = useQuery(
-    variationKindsQueryOptions,
-  );
-  console.log("variations", variationKinds);
+  const { data, isLoading } = useQuery(variationKindsQueryOptions(page));
+  const results = data?.results;
+  const qtyPages = Math.ceil(data?.count / PAGE_SIZE);
+
   const buildDeleteLink = (id: number) => {
     return buildApiUrl(CATALOG_ENDPOINTS.VARIATION_KINDS_DETAIL, { id });
   };
@@ -69,12 +82,15 @@ function VariationKinds() {
         actionLink="."
         linkSearch={{ modal: "new" }}
         onSearch={(query) => console.log(query)}
+        qtyPages={qtyPages}
+        resultsSize={results?.length}
+        dataCount={data?.count}
       >
-        {!variationKinds || isLoading ? (
+        {!results || isLoading ? (
           <LoadingRow colSpan={headers.length} />
         ) : (
           <>
-            {variationKinds.map((variationKind) => (
+            {results.map((variationKind) => (
               <TableRow key={variationKind.id}>
                 <TableData>{variationKind.id}</TableData>
                 <TableData>{variationKind.name}</TableData>

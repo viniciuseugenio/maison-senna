@@ -20,6 +20,7 @@ export const queryKeys = {
 
   variationKinds: {
     all: ["variationKinds"] as const,
+    list: (filters?: { page?: number }) => ["variationKinds", filters] as const,
     detail: (id: string | number) => ["variationKinds", id] as const,
   },
 
