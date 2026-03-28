@@ -26,6 +26,8 @@ export const queryKeys = {
 
   variationOptions: {
     all: ["variationOptions"] as const,
+    list: (filters?: { page?: number }) =>
+      ["variationOptions", filters] as const,
   },
 
   productVariations: {

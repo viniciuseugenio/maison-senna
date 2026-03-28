@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from "@/api/constants";
 import { queryKeys } from "@/api/queryKeys";
 import { getProducts, getVariationOptions } from "@/api/services";
 import {
@@ -31,13 +32,14 @@ export const Route = createFileRoute("/admin/variation-options")({
 });
 
 function VariationOptions() {
-  const { modal } = Route.useSearch();
+  const { page, modal } = Route.useSearch();
 
-  const { data: variationOptions, isLoading } = useQuery({
-    queryKey: ["variationOptions"],
-    queryFn: getVariationOptions,
+  const { data, isLoading } = useQuery({
+    queryKey: queryKeys.variationOptions.list({ page }),
+    queryFn: () => getVariationOptions({ page }),
   });
-  const results = variationOptions?.results;
+  const results = data?.results;
+  const qtyPages = Math.ceil(data?.count / PAGE_SIZE);
 
   const [filteredOptions, setFilteredOptions] = useState<
     VariationOptionList[] | null
@@ -97,6 +99,9 @@ function VariationOptions() {
         actionLink="."
         linkSearch={{ modal: "new" }}
         onSearch={onSearch}
+        qtyPages={qtyPages}
+        dataCount={data?.count}
+        resultsSize={results?.length}
       >
         {!dataToRender || isLoading ? (
           <LoadingRow colSpan={headers.length} />
