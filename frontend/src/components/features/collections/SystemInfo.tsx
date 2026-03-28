@@ -15,7 +15,7 @@ const SystemInfo: React.FC<SystemInfoProps> = ({
 }) => {
   return (
     <>
-      <p className="text-oyster mb-8 text-center text-xs font-light tracking-[.3em] uppercase">
+      <p className="text-oyster my-12 mb-8 text-center text-xs font-light tracking-[.3em] uppercase">
         {messageCategory}
       </p>
       <header className="mx-auto max-w-3xl pb-16 text-center">
