@@ -4,7 +4,7 @@ import { Link, LinkComponentProps } from "@tanstack/react-router";
 const SidebarLink: React.FC<LinkComponentProps & { exact?: boolean }> = ({
   to,
   children,
-  exact = true,
+  exact = false,
   ...props
 }) => {
   return (

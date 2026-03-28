@@ -18,13 +18,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </div>
         <nav className="mt-6">
           <SectionHeader>Main</SectionHeader>
-          <SidebarLink to="/admin">
+          <SidebarLink to="/admin" exact={true}>
             <Home className="h-4 w-4" />
             Dashboard
           </SidebarLink>
 
           <SectionHeader className="mt-6">Catalog</SectionHeader>
-          <SidebarLink to="/admin/products" exact={false}>
+          <SidebarLink to="/admin/products">
             <ShoppingBag className="h-4 w-4" />
             Products
           </SidebarLink>
@@ -38,7 +38,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <Settings className="h-4 w-4" />
             Variation Kinds
           </SidebarLink>
-          <SidebarLink exact={false} to="/admin/variation-options">
+          <SidebarLink to="/admin/variation-options">
             <Grid className="h-4 w-4" />
             Variation Options
           </SidebarLink>
