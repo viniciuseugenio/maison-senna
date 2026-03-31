@@ -6,3 +6,4 @@ export * from "./customToast";
 export * from "./forms";
 export * from "./navbar";
 export * from "./product-form";
+export * from "./global";
