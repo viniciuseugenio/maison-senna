@@ -20,7 +20,17 @@ export function getUpdatedFields(
     }
 
     if (key === "variationOptions") {
-      updated[key] = value;
+      const newOptions = value
+        .map((variation) => ({
+          ...variation,
+          options: variation.options.filter((option) => !option.id),
+        }))
+        .filter((variation) => variation.options.length >= 1);
+
+      if (newOptions) {
+        updated[key] = newOptions;
+      }
+      return;
     }
 
     if (["care", "details", "materials"].includes(key)) {
