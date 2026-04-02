@@ -16,6 +16,7 @@ type ModalProps = {
   onConfirm: () => void;
   isPending?: boolean;
   Icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>;
+  closeOnOutsideClick?: boolean;
 };
 
 export default function Modal({
@@ -27,6 +28,7 @@ export default function Modal({
   variant = "info",
   onClose,
   onConfirm,
+  closeOnOutsideClick = true,
   isPending = false,
   Icon,
 }: ModalProps) {
@@ -74,7 +76,7 @@ export default function Modal({
           {isOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center">
               <motion.div
-                onClick={onClose}
+                onClick={closeOnOutsideClick ? onClose : undefined}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
