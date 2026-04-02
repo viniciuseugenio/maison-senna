@@ -1,8 +1,13 @@
 import CancelLink from "@/components/shared/CancelLink";
-import { Button } from "@/components/ui";
+import { Button, Modal } from "@/components/ui";
+import {
+  VariationWarningContext,
+  WarnModalStateType,
+} from "@/store/VariationWarningContext";
 import { NewProductForm, ProductDetails } from "@/types";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { ArrowLeft, Check, Package, Palette } from "lucide-react";
+import { useRef, useState } from "react";
 import {
   FieldValues,
   FormProvider,
@@ -30,6 +35,10 @@ function ProductForm<T extends FieldValues>({
 }: ProductFormProps<T>) {
   const navigate = useNavigate();
   const { handleSubmit, trigger } = methods;
+  const [skipVariationWarnings, setSkipVariationWarnings] = useState(false);
+  const [warnModalState, setWarnModalState] = useState<WarnModalStateType>({
+    isOpen: false,
+  });
 
   const getErrorMessage = (error: any) => {
     if (!error) return undefined;
@@ -85,6 +94,21 @@ function ProductForm<T extends FieldValues>({
     });
   };
 
+  const onConfirm = () => {
+    if (!warnModalState.isOpen) return;
+
+    warnModalState.onConfirm();
+    setWarnModalState({ isOpen: false });
+    setSkipVariationWarnings(true);
+  };
+
+  const onCancel = () => {
+    if (!warnModalState.isOpen) return;
+
+    if (warnModalState.onCancel) warnModalState.onCancel();
+    setWarnModalState({ isOpen: false });
+  };
+
   return (
     <>
       <div className="mb-6 flex items-center gap-6">
@@ -102,54 +126,73 @@ function ProductForm<T extends FieldValues>({
         ))}
       </div>
 
-      <FormProvider {...methods}>
-        <form className="space-y-12" onSubmit={handleSubmit(onSubmit)}>
-          {stepNumber === 0 && (
-            <BasicInfo data={data} getErrorMessage={getErrorMessage} />
-          )}
+      <VariationWarningContext.Provider
+        value={{
+          skipVariationWarnings,
+          setSkipVariationWarnings,
+          warnModalState,
+          setWarnModalState,
+        }}
+      >
+        <Modal
+          variant="warning"
+          title="Update variations"
+          description="Updating the variations and its options will require regenerating all variants. Current stock/pricing will be lost. Continue?"
+          isOpen={warnModalState.isOpen}
+          onClose={onCancel}
+          onConfirm={onConfirm}
+          confirmLabel="Yes, continue"
+          closeOnOutsideClick={false}
+        />
+        <FormProvider {...methods}>
+          <form className="space-y-12" onSubmit={handleSubmit(onSubmit)}>
+            {stepNumber === 0 && (
+              <BasicInfo data={data} getErrorMessage={getErrorMessage} />
+            )}
 
-          {stepNumber === 1 && <Variations data={data?.variationOptions} />}
+            {stepNumber === 1 && <Variations data={data?.variationOptions} />}
 
-          <div className="flex justify-between">
-            <div>
-              {stepNumber !== 0 && (
+            <div className="flex justify-between">
+              <div>
+                {stepNumber !== 0 && (
+                  <Button
+                    color="brown"
+                    type="button"
+                    className="text-oyster border-oyster/40 hover:bg-oyster gap-1 border bg-transparent hover:text-white"
+                    onClick={() =>
+                      navigate({
+                        to: ".",
+                        search: (prev) => ({
+                          ...prev,
+                          step: stepNumber - 1,
+                        }),
+                      })
+                    }
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Previous step
+                  </Button>
+                )}
+              </div>
+
+              <div className="flex gap-3">
+                <CancelLink to="/admin/products" />
                 <Button
+                  type={isLastStep ? "submit" : "button"}
+                  loadingLabel="Saving..."
+                  isLoading={isPending}
                   color="brown"
-                  type="button"
-                  className="text-oyster border-oyster/40 hover:bg-oyster gap-1 border bg-transparent hover:text-white"
-                  onClick={() =>
-                    navigate({
-                      to: ".",
-                      search: (prev) => ({
-                        ...prev,
-                        step: stepNumber - 1,
-                      }),
-                    })
-                  }
+                  className="gap-1"
+                  {...(!isLastStep ? { onClick: nextStep } : {})}
                 >
-                  <ArrowLeft className="h-4 w-4" />
-                  Previous step
+                  <Check className="h-4 w-4" />
+                  {isLastStep ? buttonLabel : "Go to next step"}
                 </Button>
-              )}
+              </div>
             </div>
-
-            <div className="flex gap-3">
-              <CancelLink to="/admin/products" />
-              <Button
-                type={isLastStep ? "submit" : "button"}
-                loadingLabel="Saving..."
-                isLoading={isPending}
-                color="brown"
-                className="gap-1"
-                {...(!isLastStep ? { onClick: nextStep } : {})}
-              >
-                <Check className="h-4 w-4" />
-                {isLastStep ? buttonLabel : "Go to next step"}
-              </Button>
-            </div>
-          </div>
-        </form>
-      </FormProvider>
+          </form>
+        </FormProvider>
+      </VariationWarningContext.Provider>
     </>
   );
 }

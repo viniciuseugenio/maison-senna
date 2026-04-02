@@ -1,13 +1,17 @@
 import { deleteVariationOption, updateVariationOption } from "@/api/services";
 import { Button } from "@/components/ui";
 import { useOptimisticMutation } from "@/hooks/useOptimisticMutation";
-import { Option } from "@/types";
+import { useVariationWarning } from "@/hooks/useVariationWarning";
+import { Option, UpdateVariationOption } from "@/types";
 import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface VariationOptionItemProps {
-  onUpdate: (updater: (prev: Option[]) => Option[]) => void;
+  onUpdate: (
+    updater: Parameters<UpdateVariationOption>[1],
+    warn?: Parameters<UpdateVariationOption>[2],
+  ) => void;
   index: number;
   option: Option;
 }
@@ -22,6 +26,7 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
     name: option.name,
     priceModifier: option.priceModifier,
   });
+  const { setWarnModalState, skipVariationWarnings } = useVariationWarning();
 
   const { mutate: editOption } = useOptimisticMutation({
     mutationFn: updateVariationOption,
@@ -86,12 +91,21 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
     }
   };
 
-  const handleDelete = () => {
-    if (option.id) {
-      deleteOption(option.id);
-    } else {
+  const handleDelete = (warn: boolean = true) => {
+    if (!option.id) {
       onUpdate((prev) => prev.filter((opt) => opt.idx !== option.idx));
+      return;
     }
+
+    if (warn && !skipVariationWarnings) {
+      setWarnModalState({
+        isOpen: true,
+        onConfirm: () => handleDelete(false),
+      });
+      return;
+    }
+
+    deleteOption(option.id);
   };
 
   const handleCancel = () => {
@@ -107,6 +121,18 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
       e.preventDefault();
       handleSave();
     }
+  };
+
+  const toggleEditing = () => {
+    if (!skipVariationWarnings) {
+      setWarnModalState({
+        isOpen: true,
+        onConfirm: () => setIsEditing(true),
+      });
+      return;
+    }
+
+    setIsEditing(true);
   };
 
   if (isEditing) {
@@ -200,7 +226,7 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
       <div className="invisible flex gap-2 opacity-0 transition-opacity duration-300 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
         <button
           type="button"
-          onClick={() => setIsEditing(true)}
+          onClick={toggleEditing}
           className="hover:bg-oyster/40 cursor-pointer rounded-sm p-1.5 opacity-40 transition-colors duration-300 hover:opacity-100"
         >
           <Pen className="h-4 w-4" />
@@ -208,7 +234,7 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
         <button
           type="button"
           className="hover:bg-oyster/40 cursor-pointer rounded-sm p-1.5 opacity-40 transition-colors duration-300 hover:text-red-600 hover:opacity-100"
-          onClick={() => handleDelete(option.idx)}
+          onClick={() => handleDelete()}
         >
           <Trash2 className="h-4 w-4" />
         </button>

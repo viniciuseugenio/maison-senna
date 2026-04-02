@@ -16,3 +16,9 @@ export type SpecItem = {
   idx: string;
   name: string;
 };
+
+export type UpdateVariationOption = (
+  index: number,
+  updater: (prev: Option[]) => Option[],
+  warn: boolean,
+) => Promise<boolean>;

@@ -1,11 +1,13 @@
 import { VariationCard } from "@/components/features/product-form";
 import { Button } from "@/components/ui";
+import { useVariationWarning } from "@/hooks/useVariationWarning";
 import { FormVariationOption, Option, VariationOption } from "@/types";
 import { groupOptions } from "@/utils/groupOptions";
 import { Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
+import { UpdateVariationOption } from "@/types";
 
 interface VariationOptionsApi {
   idx: string;
@@ -26,6 +28,7 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
   } = useFormContext();
   const variations = watch("variationOptions") as FormVariationOption[];
   const hasError = !!errors?.variationOptions;
+  const { skipVariationWarnings, setWarnModalState } = useVariationWarning();
 
   useEffect(() => {
     if (data) {
@@ -57,7 +60,17 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
     }
   }, [data, setValue]);
 
-  const addVariation = () => {
+  const addVariation = (warn: boolean = true) => {
+    if (data && warn && !skipVariationWarnings) {
+      setWarnModalState({
+        isOpen: true,
+        onConfirm: () => {
+          addVariation(false);
+        },
+      });
+      return;
+    }
+
     const newVariation = {
       idx: crypto.randomUUID(),
       kind: 0,
@@ -79,12 +92,42 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
     await trigger(`variationOptions.${index}.kind`);
   };
 
-  const updateVariationOption = (
-    index: number,
-    updater: (prev: Option[]) => Option[],
+  /*
+   * This function is made async, so that when the child components try updating a variation option,
+   * it will be possible to know when and if the user confirmed (resolved) the action or rejected.
+   * One good use of this feature is VariationCard.addOption function, where we clean the inputs
+   * only after the Promise is resolved.
+   */
+  const updateVariationOption: UpdateVariationOption = async (
+    index,
+    updater,
+    warn = true,
   ) => {
-    const newValues = updater(variations[index].options);
-    setValue(`variationOptions.${index}.options`, newValues);
+    return new Promise((resolve, reject) => {
+      if (data && warn && !skipVariationWarnings) {
+        setWarnModalState({
+          isOpen: true,
+          onConfirm: async () => {
+            try {
+              await updateVariationOption(index, updater, false);
+              resolve(true);
+            } catch {
+              reject(false);
+            }
+          },
+          onCancel: () => {
+            reject(false);
+          },
+          resolve,
+          reject,
+        });
+        return;
+      }
+
+      const newValues = updater(variations[index].options);
+      setValue(`variationOptions.${index}.options`, newValues);
+      resolve(true);
+    });
   };
 
   return (
@@ -102,7 +145,7 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
           color="brown"
           type="button"
           className="gap-2 rounded-md shadow-md"
-          onClick={addVariation}
+          onClick={() => addVariation()}
         >
           <Plus className="h-4 w-4" />
           Add New Variation

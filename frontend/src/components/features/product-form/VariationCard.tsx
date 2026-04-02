@@ -1,26 +1,24 @@
-import {
-  getVariationKinds,
-  getVariationKindsUnpaginated,
-} from "@/api/services";
+import { queryKeys } from "@/api/queryKeys";
+import { getVariationKindsUnpaginated } from "@/api/services";
 import { InputError, SelectInput } from "@/components/ui";
-import { FormVariationOption, NewProductForm, Option } from "@/types";
+import {
+  FormVariationOption,
+  NewProductForm,
+  UpdateVariationOption,
+} from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { Layers, Plus, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { FieldErrors, useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import VariationOptionItem from "./VariationOptionItem";
-import { queryKeys } from "@/api/queryKeys";
 
 type VariationCardProps = {
   index: number;
   variation: FormVariationOption;
   canDelete: boolean;
   onUpdateKind: (index: number, value: number) => void;
-  onUpdateOptions: (
-    index: number,
-    updater: (prev: Option[]) => Option[],
-  ) => void;
+  onUpdateOptions: UpdateVariationOption;
   onDelete: (id: string) => void;
 };
 
@@ -55,8 +53,9 @@ const VariationCard: React.FC<VariationCardProps> = ({
     setIsKindOpen(false);
   };
 
-  const addOption = () => {
+  const addOption = async () => {
     if (!inputRef.current || !priceModifierRef.current) return;
+
     const name = inputRef.current.value;
     if (!name) return;
 
@@ -66,10 +65,13 @@ const VariationCard: React.FC<VariationCardProps> = ({
     if (isDuplicate) return;
 
     const priceModifier = parseFloat(priceModifierRef.current.value) || 0;
-    onUpdateOptions(index, (prev) => [
+
+    const didUpdate = await onUpdateOptions(index, (prev) => [
       ...prev,
       { idx: crypto.randomUUID(), name, priceModifier },
     ]);
+
+    if (!didUpdate) return;
 
     inputRef.current.value = "";
     priceModifierRef.current.value = "";
@@ -187,7 +189,9 @@ const VariationCard: React.FC<VariationCardProps> = ({
                 key={option.idx}
                 option={option}
                 index={optionIndex}
-                onUpdate={(updater) => onUpdateOptions(index, updater)}
+                onUpdate={(updater, warn = false) =>
+                  onUpdateOptions(index, updater, warn)
+                }
               />
             ))}
           </div>
