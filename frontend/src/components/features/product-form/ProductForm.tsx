@@ -1,6 +1,7 @@
 import CancelLink from "@/components/shared/CancelLink";
 import { Button, Modal } from "@/components/ui";
 import {
+  CallbackRefs,
   VariationWarningContext,
   WarnModalStateType,
 } from "@/store/VariationWarningContext";
@@ -36,9 +37,13 @@ function ProductForm<T extends FieldValues>({
   const navigate = useNavigate();
   const { handleSubmit, trigger } = methods;
   const [skipVariationWarnings, setSkipVariationWarnings] = useState(false);
-  const [warnModalState, setWarnModalState] = useState<WarnModalStateType>({
-    isOpen: false,
+  const [showWarning, setShowWarning] = useState<WarnModalStateType>(false);
+  const callbackRefs = useRef<CallbackRefs>({
+    onConfirm: () => {},
   });
+  const cleanCallback = () => {
+    callbackRefs.current = { onConfirm: () => {} };
+  };
 
   const getErrorMessage = (error: any) => {
     if (!error) return undefined;
@@ -95,18 +100,18 @@ function ProductForm<T extends FieldValues>({
   };
 
   const onConfirm = () => {
-    if (!warnModalState.isOpen) return;
-
-    warnModalState.onConfirm();
-    setWarnModalState({ isOpen: false });
+    callbackRefs.current.onConfirm();
+    setShowWarning(false);
     setSkipVariationWarnings(true);
+    cleanCallback();
   };
 
   const onCancel = () => {
-    if (!warnModalState.isOpen) return;
+    if (!showWarning) return;
 
-    if (warnModalState.onCancel) warnModalState.onCancel();
-    setWarnModalState({ isOpen: false });
+    if (callbackRefs.current.onCancel) callbackRefs.current.onCancel();
+    setShowWarning(false);
+    cleanCallback();
   };
 
   return (
@@ -130,15 +135,16 @@ function ProductForm<T extends FieldValues>({
         value={{
           skipVariationWarnings,
           setSkipVariationWarnings,
-          warnModalState,
-          setWarnModalState,
+          showWarning,
+          setShowWarning,
+          callbackRefs,
         }}
       >
         <Modal
           variant="warning"
           title="Update variations"
           description="Updating the variations and its options will require regenerating all variants. Current stock/pricing will be lost. Continue?"
-          isOpen={warnModalState.isOpen}
+          isOpen={showWarning}
           onClose={onCancel}
           onConfirm={onConfirm}
           confirmLabel="Yes, continue"

@@ -2,6 +2,7 @@ import { deleteVariationOption, updateVariationOption } from "@/api/services";
 import { Button } from "@/components/ui";
 import { useOptimisticMutation } from "@/hooks/useOptimisticMutation";
 import { useVariationWarning } from "@/hooks/useVariationWarning";
+import { useWarningGuard } from "@/hooks/useWarningGuard";
 import { Option, UpdateVariationOption } from "@/types";
 import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -26,7 +27,8 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
     name: option.name,
     priceModifier: option.priceModifier,
   });
-  const { setWarnModalState, skipVariationWarnings } = useVariationWarning();
+  const { skipVariationWarnings } = useVariationWarning();
+  const guardedAction = useWarningGuard();
 
   const { mutate: editOption } = useOptimisticMutation({
     mutationFn: updateVariationOption,
@@ -96,16 +98,12 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
       onUpdate((prev) => prev.filter((opt) => opt.idx !== option.idx));
       return;
     }
+    const optionId = option.id;
 
-    if (warn && !skipVariationWarnings) {
-      setWarnModalState({
-        isOpen: true,
-        onConfirm: () => handleDelete(false),
-      });
-      return;
-    }
-
-    deleteOption(option.id);
+    guardedAction({
+      onConfirm: () => deleteOption(optionId),
+      shouldWarn: warn && !skipVariationWarnings,
+    });
   };
 
   const handleCancel = () => {
@@ -124,15 +122,10 @@ const VariationOptionItem: React.FC<VariationOptionItemProps> = ({
   };
 
   const toggleEditing = () => {
-    if (!skipVariationWarnings) {
-      setWarnModalState({
-        isOpen: true,
-        onConfirm: () => setIsEditing(true),
-      });
-      return;
-    }
-
-    setIsEditing(true);
+    guardedAction({
+      onConfirm: () => setIsEditing(true),
+      shouldWarn: !skipVariationWarnings,
+    });
   };
 
   if (isEditing) {

@@ -1,13 +1,18 @@
 import { VariationCard } from "@/components/features/product-form";
 import { Button } from "@/components/ui";
 import { useVariationWarning } from "@/hooks/useVariationWarning";
-import { FormVariationOption, Option, VariationOption } from "@/types";
+import { useWarningGuard } from "@/hooks/useWarningGuard";
+import {
+  FormVariationOption,
+  Option,
+  UpdateVariationOption,
+  VariationOption,
+} from "@/types";
 import { groupOptions } from "@/utils/groupOptions";
 import { Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { UpdateVariationOption } from "@/types";
 
 interface VariationOptionsApi {
   idx: string;
@@ -28,7 +33,8 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
   } = useFormContext();
   const variations = watch("variationOptions") as FormVariationOption[];
   const hasError = !!errors?.variationOptions;
-  const { skipVariationWarnings, setWarnModalState } = useVariationWarning();
+  const { skipVariationWarnings } = useVariationWarning();
+  const guardedAction = useWarningGuard();
 
   useEffect(() => {
     if (data) {
@@ -61,23 +67,18 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
   }, [data, setValue]);
 
   const addVariation = (warn: boolean = true) => {
-    if (data && warn && !skipVariationWarnings) {
-      setWarnModalState({
-        isOpen: true,
-        onConfirm: () => {
-          addVariation(false);
-        },
-      });
-      return;
-    }
+    guardedAction({
+      onConfirm: () => {
+        const newVariation = {
+          idx: crypto.randomUUID(),
+          kind: 0,
+          options: [],
+        };
 
-    const newVariation = {
-      idx: crypto.randomUUID(),
-      kind: 0,
-      options: [],
-    };
-
-    setValue("variationOptions", [...(variations || []), newVariation]);
+        setValue("variationOptions", [...(variations || []), newVariation]);
+      },
+      shouldWarn: !!data && warn && !skipVariationWarnings,
+    });
   };
 
   const deleteVariation = (idx: string) => {
@@ -104,29 +105,22 @@ const Variations: React.FC<VariationsProps> = ({ data }) => {
     warn = true,
   ) => {
     return new Promise((resolve, reject) => {
-      if (data && warn && !skipVariationWarnings) {
-        setWarnModalState({
-          isOpen: true,
-          onConfirm: async () => {
-            try {
-              await updateVariationOption(index, updater, false);
-              resolve(true);
-            } catch {
-              reject(false);
-            }
-          },
-          onCancel: () => {
+      guardedAction({
+        shouldWarn: !!data && warn && !skipVariationWarnings,
+        onConfirm: async () => {
+          try {
+            const newValues = updater(variations[index].options);
+            setValue(`variationOptions.${index}.options`, newValues);
+            resolve(true);
+          } catch (error) {
+            console.error("Failed to update variation:", error);
             reject(false);
-          },
-          resolve,
-          reject,
-        });
-        return;
-      }
-
-      const newValues = updater(variations[index].options);
-      setValue(`variationOptions.${index}.options`, newValues);
-      resolve(true);
+          }
+        },
+        onCancel: () => {
+          reject(false);
+        },
+      });
     });
   };
 
