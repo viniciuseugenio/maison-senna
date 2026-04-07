@@ -6,11 +6,11 @@ import { toast } from "@/utils/customToast";
 import { Modal } from "@/components/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, LinkProps } from "@tanstack/react-router";
 import TableData from "./TableData";
 
 type TableActionsProps = {
-  editLink: string;
+  editLink: LinkProps | LinkProps["to"];
   deleteLink: string;
   /**
    * Human-readable name of the resource type (e.g., "Product", "Category").
@@ -33,6 +33,9 @@ const TableActions: React.FC<TableActionsProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
+
+  const editLinkProps: LinkProps =
+    typeof editLink === "string" ? { to: editLink } : editLink;
 
   const capitalizedResourceType = resourceType
     .split(" ")
@@ -61,7 +64,7 @@ const TableActions: React.FC<TableActionsProps> = ({
     <>
       <TableData className="text-right">
         <Link
-          to={editLink}
+          {...editLinkProps}
           className="text-oyster/80 hover:text-oyster mr-3 font-medium duration-300"
         >
           Edit
