@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -128,12 +130,16 @@ class ProductVariation(models.Model):
     stock = models.PositiveIntegerField()
     image = models.ImageField(upload_to="variations/", blank=True, null=True)
     options = models.ManyToManyField(VariationOption, related_name="product_variations")
-    final_price = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True
-    )
 
     def __str__(self):
         return f"{self.sku}"
+
+    @property
+    def final_price(self):
+        modifiers = self.options.aggregate(total=models.Sum("price_modifier"))[
+            "total"
+        ] or Decimal(".00")
+        return self.product.base_price + modifiers
 
 
 class WishlistItem(models.Model):
