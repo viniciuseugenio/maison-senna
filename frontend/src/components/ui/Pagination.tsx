@@ -11,12 +11,14 @@ type PageListProps = {
    * Odd numbers center the current page better.
    */
   windowSize?: number;
+  pageKey?: string;
 };
 
 const PageList: React.FC<PageListProps> = ({
   currentPage,
   qtyPages,
   windowSize = 7,
+  pageKey = "page",
 }) => {
   const pages = Array.from({ length: qtyPages }, (_, i) => i + 1);
   let trimmedPages;
@@ -42,10 +44,10 @@ const PageList: React.FC<PageListProps> = ({
           className={twMerge(
             "hover:text-mine-shaft cursor-pointer duration-300",
             currentPage === pageNum &&
-              "text-mine-shaft underline underline-offset-8",
+            "text-mine-shaft underline underline-offset-8",
           )}
           to="."
-          search={(prev) => ({ ...prev, page: pageNum })}
+          search={(prev) => ({ ...prev, [pageKey]: pageNum })}
         >
           {pageNum}
         </Link>
@@ -58,8 +60,10 @@ const Pagination: React.FC<{
   qtyPages: number;
   marginTop?: string;
   windowSize?: number;
-}> = ({ qtyPages, windowSize, marginTop = "mt-12" }) => {
-  const { page: currentPage = 1 } = useSearch({ strict: false });
+  isModal?: boolean;
+}> = ({ qtyPages, windowSize, marginTop = "mt-12", isModal = false }) => {
+  const pageKey: "page" | "modalPage" = isModal ? "modalPage" : "page";
+  const { [pageKey]: currentPage = 1 } = useSearch({ strict: false });
 
   const prevNextStyling =
     "flex items-center gap-2 disabled:opacity-40 hover:text-mine-shaft cursor-pointer text-xs group uppercase";
@@ -74,10 +78,14 @@ const Pagination: React.FC<{
       <Link
         className={prevNextStyling}
         to="."
-        search={(prev) => ({
-          ...prev,
-          page: prev.page && prev.page > 1 ? prev.page - 1 : 1,
-        })}
+        search={(prev) => {
+          const current = prev[pageKey] ?? 1;
+
+          return {
+            ...prev,
+            [pageKey]: current > 1 ? current - 1 : 1,
+          };
+        }}
         disabled={currentPage === 1}
       >
         <ChevronLeft className="h-4 w-4 duration-300 group-hover:-translate-x-2" />
@@ -88,6 +96,7 @@ const Pagination: React.FC<{
         currentPage={currentPage}
         qtyPages={qtyPages}
         windowSize={windowSize}
+        pageKey={pageKey}
       />
 
       <Link
@@ -95,10 +104,14 @@ const Pagination: React.FC<{
         className={prevNextStyling}
         disabled={currentPage === qtyPages}
         aria-disabled={currentPage === qtyPages}
-        search={(prev) => ({
-          ...prev,
-          page: prev.page && prev.page < qtyPages ? prev.page + 1 : qtyPages,
-        })}
+        search={(prev) => {
+          const current = prev[pageKey] ?? 1;
+
+          return {
+            ...prev,
+            [pageKey]: current < qtyPages ? current + 1 : qtyPages,
+          };
+        }}
       >
         <span className="tracking-[0.25em]">Next</span>
         <ChevronRight className="h-4 w-4 duration-300 group-hover:translate-x-2" />

@@ -24,6 +24,7 @@ const searchSchema = z.object({
   q: z.string().optional(),
   modal: z.literal("new").optional(),
   page: z.number().catch(1),
+  modalPage: z.number().optional(),
 });
 
 export const Route = createFileRoute("/admin/variation-options")({
@@ -136,13 +137,13 @@ function VariationOptions() {
 
 const VariationOptionModal: React.FC = () => {
   const navigate = Route.useNavigate();
-  const { q, page } = Route.useSearch();
+  const { q, modalPage } = Route.useSearch();
   const debouncedSearch = useDebounce(q, 500);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const itemsPerPage = 7;
   const queryKeyFilters = {
-    page,
+    page: modalPage,
     limit: itemsPerPage,
     search: debouncedSearch,
   };
@@ -204,7 +205,7 @@ const VariationOptionModal: React.FC = () => {
           ))}
         </ul>
       </div>
-      <Pagination qtyPages={qtyPages} />
+      <Pagination isModal={true} qtyPages={qtyPages} />
     </FormModal>
   );
 };
