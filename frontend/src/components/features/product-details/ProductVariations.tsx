@@ -1,6 +1,7 @@
 import { VariationOption } from "@/types";
 import { groupOptions } from "@/utils/groupOptions";
 import VariantButton from "./VariantButton";
+import { formatPrice } from "@/utils/formatPrice";
 
 const ProductVariations: React.FC<{
   variationOptions: VariationOption[];
@@ -17,7 +18,9 @@ const ProductVariations: React.FC<{
           <VariantButton key={i} isSelected={false}>
             {option.name}{" "}
             {option.priceModifier && (
-              <span className="text-oyster ml-2">${option.priceModifier}</span>
+              <span className="text-oyster ml-2">
+                {formatPrice(option.priceModifier)}
+              </span>
             )}
           </VariantButton>
         ))}

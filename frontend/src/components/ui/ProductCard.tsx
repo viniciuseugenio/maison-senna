@@ -1,4 +1,5 @@
 import { ProductList } from "@/types";
+import { formatPrice } from "@/utils/formatPrice";
 import { Link } from "@tanstack/react-router";
 
 type ProductCardProps = {
@@ -29,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {product.name}
           </h3>
           <p className="text-mine-shaft/90 mt-2 text-sm">
-            ${product.basePrice}
+            {formatPrice(product.basePrice)}
           </p>
         </div>
       </Link>

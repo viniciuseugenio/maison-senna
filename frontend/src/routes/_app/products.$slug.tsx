@@ -7,6 +7,7 @@ import {
   WishlistButton,
 } from "@/components/features/product-details";
 import { Button } from "@/components/ui";
+import { formatPrice } from "@/utils/formatPrice";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Share2, ShoppingBag, Star } from "lucide-react";
@@ -72,7 +73,7 @@ function Product() {
                 </span>
               </div>
               <div className="text-mine-shaft mt-6 text-2xl font-light">
-                ${product.basePrice}
+                {formatPrice(product.basePrice)}
               </div>
               {/* Product description */}
               <div className="text-mine-shaft/80 mt-6 text-sm leading-relaxed">
