@@ -10,6 +10,7 @@ import {
   TableData,
   TableRow,
 } from "@/components/features/admin";
+import EditLink from "@/components/features/admin/EditLink";
 import { HeaderConfig } from "@/types";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -38,6 +39,7 @@ export const Route = createFileRoute("/admin/categories")({
 });
 
 function AdminCategories() {
+  const navigate = Route.useNavigate();
   const { page, modal } = Route.useSearch();
 
   const { data, isLoading } = useQuery(categoriesQueryOptions(page));
@@ -81,7 +83,7 @@ function AdminCategories() {
                 <TableData>{category.slug}</TableData>
                 <TableData>12</TableData>
                 <TableActions
-                  editLink="/"
+                  renderEditLink={() => <EditLink to="/" />}
                   deleteLink={createDeleteLink(category.slug)}
                   resourceType="Category"
                   queryKey={queryKeys.categories.all}

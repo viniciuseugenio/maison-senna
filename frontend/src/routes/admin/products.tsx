@@ -14,6 +14,7 @@ import { HeaderConfig, ProductList } from "@/types";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
+import EditLink from "@/components/features/admin/EditLink";
 
 const searchSchema = z.object({
   page: z.number().catch(1),
@@ -78,6 +79,7 @@ function AdminProducts() {
 }
 
 const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
+  const navigate = Route.useNavigate();
   const deleteLink = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, {
     slug: product.slug,
   });
@@ -98,7 +100,12 @@ const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
       <TableData>{product.basePrice}</TableData>
       <TableData>{product.slug}</TableData>
       <TableActions
-        editLink={`${product.slug}/edit`}
+        renderEditLink={() => (
+          <EditLink
+            to="/admin/products/$postSlug/edit"
+            params={{ postSlug: product.slug }}
+          />
+        )}
         deleteLink={deleteLink}
         resourceType="Product"
         queryKey={queryKeys.products.all}

@@ -11,6 +11,7 @@ import {
   VariationKindsCreate,
   VariationKindsEdit,
 } from "@/components/features/admin";
+import EditLink from "@/components/features/admin/EditLink";
 import { HeaderConfig } from "@/types";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -51,6 +52,7 @@ export const Route = createFileRoute("/admin/variation-kinds")({
 });
 
 function VariationKinds() {
+  const navigate = Route.useNavigate();
   const search = Route.useSearch();
   const { page } = search;
 
@@ -97,7 +99,16 @@ function VariationKinds() {
                 <TableData>{variationKind.name}</TableData>
                 <TableData>{variationKind.skuAbbr}</TableData>
                 <TableActions
-                  editLink={`/admin/variation-kinds?modal=edit&id=${variationKind.id}`}
+                  renderEditLink={() => (
+                    <EditLink
+                      to="."
+                      search={(prev) => ({
+                        ...prev,
+                        modal: "edit",
+                        id: variationKind.id,
+                      })}
+                    />
+                  )}
                   deleteLink={buildDeleteLink(variationKind.id)}
                   resourceType="Variation Kind"
                   queryKey={queryKeys.variationKinds.all}

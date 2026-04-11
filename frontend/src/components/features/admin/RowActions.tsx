@@ -1,16 +1,20 @@
 import { genericDeleteModel } from "@/api/services";
+import { Modal } from "@/components/ui";
 import { toastMessages } from "@/constants/auth";
 import { ERROR_NOTIFICATIONS } from "@/constants/notifications";
 import capitalizeWord from "@/utils/capitalizeWord";
 import { toast } from "@/utils/customToast";
-import { Modal } from "@/components/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link, LinkProps } from "@tanstack/react-router";
 import TableData from "./TableData";
 
 type TableActionsProps = {
-  editLink: LinkProps | LinkProps["to"];
+  /**
+   * This property must return the full working edit action node with all the options defined.
+   * The component will only execute the prop and do no more work.
+   * This is done so the TableAction component does not become tighly coupled with router logic.
+   */
+  renderEditLink: () => React.ReactNode;
   deleteLink: string;
   /**
    * Human-readable name of the resource type (e.g., "Product", "Category").
@@ -26,16 +30,13 @@ type TableActionsProps = {
 };
 
 const TableActions: React.FC<TableActionsProps> = ({
-  editLink,
+  renderEditLink,
   deleteLink,
   resourceType,
   queryKey,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
-
-  const editLinkProps: LinkProps =
-    typeof editLink === "string" ? { to: editLink } : editLink;
 
   const capitalizedResourceType = resourceType
     .split(" ")
@@ -63,12 +64,7 @@ const TableActions: React.FC<TableActionsProps> = ({
   return (
     <>
       <TableData className="text-right">
-        <Link
-          {...editLinkProps}
-          className="text-oyster/80 hover:text-oyster mr-3 font-medium duration-300"
-        >
-          Edit
-        </Link>
+        {renderEditLink()}
         <button
           onClick={() => setIsOpen(true)}
           className="cursor-pointer font-medium text-red-500 duration-300 hover:text-red-600"

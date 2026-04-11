@@ -13,6 +13,7 @@ import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { PAGE_SIZE } from "@/api/constants";
 import { queryKeys } from "@/api/queryKeys";
+import EditLink from "@/components/features/admin/EditLink";
 
 const searchSchema = z.object({
   page: z.number().catch(1),
@@ -77,7 +78,7 @@ function ProductVariations() {
 
             <TableData>{productVariation.stock}</TableData>
             <TableActions
-              editLink="/"
+              renderEditLink={() => <EditLink to="/" />}
               deleteLink="/"
               resourceType="Product Variation"
               queryKey={["productVariations"]}

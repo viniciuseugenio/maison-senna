@@ -20,6 +20,7 @@ import { useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { z } from "zod";
 import { zodValidator } from "@tanstack/zod-adapter";
+import EditLink from "@/components/features/admin/EditLink";
 
 const searchSchema = z.object({
   q: z.string().optional(),
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/admin/variation-options")({
 });
 
 function VariationOptions() {
+  const navigate = Route.useNavigate();
   const { page, modal } = Route.useSearch();
 
   const { data, isLoading } = useQuery({
@@ -122,7 +124,13 @@ function VariationOptions() {
                     : "0.00"}
                 </TableData>
                 <TableActions
-                  editLink="/"
+                  renderEditLink={() => (
+                    <EditLink
+                      to="/admin/products/$postSlug/edit"
+                      params={{ postSlug: variationOption.product.slug }}
+                      search={(prev) => ({ ...prev, step: 1 })}
+                    />
+                  )}
                   deleteLink="/"
                   resourceType="Variation Option"
                   queryKey={["variationOptions"]}
