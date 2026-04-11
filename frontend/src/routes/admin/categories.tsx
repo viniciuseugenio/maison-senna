@@ -13,6 +13,7 @@ import {
 import { HeaderConfig } from "@/types";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { AnimatePresence } from "motion/react";
 import { z } from "zod";
 
@@ -28,7 +29,7 @@ const categoriesQueryOptions = (page: number) =>
   });
 
 export const Route = createFileRoute("/admin/categories")({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodValidator(searchSchema),
   loaderDeps: ({ search: { page } }) => ({ page }),
   loader: ({ context: { queryClient }, deps: { page } }) => {
     queryClient.ensureQueryData(categoriesQueryOptions(page));

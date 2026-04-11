@@ -7,6 +7,7 @@ import { toast } from "@/utils/customToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { LogIn, Mail } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,7 +19,7 @@ const searchParams = z.object({
 });
 
 export const Route = createFileRoute("/_app/_auth/login")({
-  validateSearch: (search) => searchParams.parse(search),
+  validateSearch: zodValidator(searchParams),
   component: Login,
 });
 

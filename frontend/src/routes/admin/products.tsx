@@ -1,5 +1,6 @@
 import { buildApiUrl } from "@/api/client";
 import { CATALOG_ENDPOINTS, PAGE_SIZE } from "@/api/constants";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { queryKeys } from "@/api/queryKeys";
 import { getProducts } from "@/api/services";
 import {
@@ -26,7 +27,7 @@ const adminProductsOptions = (page: number, q?: string, limit?: number) =>
   });
 
 export const Route = createFileRoute("/admin/products")({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodValidator(searchSchema),
   loaderDeps: ({ search: { page, q } }) => ({ page, q }),
   loader: ({ context: { queryClient }, deps: { page, q } }) => {
     queryClient.ensureQueryData(adminProductsOptions(page, q));

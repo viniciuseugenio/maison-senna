@@ -10,6 +10,7 @@ import {
 import { Button, Pagination } from "@/components/ui";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { Suspense } from "react";
 import { z } from "zod";
 
@@ -24,7 +25,7 @@ const collectionsQueryOptions = (page: number) =>
   });
 
 export const Route = createFileRoute("/_app/collections")({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodValidator(searchSchema),
   loaderDeps: ({ search: { page } }) => ({ page }),
   loader: ({ context, deps: { page } }) => {
     context.queryClient.ensureQueryData(collectionsQueryOptions(page));

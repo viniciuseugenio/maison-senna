@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/features/admin";
 import { useQuery } from "@tanstack/react-query";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { PAGE_SIZE } from "@/api/constants";
 import { queryKeys } from "@/api/queryKeys";
@@ -18,7 +19,7 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute("/admin/product-variations")({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodValidator(searchSchema),
   component: ProductVariations,
 });
 

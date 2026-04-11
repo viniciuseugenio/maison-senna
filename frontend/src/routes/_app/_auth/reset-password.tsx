@@ -10,6 +10,7 @@ import { validatePassword } from "@/utils/validatePassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,7 +21,7 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute("/_app/_auth/reset-password")({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodValidator(searchSchema),
   component: ResetPassword,
 });
 

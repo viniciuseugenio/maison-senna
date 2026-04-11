@@ -3,6 +3,7 @@ import { getProduct, updateProduct } from "@/api/services";
 import { BackButton } from "@/components/features/admin";
 import { ProductForm } from "@/components/features/product-form";
 import { HorizontalDivider } from "@/components/ui";
+import { zodValidator } from "@tanstack/zod-adapter";
 import newProduct from "@/schemas/newProduct";
 import { NewProductForm } from "@/types";
 import { toast } from "@/utils/customToast";
@@ -30,7 +31,7 @@ const productQueryOptions = (slug: string) =>
   });
 
 export const Route = createFileRoute("/admin/products_/$postSlug/edit")({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodValidator(searchSchema),
   loader: ({ context: { queryClient }, params }) => {
     queryClient.ensureQueryData(productQueryOptions(params.postSlug));
   },

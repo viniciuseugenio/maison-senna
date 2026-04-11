@@ -19,6 +19,7 @@ import { AnimatePresence } from "motion/react";
 import { useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { z } from "zod";
+import { zodValidator } from "@tanstack/zod-adapter";
 
 const searchSchema = z.object({
   q: z.string().optional(),
@@ -28,7 +29,7 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute("/admin/variation-options")({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodValidator(searchSchema),
   component: VariationOptions,
 });
 

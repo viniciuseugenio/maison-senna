@@ -11,6 +11,7 @@ import { setServerErrors } from "@/utils/setServerErrors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -19,7 +20,7 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute("/admin/products_/new")({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodValidator(searchSchema),
   component: NewProduct,
 });
 

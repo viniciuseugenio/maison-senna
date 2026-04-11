@@ -10,6 +10,7 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { X } from "lucide-react";
 import { Suspense } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -33,7 +34,7 @@ export const Route = createFileRoute("/_app/wishlist")({
     queryClient.ensureQueryData(wishlistQueryOptions(page));
   },
   component: Wishlist,
-  validateSearch: productSearchSchema,
+  validateSearch: zodValidator(productSearchSchema),
 });
 
 function Wishlist() {
