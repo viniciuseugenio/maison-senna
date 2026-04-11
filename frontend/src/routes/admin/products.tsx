@@ -1,12 +1,15 @@
-import { PAGE_SIZE } from "@/api/constants";
+import { buildApiUrl } from "@/api/client";
+import { CATALOG_ENDPOINTS, PAGE_SIZE } from "@/api/constants";
 import { queryKeys } from "@/api/queryKeys";
 import { getProducts } from "@/api/services";
 import {
   AdminPageLayout,
   LoadingRow,
-  ProductRow,
+  TableActions,
+  TableData,
+  TableRow,
 } from "@/components/features/admin";
-import { HeaderConfig } from "@/types";
+import { HeaderConfig, ProductList } from "@/types";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
@@ -72,3 +75,35 @@ function AdminProducts() {
     </AdminPageLayout>
   );
 }
+
+const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
+  const deleteLink = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, {
+    slug: product.slug,
+  });
+
+  return (
+    <TableRow>
+      <TableData>{product.id}</TableData>
+      <TableData>
+        <div className="h-10 w-10 overflow-hidden rounded-md">
+          <img
+            src={product.referenceImage}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      </TableData>
+      <TableData>{product.name}</TableData>
+      <TableData>{product.category.name}</TableData>
+      <TableData>{product.basePrice}</TableData>
+      <TableData>{product.slug}</TableData>
+      <TableActions
+        editLink={`${product.slug}/edit`}
+        deleteLink={deleteLink}
+        resourceType="Product"
+        queryKey={queryKeys.products.all}
+      />
+    </TableRow>
+  );
+};
+
+export default ProductRow;

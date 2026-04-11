@@ -7,7 +7,6 @@ export { default as LoadingRow } from "./LoadingRow";
 export { default as AdminPageLayout } from "./PageLayout";
 export { default as PageLayout } from "./PageLayout";
 export { default as PageTitle } from "./PageTitle";
-export { default as ProductRow } from "./ProductRow";
 export { default as ProductSelect } from "./ProductSelect";
 export { default as TableActions } from "./RowActions";
 export { default as SectionHeader } from "./SectionHeader";
