@@ -11,14 +11,12 @@ export type CallbackRefs = {
   onCancel?: () => void;
 };
 
-export type WarnModalStateType = boolean;
-
 export const VariationWarningContext = createContext<
   | {
       skipVariationWarnings: boolean;
       setSkipVariationWarnings: React.Dispatch<React.SetStateAction<boolean>>;
-      showWarning: WarnModalStateType;
-      setShowWarning: React.Dispatch<React.SetStateAction<WarnModalStateType>>;
+      showWarning: boolean;
+      setShowWarning: React.Dispatch<React.SetStateAction<boolean>>;
       callbackRefs: RefObject<CallbackRefs>;
     }
   | undefined

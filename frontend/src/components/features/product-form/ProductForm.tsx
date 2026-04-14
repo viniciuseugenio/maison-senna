@@ -3,7 +3,6 @@ import { Button, Modal } from "@/components/ui";
 import {
   CallbackRefs,
   VariationWarningContext,
-  WarnModalStateType,
 } from "@/store/VariationWarningContext";
 import { NewProductForm, ProductDetails } from "@/types";
 import { useNavigate, useSearch } from "@tanstack/react-router";
@@ -37,7 +36,7 @@ function ProductForm<T extends FieldValues>({
   const navigate = useNavigate();
   const { handleSubmit, trigger } = methods;
   const [skipVariationWarnings, setSkipVariationWarnings] = useState(false);
-  const [showWarning, setShowWarning] = useState<WarnModalStateType>(false);
+  const [showWarning, setShowWarning] = useState<boolean>(false);
   const callbackRefs = useRef<CallbackRefs>({
     onConfirm: () => {},
   });
