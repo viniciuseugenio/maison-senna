@@ -1,4 +1,4 @@
-import { HorizontalDivider } from "@/components/ui";
+import { useLockBodyScroll } from "@/utils/useLockBodyScroll";
 import { X } from "lucide-react";
 import { motion } from "motion/react";
 import { createPortal } from "react-dom";
@@ -10,6 +10,7 @@ type FormModalProps<T> = {
   children: React.ReactNode;
   title: string;
   maxWidth?: string;
+  isOpen?: boolean;
 };
 
 export default function FormModal<T>({
@@ -17,8 +18,11 @@ export default function FormModal<T>({
   onClose,
   isPending,
   children,
+  isOpen = false,
   maxWidth = "max-w-lg",
 }: FormModalProps<T>) {
+  useLockBodyScroll(isOpen);
+
   return createPortal(
     <div
       role="dialog"
