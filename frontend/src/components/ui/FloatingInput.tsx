@@ -62,7 +62,10 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
                 {...register(name)}
                 name={name}
                 type={type}
-                className="text-mine-shaft/90 h-full w-full pl-10 text-sm outline-none"
+                className={twMerge(
+                  "text-mine-shaft/90 h-full w-full pl-10 text-sm outline-none",
+                  props.disabled && "text-mine-shaft/40",
+                )}
               />
             </div>
           </div>
