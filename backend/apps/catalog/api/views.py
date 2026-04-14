@@ -1,21 +1,14 @@
-import time
+from collections import defaultdict
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from rest_framework import filters, status
 from rest_framework.decorators import action
-from rest_framework.generics import (
-    ListAPIView,
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
-from rest_framework.permissions import (
-    AllowAny,
-    BasePermission,
-    IsAdminUser,
-    IsAuthenticated,
-)
+from rest_framework.generics import (ListAPIView, ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.permissions import (AllowAny, BasePermission, IsAdminUser,
+                                        IsAuthenticated)
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
@@ -243,8 +236,16 @@ class VariationOptionRUDView(RetrieveUpdateDestroyAPIView):
 
 
 class ProductVariationList(OrderedAdminListView):
+    serializer_class = serializers.ProductWithVariationOptions
+    queryset = models.Product.objects.prefetch_related("variations")
+
+
+class ProductVariationDetails(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.ProductVariationSerializer
-    queryset = models.ProductVariation.objects.select_related("product")
+    queryset = models.ProductVariation.objects.select_related(
+        "product"
+    ).prefetch_related("options")
+    lookup_field = "pk"
 
 
 class WishlistViewSet(ModelViewSet):

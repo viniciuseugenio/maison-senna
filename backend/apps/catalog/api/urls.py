@@ -44,6 +44,11 @@ urlpatterns = [
         views.ProductVariationList.as_view(),
         name="product-variations-list",
     ),
+    path(
+        "products_variations/<int:pk>/",
+        views.ProductVariationDetails.as_view(),
+        name="product-variations-details",
+    ),
 ]
 
 urlpatterns += router.urls

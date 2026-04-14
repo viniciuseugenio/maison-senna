@@ -137,22 +137,37 @@ class ProductUpdateSerializer(BaseProductSerializer):
 
 
 class ProductVariationSerializer(serializers.ModelSerializer):
-    product = serializers.SerializerMethodField()
     options = VariationOptionSerializer(many=True)
 
     class Meta:
         model = models.ProductVariation
         fields = [
             "id",
-            "product",
             "sku",
             "stock",
             "image",
             "options",
         ]
+        read_only_fields = ["sku", "options"]
 
     def get_product(self, obj):
         return obj.product.name
+
+
+class ProductWithVariationOptions(serializers.ModelSerializer):
+    variations = ProductVariationSerializer(many=True)
+    category = CategorySerializer()
+
+    class Meta:
+        model = models.Product
+        fields = [
+            "id",
+            "name",
+            "category",
+            "base_price",
+            "reference_image",
+            "variations",
+        ]
 
 
 class WishlistItemSerializer(serializers.ModelSerializer):
