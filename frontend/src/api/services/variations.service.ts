@@ -3,6 +3,7 @@ import { CATALOG_ENDPOINTS } from "@/api/constants";
 import {
   PaginationResults,
   ProductVariation,
+  ProductWithVariations,
   VariationKind,
   VariationOptionList,
 } from "@/types";
@@ -98,7 +99,7 @@ export async function deleteVariationOption(id: number) {
 }
 
 export async function getProductVariations({ page }: { page: number }) {
-  return await customFetch<PaginationResults<ProductVariation>>(
+  return await customFetch<PaginationResults<ProductWithVariations>>(
     CATALOG_ENDPOINTS.LIST_PRODUCT_VARIATIONS,
     {
       queryParams: {
@@ -106,4 +107,39 @@ export async function getProductVariations({ page }: { page: number }) {
       },
     },
   );
+}
+
+export async function getProductVariation({ id }: { id: number }) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_VARIATIONS_DETAILS, {
+    id,
+  });
+  return await customFetch<ProductVariation>(url, {
+    requiresAuth: true,
+  });
+}
+
+export async function updateProductVariation({
+  id,
+  data,
+}: {
+  id: number;
+  data: { stock?: number; image?: File };
+}) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_VARIATIONS_DETAILS, {
+    id,
+  });
+
+  const formData = new FormData();
+  if (data.image) {
+    formData.append("image", data.image);
+  }
+  if (data.stock !== undefined) {
+    formData.append("stock", data.stock.toString());
+  }
+
+  return await customFetch(url, {
+    body: formData,
+    method: "PATCH",
+    requiresAuth: true,
+  });
 }

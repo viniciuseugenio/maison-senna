@@ -32,7 +32,10 @@ export const queryKeys = {
 
   productVariations: {
     all: ["productVariations"] as const,
-    list: (filters?: { page?: number }) => ["productVariations", filters],
+    list: (filters?: { page?: number }) =>
+      ["productVariations", "list", filters] as const,
+    details: (id: number, filters?: { page?: number }) =>
+      ["productVariations", "details", id, filters] as const,
   },
 
   wishlist: {

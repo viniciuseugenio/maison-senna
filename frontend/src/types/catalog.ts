@@ -1,3 +1,5 @@
+import { Option } from "./product-form";
+
 export type PaginationResults<T> = {
   count: number;
   next: string;
@@ -71,9 +73,24 @@ export type ProductDetails = {
   isWishlisted: boolean;
 };
 
+export type ProductWithVariations = {
+  id: number;
+  name: string;
+  basePrice: number;
+  category: Category;
+  referenceImage: string;
+  product: string;
+  variations: {
+    id: number;
+    image: string;
+    sku: string;
+    stock: number;
+    options: VariationOption[];
+  }[];
+};
+
 export type ProductVariation = {
   id: number;
-  product: string;
   sku: string;
   stock: number;
   image: string;
