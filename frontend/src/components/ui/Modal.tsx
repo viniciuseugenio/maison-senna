@@ -4,6 +4,7 @@ import { CircleAlert, Info, LucideProps, TriangleAlert, X } from "lucide-react";
 import Button from "./Button";
 import { twMerge } from "tailwind-merge";
 import { useEffect } from "react";
+import { useLockBodyScroll } from "@/utils/useLockBodyScroll";
 
 type ModalProps = {
   title: string;
@@ -57,14 +58,7 @@ export default function Modal({
 
   const IconModal = Icon || variantStyles[variant].defaultIcon;
 
-  useEffect(() => {
-    if (isOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  useLockBodyScroll(isOpen);
 
   const modalRoot = document.getElementById("modal");
   if (!modalRoot) return null;
