@@ -5,13 +5,12 @@ import { Plus, Search } from "lucide-react";
 import { useRef } from "react";
 import BackButton from "./BackButton";
 import PageTitle from "./PageTitle";
-import TableHead from "./TableHead";
+import TableLayout from "./TableLayout";
 
-type PageLayoutProps = {
+type PageLayoutPropsBase = {
   title: string;
   actionLabel: string;
   onSearch: (query: string) => void;
-  headers: HeaderConfig[];
   children: React.ReactNode;
   actionLink: LinkProps["to"];
   linkSearch?: LinkProps["search"];
@@ -20,19 +19,31 @@ type PageLayoutProps = {
   dataCount?: number;
 };
 
+interface FlatList extends PageLayoutPropsBase {
+  type: "flat-list";
+  headers: HeaderConfig[];
+}
+
+interface NestedList extends PageLayoutPropsBase {
+  type: "nested-list";
+}
+
+type PageLayoutProps = FlatList | NestedList;
+
 const PageLayout: React.FC<PageLayoutProps> = ({
   title,
   linkSearch,
   actionLabel,
   actionLink,
   onSearch,
-  headers,
   children,
   qtyPages = 1,
   resultsSize,
   dataCount,
+  ...props
 }) => {
   const timeoutRef = useRef<number | undefined>(undefined);
+  const { headers, type = "flat-list" } = props;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (timeoutRef.current) {
@@ -76,23 +87,11 @@ const PageLayout: React.FC<PageLayoutProps> = ({
               />
             </div>
           </div>
-          <table className="divide-oyster/30 min-w-full table-auto divide-y">
-            <thead className="bg-mine-shaft/5">
-              <tr>
-                {headers.map((header) => (
-                  <TableHead
-                    key={header.title}
-                    title={header.title}
-                    isButton={header.isButton}
-                    className={header.className}
-                  />
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-oyster/30 divide-y bg-white">
-              {children}
-            </tbody>
-          </table>
+          {type === "flat-list" ? (
+            <TableLayout headers={headers}>{children}</TableLayout>
+          ) : (
+            <>{children}</>
+          )}
         </div>
       </div>
       <div className="mt-3 flex items-center justify-between">
