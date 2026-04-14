@@ -41,10 +41,11 @@ const PageList: React.FC<PageListProps> = ({
     <div className="flex items-center gap-6 font-serif text-lg">
       {trimmedPages.map((pageNum) => (
         <Link
+          key={pageNum}
           className={twMerge(
             "hover:text-mine-shaft cursor-pointer duration-300",
             currentPage === pageNum &&
-            "text-mine-shaft underline underline-offset-8",
+              "text-mine-shaft underline underline-offset-8",
           )}
           to="."
           search={(prev) => ({ ...prev, [pageKey]: pageNum })}
