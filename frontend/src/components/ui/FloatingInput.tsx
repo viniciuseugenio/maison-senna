@@ -24,14 +24,14 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
   const isError = !!error;
 
   const { watch } = useFormContext();
-  const fieldValue = watch(name) as string;
+  const fieldValue = watch(name, props.defaultValue) as string;
 
   const borderColor = isError
     ? "border-red-500 ring-red-200"
     : "group-focus-within:border-oyster group-focus-within:ring-oyster/30 border-oyster/20 focus-within:border-oyster";
 
   const hasValueStyle =
-    fieldValue || props.defaultValue ? "top-0 text-sm" : "top-1/2";
+    fieldValue != null && fieldValue !== "" ? "top-0 text-sm" : "top-1/2";
 
   return (
     <ConnectForm>
@@ -40,7 +40,10 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
           <div className="group relative">
             <label
               htmlFor=""
-              className={`text-mine-shaft/50 group-focus-within:text-mine-shaft/90 pointer-events-none absolute left-8 z-10 -translate-y-1/2 bg-white px-1 text-sm transition-all duration-300 group-focus-within:top-0 ${hasValueStyle}`}
+              className={twMerge(
+                "text-mine-shaft/50 group-focus-within:text-mine-shaft/90 pointer-events-none absolute left-8 z-10 -translate-y-1/2 bg-white px-1 text-sm transition-all duration-300 group-focus-within:top-0",
+                hasValueStyle,
+              )}
             >
               {label}
             </label>
