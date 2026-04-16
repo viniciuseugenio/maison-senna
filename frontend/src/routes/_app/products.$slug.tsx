@@ -10,10 +10,16 @@ import { Button } from "@/components/ui";
 import { formatPrice } from "@/utils/formatPrice";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { Share2, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { z } from "zod";
+
+const searchQueryParams = z.object({
+  selected: z.array(z.number().positive()).optional(),
+});
 
 const productQueryOptions = (slug: string) =>
   queryOptions({
@@ -22,6 +28,7 @@ const productQueryOptions = (slug: string) =>
   });
 
 export const Route = createFileRoute("/_app/products/$slug")({
+  validateSearch: zodValidator(searchQueryParams),
   loader: ({ context: { queryClient }, params }) => {
     queryClient.ensureQueryData(productQueryOptions(params.slug));
   },
