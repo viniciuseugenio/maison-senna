@@ -12,8 +12,6 @@ from rest_framework.permissions import (AllowAny, BasePermission, IsAdminUser,
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from apps.catalog.api.serializers.category import CategoryWProductsSerializer
-
 from .. import models
 from . import serializers
 
@@ -162,7 +160,7 @@ class CategoryDetailsView(RetrieveUpdateDestroyAPIView):
         if get_products:
             category = self.get_object()
             return Response(
-                CategoryWProductsSerializer(
+                serializers.CategoryWProductsSerializer(
                     category, context={"request": request}
                 ).data,
                 status=status.HTTP_200_OK,
