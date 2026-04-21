@@ -1,14 +1,20 @@
-from collections import defaultdict
-
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
+from django.db.models import Count, Q
 from rest_framework import filters, status
 from rest_framework.decorators import action
-from rest_framework.generics import (ListAPIView, ListCreateAPIView,
-                                     RetrieveUpdateDestroyAPIView)
-from rest_framework.permissions import (AllowAny, BasePermission, IsAdminUser,
-                                        IsAuthenticated)
+from rest_framework.generics import (
+    GenericAPIView,
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
+from rest_framework.permissions import (
+    AllowAny,
+    BasePermission,
+    IsAdminUser,
+    IsAuthenticated,
+)
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
@@ -244,6 +250,49 @@ class ProductVariationDetails(RetrieveUpdateDestroyAPIView):
         "product"
     ).prefetch_related("options")
     lookup_field = "pk"
+
+
+class ProductVariationByOptionsView(GenericAPIView):
+    serializer_class = serializers.ProductVariationSerializer
+    queryset = models.ProductVariation.objects.select_related(
+        "product"
+    ).prefetch_related("options")
+
+    def get_object(self):
+        qs = super().get_queryset()
+        product_id = self.kwargs.get("pk")
+        serializer = serializers.OptionsListSerializer(
+            data={"options": self.request.query_params.getlist("options")}
+        )
+        serializer.is_valid(raise_exception=True)
+        options = serializer.validated_data["options"]
+
+        qs = qs.filter(product__pk=product_id)
+        variation = (
+            qs.annotate(
+                total_options=Count("options", distinct=True),
+                matched_options=Count(
+                    "options",
+                    filter=Q(options__id__in=options),
+                ),
+            )
+            .filter(total_options=len(options), matched_options=len(options))
+            .first()
+        )
+
+        return variation
+
+    def get(self, *args, **kwargs):
+        variation = self.get_object()
+
+        if not variation:
+            return Response(
+                {"detail": "No product variation with the passed IDs were found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        serializer = self.get_serializer(variation)
+        return Response(serializer.data)
 
 
 class WishlistViewSet(ModelViewSet):
