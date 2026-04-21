@@ -20,6 +20,7 @@ import { calcVariantPrice } from "@/utils/calcVariantPrice";
 import { toast } from "@/utils/customToast";
 import { formatPrice } from "@/utils/formatPrice";
 import { calcPageSizeAndQty } from "@/utils/pagination";
+import { getStockIndicatorColor } from "@/utils/getStockIndicatorColor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   queryOptions,
@@ -138,18 +139,6 @@ const ProductRow: React.FC<{ product: ProductWithVariations }> = ({
     });
   };
 
-  const stockIndicatorColor = (stock: number) => {
-    let color = "bg-green-600";
-
-    if (stock < 20) {
-      color = "bg-red-600";
-    } else if (stock <= 30) {
-      color = "bg-yellow-500";
-    }
-
-    return color;
-  };
-
   return (
     <div className="p-2">
       <button
@@ -208,7 +197,7 @@ const ProductRow: React.FC<{ product: ProductWithVariations }> = ({
                   <TableData className="pl-0">
                     <div className="flex items-center justify-items-start gap-2">
                       <span
-                        className={`h-2 w-2 rounded-full ${stockIndicatorColor(variation.stock)}`}
+                        className={`h-2 w-2 rounded-full ${getStockIndicatorColor(variation.stock)}`}
                       />
                       <span>{variation.stock} in stock</span>
                     </div>
