@@ -36,6 +36,14 @@ export const queryKeys = {
       ["productVariations", "list", filters] as const,
     details: (id: number, filters?: { page?: number }) =>
       ["productVariations", "details", id, filters] as const,
+    detailsByOptions: (productId: number, options: number[]) =>
+      [
+        "productVariations",
+        "details",
+        "byOptions",
+        productId,
+        options,
+      ] as const,
   },
 
   wishlist: {

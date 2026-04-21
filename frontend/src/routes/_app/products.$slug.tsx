@@ -7,6 +7,7 @@ import {
   WishlistButton,
 } from "@/components/features/product-details";
 import { Button } from "@/components/ui";
+import { useProductVariation } from "@/hooks/useProductVariation";
 import { formatPrice } from "@/utils/formatPrice";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -15,10 +16,11 @@ import { Share2, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
 const searchQueryParams = z.object({
-  selected: z.array(z.number().positive()).optional(),
+  options: z.array(z.number().positive()).optional(),
 });
 
 const productQueryOptions = (slug: string) =>
@@ -44,6 +46,16 @@ function Product() {
   const { slug } = Route.useParams();
 
   const { data: product } = useSuspenseQuery(productQueryOptions(slug));
+  const { options = [] } = Route.useSearch();
+
+  const variationData = useProductVariation({
+    optionsIds: options,
+    variationOptions: product.variationOptions,
+    productId: product.id,
+  });
+
+  const totalPrice =
+    (Number(product.basePrice) + variationData.additionalPrice) * quantity;
 
   const handleQuantityChange = (value: number) => {
     if (value >= MIN_QTY && value <= MAX_QTY) {
@@ -58,7 +70,13 @@ function Product() {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
             <div className="space-y-4">
               <div className="relative aspect-square overflow-hidden">
-                <img src={product.referenceImage} alt={product.name} />
+                <img
+                  src={
+                    variationData.productVariation?.image ??
+                    product.referenceImage
+                  }
+                  alt={product.name}
+                />
               </div>
             </div>
             <div className="flex flex-col">
@@ -80,7 +98,7 @@ function Product() {
                 </span>
               </div>
               <div className="text-mine-shaft mt-6 text-2xl font-light">
-                {formatPrice(product.basePrice)}
+                {formatPrice(totalPrice)}
               </div>
               {/* Product description */}
               <div className="text-mine-shaft/80 mt-6 text-sm leading-relaxed">
@@ -112,7 +130,11 @@ function Product() {
                 </div>
               </div>
               <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-                <Button size="lg" className="flex-1 text-sm uppercase">
+                <Button
+                  disabled={!variationData.isAvailable}
+                  size="lg"
+                  className="flex-1 text-sm uppercase"
+                >
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Add to Cart
                 </Button>
@@ -138,9 +160,17 @@ function Product() {
                 />
               </div>
               <div className="border-t-mine-shaft/20 text-mine-shaft/60 mt-8 border-t pt-6 text-xs">
-                <p>SKU: CP-001-YG</p>
+                <p>SKU: {variationData.skuText}</p>
                 <p className="mt-1">
-                  Availability: <span className="text-green-600">In Stock</span>
+                  Availability:{" "}
+                  <span
+                    className={twMerge(
+                      "font-semibold",
+                      variationData.stockTextColor,
+                    )}
+                  >
+                    {variationData.availabilityText}
+                  </span>
                 </p>
               </div>
             </div>

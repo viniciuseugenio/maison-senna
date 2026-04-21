@@ -31,6 +31,7 @@ export const CATALOG_ENDPOINTS = {
   LIST_VARIATION_OPTIONS: `${VITE_BACKEND_URL}/catalog/variation/options/`,
   LIST_PRODUCT_VARIATIONS: `${VITE_BACKEND_URL}/catalog/products_variations/`,
   PRODUCT_VARIATIONS_DETAILS: `${VITE_BACKEND_URL}/catalog/products_variations/:id/`,
+  PRODUCT_VARIATION_BY_OPTIONS: `${VITE_BACKEND_URL}/catalog/products/:id/variations/`,
   VARIATION_OPTION_DETAILS: `${VITE_BACKEND_URL}/catalog/variation/options/:id/`,
   WISHLIST: `${VITE_BACKEND_URL}/catalog/wishlist/`,
   WISHLIST_DETAILS: `${VITE_BACKEND_URL}/catalog/wishlist/:id/`,

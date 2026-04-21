@@ -143,3 +143,22 @@ export async function updateProductVariation({
     requiresAuth: true,
   });
 }
+
+export async function getProductVariationByOptions({
+  productId,
+  options,
+}: {
+  productId: number;
+  options: number[];
+}) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_VARIATION_BY_OPTIONS, {
+    id: productId,
+  });
+
+  return await customFetch<ProductVariation>(url, {
+    requiresAuth: true,
+    queryParams: {
+      options,
+    },
+  });
+}

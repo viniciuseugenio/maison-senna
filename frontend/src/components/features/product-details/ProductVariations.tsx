@@ -10,7 +10,7 @@ const ProductVariations: React.FC<{
   variationOptions: VariationOption[];
 }> = ({ variationOptions }) => {
   const groupedOptions = groupOptions(variationOptions);
-  const { selected = [] } = routeApi.useSearch();
+  const { options = [] } = routeApi.useSearch();
   const navigate = routeApi.useNavigate();
 
   const toggleVariationId = (optionId: number) => {
@@ -26,7 +26,7 @@ const ProductVariations: React.FC<{
     navigate({
       to: ".",
       search: (prev) => {
-        const current = prev.selected ?? [];
+        const current = prev.options ?? [];
         const isSelected = current.includes(optionId);
 
         let next: number[];
@@ -41,7 +41,7 @@ const ProductVariations: React.FC<{
 
         return {
           ...prev,
-          selected: next.length >= 1 ? Array.from(new Set(next)) : undefined,
+          options: next.length >= 1 ? Array.from(new Set(next)) : undefined,
         };
       },
       resetScroll: false,
@@ -57,8 +57,8 @@ const ProductVariations: React.FC<{
         {variation[1].map((option, i) => (
           <VariantButton
             onClick={() => toggleVariationId(option.id)}
-            key={i}
-            isSelected={selected.includes(option.id) ?? false}
+            key={option.id}
+            isSelected={options.includes(option.id) ?? false}
           >
             {option.name}{" "}
             {option.priceModifier && (
