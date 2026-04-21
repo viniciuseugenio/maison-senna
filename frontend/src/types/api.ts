@@ -17,4 +17,5 @@ export interface QuerySetOptions {
   page?: number;
   search?: string;
   paginate?: boolean;
+  [key: string]: any;
 }

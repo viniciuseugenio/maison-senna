@@ -45,6 +45,12 @@ export async function customFetch<T>(
 
   if (queryParams) {
     for (const [key, value] of Object.entries(queryParams)) {
+      if (value instanceof Array) {
+        for (const item of value) {
+          search.append(key, item);
+        }
+        continue;
+      }
       if (value !== undefined) search.set(key === "search" ? "q" : key, value);
     }
   }
