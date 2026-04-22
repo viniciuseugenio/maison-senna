@@ -34,6 +34,7 @@ import { Archive, ChevronDown, Image, Tag } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { twMerge } from "tailwind-merge";
 
 const headers: HeaderConfig[] = [
   { title: "ID" },
@@ -197,7 +198,10 @@ const ProductRow: React.FC<{ product: ProductWithVariations }> = ({
                   <TableData className="pl-0">
                     <div className="flex items-center justify-items-start gap-2">
                       <span
-                        className={`h-2 w-2 rounded-full ${getStockIndicatorColor(variation.stock)}`}
+                        className={twMerge(
+                          "h-2 w-2 rounded-full",
+                          getStockIndicatorColor(variation.stock),
+                        )}
                       />
                       <span>{variation.stock} in stock</span>
                     </div>
