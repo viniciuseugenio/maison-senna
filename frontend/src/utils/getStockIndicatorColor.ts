@@ -1,11 +1,26 @@
-export function getStockIndicatorColor(stock: number, prefix: string = "bg") {
-  let color = `${prefix}-green-600`;
+export function getStockIndicatorColor(
+  stock: number,
+  prefix: "bg" | "text" = "bg",
+) {
+  let level: "critical" | "low" | "normal" = "normal";
+  const colors = {
+    bg: {
+      critical: "bg-red-600",
+      low: "bg-yellow-500",
+      normal: "bg-green-600",
+    },
+    text: {
+      critical: "text-red-600",
+      low: "text-yellow-500",
+      normal: "text-green-600",
+    },
+  };
 
   if (stock < 20) {
-    color = `${prefix}-red-600`;
+    level = "critical";
   } else if (stock <= 30) {
-    color = `${prefix}-yellow-500`;
+    level = "low";
   }
 
-  return color;
+  return colors[prefix][level];
 }
