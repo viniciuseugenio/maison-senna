@@ -130,6 +130,7 @@ class ProductVariation(models.Model):
     stock = models.PositiveIntegerField()
     image = models.ImageField(upload_to="variations/", blank=True, null=True)
     options = models.ManyToManyField(VariationOption, related_name="product_variations")
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.sku}"
