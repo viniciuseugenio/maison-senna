@@ -5,7 +5,6 @@ from . import models
 admin.site.register(models.VariationKind)
 admin.site.register(models.Category)
 admin.site.register(models.VariationOption)
-admin.site.register(models.ProductVariation)
 
 
 @admin.register(models.WishlistItem)
@@ -17,3 +16,8 @@ class WishlistItemAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "slug", "base_price", "is_featured"]
     list_editable = ["is_featured"]
+
+
+@admin.register(models.ProductVariation)
+class ProductVariationAdmin(admin.ModelAdmin):
+    list_display = ["id", "sku", "stock", "is_active"]
