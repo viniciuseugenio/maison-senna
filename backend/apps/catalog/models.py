@@ -79,6 +79,11 @@ class Product(models.Model):
                 {"is_featured": "You can only have up to 4 featured products."}
             )
 
+    def sync_variations(self):
+        from apps.catalog.services.variation_service import sync_product_variations
+
+        return sync_product_variations(self)
+
 
 class VariationKind(models.Model):
     name = models.CharField(max_length=50, unique=True)
