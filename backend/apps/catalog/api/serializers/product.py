@@ -1,4 +1,3 @@
-from django.db import transaction
 from rest_framework import serializers
 
 from apps.catalog import models
@@ -10,7 +9,6 @@ from apps.catalog.api.serializers.variation import (
     VariationOptionCreateSerializer,
     VariationOptionSerializer,
 )
-from apps.catalog.services.variation_service import create_variation_options
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -88,45 +86,11 @@ class BaseProductSerializer(serializers.ModelSerializer):
         }
 
 
-class ProductCreateSerializer(BaseProductSerializer):
+class ProductWriteSerializer(BaseProductSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=models.Category.objects.all()
     )
     variation_options = VariationOptionCreateSerializer(many=True, required=False)
-
-    def create(self, validated_data):
-        variation_options = validated_data.pop("variation_options", None)
-
-        with transaction.atomic():
-            instance = super().create(validated_data)
-
-            if variation_options is not None:
-                create_variation_options(variation_options, instance)
-
-        return instance
-
-    def to_representation(self, instance):
-        return ProductSerializer(instance).data
-
-    def to_internal_value(self, data):
-        parsed_data = parse_form_data(data)
-        return super().to_internal_value(parsed_data)
-
-
-class ProductUpdateSerializer(BaseProductSerializer):
-    category = serializers.PrimaryKeyRelatedField(
-        queryset=models.Category.objects.all()
-    )
-    variation_options = VariationOptionCreateSerializer(many=True, required=False)
-
-    def update(self, instance, validated_data):
-        variation_options = validated_data.pop("variation_options", None)
-        instance = super().update(instance, validated_data)
-
-        if variation_options is not None:
-            create_variation_options(variation_options, instance)
-
-        return instance
 
     def to_representation(self, instance):
         return ProductSerializer(instance).data

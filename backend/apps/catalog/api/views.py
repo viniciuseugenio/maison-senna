@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.db.models import Count, Prefetch, Q
 from rest_framework import filters, status
 from rest_framework.decorators import action
@@ -17,6 +18,8 @@ from rest_framework.permissions import (
 )
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
+
+from apps.catalog.services.product import save_product_and_sync_options
 
 from .. import models
 from . import serializers
@@ -53,6 +56,14 @@ class ProductViewSet(ModelViewSet):
     search_fields = ["name", "description", "category__name"]
     ordering = ["-id"]
 
+    def perform_create(self, serializer):
+        serializer.instance = save_product_and_sync_options(serializer.validated_data)
+
+    def perform_update(self, serializer):
+        serializer.instance = save_product_and_sync_options(
+            serializer.validated_data, serializer.instance
+        )
+
     def get_queryset(self):
         queryset = super().get_queryset()
 
@@ -65,11 +76,8 @@ class ProductViewSet(ModelViewSet):
         if self.action == "retrieve":
             return serializers.ProductSerializer
 
-        if self.action == "create":
-            return serializers.ProductCreateSerializer
-
-        if self.action == "partial_update":
-            return serializers.ProductUpdateSerializer
+        if self.action in ["create", "partial_update"]:
+            return serializers.ProductWriteSerializer
 
         return serializers.ProductListSerializer
 
