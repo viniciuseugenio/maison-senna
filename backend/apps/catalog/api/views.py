@@ -238,11 +238,19 @@ class VariationOptionRUDView(RetrieveUpdateDestroyAPIView):
             }
         )
 
-    def delete(self, request, *args, **kwargs):
+    @transaction.atomic
+    def perform_destroy(self, instance):
+        product = instance.product
+        instance.delete()
+        product.sync_variations()
+
+    def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        super().delete(request, *args, **kwargs)
+        name = instance.name
+
+        self.perform_destroy(instance)
         return Response(
-            {"detail": f"The option {instance.name} was successfully deleted"},
+            {"detail": f"The option {name} was successfully deleted"},
             status=status.HTTP_200_OK,
         )
 
