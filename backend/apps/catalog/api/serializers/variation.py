@@ -54,3 +54,16 @@ class VariationOptionCreateSerializer(serializers.Serializer):
         queryset=models.VariationKind.objects.all()
     )
     options = VariationOptionInputSerializer(many=True)
+
+
+class OptionsListSerializer(serializers.Serializer):
+    options = serializers.ListField(
+        min_length=1,
+        allow_empty=False,
+        child=serializers.IntegerField(min_value=1),
+    )
+
+    def validate_options(self, value):
+        if len(value) != len(set(value)):
+            raise serializers.ValidationError("Options must be unique!")
+        return value
