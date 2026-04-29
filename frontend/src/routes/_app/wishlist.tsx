@@ -105,6 +105,7 @@ const WishlistItems: React.FC = () => {
             <div className="group bg-white p-4 shadow-md duration-300 hover:shadow-lg">
               <div className="relative aspect-square overflow-hidden">
                 <img
+                  alt={product.name}
                   src={product.referenceImage}
                   className="h-full w-full object-cover duration-300 group-hover:scale-105"
                 />

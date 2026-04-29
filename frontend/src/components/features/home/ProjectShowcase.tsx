@@ -9,7 +9,11 @@ export default function ProjectShowcase() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="relative aspect-square overflow-hidden rounded-md">
-            <img src={sennaImg} className="h-full w-full object-cover" />
+            <img
+              alt="An image of Ayrton Senna sleeping while listening to music"
+              src={sennaImg}
+              className="h-full w-full object-cover"
+            />
           </div>
 
           <div>

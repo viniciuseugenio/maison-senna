@@ -42,7 +42,11 @@ const ProductCard: React.FC<{ itemId: number; product: ProductList }> = ({
     <Link to={`/products/${product.slug}`} className="group flex w-full gap-5">
       {/* Product image */}
       <div className="h-20 w-20 overflow-hidden">
-        <img className="h-full w-full" src={product.referenceImage} />
+        <img
+          alt={product.name}
+          className="h-full w-full"
+          src={product.referenceImage}
+        />
       </div>
 
       {/* Product infos */}

@@ -16,6 +16,7 @@ const Card: React.FC<CardProps> = ({ className, img, title, slug }) => {
       <Link to={cardLink}>
         <div className="mb-6 aspect-[4/5] overflow-hidden">
           <img
+            alt={`Collections of ${title}`}
             className="transition-tranform h-full w-full object-cover duration-300 group-hover:scale-105"
             src={img}
           />
