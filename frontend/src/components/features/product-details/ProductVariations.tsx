@@ -61,7 +61,7 @@ const ProductVariations: React.FC<{
             isSelected={options.includes(option.id) ?? false}
           >
             {option.name}{" "}
-            {option.priceModifier && (
+            {Number(option.priceModifier) > 0 && (
               <span className="text-oyster ml-2">
                 {formatPrice(option.priceModifier)}
               </span>
