@@ -9,18 +9,18 @@ import {
   TableData,
   TableRow,
 } from "@/components/features/admin";
+import EditLink from "@/components/features/admin/EditLink";
 import { Pagination } from "@/components/ui";
 import { useDebounce } from "@/hooks/useDebounce";
 import { HeaderConfig, ProductList, VariationOptionList } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { ChevronRight, X } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { z } from "zod";
-import { zodValidator } from "@tanstack/zod-adapter";
-import EditLink from "@/components/features/admin/EditLink";
 
 const searchSchema = z.object({
   q: z.string().optional(),
@@ -35,7 +35,6 @@ export const Route = createFileRoute("/admin/variation-options")({
 });
 
 function VariationOptions() {
-  const navigate = Route.useNavigate();
   const { page, modal } = Route.useSearch();
 
   const { data, isLoading } = useQuery({
@@ -110,34 +109,32 @@ function VariationOptions() {
         {!dataToRender || isLoading ? (
           <LoadingRow colSpan={headers.length} />
         ) : (
-          <>
-            {dataToRender.map((variationOption) => (
-              <TableRow key={variationOption.id}>
-                <TableData>{variationOption.id}</TableData>
-                <TableData>{variationOption.name}</TableData>
-                <TableData>{variationOption.kind.name}</TableData>
-                <TableData>{variationOption.product.name}</TableData>
-                <TableData>
-                  $
-                  {variationOption.priceModifier
-                    ? parseFloat(variationOption.priceModifier)
-                    : "0.00"}
-                </TableData>
-                <TableActions
-                  renderEditLink={() => (
-                    <EditLink
-                      to="/admin/products/$postSlug/edit"
-                      params={{ postSlug: variationOption.product.slug }}
-                      search={(prev) => ({ ...prev, step: 1 })}
-                    />
-                  )}
-                  deleteLink="/"
-                  resourceType="Variation Option"
-                  queryKey={["variationOptions"]}
-                />
-              </TableRow>
-            ))}
-          </>
+          dataToRender.map((variationOption) => (
+            <TableRow key={variationOption.id}>
+              <TableData>{variationOption.id}</TableData>
+              <TableData>{variationOption.name}</TableData>
+              <TableData>{variationOption.kind.name}</TableData>
+              <TableData>{variationOption.product.name}</TableData>
+              <TableData>
+                $
+                {variationOption.priceModifier
+                  ? parseFloat(variationOption.priceModifier)
+                  : "0.00"}
+              </TableData>
+              <TableActions
+                renderEditLink={() => (
+                  <EditLink
+                    to="/admin/products/$postSlug/edit"
+                    params={{ postSlug: variationOption.product.slug }}
+                    search={(prev) => ({ ...prev, step: 1 })}
+                  />
+                )}
+                deleteLink="/"
+                resourceType="Variation Option"
+                queryKey={["variationOptions"]}
+              />
+            </TableRow>
+          ))
         )}
       </PageLayout>
     </>
@@ -186,10 +183,11 @@ const VariationOptionModal: React.FC = () => {
       title="Select a Product"
     >
       <div className="mt-3 h-[810px] overflow-y-scroll p-1">
-        <div className="bg-light outline-oyster flex rounded-md px-2 py-3">
+        <div className="bg-light outline-oyster flex px-2 py-3">
           <input
             ref={inputRef}
             placeholder="Search products by name or SKU..."
+            aria-label="Search products by name or SKU..."
             className="w-full outline-none"
             onChange={onSearch}
           />
@@ -207,7 +205,7 @@ const VariationOptionModal: React.FC = () => {
             <X className="h-5 w-5" />
           </button>
         </div>
-        <ul className="text-mine-shaft mt-6 flex max-w-full flex-col gap-3">
+        <ul className="text-mine-shaft mt-6 flex max-w-full flex-col gap-6">
           {isLoading && <PageSkeleton itemsPerPage={itemsPerPage} />}
           {data?.results.map((product) => (
             <ProductRow key={product.id} product={product} />
@@ -221,46 +219,39 @@ const VariationOptionModal: React.FC = () => {
 
 const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
   return (
-    <>
-      <li
-        key={product.id}
-        className="hover:bg-oyster/10 cursor-pointer rounded-md py-3 duration-300 hover:text-black"
+    <li
+      key={product.id}
+      className="hover:bg-oyster/15 cursor-pointer duration-300 hover:text-black"
+    >
+      <Link
+        to="/admin/products/$postSlug/edit"
+        params={{ postSlug: product.slug }}
+        search={{ step: 1 }}
+        className="group flex items-center justify-between pr-3"
       >
-        <Link
-          to="/admin/products/$postSlug/edit"
-          params={{ postSlug: product.slug }}
-          search={{ step: 1 }}
-          className="group flex items-center justify-between px-3"
-        >
-          <div className="flex items-center gap-3">
-            <div className="h-14 w-14 overflow-hidden rounded-md">
-              <img
-                src={product.referenceImage}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <p className="title text-lg">{product.name}</p>
+        <div className="flex items-center gap-3">
+          <div className="h-20 w-20 overflow-hidden">
+            <img
+              src={product.referenceImage}
+              alt={product.name}
+              className="h-full w-full object-cover"
+            />
           </div>
-          <ChevronRight className="text-mine-shaft/40 duration-300 group-hover:text-orange-700" />
-        </Link>
-      </li>
-      <hr className="opacity-10" />
-    </>
+          <p className="title text-lg">{product.name}</p>
+        </div>
+        <ChevronRight className="text-mine-shaft/40 duration-300 group-hover:text-orange-700" />
+      </Link>
+    </li>
   );
 };
 
 const PageSkeleton: React.FC<{ itemsPerPage: number }> = ({ itemsPerPage }) => {
-  return (
-    <div className="flex flex-col gap-3">
-      {Array.from({ length: itemsPerPage }).map((_, i) => (
-        <>
-          <div key={i} className="flex items-center gap-3 px-3 py-3">
-            <Skeleton borderRadius={8} width={56} height={56} />
-            <Skeleton width={198} height={20} />
-          </div>
-          <hr className="opacity-10" />
-        </>
-      ))}
-    </div>
-  );
+  return Array.from({ length: itemsPerPage }).map((_, i) => (
+    <li key={i}>
+      <div className="flex items-center gap-3">
+        <Skeleton width={80} height={80} />
+        <Skeleton width={198} height={20} />
+      </div>
+    </li>
+  ));
 };

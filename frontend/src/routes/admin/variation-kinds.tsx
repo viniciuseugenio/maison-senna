@@ -52,7 +52,6 @@ export const Route = createFileRoute("/admin/variation-kinds")({
 });
 
 function VariationKinds() {
-  const navigate = Route.useNavigate();
   const search = Route.useSearch();
   const { page } = search;
 
@@ -92,30 +91,28 @@ function VariationKinds() {
         {!results || isLoading ? (
           <LoadingRow colSpan={headers.length} />
         ) : (
-          <>
-            {results.map((variationKind) => (
-              <TableRow key={variationKind.id}>
-                <TableData>{variationKind.id}</TableData>
-                <TableData>{variationKind.name}</TableData>
-                <TableData>{variationKind.skuAbbr}</TableData>
-                <TableActions
-                  renderEditLink={() => (
-                    <EditLink
-                      to="."
-                      search={(prev) => ({
-                        ...prev,
-                        modal: "edit",
-                        id: variationKind.id,
-                      })}
-                    />
-                  )}
-                  deleteLink={buildDeleteLink(variationKind.id)}
-                  resourceType="Variation Kind"
-                  queryKey={queryKeys.variationKinds.all}
-                />
-              </TableRow>
-            ))}
-          </>
+          results.map((variationKind) => (
+            <TableRow key={variationKind.id}>
+              <TableData>{variationKind.id}</TableData>
+              <TableData>{variationKind.name}</TableData>
+              <TableData>{variationKind.skuAbbr}</TableData>
+              <TableActions
+                renderEditLink={() => (
+                  <EditLink
+                    to="."
+                    search={(prev) => ({
+                      ...prev,
+                      modal: "edit",
+                      id: variationKind.id,
+                    })}
+                  />
+                )}
+                deleteLink={buildDeleteLink(variationKind.id)}
+                resourceType="Variation Kind"
+                queryKey={queryKeys.variationKinds.all}
+              />
+            </TableRow>
+          ))
         )}
       </PageLayout>
     </>

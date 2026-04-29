@@ -7,7 +7,7 @@ const TableData: React.FC<{
   return (
     <td
       className={twMerge(
-        "text-mine-shaft px-6 py-4 text-sm whitespace-nowrap",
+        "text-mine-shaft px-6 text-sm whitespace-nowrap",
         className,
       )}
     >

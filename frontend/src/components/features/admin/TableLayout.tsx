@@ -8,8 +8,8 @@ type TableLayoutProps = {
 
 const TableLayout: React.FC<TableLayoutProps> = ({ headers, children }) => {
   return (
-    <table className="divide-oyster/30 min-w-full table-auto divide-y">
-      <thead className="bg-mine-shaft/5">
+    <table className="min-w-full table-auto border-collapse">
+      <thead className="bg-light [&_th]:pb-4">
         <tr>
           {headers.map((header) => (
             <TableHead
@@ -21,7 +21,9 @@ const TableLayout: React.FC<TableLayoutProps> = ({ headers, children }) => {
           ))}
         </tr>
       </thead>
-      <tbody className="divide-oyster/30 divide-y bg-white">{children}</tbody>
+      <tbody className="divide-oyster/15 divide-y [&>tr>td]:py-8">
+        {children}
+      </tbody>
     </table>
   );
 };

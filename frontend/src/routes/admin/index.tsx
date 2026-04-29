@@ -1,11 +1,7 @@
 import { queryKeys } from "@/api/queryKeys";
 import { getDashboardStatistics } from "@/api/services";
 import { BigBox, PageTitle, SmallBox } from "@/components/features/admin";
-import {
-  queryOptions,
-  useQuery,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   DollarSign,
@@ -34,7 +30,7 @@ function AdminDashboard() {
   const { data: statistics, isLoading } = useQuery(dashboardQueryOptions);
 
   return (
-    <div>
+    <>
       <PageTitle>Admin Dashboard</PageTitle>
       <div className="mt-8 mb-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <SmallBox
@@ -95,6 +91,6 @@ function AdminDashboard() {
           description="Manage specific product variations with SKUs"
         />
       </div>
-    </div>
+    </>
   );
 }

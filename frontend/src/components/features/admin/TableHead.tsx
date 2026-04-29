@@ -14,12 +14,12 @@ const TableHead: React.FC<{
       )}
     >
       {isButton ? (
-        <button className="flex cursor-pointer items-center gap-2 tracking-wider">
+        <button className="flex cursor-pointer items-center gap-2 tracking-wider uppercase">
           {title}
           <ArrowDownUp className="h-3 w-3" />
         </button>
       ) : (
-        <>{title}</>
+        <span className="uppercase">{title}</span>
       )}
     </th>
   );

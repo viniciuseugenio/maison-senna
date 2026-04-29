@@ -1,6 +1,5 @@
 import { buildApiUrl } from "@/api/client";
 import { CATALOG_ENDPOINTS, PAGE_SIZE } from "@/api/constants";
-import { zodValidator } from "@tanstack/zod-adapter";
 import { queryKeys } from "@/api/queryKeys";
 import { getProducts } from "@/api/services";
 import {
@@ -10,11 +9,13 @@ import {
   TableData,
   TableRow,
 } from "@/components/features/admin";
+import EditLink from "@/components/features/admin/EditLink";
 import { HeaderConfig, ProductList } from "@/types";
+import { formatPrice } from "@/utils/formatPrice";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import EditLink from "@/components/features/admin/EditLink";
 
 const searchSchema = z.object({
   page: z.number().catch(1),
@@ -68,37 +69,39 @@ function AdminProducts() {
       {!results || isLoading ? (
         <LoadingRow colSpan={headers.length} />
       ) : (
-        <>
-          {results.map((product) => (
-            <ProductRow key={product.id} product={product} />
-          ))}
-        </>
+        results.map((product) => (
+          <ProductRow key={product.id} product={product} />
+        ))
       )}
     </AdminPageLayout>
   );
 }
 
 const ProductRow: React.FC<{ product: ProductList }> = ({ product }) => {
-  const navigate = Route.useNavigate();
   const deleteLink = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_DETAILS, {
     slug: product.slug,
   });
 
   return (
     <TableRow>
-      <TableData>{product.id}</TableData>
+      <TableData className="opacity-60">{product.id}</TableData>
       <TableData>
-        <div className="h-10 w-10 overflow-hidden rounded-md">
+        <div className="h-16 w-16 overflow-hidden rounded-md">
           <img
+            alt={product.name}
             src={product.referenceImage}
             className="h-full w-full object-cover"
           />
         </div>
       </TableData>
-      <TableData>{product.name}</TableData>
-      <TableData>{product.category.name}</TableData>
-      <TableData>{product.basePrice}</TableData>
-      <TableData>{product.slug}</TableData>
+      <TableData className="font-serif text-lg">{product.name}</TableData>
+      <TableData className="text-xs font-light tracking-wider uppercase">
+        {product.category.name}
+      </TableData>
+      <TableData className="font-light">
+        {formatPrice(product.basePrice)}
+      </TableData>
+      <TableData className="opacity-60">{product.slug}</TableData>
       <TableActions
         renderEditLink={() => (
           <EditLink

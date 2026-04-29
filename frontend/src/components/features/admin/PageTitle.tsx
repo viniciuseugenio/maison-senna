@@ -1,8 +1,13 @@
 const PageTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <h1 className="text-mine-shaft font-serif text-3xl font-light tracking-wider">
-      {children}
-    </h1>
+    <header>
+      <span className="text-oyster/80 mb-2 text-xs tracking-[.3em] uppercase">
+        Maison Senna
+      </span>
+      <h1 className="text-mine-shaft font-serif text-5xl tracking-tight">
+        {children}
+      </h1>
+    </header>
   );
 };
 

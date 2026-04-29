@@ -6,11 +6,14 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   className,
 }) => {
   return (
-    <div className={twMerge(`mb-2 px-4 ${className}`)}>
-      <p className="text-mine-shaft/60 text-xs font-medium tracking-wider uppercase">
-        {children}
-      </p>
-    </div>
+    <h3
+      className={twMerge(
+        "text-mine-shaft/60 mb-2 px-4 text-xs font-medium tracking-wider uppercase",
+        className,
+      )}
+    >
+      {children}
+    </h3>
   );
 };
 

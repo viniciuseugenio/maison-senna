@@ -19,8 +19,8 @@ import { HeaderConfig, ProductWithVariations } from "@/types";
 import { calcVariantPrice } from "@/utils/calcVariantPrice";
 import { toast } from "@/utils/customToast";
 import { formatPrice } from "@/utils/formatPrice";
-import { calcPageSizeAndQty } from "@/utils/pagination";
 import { getStockIndicatorColor } from "@/utils/getStockIndicatorColor";
+import { calcPageSizeAndQty } from "@/utils/pagination";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   queryOptions,
@@ -33,8 +33,8 @@ import { zodValidator } from "@tanstack/zod-adapter";
 import { Archive, ChevronDown, Image, Tag } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
 const headers: HeaderConfig[] = [
   { title: "ID" },
@@ -87,6 +87,9 @@ function ProductVariations() {
   const { data } = useQuery(productVariationsQueryOptions(page));
 
   const results = data?.results;
+  const filteredResults = results?.filter(
+    (product) => product.variations.length > 0,
+  );
   const { qtyPages } = calcPageSizeAndQty(results?.length, data?.count);
   const modalIsOpen = modal === "edit" && id != null;
 
@@ -106,14 +109,10 @@ function ProductVariations() {
         type="nested-list"
         onSearch={() => {}}
       >
-        <div className="">
-          {results &&
-            results.map((product) => (
-              <div key={product.id}>
-                {product.variations.length > 0 && (
-                  <ProductRow product={product} />
-                )}
-              </div>
+        <div className="bg-light flex flex-col gap-6">
+          {filteredResults &&
+            filteredResults.map((product) => (
+              <ProductRow key={product.id} product={product} />
             ))}
         </div>
       </PageLayout>
@@ -141,17 +140,21 @@ const ProductRow: React.FC<{ product: ProductWithVariations }> = ({
   };
 
   return (
-    <div className="p-2">
+    <div className="border-oyster/15 border bg-white">
       <button
         onClick={toggleVariation}
-        className="hover:bg-oyster/20 flex w-full cursor-pointer items-center justify-between gap-2 p-4 duration-300"
+        className="hover:bg-oyster/20 flex w-full cursor-pointer items-center justify-between gap-2 p-6 duration-300"
       >
         <div className="flex items-center gap-6">
-          <img src={product.referenceImage} className="aspect-square w-16" />
+          <img
+            src={product.referenceImage}
+            alt={product.name}
+            className="aspect-square w-16"
+          />
           <div className="flex flex-col items-start">
             <p className="title text-xl">{product.name}</p>
-            <p className="text-mine-shaft/60 text-xs font-medium tracking-widest uppercase">
-              {product.category.name}
+            <p className="text-oyster/90 text-xs font-light tracking-widest uppercase">
+              {product.variations.length} variations available
             </p>
           </div>
         </div>
@@ -166,7 +169,7 @@ const ProductRow: React.FC<{ product: ProductWithVariations }> = ({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="mr-3 overflow-hidden"
+            className="mr-3 w-full overflow-hidden"
           >
             <TableLayout headers={headers}>
               {product.variations.map((variation) => (
@@ -175,6 +178,7 @@ const ProductRow: React.FC<{ product: ProductWithVariations }> = ({
                   <TableData>
                     {variation.image ? (
                       <img
+                        alt={product.name}
                         src={variation.image}
                         className="aspect-square w-14"
                       />

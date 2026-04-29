@@ -3,7 +3,6 @@ import { getProduct, updateProduct } from "@/api/services";
 import { BackButton } from "@/components/features/admin";
 import { ProductForm } from "@/components/features/product-form";
 import { HorizontalDivider } from "@/components/ui";
-import { zodValidator } from "@tanstack/zod-adapter";
 import newProduct from "@/schemas/newProduct";
 import { NewProductForm } from "@/types";
 import { toast } from "@/utils/customToast";
@@ -17,6 +16,7 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 

@@ -1,9 +1,8 @@
-import { HorizontalDivider, Pagination } from "@/components/ui";
+import { Pagination } from "@/components/ui";
 import { HeaderConfig } from "@/types";
 import { Link, LinkProps } from "@tanstack/react-router";
-import { Plus, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useRef } from "react";
-import BackButton from "./BackButton";
 import PageTitle from "./PageTitle";
 import TableLayout from "./TableLayout";
 
@@ -56,43 +55,36 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   };
 
   return (
-    <div>
-      <BackButton />
-      <PageTitle>{title}</PageTitle>
-      <HorizontalDivider className="mt-4" />
-      <div className="border-oyster/30 mt-6 h-full w-full rounded-md border bg-white">
-        <div className="border-oyster/30 flex items-center justify-between border-b p-6">
-          <h2 className="text-mine-shaft font-serif text-xl font-light">
-            {title} List
-          </h2>
+    <>
+      <div className="flex items-center justify-between">
+        <PageTitle>{title}</PageTitle>
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <Search className="text-mine-shaft/50 h-4 w-4" />
+            </div>
+            <input
+              aria-label="Search input"
+              className="bg-mine-shaft/10 h-12 w-full px-4 py-2 pl-10 text-xs tracking-widest uppercase transition duration-300 outline-none"
+              placeholder={`Search ${title}...`}
+              onChange={onChange}
+            />
+          </div>
           <Link
             to={actionLink}
             search={linkSearch}
-            className="bg-oyster/90 hover:bg-oyster flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 text-white transition-colors duration-300"
+            className="bg-oyster/90 hover:bg-oyster flex h-12 cursor-pointer items-center gap-2 px-10 py-2 text-xs tracking-widest text-white uppercase transition-colors duration-300"
           >
-            <Plus className="h-4 w-4" />
             <span className="text-sm font-medium">{actionLabel}</span>
           </Link>
         </div>
-        <div>
-          <div className="border-b-oyster/30 border-b p-4">
-            <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <Search className="text-mine-shaft/50 h-4 w-4" />
-              </div>
-              <input
-                className="ring-oyster/30 focus:ring-oyster/80 w-full rounded-md py-2 pl-10 ring transition duration-300 outline-none focus:ring-2"
-                placeholder="Search..."
-                onChange={onChange}
-              />
-            </div>
-          </div>
-          {type === "flat-list" ? (
-            <TableLayout headers={headers}>{children}</TableLayout>
-          ) : (
-            <>{children}</>
-          )}
-        </div>
+      </div>
+      <div className="mt-8 w-full bg-white">
+        {type === "flat-list" ? (
+          <TableLayout headers={headers}>{children}</TableLayout>
+        ) : (
+          children
+        )}
       </div>
       <div className="mt-3 flex items-center justify-between">
         <div className="text-mine-shaft/60 text-xs tracking-widest uppercase">
@@ -100,7 +92,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
         </div>
         <Pagination marginTop="mt-0" qtyPages={qtyPages} />
       </div>
-    </div>
+    </>
   );
 };
 

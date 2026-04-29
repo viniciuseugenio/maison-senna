@@ -27,6 +27,7 @@ export default function FormModal<T>({
     <div
       role="dialog"
       aria-modal="true"
+      aria-labelledby="modal-title"
       className="fixed inset-0 z-50 flex items-center justify-center"
     >
       <motion.div
@@ -45,7 +46,10 @@ export default function FormModal<T>({
         className={`border-oyster/70 z-20 w-full rounded-md border bg-white p-6 shadow-lg ${maxWidth}`}
       >
         <div className="flex justify-between">
-          <h2 className="text-mine-shaft text-center font-serif text-3xl font-light">
+          <h2
+            id="modal-title"
+            className="text-mine-shaft text-center font-serif text-3xl font-light"
+          >
             {title}
           </h2>
           <button
