@@ -128,6 +128,7 @@ class VariationOption(models.Model):
 
 
 class ProductVariation(models.Model):
+    is_base = models.BooleanField(default=False)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="variations"
     )
@@ -136,6 +137,15 @@ class ProductVariation(models.Model):
     image = models.ImageField(upload_to="variations/", blank=True, null=True)
     options = models.ManyToManyField(VariationOption, related_name="product_variations")
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["product"],
+                condition=models.Q(is_base=True),
+                name="unique_base_variant_per_product",
+            )
+        ]
 
     def __str__(self):
         return f"{self.sku}"
