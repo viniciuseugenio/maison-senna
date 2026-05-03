@@ -57,7 +57,22 @@ def create_variation_options(
                 )
 
 
+def create_base_variation(product: Product):
+    sku = generate_sku(product, options=None)
+    return ProductVariation.objects.create(
+        is_base=True,
+        is_active=True,
+        product=product,
+        stock=0,
+        sku=sku,
+    )
+
+
+@transaction.atomic
 def sync_product_variations(product: Product) -> List[ProductVariation]:
+    base_variation = product.variations.filter(is_base=True).first()
+    if not base_variation:
+        base_variation = create_base_variation(product)
     options_by_kind = {}
 
     # Take all the options related to the product, and store them in a dict,
@@ -70,17 +85,25 @@ def sync_product_variations(product: Product) -> List[ProductVariation]:
 
     # If there is no option related to that product,
     # it means that there should also be no variants.
-    # Hence, if no options_by_kind, we deactivate everything.
+    # Hence, if no options_by_kind, we deactivate everything,
+    # and leave the base ProductVariation active.
     if not options_by_kind:
         for variant in product.variations.all():
             if variant.is_active:
                 variant.is_active = False
                 variant.save(update_fields=["is_active"])
+
+        base_variation.is_active = True
+        base_variation.save(update_fields=["is_active"])
         return []
 
     kind_names = sorted(options_by_kind.keys())
     option_lists = [options_by_kind[kind] for kind in kind_names]
     combinations = list(itertools.product(*option_lists))
+
+    if combinations:
+        base_variation.is_active = False
+        base_variation.save(update_fields=["is_active"])
 
     # Take the combinations, which is a list consisting of lists of instances of variation options,
     # and transform those instances into ids
@@ -90,36 +113,33 @@ def sync_product_variations(product: Product) -> List[ProductVariation]:
 
     created_variations = []
 
-    with transaction.atomic():
-        existing_variants = list(product.variations.prefetch_related("options"))
-        existing_by_combination = {}
+    existing_variants = list(product.variations.prefetch_related("options"))
+    existing_by_combination = {}
 
-        # Map through existing variants, and check if the options of that variant match any combination
-        # If not, set the variant as inactive
-        for variant in existing_variants:
-            options_ids = frozenset(option.id for option in variant.options.all())
-            existing_by_combination[options_ids] = variant
+    # Map through existing variants, and check if the options of that variant match any combination
+    # If not, set the variant as inactive
+    for variant in existing_variants:
+        options_ids = frozenset(option.id for option in variant.options.all())
+        existing_by_combination[options_ids] = variant
 
-            if options_ids not in valid_combinations and variant.is_active:
-                variant.is_active = False
-                variant.save(update_fields=["is_active"])
+        if options_ids not in valid_combinations and variant.is_active:
+            variant.is_active = False
+            variant.save(update_fields=["is_active"])
 
-        for combination in combinations:
-            combination_ids = frozenset(option.id for option in combination)
-            existing = existing_by_combination.get(combination_ids)
+    for combination in combinations:
+        combination_ids = frozenset(option.id for option in combination)
+        existing = existing_by_combination.get(combination_ids)
 
-            if existing:
-                if not existing.is_active:
-                    existing.is_active = True
-                    existing.save(update_fields=["is_active"])
-                continue
+        if existing:
+            if not existing.is_active:
+                existing.is_active = True
+                existing.save(update_fields=["is_active"])
+            continue
 
-            sku = generate_sku(product, combination)
+        sku = generate_sku(product, combination)
 
-            variation = ProductVariation.objects.create(
-                product=product, sku=sku, stock=0
-            )
-            variation.options.set(combination)
-            created_variations.append(variation)
+        variation = ProductVariation.objects.create(product=product, sku=sku, stock=0)
+        variation.options.set(combination)
+        created_variations.append(variation)
 
     return created_variations

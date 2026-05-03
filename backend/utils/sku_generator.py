@@ -9,7 +9,7 @@ def sku_joiner(product_base: str, option_parts: List[str] | None, random_suffix:
     if option_parts:
         return f"{product_base}-{'-'.join(option_parts)}-{random_suffix}"
     else:
-        return f"{product_base}{random_suffix}"
+        return f"{product_base}-{random_suffix}"
 
 
 def generate_sku(product: Product, options: List[VariationOption] | None) -> str:
