@@ -162,3 +162,11 @@ export async function getProductVariationByOptions({
     },
   });
 }
+
+export async function getBaseVariation(productId: number) {
+  const url = buildApiUrl(CATALOG_ENDPOINTS.PRODUCT_BASE_VARIATION, {
+    id: productId,
+  });
+
+  return await customFetch<ProductVariation>(url);
+}

@@ -44,6 +44,12 @@ export const queryKeys = {
         productId,
         options,
       ] as const,
+    baseVariation: (productId: number) => [
+      "productVariations",
+      "details",
+      "base",
+      productId,
+    ],
   },
 
   wishlist: {

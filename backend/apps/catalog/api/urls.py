@@ -54,6 +54,11 @@ urlpatterns = [
         views.ProductVariationByOptionsView.as_view(),
         name="product-variations-by-options",
     ),
+    path(
+        "products/<int:pk>/base-variation/",
+        views.ProductBaseVariationView.as_view(),
+        name="product-base-variation",
+    ),
 ]
 
 urlpatterns += router.urls

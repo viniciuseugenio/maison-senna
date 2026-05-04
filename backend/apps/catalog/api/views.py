@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import Count, Prefetch, Q
+from django.shortcuts import get_object_or_404
 from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.generics import (
@@ -316,6 +317,25 @@ class ProductVariationByOptionsView(GenericAPIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
+        serializer = self.get_serializer(variation)
+        return Response(serializer.data)
+
+
+class ProductBaseVariationView(GenericAPIView):
+    serializer_class = serializers.ProductVariationSerializer
+    queryset = (
+        models.ProductVariation.objects.filter(is_active=True, is_base=True)
+        .select_related("product")
+        .prefetch_related("options")
+    )
+
+    def get_object(self):
+        qs = super().get_queryset()
+        product_id = self.kwargs.get("pk")
+        return get_object_or_404(qs, product__id=product_id)
+
+    def get(self, *args, **kwargs):
+        variation = self.get_object()
         serializer = self.get_serializer(variation)
         return Response(serializer.data)
 
