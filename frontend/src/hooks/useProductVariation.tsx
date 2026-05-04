@@ -1,5 +1,5 @@
 import { queryKeys } from "@/api/queryKeys";
-import { getProductVariationByOptions } from "@/api/services";
+import { getBaseVariation, getProductVariationByOptions } from "@/api/services";
 import { VariationOption } from "@/types";
 import { groupOptions } from "@/utils/groupOptions";
 import { getStockIndicatorColor } from "@/utils/getStockIndicatorColor";
@@ -7,15 +7,34 @@ import { useQuery } from "@tanstack/react-query";
 
 type UseProductVariation = {
   optionsIds: number[];
-  variationOptions: VariationOption[];
+  variationOptions: VariationOption[] | [];
   productId: number;
 };
+
+function deriveStatus(params: {
+  productHasOptions: boolean;
+  isSelectionComplete: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  stock: number | undefined;
+}): "selection_missing" | "loading" | "error" | "out_of_stock" | "in_stock" {
+  const { productHasOptions, isSelectionComplete, isLoading, isError, stock } =
+    params;
+
+  if (productHasOptions && !isSelectionComplete) return "selection_missing";
+  if (isLoading) return "loading";
+  if (isError) return "error";
+  if ((stock ?? 0) <= 0) return "out_of_stock";
+  return "in_stock";
+}
 
 export function useProductVariation({
   optionsIds,
   variationOptions,
   productId,
 }: UseProductVariation) {
+  const productHasOptions = variationOptions.length > 0;
+  const activeFlow = productHasOptions ? "options" : "base";
   const groupedOptions = groupOptions(variationOptions);
 
   const uniqueOptionsIds = [...new Set(optionsIds)];
@@ -27,9 +46,9 @@ export function useProductVariation({
   const isSelectionComplete = existingIds.length === groupedOptions.length;
 
   const {
-    data: productVariation,
+    data: normalVariation,
     isLoading: variationIsLoading,
-    isError,
+    isError: normalVariationError,
   } = useQuery({
     queryKey: queryKeys.productVariations.detailsByOptions(
       productId,
@@ -37,42 +56,90 @@ export function useProductVariation({
     ),
     queryFn: () =>
       getProductVariationByOptions({ productId, options: existingIds }),
-    enabled: isSelectionComplete,
+    enabled: activeFlow === "options" && isSelectionComplete,
   });
+
+  const {
+    data: baseVariation,
+    isLoading: baseVariationIsLoading,
+    isError: baseVariationError,
+  } = useQuery({
+    queryKey: queryKeys.productVariations.baseVariation(productId),
+    queryFn: () => getBaseVariation(productId),
+    enabled: activeFlow === "base",
+  });
+
+  const queryData = {
+    options: {
+      variation: normalVariation,
+      isError: normalVariationError,
+      isLoading: variationIsLoading,
+    },
+    base: {
+      variation: baseVariation,
+      isError: baseVariationError,
+      isLoading: baseVariationIsLoading,
+    },
+  };
+
+  const productVariation = queryData[activeFlow].variation;
+  const isError = queryData[activeFlow].isError;
+  const isLoading = queryData[activeFlow].isLoading;
 
   const selectedOptions = variationOptions.filter((option) =>
     existingIds?.includes(option.id),
   );
-  const additionalPrice = selectedOptions
-    .map((option) => Number(option.priceModifier))
-    .reduce((acc, cur) => acc + cur, 0);
+  const additionalPrice =
+    activeFlow === "options"
+      ? selectedOptions
+          .map((option) => Number(option.priceModifier))
+          .reduce((acc, cur) => acc + cur, 0)
+      : 0;
 
-  const baseText = !isSelectionComplete
-    ? "Options Not Selected"
-    : variationIsLoading
-      ? "Loading..."
-      : isError
-        ? "Variation Not Found"
-        : null;
+  const status = deriveStatus({
+    productHasOptions,
+    isSelectionComplete,
+    isLoading,
+    isError,
+    stock: productVariation?.stock,
+  });
 
-  const skuText = baseText ?? productVariation?.sku ?? "Options Not Selected";
-  const availabilityText =
-    baseText ?? (productVariation?.stock > 0 ? "In Stock" : "Not Available");
+  const ui = {
+    skuText:
+      status === "selection_missing"
+        ? "Options Not Selected"
+        : status === "loading"
+          ? "Loading..."
+          : status === "error"
+            ? "Variation Not Found"
+            : (productVariation?.sku ?? "-"),
+
+    availabilityText:
+      status === "in_stock"
+        ? "In Stock"
+        : status === "out_of_stock"
+          ? "Not Available"
+          : status === "selection_missing"
+            ? "Options Not Selected"
+            : status === "loading"
+              ? "Loading..."
+              : "Variation Not Found",
+
+    isAvailable: status === "in_stock",
+  };
 
   const stockTextColor =
-    !variationIsLoading && isSelectionComplete
+    status === "in_stock"
       ? getStockIndicatorColor(productVariation?.stock ?? 0, "text")
       : "text-mine-shaft/60";
 
   return {
     productVariation,
-    variationIsLoading,
-    skuText,
+    isLoading,
     additionalPrice,
-    availabilityText,
     stockTextColor,
     isError,
-    isAvailable:
-      (productVariation?.stock ?? 0) > 0 || isError || isSelectionComplete,
+    status,
+    ...ui,
   };
 }
