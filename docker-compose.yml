@@ -40,8 +40,8 @@ services:
     ports: []
     command: >
       sh -c "
-        python manage.py migrate --noinput &&
-        python manage.py loaddata fixtures/initialdata &&
+        uv run manage.py migrate --noinput &&
+        uv run manage.py loaddata fixtures/initialdata &&
         echo 'Banco de dados carregado com sucesso'
       "
 

@@ -15,5 +15,5 @@ down:
 	docker compose down -v
 
 superuser:
-	docker compose exec backend python manage.py createsuperuser
+	docker compose exec backend uv run manage.py createsuperuser
 
