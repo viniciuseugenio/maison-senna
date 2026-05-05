@@ -16,6 +16,7 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv
 
 COPY pyproject.toml uv.lock* ./
 RUN uv pip install --system -r pyproject.toml
