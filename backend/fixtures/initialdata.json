@@ -83,7 +83,7 @@
         "Clean with a soft brush and mild soap solution",
         "Professional inspection recommended annually"
       ],
-      "is_featured": true
+      "is_featured": false
     }
   },
   {
@@ -115,7 +115,7 @@
         "Avoid contact with perfumes, lotions, and chemicals",
         "Professional cleaning recommended every 6 months"
       ],
-      "is_featured": false
+      "is_featured": true
     }
   },
   {
@@ -141,7 +141,7 @@
         "Wipe gently with a soft, damp cloth after wearing",
         "Store in a cool, dry place"
       ],
-      "is_featured": true
+      "is_featured": false
     }
   },
   {
@@ -205,7 +205,7 @@
         "Avoid contact with perfume or chemicals",
         "Annual gemstone re-polishing suggested"
       ],
-      "is_featured": true
+      "is_featured": false
     }
   },
   {
@@ -241,31 +241,190 @@
     }
   },
   {
+    "model": "catalog.product",
+    "pk": 30,
+    "fields": {
+      "category": 1,
+      "name": "Aurora Pavé Band",
+      "slug": "aurora-pave-band",
+      "description": "The Aurora Pavé Band is a refined ring featuring a continuous row of micro-set diamonds that wrap gently around the finger. Designed for stacking or wearing solo, it offers a subtle shimmer that complements both everyday and ceremonial looks.",
+      "created_at": "2025-07-15T10:12:00Z",
+      "base_price": "1800.00",
+      "reference_image": "catalog/products/aurora-band.png",
+      "details": [
+        "Full or half pavé diamond setting",
+        "0.35 carat total diamond weight",
+        "Available in sizes 4-9",
+        "Comfort-fit interior for daily wear",
+        "Includes certificate of authenticity"
+      ],
+      "materials": [
+        "18k gold (yellow, white, or rose)",
+        "Ethically sourced diamonds"
+      ],
+      "care": [
+        "Avoid stacking with abrasive bands",
+        "Clean with soft brush and mild soap",
+        "Store in individual pouch to prevent scratches"
+      ],
+      "is_featured": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 31,
+    "fields": {
+      "category": 2,
+      "name": "Horizon Bar Necklace",
+      "slug": "horizon-bar-necklace",
+      "description": "The Horizon Bar Necklace features a sleek horizontal bar accented with a subtle line of diamonds, suspended on a fine chain. Minimalist yet expressive, it layers effortlessly and transitions from day to evening with quiet sophistication.",
+      "created_at": "2025-07-15T11:05:00Z",
+      "base_price": "890.00",
+      "reference_image": "catalog/products/horizon-bar-necklace.jpg",
+      "details": [
+        "Polished bar pendant with pavé diamond line",
+        "Adjustable chain for versatile styling",
+        "Lobster clasp closure",
+        "Delivered in signature jewelry box"
+      ],
+      "materials": [
+        "18k gold (yellow, white, or rose)",
+        "Ethically sourced diamonds"
+      ],
+      "care": [
+        "Remove before showering or swimming",
+        "Store clasped to prevent tangling",
+        "Polish gently with a soft cloth"
+      ],
+      "is_featured": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 32,
+    "fields": {
+      "category": 4,
+      "name": "Celeste Hoop Earrings",
+      "slug": "celeste-hoop-earrings",
+      "description": "The Celeste Hoop Earrings reinterpret the classic hoop with a slender oval silhouette and a line of diamonds that trace the front curve. Lightweight and luminous, they frame the face with a soft, contemporary glow.",
+      "created_at": "2025-07-15T12:10:00Z",
+      "base_price": "1150.00",
+      "reference_image": "catalog/products/celestial-hoop-earrings.png",
+      "details": [
+        "Slim oval hoop profile",
+        "Secure hinged closure",
+        "Diamonds set along the front edge",
+        "Sold as a pair"
+      ],
+      "materials": [
+        "18k gold",
+        "Ethically sourced diamonds"
+      ],
+      "care": [
+        "Fasten clasp before storing",
+        "Avoid impact on hard surfaces",
+        "Clean with lint-free cloth after wear"
+      ],
+      "is_featured": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 33,
+    "fields": {
+      "category": 18,
+      "name": "Serenity Link Bracelet",
+      "slug": "serenity-link-bracelet",
+      "description": "The Serenity Link Bracelet features softly contoured links that move fluidly with the wrist, finished with a discreet clasp. Its subtle sheen and balanced weight make it a foundational piece for everyday luxury.",
+      "created_at": "2025-07-15T13:20:00Z",
+      "base_price": "980.00",
+      "reference_image": "catalog/products/elegant-bracelete.jpg",
+      "details": [
+        "Hand-polished sculptural links",
+        "Secure custom clasp",
+        "Designed for comfortable daily wear",
+        "Presented in protective jewelry pouch"
+      ],
+      "materials": [
+        "18k gold",
+        "Recycled precious metal"
+      ],
+      "care": [
+        "Remove before intense physical activity",
+        "Store flat to avoid twisting",
+        "Buff gently to restore luster"
+      ],
+      "is_featured": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 34,
+    "fields": {
+      "category": 3,
+      "name": "Noir Silk Evening Clutch",
+      "slug": "noir-silk-evening-clutch",
+      "description": "The Noir Silk Evening Clutch pairs refined tailoring with subtle shine, designed to hold only what is essential. Its clean lines and hand-finished details make it an understated companion to both modern and classic silhouettes.",
+      "created_at": "2025-07-15T14:05:00Z",
+      "base_price": "560.00",
+      "reference_image": "catalog/products/noir-silk-clutch.jpg",
+      "details": [
+        "Structured silhouette with soft edges",
+        "Interior slip pocket",
+        "Magnetic closure",
+        "Detachable chain strap"
+      ],
+      "materials": [
+        "Silk blend exterior",
+        "Recycled metal hardware",
+        "Cotton lining"
+      ],
+      "care": [
+        "Store in dust bag when not in use",
+        "Avoid contact with liquids and oils",
+        "Spot clean only with professional care"
+      ],
+      "is_featured": false
+    }
+  },
+  {
     "model": "catalog.variationkind",
     "pk": 1,
     "fields": {
-      "name": "Metal"
+      "name": "Metal",
+      "sku_abbr": "MET"
     }
   },
   {
     "model": "catalog.variationkind",
     "pk": 2,
     "fields": {
-      "name": "Chain Length"
+      "name": "Chain Length",
+      "sku_abbr": "CHL"
     }
   },
   {
     "model": "catalog.variationkind",
     "pk": 3,
     "fields": {
-      "name": "Color"
+      "name": "Color",
+      "sku_abbr": "CL"
     }
   },
   {
     "model": "catalog.variationkind",
     "pk": 4,
     "fields": {
-      "name": "Size"
+      "name": "Size",
+      "sku_abbr": "SZ"
+    }
+  },
+  {
+    "model": "catalog.variationkind",
+    "pk": 11,
+    "fields": {
+      "name": "Material",
+      "sku_abbr": "MAT"
     }
   },
   {
@@ -274,8 +433,8 @@
     "fields": {
       "kind": 2,
       "product": 2,
-      "name": "15cm",
-      "price_modifier": null
+      "name": "40cm",
+      "price_modifier": "0.00"
     }
   },
   {
@@ -284,7 +443,7 @@
     "fields": {
       "kind": 2,
       "product": 2,
-      "name": "20cm",
+      "name": "50cm",
       "price_modifier": "50.00"
     }
   },
@@ -294,7 +453,7 @@
     "fields": {
       "kind": 2,
       "product": 2,
-      "name": "25cm",
+      "name": "55cm",
       "price_modifier": "30.00"
     }
   },
@@ -315,76 +474,6 @@
       "kind": 3,
       "product": 28,
       "name": "Blue Sapphire",
-      "price_modifier": null
-    }
-  },
-  {
-    "model": "catalog.variationoption",
-    "pk": 23,
-    "fields": {
-      "kind": 4,
-      "product": 29,
-      "name": "25cm",
-      "price_modifier": null
-    }
-  },
-  {
-    "model": "catalog.variationoption",
-    "pk": 24,
-    "fields": {
-      "kind": 4,
-      "product": 29,
-      "name": "30cm",
-      "price_modifier": null
-    }
-  },
-  {
-    "model": "catalog.variationoption",
-    "pk": 30,
-    "fields": {
-      "kind": 3,
-      "product": 29,
-      "name": "Blue",
-      "price_modifier": null
-    }
-  },
-  {
-    "model": "catalog.variationoption",
-    "pk": 31,
-    "fields": {
-      "kind": 3,
-      "product": 29,
-      "name": "Red",
-      "price_modifier": null
-    }
-  },
-  {
-    "model": "catalog.variationoption",
-    "pk": 32,
-    "fields": {
-      "kind": 1,
-      "product": 29,
-      "name": "Prata",
-      "price_modifier": null
-    }
-  },
-  {
-    "model": "catalog.variationoption",
-    "pk": 33,
-    "fields": {
-      "kind": 1,
-      "product": 29,
-      "name": "Diamante",
-      "price_modifier": null
-    }
-  },
-  {
-    "model": "catalog.variationoption",
-    "pk": 34,
-    "fields": {
-      "kind": 3,
-      "product": 29,
-      "name": "Green",
       "price_modifier": null
     }
   },
@@ -416,6 +505,1050 @@
       "product": 6,
       "name": "Sterling Silver",
       "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 69,
+    "fields": {
+      "kind": 1,
+      "product": 30,
+      "name": "Yellow Gold",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 70,
+    "fields": {
+      "kind": 1,
+      "product": 30,
+      "name": "White Gold",
+      "price_modifier": "69.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 71,
+    "fields": {
+      "kind": 1,
+      "product": 30,
+      "name": "Rose Gold",
+      "price_modifier": "109.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 72,
+    "fields": {
+      "kind": 4,
+      "product": 30,
+      "name": "Size 5",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 73,
+    "fields": {
+      "kind": 4,
+      "product": 30,
+      "name": "Size 6",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 74,
+    "fields": {
+      "kind": 1,
+      "product": 31,
+      "name": "Yellow Gold",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 75,
+    "fields": {
+      "kind": 1,
+      "product": 31,
+      "name": "White Gold",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 76,
+    "fields": {
+      "kind": 2,
+      "product": 31,
+      "name": "16in",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 77,
+    "fields": {
+      "kind": 2,
+      "product": 31,
+      "name": "18in",
+      "price_modifier": "40.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 78,
+    "fields": {
+      "kind": 1,
+      "product": 32,
+      "name": "Yellow Gold",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 79,
+    "fields": {
+      "kind": 1,
+      "product": 32,
+      "name": "White Gold",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 80,
+    "fields": {
+      "kind": 4,
+      "product": 33,
+      "name": "16cm",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 81,
+    "fields": {
+      "kind": 4,
+      "product": 33,
+      "name": "18cm",
+      "price_modifier": "40.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 83,
+    "fields": {
+      "kind": 3,
+      "product": 34,
+      "name": "Deep Emerald",
+      "price_modifier": null
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 142,
+    "fields": {
+      "kind": 3,
+      "product": 34,
+      "name": "Black",
+      "price_modifier": "0.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 250,
+    "fields": {
+      "kind": 11,
+      "product": 2,
+      "name": "Silver",
+      "price_modifier": "100.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 255,
+    "fields": {
+      "kind": 11,
+      "product": 2,
+      "name": "Golden",
+      "price_modifier": "159.99"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 286,
+    "fields": {
+      "kind": 2,
+      "product": 2,
+      "name": "60cm",
+      "price_modifier": "34.99"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 287,
+    "fields": {
+      "kind": 11,
+      "product": 2,
+      "name": "Alluminum",
+      "price_modifier": "0.00"
+    }
+  },
+  {
+    "model": "catalog.variationoption",
+    "pk": 288,
+    "fields": {
+      "kind": 3,
+      "product": 2,
+      "name": "Red",
+      "price_modifier": "0.00"
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 28,
+    "fields": {
+      "is_base": false,
+      "product": 28,
+      "sku": "AUR28-CL-BLU-R6FY",
+      "stock": 32,
+      "image": "",
+      "is_active": true,
+      "options": [
+        18
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 29,
+    "fields": {
+      "is_base": false,
+      "product": 28,
+      "sku": "AUR28-CL-GRE-Z5YU",
+      "stock": 51,
+      "image": "",
+      "is_active": true,
+      "options": [
+        17
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 30,
+    "fields": {
+      "is_base": false,
+      "product": 6,
+      "sku": "LUM6-MET-GOL-G2T8",
+      "stock": 3,
+      "image": "",
+      "is_active": true,
+      "options": [
+        66
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 31,
+    "fields": {
+      "is_base": false,
+      "product": 6,
+      "sku": "LUM6-MET-PLA-LKG5",
+      "stock": 12,
+      "image": "",
+      "is_active": true,
+      "options": [
+        67
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 32,
+    "fields": {
+      "is_base": false,
+      "product": 6,
+      "sku": "LUM6-MET-STE-213H",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        68
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 49,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-15C-MT-GOL-EHYE",
+      "stock": 31,
+      "image": "",
+      "is_active": false,
+      "options": [
+        14,
+        255
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 50,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-15C-MT-SIL-FXY2",
+      "stock": 22,
+      "image": "",
+      "is_active": false,
+      "options": [
+        14,
+        250
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 51,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-20C-MT-GOL-QR6S",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        15,
+        255
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 52,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-20C-MT-SIL-JQH0",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        15,
+        250
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 53,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-25C-MT-GOL-U9XI",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        16,
+        255
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 54,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-25C-MT-SIL-R004",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        16,
+        250
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 55,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-15C-MT-PLA-1DF9",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        14
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 56,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-20C-MT-PLA-QFA3",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        15
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 57,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-25C-MT-PLA-A1CZ",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        16
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 205,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-40C-MAT-ALL-BX78",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        14,
+        287
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 206,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-50C-MAT-ALL-6M40",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        15,
+        287
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 207,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-55C-MAT-ALL-TQK6",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        16,
+        287
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 208,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-60C-MAT-ALL-HJGN",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        286,
+        287
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 209,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-60C-MAT-GOL-ZITU",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        286,
+        255
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 210,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-60C-MAT-SIL-ZONR",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": [
+        286,
+        250
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 211,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-40C-CL-RED-MAT-ALL-H9PK",
+      "stock": 43,
+      "image": "",
+      "is_active": true,
+      "options": [
+        14,
+        287,
+        288
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 212,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-40C-CL-RED-MAT-GOL-6IIW",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        14,
+        255,
+        288
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 213,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-40C-CL-RED-MAT-SIL-SW16",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        14,
+        288,
+        250
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 214,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-50C-CL-RED-MAT-ALL-VB0A",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        15,
+        287,
+        288
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 215,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-50C-CL-RED-MAT-GOL-ZWTP",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        15,
+        255,
+        288
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 216,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-50C-CL-RED-MAT-SIL-0KNB",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        15,
+        288,
+        250
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 217,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-55C-CL-RED-MAT-ALL-0X55",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        16,
+        287,
+        288
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 218,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-55C-CL-RED-MAT-GOL-ITL8",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        16,
+        255,
+        288
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 219,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-55C-CL-RED-MAT-SIL-8GA8",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        16,
+        288,
+        250
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 220,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-60C-CL-RED-MAT-ALL-7EKB",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        286,
+        287,
+        288
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 221,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-60C-CL-RED-MAT-GOL-X0PY",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        286,
+        255,
+        288
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 222,
+    "fields": {
+      "is_base": false,
+      "product": 2,
+      "sku": "THE2-CHL-60C-CL-RED-MAT-SIL-3CVG",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        286,
+        288,
+        250
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 242,
+    "fields": {
+      "is_base": true,
+      "product": 29,
+      "sku": "SOL29-20RK",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": []
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 243,
+    "fields": {
+      "is_base": true,
+      "product": 30,
+      "sku": "AUR30-SFGC",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": []
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 244,
+    "fields": {
+      "is_base": false,
+      "product": 30,
+      "sku": "AUR30-MET-ROS-SZ-SIZ-U7MD",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        71,
+        72
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 245,
+    "fields": {
+      "is_base": false,
+      "product": 30,
+      "sku": "AUR30-MET-ROS-SZ-SIZ-P7AQ",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        71,
+        73
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 246,
+    "fields": {
+      "is_base": false,
+      "product": 30,
+      "sku": "AUR30-MET-WHI-SZ-SIZ-N4Q9",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        72,
+        70
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 247,
+    "fields": {
+      "is_base": false,
+      "product": 30,
+      "sku": "AUR30-MET-WHI-SZ-SIZ-BE4P",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        73,
+        70
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 248,
+    "fields": {
+      "is_base": false,
+      "product": 30,
+      "sku": "AUR30-MET-YEL-SZ-SIZ-OIOR",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        72,
+        69
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 249,
+    "fields": {
+      "is_base": false,
+      "product": 30,
+      "sku": "AUR30-MET-YEL-SZ-SIZ-EOC3",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        73,
+        69
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 250,
+    "fields": {
+      "is_base": true,
+      "product": 34,
+      "sku": "NOI34-QPPV",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": []
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 251,
+    "fields": {
+      "is_base": false,
+      "product": 34,
+      "sku": "NOI34-CL-BLA-VDCR",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        142
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 252,
+    "fields": {
+      "is_base": false,
+      "product": 34,
+      "sku": "NOI34-CL-DEE-VJK5",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        83
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 253,
+    "fields": {
+      "is_base": true,
+      "product": 33,
+      "sku": "SER33-X1QZ",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": []
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 254,
+    "fields": {
+      "is_base": false,
+      "product": 33,
+      "sku": "SER33-SZ-16C-LC9H",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        80
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 255,
+    "fields": {
+      "is_base": false,
+      "product": 33,
+      "sku": "SER33-SZ-18C-QOIU",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        81
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 256,
+    "fields": {
+      "is_base": true,
+      "product": 32,
+      "sku": "CEL32-RB8A",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": []
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 257,
+    "fields": {
+      "is_base": false,
+      "product": 32,
+      "sku": "CEL32-MET-WHI-9EPY",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        79
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 258,
+    "fields": {
+      "is_base": false,
+      "product": 32,
+      "sku": "CEL32-MET-YEL-J8UL",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        78
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 259,
+    "fields": {
+      "is_base": true,
+      "product": 31,
+      "sku": "HOR31-2F47",
+      "stock": 0,
+      "image": "",
+      "is_active": false,
+      "options": []
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 260,
+    "fields": {
+      "is_base": false,
+      "product": 31,
+      "sku": "HOR31-CHL-16I-MET-WHI-DUDO",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        76,
+        75
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 261,
+    "fields": {
+      "is_base": false,
+      "product": 31,
+      "sku": "HOR31-CHL-16I-MET-YEL-2OKO",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        76,
+        74
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 262,
+    "fields": {
+      "is_base": false,
+      "product": 31,
+      "sku": "HOR31-CHL-18I-MET-WHI-4CC6",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        77,
+        75
+      ]
+    }
+  },
+  {
+    "model": "catalog.productvariation",
+    "pk": 263,
+    "fields": {
+      "is_base": false,
+      "product": 31,
+      "sku": "HOR31-CHL-18I-MET-YEL-VIOP",
+      "stock": 0,
+      "image": "",
+      "is_active": true,
+      "options": [
+        77,
+        74
+      ]
     }
   }
 ]
