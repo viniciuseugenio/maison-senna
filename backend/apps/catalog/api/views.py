@@ -1,4 +1,5 @@
 import uuid
+from typing import Any
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
@@ -25,11 +26,13 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from apps.catalog.api import constants
 from apps.catalog.api.serializers.cart import (
     AddToCartSerializer,
+    CartItem,
     RemoveCartItemSerializer,
     UpdateCartSerializer,
 )
 from apps.catalog.exceptions import CartNotFound
 from apps.catalog.services.cart import (
+    CartData,
     CartIdNotFound,
     get_cart_from_cache,
     resolve_cart_identity,
@@ -388,7 +391,7 @@ class WishlistViewSet(ModelViewSet):
 
 
 class CartView(GenericAPIView):
-    def _validate_serializer(self, serializer_class, *, data=None, **kwargs):
+    def _validate_serializer(self, serializer_class, *, data=None, **kwargs) -> Any:
         serializer = serializer_class(data=data or self.request.data, **kwargs)
         serializer.is_valid(raise_exception=True)
         return serializer.validated_data
@@ -404,7 +407,9 @@ class CartView(GenericAPIView):
 
     def post(self, *args, **kwargs):
         new_item = self.request.data.get("item")
-        new_item = self._validate_serializer(AddToCartSerializer, data=new_item)
+        new_item: CartItem = self._validate_serializer(
+            AddToCartSerializer, data=new_item
+        )
 
         cart_id, is_guest = self._get_cart_identity(allow_missing=True)
         response = Response(
@@ -414,7 +419,10 @@ class CartView(GenericAPIView):
             }
         )
 
-        user_cart = get_cart_from_cache(cart_id, is_guest) or []
+        user_cart = get_cart_from_cache(cart_id, is_guest) or {
+            "subtotal": 0,
+            "items": [],
+        }
 
         if not cart_id:
             cart_id = uuid.uuid4()
@@ -428,10 +436,10 @@ class CartView(GenericAPIView):
 
         new_sku = new_item["variation_sku"]
         quantity = new_item["quantity"]
-        currentItemsSkus = [item["variation_sku"] for item in user_cart]
+        currentItemsSkus = [item["variation_sku"] for item in user_cart["items"]]
 
         if new_sku in currentItemsSkus:
-            for item in user_cart:
+            for item in user_cart["items"]:
                 item_sku = item.get("variation_sku")
                 item_quantity = item.get("quantity")
 
@@ -452,7 +460,7 @@ class CartView(GenericAPIView):
             image = variation.image or product.reference_image
             options = [option[0] for option in variation.options.values_list("name")]
             image_url = self.request.build_absolute_uri(image.url)
-            user_cart.append(
+            user_cart["items"].append(
                 {
                     "product_id": product.pk,
                     "variation_sku": new_sku,
@@ -464,6 +472,13 @@ class CartView(GenericAPIView):
                 }
             )
 
+        # Calculate the subtotal price of the cart
+        subtotal = 0
+        for item in user_cart["items"]:
+            item_total_price = item["unit_price"] * item["quantity"]
+            subtotal += item_total_price
+
+        user_cart["subtotal"] = subtotal
         save_cart_to_cache(user_cart, cart_id, is_guest)
         response.data["cart"] = user_cart
         return response
@@ -474,20 +489,23 @@ class CartView(GenericAPIView):
         return Response(cart)
 
     def patch(self, *args, **kwargs):
-        data = self._validate_serializer(UpdateCartSerializer)
+        data: CartItem = self._validate_serializer(UpdateCartSerializer)
         cart_id, is_guest = self._get_cart_identity()
 
         previous_cart = get_cart_from_cache(cart_id, is_guest)
-        new_cart = []
+        new_cart: CartData = {"items": [], "subtotal": 0}
+        subtotal = 0
 
-        for item in previous_cart:
+        for item in previous_cart["items"]:
             if item["variation_sku"] == data["variation_sku"]:
                 if data["quantity"] == 0:
                     continue
                 item = {**item, "quantity": data["quantity"]}
 
-            new_cart.append(item)
+            subtotal += item["unit_price"] * item["quantity"]
+            new_cart["items"].append(item)
 
+        new_cart["subtotal"] = subtotal
         save_cart_to_cache(new_cart, cart_id, is_guest)
         return Response(
             {
@@ -499,15 +517,20 @@ class CartView(GenericAPIView):
 
     def delete(self, *args, **kwargs):
         data = self._validate_serializer(RemoveCartItemSerializer)
-        variation_sku = data["variation_sku"]
-
         cart_id, is_guest = self._get_cart_identity()
 
         previous_cart = get_cart_from_cache(cart_id, is_guest) or []
-        new_cart = [
-            item for item in previous_cart if item["variation_sku"] != variation_sku
-        ]
 
+        new_cart = {"subtotal": 0, "items": []}
+        subtotal = 0
+        for item in previous_cart["items"]:
+            if item["variation_sku"] == data["variation_sku"]:
+                continue
+
+            subtotal += item["unit_price"] * item["quantity"]
+            new_cart["items"].append(item)
+
+        new_cart["subtotal"] = subtotal
         save_cart_to_cache(new_cart, cart_id, is_guest)
         return Response(
             {"detail": "Item removed from your bag.", "cart": new_cart},

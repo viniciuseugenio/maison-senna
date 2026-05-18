@@ -1,11 +1,27 @@
+from typing import TypedDict
+
 from django.core.cache import cache
-from rest_framework import status
 
 from apps.catalog.api import constants
 
 
 class CartIdNotFound(Exception):
     pass
+
+
+class CartItem(TypedDict):
+    product_id: int
+    variation_sku: str
+    quantity: int
+    unit_price: float
+    image_url: str
+    options: list[str]
+    product_name: str
+
+
+class CartData(TypedDict):
+    subtotal: float
+    items: list[CartItem]
 
 
 def resolve_cart_identity(request):
@@ -26,7 +42,7 @@ def _cart_cache_key(id: str | int, is_guest: bool = False) -> str:
     return key
 
 
-def get_cart_from_cache(id, is_guest: bool = False):
+def get_cart_from_cache(id, is_guest: bool = False) -> CartData:
     key = _cart_cache_key(id, is_guest)
     return cache.get(key)
 

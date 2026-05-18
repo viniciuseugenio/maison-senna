@@ -1,4 +1,11 @@
+from typing import TypedDict
+
 from rest_framework import serializers
+
+
+class CartItem(TypedDict):
+    variation_sku: str
+    quantity: int
 
 
 class AddToCartSerializer(serializers.Serializer):
