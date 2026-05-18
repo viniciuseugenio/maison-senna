@@ -6,3 +6,9 @@ PRODUCT_ERROR_MESSAGES = {
     "empty_care": "The product must have at least one care instruction.",
     "empty_materials": "The product must have at least one material in the list.",
 }
+
+CART_ERROR_MESSAGES = {
+    "not_found": "The cart for this user was not found",
+}
+
+GUEST_CART_ID = "guest_cart_id"

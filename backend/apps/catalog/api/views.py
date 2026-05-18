@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -20,6 +22,19 @@ from rest_framework.permissions import (
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
+from apps.catalog.api import constants
+from apps.catalog.api.serializers.cart import (
+    AddToCartSerializer,
+    RemoveCartItemSerializer,
+    UpdateCartSerializer,
+)
+from apps.catalog.exceptions import CartNotFound
+from apps.catalog.services.cart import (
+    CartIdNotFound,
+    get_cart_from_cache,
+    resolve_cart_identity,
+    save_cart_to_cache,
+)
 from apps.catalog.services.product import save_product_and_sync_options
 
 from .. import models
@@ -370,3 +385,131 @@ class WishlistViewSet(ModelViewSet):
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
+
+
+class CartView(GenericAPIView):
+    def _validate_serializer(self, serializer_class, *, data=None, **kwargs):
+        serializer = serializer_class(data=data or self.request.data, **kwargs)
+        serializer.is_valid(raise_exception=True)
+        return serializer.validated_data
+
+    def _get_cart_identity(self, *, allow_missing=False):
+        try:
+            data = resolve_cart_identity(self.request)
+            return data["cart_id"], data["is_guest"]
+        except CartIdNotFound:
+            if allow_missing:
+                return None, True
+            raise CartNotFound()
+
+    def post(self, *args, **kwargs):
+        new_item = self.request.data.get("item")
+        new_item = self._validate_serializer(AddToCartSerializer, data=new_item)
+
+        cart_id, is_guest = self._get_cart_identity(allow_missing=True)
+        response = Response(
+            {
+                "detail": "Item added to your bag.",
+                "description": "Your selection is ready at checkout",
+            }
+        )
+
+        user_cart = get_cart_from_cache(cart_id, is_guest) or []
+
+        if not cart_id:
+            cart_id = uuid.uuid4()
+            response.set_cookie(
+                key=constants.GUEST_CART_ID,
+                max_age=60 * 60 * 24 * 7,  # Save guest_id for 7 days
+                value=str(cart_id),
+                secure=False,
+                httponly=True,
+            )
+
+        new_sku = new_item["variation_sku"]
+        quantity = new_item["quantity"]
+        currentItemsSkus = [item["variation_sku"] for item in user_cart]
+
+        if new_sku in currentItemsSkus:
+            for item in user_cart:
+                item_sku = item.get("variation_sku")
+                item_quantity = item.get("quantity")
+
+                item["quantity"] = (
+                    item_quantity + quantity if item_sku == new_sku else item_quantity
+                )
+        else:
+            variation = models.ProductVariation.objects.get(sku=new_sku)
+
+            if quantity > variation.stock:
+                return Response(
+                    {"detail": "Insufficient stock for the requested quantity."},
+                    status=status.HTTP_409_CONFLICT,
+                )
+
+            product = variation.product
+            price = variation.final_price
+            image = variation.image or product.reference_image
+            options = [option[0] for option in variation.options.values_list("name")]
+            image_url = self.request.build_absolute_uri(image.url)
+            user_cart.append(
+                {
+                    "product_id": product.pk,
+                    "variation_sku": new_sku,
+                    "quantity": quantity,
+                    "unit_price": price,
+                    "image_url": image_url,
+                    "options": options,
+                    "product_name": product.name,
+                }
+            )
+
+        save_cart_to_cache(user_cart, cart_id, is_guest)
+        response.data["cart"] = user_cart
+        return response
+
+    def get(self, *args, **kwargs):
+        cart_id, is_guest = self._get_cart_identity()
+        cart = get_cart_from_cache(cart_id, is_guest)
+        return Response(cart)
+
+    def patch(self, *args, **kwargs):
+        data = self._validate_serializer(UpdateCartSerializer)
+        cart_id, is_guest = self._get_cart_identity()
+
+        previous_cart = get_cart_from_cache(cart_id, is_guest)
+        new_cart = []
+
+        for item in previous_cart:
+            if item["variation_sku"] == data["variation_sku"]:
+                if data["quantity"] == 0:
+                    continue
+                item = {**item, "quantity": data["quantity"]}
+
+            new_cart.append(item)
+
+        save_cart_to_cache(new_cart, cart_id, is_guest)
+        return Response(
+            {
+                "detail": "Bag updated",
+                "description": "Quantity has been updated.",
+                "cart": new_cart,
+            }
+        )
+
+    def delete(self, *args, **kwargs):
+        data = self._validate_serializer(RemoveCartItemSerializer)
+        variation_sku = data["variation_sku"]
+
+        cart_id, is_guest = self._get_cart_identity()
+
+        previous_cart = get_cart_from_cache(cart_id, is_guest) or []
+        new_cart = [
+            item for item in previous_cart if item["variation_sku"] != variation_sku
+        ]
+
+        save_cart_to_cache(new_cart, cart_id, is_guest)
+        return Response(
+            {"detail": "Item removed from your bag.", "cart": new_cart},
+            status=status.HTTP_200_OK,
+        )

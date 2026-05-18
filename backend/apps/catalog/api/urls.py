@@ -59,6 +59,7 @@ urlpatterns = [
         views.ProductBaseVariationView.as_view(),
         name="product-base-variation",
     ),
+    path("cart/", views.CartView.as_view(), name="cart-view"),
 ]
 
 urlpatterns += router.urls
