@@ -39,6 +39,7 @@ export default function CustomToast(props: ToastProps) {
 
   return (
     <div
+      id="toast-notification"
       className={`border-mine-shaft/10 relative flex w-full min-w-[25rem] items-start gap-3 rounded-sm border border-l-4 bg-white p-4 shadow-md ${selectedVariation.borderColor}`}
     >
       <button
