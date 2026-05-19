@@ -8,36 +8,23 @@ from django.db.models import Count, Prefetch, Q
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, status
 from rest_framework.decorators import action
-from rest_framework.generics import (
-    GenericAPIView,
-    ListAPIView,
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
-from rest_framework.permissions import (
-    AllowAny,
-    BasePermission,
-    IsAdminUser,
-    IsAuthenticated,
-)
+from rest_framework.generics import (GenericAPIView, ListAPIView,
+                                     ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.permissions import (AllowAny, BasePermission, IsAdminUser,
+                                        IsAuthenticated)
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from apps.catalog.api import constants
-from apps.catalog.api.serializers.cart import (
-    AddToCartSerializer,
-    CartItem,
-    RemoveCartItemSerializer,
-    UpdateCartSerializer,
-)
+from apps.catalog.api.serializers.cart import (AddToCartSerializer, CartItem,
+                                               RemoveCartItemSerializer,
+                                               UpdateCartSerializer)
 from apps.catalog.exceptions import CartNotFound
-from apps.catalog.services.cart import (
-    CartData,
-    CartIdNotFound,
-    get_cart_from_cache,
-    resolve_cart_identity,
-    save_cart_to_cache,
-)
+from apps.catalog.services.cart import (CartData, CartIdNotFound,
+                                        get_cart_from_cache,
+                                        resolve_cart_identity,
+                                        save_cart_to_cache)
 from apps.catalog.services.product import save_product_and_sync_options
 
 from .. import models
@@ -405,13 +392,42 @@ class CartView(GenericAPIView):
                 return None, True
             raise CartNotFound()
 
+    def _quantity_unavailable_response(
+        self, sku: str, requested: int, available: int
+    ) -> Response:
+        return Response(
+            {
+                "detail": "Requested quantity unavailable",
+                "description": "The quantity requested is greater than the available stock for this item.",
+                "meta": {
+                    "variation_sku": sku,
+                    "requested_quantity": requested,
+                    "available_quantity": available,
+                },
+            },
+            status=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        )
+
     def post(self, *args, **kwargs):
         new_item = self.request.data.get("item")
         new_item: CartItem = self._validate_serializer(
             AddToCartSerializer, data=new_item
         )
+        new_sku = new_item["variation_sku"]
+        quantity = new_item["quantity"]
+        variation = models.ProductVariation.objects.get(sku=new_sku)
 
         cart_id, is_guest = self._get_cart_identity(allow_missing=True)
+        user_cart = get_cart_from_cache(cart_id, is_guest) or {
+            "subtotal": 0,
+            "items": [],
+        }
+
+        if quantity > variation.stock:
+            return self._quantity_unavailable_response(
+                sku=new_sku, requested=quantity, available=variation.stock
+            )
+
         response = Response(
             {
                 "detail": "Item added to your bag.",
@@ -419,10 +435,7 @@ class CartView(GenericAPIView):
             }
         )
 
-        user_cart = get_cart_from_cache(cart_id, is_guest) or {
-            "subtotal": 0,
-            "items": [],
-        }
+        currentItemsSkus = [item["variation_sku"] for item in user_cart["items"]]
 
         if not cart_id:
             cart_id = uuid.uuid4()
@@ -434,27 +447,21 @@ class CartView(GenericAPIView):
                 httponly=True,
             )
 
-        new_sku = new_item["variation_sku"]
-        quantity = new_item["quantity"]
-        currentItemsSkus = [item["variation_sku"] for item in user_cart["items"]]
-
         if new_sku in currentItemsSkus:
             for item in user_cart["items"]:
                 item_sku = item.get("variation_sku")
                 item_quantity = item.get("quantity")
-
-                item["quantity"] = (
+                new_quantity = (
                     item_quantity + quantity if item_sku == new_sku else item_quantity
                 )
+
+                if new_quantity > variation.stock:
+                    return self._quantity_unavailable_response(
+                        sku=item_sku, requested=quantity, available=variation.stock
+                    )
+
+                item["quantity"] = new_quantity
         else:
-            variation = models.ProductVariation.objects.get(sku=new_sku)
-
-            if quantity > variation.stock:
-                return Response(
-                    {"detail": "Insufficient stock for the requested quantity."},
-                    status=status.HTTP_409_CONFLICT,
-                )
-
             product = variation.product
             price = variation.final_price
             image = variation.image or product.reference_image
@@ -490,10 +497,19 @@ class CartView(GenericAPIView):
 
     def patch(self, *args, **kwargs):
         data: CartItem = self._validate_serializer(UpdateCartSerializer)
-        cart_id, is_guest = self._get_cart_identity()
+        variation = models.ProductVariation.objects.get(sku=data["variation_sku"])
 
+        if data["quantity"] > variation.stock:
+            return self._quantity_unavailable_response(
+                sku=data["variation_sku"],
+                requested=data["quantity"],
+                available=variation.stock,
+            )
+
+        cart_id, is_guest = self._get_cart_identity()
         previous_cart = get_cart_from_cache(cart_id, is_guest)
         new_cart: CartData = {"items": [], "subtotal": 0}
+
         subtotal = 0
 
         for item in previous_cart["items"]:
