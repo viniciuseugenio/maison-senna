@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { toast as sonnerToast } from "sonner";
 import { ToastProps } from "@/types";
+import { twMerge } from "tailwind-merge";
 
 export default function CustomToast(props: ToastProps) {
   const { id, title, description, variant, Icon } = props;
@@ -40,10 +41,15 @@ export default function CustomToast(props: ToastProps) {
   return (
     <div
       id="toast-notification"
-      className={`border-mine-shaft/20 flex w-full min-w-[25rem] items-center gap-6 rounded-sm border border-l-4 bg-white p-4 shadow-md shadow-black/30 ${selectedVariation.borderColor}`}
+      className={twMerge(
+        "border-mine-shaft/20 flex w-full min-w-[25rem] items-center gap-6 rounded-sm border border-l-4 bg-white p-4 shadow-md shadow-black/30",
+        selectedVariation.borderColor,
+      )}
     >
       <div>
-        <RendableIcon className={`h-5 w-5 ${selectedVariation.iconColor} `} />
+        <RendableIcon
+          className={twMerge("h-5 w-5", selectedVariation.iconColor)}
+        />
       </div>
       <div className="flex flex-1 flex-col">
         <h3 className="text-mine-shaft font-serif text-lg italic">{title}</h3>
