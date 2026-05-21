@@ -1,5 +1,6 @@
 import { queryKeys } from "@/api/queryKeys";
 import { getProduct } from "@/api/services";
+import AddToCartButton from "@/components/features/cart/AddToCartButton";
 import {
   DetailsTabs,
   ProductReviews,
@@ -117,7 +118,10 @@ function Product() {
                   >
                     -
                   </button>
-                  <span className="border-oyster/30 text-mine-shaft flex h-full w-12 items-center justify-center border bg-white">
+                  <span
+                    id="item_quantity"
+                    className="border-oyster/30 text-mine-shaft flex h-full w-12 items-center justify-center border bg-white"
+                  >
                     {quantity}
                   </span>
                   <button
@@ -130,14 +134,10 @@ function Product() {
                 </div>
               </div>
               <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-                <Button
-                  disabled={!variationData.isAvailable}
-                  size="lg"
-                  className="flex-1 text-sm uppercase"
-                >
-                  <ShoppingBag className="mr-2 h-4 w-4" />
-                  Add to Cart
-                </Button>
+                <AddToCartButton
+                  variationData={variationData}
+                  quantity={quantity}
+                />
                 <WishlistButton
                   productSlug={product.slug}
                   productId={product.id}

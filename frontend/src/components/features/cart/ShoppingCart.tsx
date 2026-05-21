@@ -1,27 +1,31 @@
-import { Button } from "@/components/ui";
+import { queryKeys } from "@/api/queryKeys";
+import { getUserCart } from "@/api/services/cart.service";
+import { Button, HorizontalDivider } from "@/components/ui";
+import { useIsAuthenticated } from "@/hooks/auth";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { formatPrice } from "@/utils/formatPrice";
+import { useQuery } from "@tanstack/react-query";
 import { ShoppingBag, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import ItemCard from "./ItemCard";
 
 const ShoppingCart: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
   const cartRef = useRef<HTMLDivElement>(null);
+  const isAuthenticated = useIsAuthenticated();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
+  const { data: cart } = useQuery({
+    queryFn: getUserCart,
+    queryKey: queryKeys.cart,
+    enabled: isOpen || isAuthenticated,
+  });
 
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen, onClose]);
+  const itemsQty =
+    cart?.items?.reduce((acc, item) => acc + item.quantity, 0) ?? 0;
+  useOutsideClick(isOpen, onClose, cartRef);
 
   return (
     <>
@@ -44,7 +48,7 @@ const ShoppingCart: React.FC<{
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              className="fixed inset-y-0 right-0 max-w-md bg-white"
+              className="fixed inset-y-0 right-0 w-full max-w-lg bg-white"
               transition={{
                 type: "spring",
                 duration: 0.5,
@@ -56,7 +60,7 @@ const ShoppingCart: React.FC<{
                 {/* Header */}
                 <div className="border-b-mine-shaft/20 flex items-center justify-between border-b px-6 py-4">
                   <h2 className="text-mine-shaft font-serif text-xl font-light">
-                    Shopping Bag (0)
+                    Shopping Bag ({itemsQty})
                   </h2>
                   <button
                     onClick={onClose}
@@ -68,26 +72,63 @@ const ShoppingCart: React.FC<{
                 </div>
 
                 <motion.div
-                  className="flex-1 overflow-y-auto py-4"
+                  className="flex flex-1 flex-col gap-10 overflow-y-auto px-6 py-4"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{
                     duration: 0.4,
                   }}
                 >
-                  <div className="flex h-full flex-col items-center justify-center px-6 py-12">
-                    <ShoppingBag className="h-12 w-12 text-[#e5e2dc]" />
-                    <h3 className="text-mine-shaft mt-4 font-serif text-lg">
-                      Your shopping bag is empty
-                    </h3>
-                    <p className="text-mine-shaft/80 mt-2 text-center text-sm">
-                      Discover our collections and add something special to your
-                      bag.
-                    </p>
-                    <Button className="mt-6 uppercase" onClick={onClose}>
-                      Continue Shopping
-                    </Button>
-                  </div>
+                  {itemsQty <= 0 ? (
+                    <div className="flex h-full flex-col items-center justify-center">
+                      <ShoppingBag className="h-12 w-12 text-[#e5e2dc]" />
+                      <h3 className="text-mine-shaft mt-4 font-serif text-lg">
+                        Your shopping bag is empty
+                      </h3>
+                      <p className="text-mine-shaft/80 mt-2 text-center text-sm">
+                        Discover our collections and add something special to
+                        your bag.
+                      </p>
+                      <Button className="mt-6 uppercase" onClick={onClose}>
+                        Continue Shopping
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex h-full flex-col">
+                      <div className="flex flex-col gap-6">
+                        {cart &&
+                          cart.items.map((item, index) => (
+                            <ItemCard
+                              item={item}
+                              key={item.variationSku}
+                              index={index}
+                            />
+                          ))}
+                      </div>
+                      <div className="mt-auto">
+                        <HorizontalDivider className="bg-oyster/40 mx-auto w-full" />
+                        <div className="mt-6 flex items-center justify-between font-light">
+                          <p className="text-mine-shaft/80 text-xs tracking-[0.15em] uppercase">
+                            Subtotal
+                          </p>
+                          <p className="text-lg">
+                            {formatPrice(cart?.subtotal)}
+                          </p>
+                        </div>
+                        <p className="text-mine-shaft/50 mt-2 w-full text-right text-xs">
+                          Shopping calculated at checkout
+                        </p>
+                        <div className="mt-6 flex flex-col gap-2">
+                          <Button className="w-full py-7 text-sm font-light tracking-widest">
+                            Proceed to Checkout
+                          </Button>
+                          <Button className="text-mine-shaft text-sm active:bg-oyster/50 hover:bg-oyster/30 w-full bg-transparent font-light tracking-widest outline-none">
+                            View Full Bag
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               </div>
             </motion.div>

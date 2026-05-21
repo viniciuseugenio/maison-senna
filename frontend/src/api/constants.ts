@@ -37,4 +37,5 @@ export const CATALOG_ENDPOINTS = {
   WISHLIST: `${VITE_BACKEND_URL}/catalog/wishlist/`,
   WISHLIST_DETAILS: `${VITE_BACKEND_URL}/catalog/wishlist/:id/`,
   WISHLIST_DELETE_BY_PRODUCT: `${VITE_BACKEND_URL}/catalog/wishlist/by-product/:productId/`,
+  CART: `${VITE_BACKEND_URL}/catalog/cart/`,
 };

@@ -62,4 +62,6 @@ export const queryKeys = {
   admin: {
     statistics: ["adminStatistics"] as const,
   },
+
+  cart: ["cart"] as const,
 };
