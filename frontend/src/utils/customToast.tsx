@@ -16,6 +16,7 @@ const createToast = (variant: ToastVariant = "info") => {
       ),
       {
         ...(customId ? { id: customId } : {}),
+        position: "bottom-right",
       },
     );
   };
