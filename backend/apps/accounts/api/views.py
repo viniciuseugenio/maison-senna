@@ -18,6 +18,7 @@ from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.utils import generate_token_response
+from apps.catalog.services import cart as cart_service
 
 from .responses import get_error_message, get_success_message
 from .serializers import UserSerializer, UserShortSerializer
@@ -38,9 +39,11 @@ class CustomTokenObtainPairView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        return generate_token_response(
+        response = generate_token_response(
             user, get_success_message("LOGIN", user.first_name)
         )
+        response = cart_service.merge_guest_cart(request, response, user)
+        return response
 
 
 class CustomTokenRefreshView(APIView):
@@ -79,7 +82,7 @@ class CustomTokenRefreshView(APIView):
             )
 
             return response
-        except (TokenError, InvalidToken):
+        except TokenError, InvalidToken:
             return Response(
                 {"detail": "Invalid or expired refresh token"},
                 status=status.HTTP_401_UNAUTHORIZED,
@@ -112,15 +115,22 @@ class GoogleAuthManualView(APIView):
 
         user = User.objects.filter(email=email)
         if user.exists():
-            return generate_token_response(
-                user.first(), get_success_message("LOGIN", first_name)
+            user = user.first()
+            response = generate_token_response(
+                user, get_success_message("LOGIN", first_name)
             )
+            response = cart_service.merge_guest_cart(request, response, user)
+            return response
 
         else:
             user = User.objects.create_user(
                 email=email, first_name=first_name, last_name=last_name
             )
-            return generate_token_response(user, get_success_message("SIGNUP_SOCIAL"))
+            response = generate_token_response(
+                user, get_success_message("SIGNUP_SOCIAL")
+            )
+            response = cart_service.merge_guest_cart(request, response, user)
+            return response
 
     def _exchange_code_for_tokens(self, auth_code):
         data = {
@@ -249,7 +259,7 @@ class PasswordResetConfirmView(APIView):
         try:
             uid = force_str(urlsafe_base64_decode(uid))
             user = User.objects.get(id=uid)
-        except (User.DoesNotExist, ValueError, TypeError):
+        except User.DoesNotExist, ValueError, TypeError:
             return Response(
                 get_error_message("PASSWORD_RESET_USER_ID"),
                 status=status.HTTP_400_BAD_REQUEST,
