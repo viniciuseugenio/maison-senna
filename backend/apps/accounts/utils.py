@@ -1,10 +1,11 @@
 from datetime import timedelta
 
-from apps.accounts.api.responses import get_success_message
 from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from apps.catalog.services import cart as cart_services
 
 from .api.serializers import UserShortSerializer
 
@@ -31,6 +32,7 @@ def generate_token_response(
     response_data = {
         **messages,
         "user": UserShortSerializer(user).data,
+        "cart": cart_services.get_cart_from_cache(user.id),
     }
 
     if extra_data:

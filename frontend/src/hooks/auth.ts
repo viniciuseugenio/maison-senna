@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiResponseType, User as UserType } from "@/types";
 import { useNavigate } from "@tanstack/react-router";
 import { userQueryOptions } from "@/api/queries";
+import { queryKeys } from "@/api/queryKeys";
 
 export function useAuthUser() {
   return useQuery<{ authenticated: boolean; user: any }>(userQueryOptions);
@@ -34,6 +35,7 @@ export function useLogin() {
         authenticated: true,
         user: data.user,
       });
+      queryClient.setQueryData(queryKeys.cart, data.cart);
     },
     onError: (data) => {
       toast.error({ title: data.detail, description: data.description });
@@ -49,6 +51,7 @@ export function useLogout() {
     onSuccess: (data) => {
       queryClient.setQueryData(["user"], null);
       toast.success({ title: data.detail, description: data.description });
+      queryClient.removeQueries({ queryKey: queryKeys.cart });
     },
     onError: () => {
       queryClient.setQueryData(["user"], null);
@@ -91,6 +94,7 @@ export const useGoogleOAuth = (setIsLoading: (v: boolean) => void) => {
             authenticated: true,
             user: data.user,
           });
+          queryClient.setQueryData(queryKeys.cart, data.cart);
         }, 200);
       } catch {
         toast.error({

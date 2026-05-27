@@ -1,15 +1,17 @@
 import { customFetch } from "@/api/client";
 import { AUTH_ENDPOINTS } from "@/api/constants";
-import { LoginForm, RegisterForm } from "@/types";
+import { LoginForm, RegisterForm, ServerCart } from "@/types";
 
 export async function loginUser(data: LoginForm) {
-  return await customFetch<{ detail: string; description: string; user: any }>(
-    AUTH_ENDPOINTS.LOGIN,
-    {
-      method: "POST",
-      body: JSON.stringify(data),
-    },
-  );
+  return await customFetch<{
+    detail: string;
+    description: string;
+    user: any;
+    cart: ServerCart;
+  }>(AUTH_ENDPOINTS.LOGIN, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 }
 
 export async function registerUser(formData: RegisterForm) {

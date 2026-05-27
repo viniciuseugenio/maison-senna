@@ -8,23 +8,36 @@ from django.db.models import Count, Prefetch, Q
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, status
 from rest_framework.decorators import action
-from rest_framework.generics import (GenericAPIView, ListAPIView,
-                                     ListCreateAPIView,
-                                     RetrieveUpdateDestroyAPIView)
-from rest_framework.permissions import (AllowAny, BasePermission, IsAdminUser,
-                                        IsAuthenticated)
+from rest_framework.generics import (
+    GenericAPIView,
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
+from rest_framework.permissions import (
+    AllowAny,
+    BasePermission,
+    IsAdminUser,
+    IsAuthenticated,
+)
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from apps.catalog.api import constants
-from apps.catalog.api.serializers.cart import (AddToCartSerializer, CartItem,
-                                               RemoveCartItemSerializer,
-                                               UpdateCartSerializer)
+from apps.catalog.api.serializers.cart import (
+    AddToCartSerializer,
+    CartItem,
+    RemoveCartItemSerializer,
+    UpdateCartSerializer,
+)
 from apps.catalog.exceptions import CartNotFound
-from apps.catalog.services.cart import (CartData, CartIdNotFound,
-                                        get_cart_from_cache,
-                                        resolve_cart_identity,
-                                        save_cart_to_cache)
+from apps.catalog.services.cart import (
+    CartData,
+    CartIdNotFound,
+    get_cart_from_cache,
+    resolve_cart_identity,
+    save_cart_to_cache,
+)
 from apps.catalog.services.product import save_product_and_sync_options
 
 from .. import models
@@ -512,7 +525,7 @@ class CartView(GenericAPIView):
 
         subtotal = 0
 
-        for item in previous_cart["items"]:
+        for item in previous_cart.get("items"):
             if item["variation_sku"] == data["variation_sku"]:
                 if data["quantity"] == 0:
                     continue
