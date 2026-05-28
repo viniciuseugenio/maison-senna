@@ -1,9 +1,6 @@
-import { queryKeys } from "@/api/queryKeys";
-import { deleteCartItem, updateCartItem } from "@/api/services/cart.service";
+import { useCartActions } from "@/hooks/useCartActions";
 import { ServerCartItem } from "@/types";
-import { toast } from "@/utils/customToast";
 import { formatPrice } from "@/utils/formatPrice";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dot, Minus, Plus } from "lucide-react";
 import { motion } from "motion/react";
 
@@ -13,30 +10,7 @@ interface ItemCardProps {
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({ index, item }) => {
-  const queryClient = useQueryClient();
-
-  const { mutate: deleteItem } = useMutation({
-    mutationFn: () => deleteCartItem(item.variationSku),
-    onSuccess: (data) => {
-      queryClient.setQueryData(queryKeys.cart, data.cart);
-      toast.info({ title: data.detail });
-    },
-  });
-
-  const { mutate: updateItem } = useMutation({
-    mutationFn: (type: "increase" | "decrease") =>
-      updateCartItem({
-        variationSku: item.variationSku,
-        quantity: type === "increase" ? item.quantity + 1 : item.quantity - 1,
-      }),
-    onSuccess: (data) => {
-      queryClient.setQueryData(queryKeys.cart, data.cart);
-      toast.info({ title: data.detail });
-    },
-    onError: (data) => {
-      toast.error({ title: data.detail, description: data.description });
-    },
-  });
+  const { updateItem, deleteItem } = useCartActions(item);
 
   return (
     <motion.div
