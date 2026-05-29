@@ -5,6 +5,7 @@ import { useIsAuthenticated } from "@/hooks/auth";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { formatPrice } from "@/utils/formatPrice";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { ShoppingBag, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRef } from "react";
@@ -14,6 +15,7 @@ const ShoppingCart: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
   const cartRef = useRef<HTMLDivElement>(null);
   const isAuthenticated = useIsAuthenticated();
 
@@ -122,7 +124,13 @@ const ShoppingCart: React.FC<{
                           <Button className="w-full py-7 text-sm font-light tracking-widest">
                             Proceed to Checkout
                           </Button>
-                          <Button className="text-mine-shaft text-sm active:bg-oyster/50 hover:bg-oyster/30 w-full bg-transparent font-light tracking-widest outline-none">
+                          <Button
+                            onClick={() => {
+                              navigate({ to: "/shopping-bag" });
+                              onClose();
+                            }}
+                            className="text-mine-shaft active:bg-oyster/50 hover:bg-oyster/30 w-full bg-transparent text-sm font-light tracking-widest outline-none"
+                          >
                             View Full Bag
                           </Button>
                         </div>
