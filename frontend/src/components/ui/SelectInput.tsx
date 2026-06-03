@@ -8,7 +8,7 @@ import Option from "./Option";
 
 type SelectInputProps = React.FC<{
   label: string;
-  Icon: LucideIcon;
+  Icon?: LucideIcon;
   children: React.ReactNode;
   isOpen: boolean;
   setIsOpen: (value: React.SetStateAction<boolean>) => void;
@@ -74,20 +74,31 @@ const SelectInput: SelectInputProps = ({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         className={twMerge(
-          `border-oyster/20 focus:border-oyster ring-oyster/30 focus-visible:border-oyster flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-md border bg-white px-3 text-sm transition-colors duration-300 outline-none focus-visible:ring-2`,
-          `${isOpen && "border-oyster ring-2"}`,
-          `${error && "border-red-500 ring-red-200 focus:border-red-600"}`,
+          "border-oyster/20 relative flex h-10 w-full cursor-pointer items-center justify-between gap-2 border-b text-sm transition-colors duration-300 outline-none",
+          isOpen && "border-oyster",
+          error && "border-red-500 focus:border-red-600",
         )}
       >
         <div className="pointer-events-none flex items-center justify-start gap-2 select-none">
-          <Icon className="text-oyster h-4 w-4" />
+          {Icon && <Icon className="text-oyster h-4 w-4" />}
+          <label
+            className={twMerge(
+              "absolute font-light duration-300",
+              selectedValue || isOpen
+                ? "-top-2 text-xs"
+                : "top-0 translate-y-1/2",
+              isOpen ? "text-mine-shaft" : "text-mine-shaft/50",
+            )}
+          >
+            {label}
+          </label>
           <span
             className={twMerge(
               "flex items-center gap-2",
               !selectedValue ? "text-mine-shaft/50" : "text-mine-shaft",
             )}
           >
-            {selectedValue ?? label}
+            {selectedValue}
           </span>
         </div>
         <motion.span
@@ -102,7 +113,7 @@ const SelectInput: SelectInputProps = ({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="border-oyster/30 absolute z-40 mt-1 w-full rounded-md border bg-white p-1"
+            className="border-oyster/30 absolute z-40 mt-1 max-h-80 w-full overflow-scroll rounded-md border bg-white p-1"
             variants={{
               hidden: { opacity: 0, y: -20 },
             }}

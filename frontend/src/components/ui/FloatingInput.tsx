@@ -26,12 +26,11 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
   const { watch } = useFormContext();
   const fieldValue = watch(name, props.defaultValue) as string;
 
-  const borderColor = isError
-    ? "border-red-500 ring-red-200"
-    : "group-focus-within:border-oyster group-focus-within:ring-oyster/30 border-oyster/20 focus-within:border-oyster";
-
   const hasValueStyle =
-    fieldValue != null && fieldValue !== "" ? "top-0 text-sm" : "top-1/2";
+    (fieldValue != null && fieldValue !== "") ||
+    (props.placeholder != null && props.placeholder !== "")
+      ? "top-0 text-xs"
+      : "top-1/2";
 
   return (
     <ConnectForm>
@@ -41,19 +40,32 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
             <label
               htmlFor=""
               className={twMerge(
-                "text-mine-shaft/50 group-focus-within:text-mine-shaft/90 pointer-events-none absolute left-8 z-10 -translate-y-1/2 bg-white px-1 text-sm transition-all duration-300 group-focus-within:top-0",
+                "pointer-events-none absolute z-10 -translate-y-1/2 px-1 text-sm font-light tracking-wider uppercase transition-all duration-300 group-focus-within:top-0 group-focus-within:text-xs",
                 hasValueStyle,
+                icon && "left-8",
+                isError
+                  ? "text-red-500 group-focus-within:text-red-600"
+                  : "text-mine-shaft/50 group-focus-within:text-oyster",
               )}
             >
               {label}
             </label>
             <div
               className={twMerge(
-                `relative flex h-10 w-full items-center rounded-sm border bg-white transition-colors duration-300 group-focus-within:ring-2 ${borderColor} ${customBorder}`,
+                "relative flex h-10 w-full items-center border-b transition-colors duration-300",
+                isError
+                  ? "border-red-300 group-focus-within:border-red-600"
+                  : "group-focus-within:border-oyster border-oyster/20 focus-within:border-oyster",
+                customBorder,
               )}
             >
               {icon && (
-                <div className="text-oyster/80 absolute top-1/2 left-3 -translate-y-1/2">
+                <div
+                  className={twMerge(
+                    "absolute top-1/2 left-3 -translate-y-1/2",
+                    isError ? "text-red-600" : "text-oyster/80",
+                  )}
+                >
                   {icon}
                 </div>
               )}
@@ -63,8 +75,9 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
                 name={name}
                 type={type}
                 className={twMerge(
-                  "text-mine-shaft/90 h-full w-full pl-10 text-sm outline-none",
+                  "text-mine-shaft/90 h-full w-full text-sm outline-none",
                   props.disabled && "text-mine-shaft/40",
+                  icon && "pl-10",
                 )}
               />
             </div>

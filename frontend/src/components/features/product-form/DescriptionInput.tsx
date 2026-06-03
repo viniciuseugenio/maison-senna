@@ -15,8 +15,8 @@ const DescriptionInput: React.FC<{ value?: string; error?: string }> = ({
           </div>
           <textarea
             className={twMerge(
-              `text-mine-shaft flex w-full rounded-md border p-2 text-sm transition-all duration-300 outline-none focus:ring-2`,
-              `${error ? "border-red-500 ring-red-200" : "border-oyster/20 focus:border-oyster ring-oyster/30"}`,
+              "text-mine-shaft flex w-full border-b p-2 text-sm transition-all duration-300 outline-none",
+              error ? "border-red-500" : "border-oyster/20 focus:border-oyster",
             )}
             rows={4}
             defaultValue={value}

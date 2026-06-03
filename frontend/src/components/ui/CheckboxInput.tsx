@@ -20,9 +20,12 @@ const CheckboxInput: React.FC<CheckboxInputProps> = ({
         id={name}
         defaultChecked={defaultChecked}
         {...register(name)}
-        className="h-4 w-4 rounded border-oyster/30 text-oyster focus:ring-oyster"
+        className="border-oyster/30 text-oyster focus:ring-oyster h-4 w-4 rounded"
       />
-      <label htmlFor={name} className="text-sm text-mine-shaft">
+      <label
+        htmlFor={name}
+        className="text-mine-shaft/80 text-xs font-light tracking-wide uppercase"
+      >
         {label}
       </label>
     </div>
