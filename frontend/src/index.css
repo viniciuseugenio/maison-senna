@@ -2,7 +2,9 @@
 
 @theme {
   --color-light: #f8f7f5;
-  --color-oyster: #9a8778;
+  --color-oyster: #6c5b4e;
+  --color-oyster-600: #56493e;
+  --color-oyster-700: #41372f;
   --color-mine-shaft: #2c2c2c;
   --font-serif: "Playfair Display", serif;
   --font-sans: "Inter", sans-serif;
@@ -10,7 +12,7 @@
 
 @layer base {
   :focus-visible:not(.outline-none) {
-    outline: 2px solid theme("colors.oyster");
+    outline: 2px solid var(--color-oyster);
     outline-offset: 2px;
   }
 
