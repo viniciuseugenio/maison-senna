@@ -21,6 +21,7 @@ import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AppWishlistRouteImport } from './routes/_app/wishlist'
 import { Route as AppShoppingBagRouteImport } from './routes/_app/shopping-bag'
 import { Route as AppCollectionsRouteImport } from './routes/_app/collections'
+import { Route as AppCheckoutRouteImport } from './routes/_app/checkout'
 import { Route as AppAuthRouteImport } from './routes/_app/_auth'
 import { Route as AdminProductsNewRouteImport } from './routes/admin/products_.new'
 import { Route as AppProductsSlugRouteImport } from './routes/_app/products.$slug'
@@ -90,6 +91,11 @@ const AppCollectionsRoute = AppCollectionsRouteImport.update({
   path: '/collections',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCheckoutRoute = AppCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAuthRoute = AppAuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => AppRoute,
@@ -139,6 +145,7 @@ const AdminProductsPostSlugEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/checkout': typeof AppCheckoutRoute
   '/collections': typeof AppCollectionsRoute
   '/shopping-bag': typeof AppShoppingBagRoute
   '/wishlist': typeof AppWishlistRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof AppIndexRoute
+  '/checkout': typeof AppCheckoutRoute
   '/collections': typeof AppCollectionsRoute
   '/shopping-bag': typeof AppShoppingBagRoute
   '/wishlist': typeof AppWishlistRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
   '/_app/_auth': typeof AppAuthRouteWithChildren
+  '/_app/checkout': typeof AppCheckoutRoute
   '/_app/collections': typeof AppCollectionsRoute
   '/_app/shopping-bag': typeof AppShoppingBagRoute
   '/_app/wishlist': typeof AppWishlistRoute
@@ -206,6 +215,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/checkout'
     | '/collections'
     | '/shopping-bag'
     | '/wishlist'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/checkout'
     | '/collections'
     | '/shopping-bag'
     | '/wishlist'
@@ -248,6 +259,7 @@ export interface FileRouteTypes {
     | '/_app'
     | '/admin'
     | '/_app/_auth'
+    | '/_app/checkout'
     | '/_app/collections'
     | '/_app/shopping-bag'
     | '/_app/wishlist'
@@ -359,6 +371,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCollectionsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/checkout': {
+      id: '/_app/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof AppCheckoutRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/_auth': {
       id: '/_app/_auth'
       path: ''
@@ -444,6 +463,7 @@ const AppAuthRouteWithChildren =
 
 interface AppRouteChildren {
   AppAuthRoute: typeof AppAuthRouteWithChildren
+  AppCheckoutRoute: typeof AppCheckoutRoute
   AppCollectionsRoute: typeof AppCollectionsRoute
   AppShoppingBagRoute: typeof AppShoppingBagRoute
   AppWishlistRoute: typeof AppWishlistRoute
@@ -454,6 +474,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAuthRoute: AppAuthRouteWithChildren,
+  AppCheckoutRoute: AppCheckoutRoute,
   AppCollectionsRoute: AppCollectionsRoute,
   AppShoppingBagRoute: AppShoppingBagRoute,
   AppWishlistRoute: AppWishlistRoute,

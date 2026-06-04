@@ -121,7 +121,13 @@ const ShoppingCart: React.FC<{
                           Shopping calculated at checkout
                         </p>
                         <div className="mt-6 flex flex-col gap-2">
-                          <Button className="w-full py-7 text-sm font-light tracking-widest">
+                          <Button
+                            onClick={() => {
+                              navigate({ to: "/checkout" });
+                              onClose();
+                            }}
+                            className="w-full py-7 text-sm font-light tracking-widest"
+                          >
                             Proceed to Checkout
                           </Button>
                           <Button
