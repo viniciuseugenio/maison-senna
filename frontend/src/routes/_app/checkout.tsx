@@ -1,5 +1,6 @@
 import { cartQueryOptions } from "@/api/queries";
 import CheckoutForm from "@/components/features/cart/checkout/Form";
+import ShippingStep from "@/components/features/cart/checkout/ShippingStep";
 import { HorizontalDivider } from "@/components/ui";
 import { useAuthUser } from "@/hooks/auth";
 import { formatPrice } from "@/utils/formatPrice";
@@ -72,7 +73,10 @@ function Checkout() {
           </header>
 
           {/* Div with the form  */}
-          <div className="mt-12">{step === 0 && <CheckoutForm />}</div>
+          <div className="mt-12">
+            {step === 0 && <CheckoutForm />}
+            {step === 1 && <ShippingStep />}
+          </div>
         </div>
 
         {/* Infos about the order */}
