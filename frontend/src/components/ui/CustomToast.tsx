@@ -42,7 +42,7 @@ export default function CustomToast(props: ToastProps) {
     <div
       id="toast-notification"
       className={twMerge(
-        "border-mine-shaft/20 flex w-full min-w-[25rem] items-center gap-6 rounded-sm border border-l-4 bg-white p-4 shadow-md shadow-black/30",
+        "border-mine-shaft/20 flex w-full max-w-lg min-w-[25rem] items-center gap-6 rounded-sm border border-l-4 bg-white p-4 shadow-md shadow-black/30",
         selectedVariation.borderColor,
       )}
     >
