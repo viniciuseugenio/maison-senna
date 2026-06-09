@@ -1,12 +1,15 @@
 import { Button, HorizontalDivider } from "@/components/ui";
+import { CheckoutFormValues } from "@/routes/_app/checkout";
 import { formatPrice } from "@/utils/formatPrice";
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
-import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 const ShippingStep: React.FC = () => {
-  const [selectedDelivery, setSelectedDelivery] = useState(1);
+  const { watch, setValue } = useFormContext<CheckoutFormValues>();
+  const selectedDelivery = watch("shippingId");
+  const setSelectedDelivery = (id: number) => setValue("shippingId", id);
   const deliveryMethods = [
     {
       id: 1,
@@ -28,16 +31,29 @@ const ShippingStep: React.FC = () => {
     },
   ];
 
+  const [email, street, state, number, neighborhood, city, cep] = watch([
+    "email",
+    "street",
+    "state",
+    "number",
+    "neighborhood",
+    "city",
+    "cep",
+  ]);
+
   return (
     <>
       <h1 className="title mb-12 text-3xl">Shipping Method</h1>
 
       <div className="bg-mine-shaft/5 relative p-8">
-        <InfoItem label="Contact" info="elara.vance@atelier.com" />
+        <InfoItem label="Contact" info={email} />
         <HorizontalDivider className="bg-mine-shaft/15 my-6 w-full" />
         <InfoItem
           label="Ship To"
-          info="24 Rue du Faubourg Saint-Honoré, 75008 Paris, France"
+          info={[
+            `${street} ${number}, ${neighborhood}`,
+            `CEP ${cep} ${city}, ${state}`,
+          ]}
         />
         <button className="text-oyster-700 absolute top-6 right-6 cursor-pointer font-light underline underline-offset-2">
           Change
@@ -104,7 +120,7 @@ const ShippingStep: React.FC = () => {
   );
 };
 
-const InfoItem: React.FC<{ label: string; info: string }> = ({
+const InfoItem: React.FC<{ label: string; info: string | string[] }> = ({
   label,
   info,
 }) => {
@@ -113,7 +129,11 @@ const InfoItem: React.FC<{ label: string; info: string }> = ({
       <p className="text-mine-shaft/50 text-xs tracking-widest uppercase">
         {label}
       </p>
-      <p className="mt-1 font-light">{info}</p>
+      {typeof info == "string" ? (
+        <p className="mt-1 font-light">{info}</p>
+      ) : (
+        info.map((value) => <p className="mt-1 font-light">{value}</p>)
+      )}
     </div>
   );
 };
