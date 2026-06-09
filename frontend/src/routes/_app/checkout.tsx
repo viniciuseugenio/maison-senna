@@ -1,5 +1,6 @@
 import { cartQueryOptions } from "@/api/queries";
 import CheckoutForm from "@/components/features/cart/checkout/Form";
+import PaymentStep from "@/components/features/cart/checkout/PaymentStep";
 import ShippingStep from "@/components/features/cart/checkout/ShippingStep";
 import { HorizontalDivider } from "@/components/ui";
 import { useAuthUser } from "@/hooks/auth";
@@ -146,6 +147,7 @@ function Checkout() {
             <FormProvider {...methods}>
               {step === 0 && <CheckoutForm />}
               {step === 1 && <ShippingStep />}
+              {step === 2 && <PaymentStep />}
             </FormProvider>
           </div>
         </div>
