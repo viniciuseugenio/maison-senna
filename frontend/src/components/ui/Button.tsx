@@ -25,7 +25,7 @@ export default function Button<T extends React.ElementType = "button">({
   const Component = as || "button";
 
   const colorStyles = {
-    brown: "bg-[#8b7a6c] duration-300 hover:bg-[#7b6c60] active:bg-[#7b6c60]",
+    brown: "bg-oyster duration-300 hover:bg-oyster-600 active:bg-oyster-700",
     black: "bg-mine-shaft hover:bg-mine-shaft/95 active:bg-mine-shaft",
   };
 
