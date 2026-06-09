@@ -21,7 +21,11 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
   customBorder,
   ...props
 }) => {
-  const isError = !!error;
+  const {
+    formState: { errors },
+  } = useFormContext();
+  const formError = error ?? errors[name]?.message;
+  const isError = !!formError;
 
   const { watch } = useFormContext();
   const fieldValue = watch(name, props.defaultValue) as string;
@@ -82,7 +86,7 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
               />
             </div>
           </div>
-          <InputError>{error}</InputError>
+          <InputError>{formError}</InputError>
         </div>
       )}
     </ConnectForm>
